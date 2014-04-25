@@ -3,6 +3,7 @@ package gui.interfaces;
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
 import gui.support.OVToolTip;
+import gui.support.OVMaker.OVMakerMode;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -24,6 +25,7 @@ public interface OVContainer {
 	public void confirmLine(Line l);
 	public void removeLine(Line line);
 	public void showMenu(Point point);
+	public void showMenu(Point p,OVMakerMode mode);
 	public OVContainer parent();
 	public OVContainer superParent();
 	public boolean contains(OVComponent c);

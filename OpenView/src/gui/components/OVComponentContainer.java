@@ -12,6 +12,7 @@ import gui.enums.EditorMode;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
+import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
 
 import java.awt.Dimension;
@@ -36,8 +37,8 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	protected ArrayList<OVComponent> components_ = new ArrayList<>();
 	protected ArrayList<Line> lines_ = new ArrayList<>();
 
-	private ArrayList<NodeGroup> innerNodes_ = new ArrayList<>();
-	private ArrayList<NodeGroup> outterNodes_ = new ArrayList<>();
+	protected ArrayList<NodeGroup> innerNodes_ = new ArrayList<>();
+	protected ArrayList<NodeGroup> outterNodes_ = new ArrayList<>();
 
 	public OVComponentContainer(OVContainer father) {
 		super(father);
@@ -50,7 +51,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		getSetting(ComponentSettings.Name).setValue("Container");
 	}
 
-	private void addDynamicInNode() {
+	protected void addDynamicInNode() {
 		InNode in = addInput("input", ValueType.VOID);
 		Point p = new Point(in.getLocation());
 		p.x += 10;
@@ -61,7 +62,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		innerNodes_.add(ng);
 	}
 
-	private void addDynamicOutNode() {
+	protected void addDynamicOutNode() {
 		OutNode on = addOutput("output", ValueType.VOID);
 		on.setPolyvalent(true);
 		Point p = new Point(on.getLocation());
@@ -271,6 +272,11 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	@Override
 	public void showMenu(Point point) {
 		superParent().showMenu(superParent().getAbsoluteLocation(this, point));
+	}
+
+	public void showMenu(Point point, OVMakerMode mode) {
+		superParent().showMenu(superParent().getAbsoluteLocation(this, point),
+				mode);
 	}
 
 	@Override

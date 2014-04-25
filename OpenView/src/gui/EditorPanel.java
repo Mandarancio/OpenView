@@ -7,6 +7,7 @@ import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
 import gui.support.OVMaker;
+import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
 
 import java.awt.Color;
@@ -357,7 +358,14 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 
 	@Override
 	public void showMenu(Point point) {
-		new OVMaker(point, mode_, this);
+		showMenu(point, (mode_ == EditorMode.GUI ? OVMakerMode.GUI
+				: OVMakerMode.NODE));
+	}
+
+	@Override
+	public void showMenu(Point p, OVMakerMode mode) {
+		new OVMaker(p, mode, this);
+
 	}
 
 	@Override

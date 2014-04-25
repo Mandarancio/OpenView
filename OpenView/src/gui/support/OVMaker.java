@@ -12,7 +12,7 @@ import gui.components.ovnode.OVNodeBlock;
 import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
-import gui.enums.EditorMode;
+import gui.components.ovprocedural.OVProceduralBlock;
 import gui.interfaces.OVContainer;
 
 import java.awt.Point;
@@ -25,6 +25,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 public class OVMaker extends JPopupMenu implements ActionListener {
+	public enum OVMakerMode {
+		GUI, NODE, PROCEDURAL
+	}
 
 	/**
 	 * 
@@ -36,22 +39,28 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			TextArea = "Text Area", TextField = "Text Field",
 			Container = "Container", Operator = "Operator",
 			NodeBlock = "Block", IFTrigger = "IF trigger";
+	private static final String ProceduralBlock = "Procedural block",
+			Var = "Var";
 	private OVContainer father_;
 	private Point point_;
 
-	public OVMaker(Point p, EditorMode mode, OVContainer father) {
+	public OVMaker(Point p, OVMakerMode mode, OVContainer father) {
 		father_ = father;
 		point_ = p;
 		this.initMenu(mode);
 		this.show((JComponent) father, p.x, p.y);
 	}
 
-	private void initMenu(EditorMode mode) {
-		if (mode == EditorMode.GUI) {
+	private void initMenu(OVMakerMode mode) {
+		if (mode == OVMakerMode.GUI) {
 			initGUI();
-		} else if (mode == EditorMode.NODE) {
+		} else if (mode == OVMakerMode.NODE) {
 			initGUI();
 			initNode();
+			initProcedural();
+
+		} else if (mode == OVMakerMode.PROCEDURAL) {
+			initProcedural();
 		}
 	}
 
@@ -111,6 +120,19 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 
 	}
 
+	private void initProcedural() {
+		JMenu menu = new JMenu("Procedural");
+		JMenuItem i = new JMenuItem(ProceduralBlock);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		i = new JMenuItem(Var);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		add(menu);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
@@ -136,6 +158,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVNodeBlock(father_));
 		} else if (cmd.equals(IFTrigger)) {
 			create(new OVIFTriggerNode(father_));
+		} else if (cmd.equals(ProceduralBlock)) {
+			create(new OVProceduralBlock(father_));
+		} else if (cmd.equals(Var)) {
+
 		}
 	}
 
