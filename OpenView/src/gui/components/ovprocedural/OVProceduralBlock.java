@@ -1,5 +1,6 @@
 package gui.components.ovprocedural;
 
+import gui.components.OVComponent;
 import gui.components.nodes.InNode;
 import gui.components.nodes.NodeGroup;
 import gui.components.ovnode.OVNodeBlock;
@@ -49,6 +50,50 @@ public class OVProceduralBlock extends OVNodeBlock implements SlotListener {
 
 	@Override
 	public void showMenu(Point point) {
-		super.showMenu(point,OVMakerMode.PROCEDURAL);
+		super.showMenu(point, OVMakerMode.PROCEDURAL);
+	}
+
+	@Override
+	public Point validate(Point p) {
+		if (getSelectedComponent() == null)
+			return super.validate(p);
+		for (OVComponent c : components_) {
+			if (!c.equals(getSelectedComponent())) {
+				if (Math.abs(p.x - (c.getX() + c.getWidth())) < 15) {
+					Point pp=new Point();
+					pp.x=c.getX()+c.getWidth();
+					pp.y=c.getY();
+					return pp;
+				} else if (Math.abs(c.getX()
+						- (p.x + getSelectedComponent().getWidth())) < 15) {
+					Point pp=new Point();
+					pp.x=c.getX()-getSelectedComponent().getWidth();
+					pp.y=c.getY();
+					return pp;
+
+				} else if (Math.abs(p.y - (c.getY() + c.getHeight())) < 15) {
+					Point pp=new Point();
+					pp.x=c.getX();
+					pp.y=c.getY()+c.getHeight();
+					return pp;
+				} else if (Math.abs(c.getY()
+						- (p.y + getSelectedComponent().getHeight())) < 15) {
+					Point pp=new Point();
+					pp.x=c.getX();
+					pp.y=c.getY()-getSelectedComponent().getHeight();
+					return pp;
+
+				}
+			}
+		}
+
+		return super.validate(p);
+	}
+
+	private OVComponent getSelectedComponent() {
+		for (OVComponent c : components_)
+			if (c.isSelected())
+				return c;
+		return null;
 	}
 }
