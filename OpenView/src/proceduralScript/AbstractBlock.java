@@ -1,27 +1,30 @@
 package proceduralScript;
 
-
 public abstract class AbstractBlock implements Block {
-	private String name_;
-	private Block next_;
 
-	public AbstractBlock(String name) {
-		name_ = name;
-	}
+    private String name_;
+    private Block next_;
 
-	@Override
-	public String name() {
-		return name_;
-	}
+    public AbstractBlock(String name) {
+        name_ = name;
+    }
 
-	@Override
-	public Block next() {
-		return next_;
-	}
+    @Override
+    public String name() {
+        return name_;
+    }
 
-	@Override
-	public void setNext(Block b) {
-		next_ = b;
-	}
+    @Override
+    public Block next() {
+        return next_;
+    }
 
+    @Override
+    public void setNext(Block b) {
+        next_ = b;
+    }
+
+    public void setName(String name) {
+        name_ = name;
+    }
 }

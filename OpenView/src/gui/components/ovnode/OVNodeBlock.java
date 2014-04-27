@@ -15,6 +15,7 @@ import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
+import gui.support.OVMaker;
 
 public class OVNodeBlock extends OVComponentContainer {
 
@@ -135,4 +136,9 @@ public class OVNodeBlock extends OVComponentContainer {
 			return super.createLine(n, ovComponent);
 		return null;
 	}
+
+    @Override
+    public void showMenu(Point point) {
+        super.showMenu(point, OVMaker.OVMakerMode.NODEONLY); //To change body of generated methods, choose Tools | Templates.
+    }   
 }
