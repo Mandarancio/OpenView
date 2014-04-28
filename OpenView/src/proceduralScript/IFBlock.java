@@ -20,7 +20,7 @@ public class IFBlock extends AbstractBlock{
 
     @Override
     public Value run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+        //nothing to do here
+        return new Value(Void.TYPE);
+    }    
 }
