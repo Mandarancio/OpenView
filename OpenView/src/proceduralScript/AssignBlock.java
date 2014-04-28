@@ -21,6 +21,7 @@ public class AssignBlock extends AbstractBlock{
 	public Value run() {
 		Value v=rightExp_.run();
 		var_.value=v;
+		System.out.println(v);
 		return var_.run();
 	}
 

@@ -19,9 +19,9 @@ public class Value {
 
 	public Value(Object obj) {
 		descriptor_ = new ValueDescriptor(obj);
-		switch (getType()) {	
+		switch (getType()) {
 		case FLOAT:
-			data_ =new Float((Float)obj);
+			data_ = new Float((Float) obj);
 			break;
 		case DOUBLE:
 			data_ = new Double((Double) obj);
@@ -178,5 +178,30 @@ public class Value {
 		if (getType().isNumeric())
 			return ((Number) data_).shortValue();
 		throw new Exception("Data is not a number");
+	}
+
+	public static Value parse(String s) {
+		Value val;
+		if (s.length() == 0 || s.equals("void")) {
+			val = new Value(Void.TYPE);
+		} else if (s.equals("true")) {
+			val = new Value(true);
+		} else if (s.equals("false")) {
+			val = new Value(false);
+
+		} else if (s.contains(".")) {
+			try {
+				val = new Value(Double.valueOf(s));
+			} catch (NumberFormatException e) {
+				val = new Value(s);
+			}
+		} else {
+			try {
+				val = new Value(Integer.valueOf(s));
+			} catch (NumberFormatException e) {
+				val = new Value(s);
+			}
+		}
+		return val;
 	}
 }
