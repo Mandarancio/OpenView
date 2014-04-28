@@ -4,6 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import ui.icons.IconsLibrary;
+
 public class Window extends JFrame {
 	/**
 	 * 
@@ -15,7 +17,7 @@ public class Window extends JFrame {
 		
 		this.setTitle("Open View");
 		this.setMinimumSize(new Dimension(600,400));
-		
+		this.setIconImage(IconsLibrary.getIcon(IconsLibrary.AppIcon).getImage());
 		panel_=new MainPanel();
 		this.setContentPane(panel_);
 		this.pack();

@@ -42,4 +42,11 @@ public class OperatorBlock extends AbstractBlock{
 	public void setOperator(Operator o){
 		operator_=o;
 	}
+	@Override
+	public boolean isBinary() {
+		if (operator_!=null)
+			return operator_.input()==2;
+		return super.isBinary();
+	}
+	
 }

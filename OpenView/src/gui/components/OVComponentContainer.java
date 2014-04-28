@@ -6,6 +6,7 @@ import gui.components.nodes.NodeGroup;
 import gui.components.nodes.OutNode;
 import gui.components.nodes.PolyInNode;
 import gui.components.nodes.PolyOutNode;
+import gui.components.ovprocedural.OVProceduralNode;
 import gui.constants.ComponentSettings;
 import gui.enums.DragAction;
 import gui.enums.EditorMode;
@@ -79,7 +80,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	public void addComponent(OVComponent c) {
 		for (OVComponent ovc : components_) {
 			if (!ovc.equals(c) && ovc.isContainer()) {
-				if (((OVContainer) ovc).contains(c)) {
+				if (((OVContainer) ovc).contains(c) && ((OVContainer)ovc).compatible(c)) {
 					((OVContainer) ovc).addComponent(c);
 					return;
 				}
@@ -485,6 +486,13 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 			if (!l.equals(source) && l.contains(p))
 				l.click(new Point(p.x - l.getX(), p.y - l.getY()), source);
 		}
+	}
+
+	@Override
+	public boolean compatible(OVComponent c) {
+		if (c instanceof OVProceduralNode)
+			return false;
+		return true;
 	}
 
 }

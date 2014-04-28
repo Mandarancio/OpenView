@@ -3,6 +3,7 @@ package gui;
 import gui.adapters.ContainerMouseAdapter;
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
+import gui.components.ovprocedural.OVProceduralNode;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
@@ -70,20 +71,23 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 
 		for (OVComponent ovc : components_) {
 			if (!ovc.equals(c) && ovc.isContainer()) {
-				if (((OVContainer) ovc).contains(c)) {
+				if (((OVContainer) ovc).contains(c)
+						&& ((OVContainer) ovc).compatible(c)) {
 					((OVContainer) ovc).addComponent(c);
 					addFlag = true;
 					break;
 				}
 			}
 		}
-		objectManager_.addComponent(c);
-		setKeyListener(c);
-		if (!addFlag) {
-			components_.add(c);
-			this.add(c);
-			select(c);
-			c.setMode(mode_);
+		if (this.compatible(c) || addFlag) {
+			objectManager_.addComponent(c);
+			setKeyListener(c);
+			if (!addFlag) {
+				components_.add(c);
+				this.add(c);
+				select(c);
+				c.setMode(mode_);
+			}
 		}
 	}
 
@@ -400,5 +404,12 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 				hideToolTip((OVToolTip) c);
 			}
 		}
+	}
+
+	@Override
+	public boolean compatible(OVComponent c) {
+		if (c instanceof OVProceduralNode)
+			return false;
+		return true;
 	}
 }

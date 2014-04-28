@@ -12,6 +12,7 @@ import core.support.OrientationEnum;
 
 public interface OVContainer {
 	public void addComponent(OVComponent c);
+	public boolean compatible(OVComponent c);
 	public void removeComponent(OVComponent c);
 	public void select(OVComponent c);
 	public void deselect(OVComponent c);

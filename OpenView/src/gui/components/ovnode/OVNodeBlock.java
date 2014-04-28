@@ -141,4 +141,11 @@ public class OVNodeBlock extends OVComponentContainer {
     public void showMenu(Point point) {
         super.showMenu(point, OVMaker.OVMakerMode.NODEONLY); //To change body of generated methods, choose Tools | Templates.
     }   
+    
+    @Override
+    public boolean compatible(OVComponent c) {
+    	if (c instanceof OVNodeBlock  || c instanceof OVNodeComponent)
+    		return true;
+    	return false;
+    }
 }

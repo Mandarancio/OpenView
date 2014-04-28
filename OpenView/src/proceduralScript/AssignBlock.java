@@ -48,4 +48,8 @@ public class AssignBlock extends AbstractBlock{
 		this.var_ = var_;
 	}
 
+	@Override
+	public boolean isBinary() {
+		return true;
+	}
 }

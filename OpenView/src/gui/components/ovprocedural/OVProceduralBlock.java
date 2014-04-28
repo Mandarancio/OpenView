@@ -4,11 +4,14 @@ import gui.components.OVComponent;
 import gui.components.nodes.InNode;
 import gui.components.nodes.NodeGroup;
 import gui.components.ovnode.OVNodeBlock;
+import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
 import gui.support.OVMaker.OVMakerMode;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
+import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;
@@ -26,6 +29,7 @@ public class OVProceduralBlock extends OVNodeBlock implements SlotListener {
 
 	public OVProceduralBlock(OVContainer father) {
 		super(father);
+		getSetting(ComponentSettings.Name).setValue("Procedure");
 		removeInNodes();
 		trigger_ = addInput(Trigger, ValueType.VOID);
 		trigger_.addListener(this);
@@ -96,4 +100,43 @@ public class OVProceduralBlock extends OVNodeBlock implements SlotListener {
 				return c;
 		return null;
 	}
+	
+	@Override
+	public boolean compatible(OVComponent c) {
+		if (c instanceof OVProceduralNode)
+			return true;
+		return false;
+	}
+	
+	@Override
+	public void addComponent(OVComponent c) {
+		
+		super.addComponent(c);
+		if (c instanceof OVPVar){
+			c.getNodeSetting(OVPVar.VarName).addListener(this);
+			updateVars();
+		}
+	}
+
+	private void updateVars() {
+		ArrayList<String> vars=new ArrayList<>();
+		for (OVComponent c: components_){
+			if (c instanceof OVPVar){
+				String var=c.getNodeSetting(OVPVar.VarName).getValue().getString();
+				if (!vars.contains(var))
+					vars.add(var);
+			}
+		}
+		System.out.println(vars);
+	}
+	
+	@Override
+	public void valueUpdated(Setting s, Value v) {
+		if (s.getName().equals(OVPVar.VarName)){
+			updateVars();
+		}
+		else super.valueUpdated(s, v);
+	}
+	
+
 }

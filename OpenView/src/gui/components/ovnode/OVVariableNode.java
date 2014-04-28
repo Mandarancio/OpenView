@@ -37,7 +37,7 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 
 	public OVVariableNode(OVContainer father) {
 		super(father);
-		getSetting(ComponentSettings.Name).setValue("K");
+		getSetting(ComponentSettings.Name).setValue("V");
 		input_ = addInput(Value, ValueType.VOID);
 		InNode trigger = addInput(Trigger, ValueType.VOID);
 		output_ = addOutput(Value, ValueType.VOID);

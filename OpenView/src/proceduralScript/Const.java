@@ -14,6 +14,13 @@ public class Const extends AbstractBlock{
 		this(new Value(i));
 	}
 	
+	public void setValue(Value v){
+		value_=new Value(v.getData());
+	}
+	
+	public Value getValue(){
+		return value_;
+	}
 	
 	@Override
 	public Value run(){
