@@ -274,6 +274,37 @@ public class SettingPanel extends JPanel implements SettingManager {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+				} else if (s.getType() == ValueType.DOUBLE) {
+					try {
+						final JSpinner sp = new JSpinner(
+								new SpinnerNumberModel(s.getValue().getDouble(), s
+										.getMin().getDouble(),
+										s.getMax().getDouble(), 0.01));
+						SettingListener listener = new SettingListener() {
+
+							@Override
+							public void valueUpdated(Setting setting, Value v) {
+								try {
+									sp.setValue(v.getDouble());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						};
+
+						sp.addChangeListener(new ChangeListener() {
+
+							@Override
+							public void stateChanged(ChangeEvent e) {
+								s.setValue(sp.getValue());
+							}
+						});
+						s.addListener(listener);
+						listeners_.put(s, listener);
+						c = sp;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				} else if (s.getType() == ValueType.ENUM) {
 					final JComboBox<String> box = new JComboBox<>();
 
