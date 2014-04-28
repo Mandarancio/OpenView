@@ -39,9 +39,7 @@ public class InterpreterBlock {
     }
     
     private Block parseLine(String l) {
-        String line = clean(l);
-        System.out.println(line);
-        
+        String line = clean(l);        
         char c = line.charAt(0);
         char c_past = line.charAt(0);
         String past = "" + c_past;
@@ -91,8 +89,21 @@ public class InterpreterBlock {
                     c = line.charAt(i);
                 }
                 past = "";
+            } else if (c_past==' '){
+                if (past.equals("if ")){
+                    System.out.println("IF");
+                }
+                else if (past.equals("elif ")){
+                    System.out.println("ELIF");
+                }
+                else if (past.equals("else ")){
+                    System.out.println("ELSE");
+                }
             }
             past += c;
+        }
+        if (past.equals("end")){
+            System.out.println("END");
         }
         if (variables_.containsKey(past)) {
             return variables_.get(past);
@@ -101,7 +112,15 @@ public class InterpreterBlock {
         return new Const(Value.parse(past));
     }
     
-    private String clean(String l) {
+    private String clean(String line) {
+        String l=line;
+        if (l.startsWith(" ")){
+            int c=0;
+            while (l.charAt(c)==' '){
+                c++;
+            }
+            l=l.substring(c);
+        }
         if (l.startsWith("(") && l.endsWith(")")) {
             int c = 0;
             for (int i = 1; i < l.length() - 1; i++) {
@@ -124,11 +143,16 @@ public class InterpreterBlock {
                 + "b=3\n"
                 + "a=(b+a)/2\n"
                 + "c=3\n"
-                + "a=(a*c)-b\n";
-     
+                + "a=(a*c)-b\n"
+                + "if a>3 :\n"
+                + "  a=3\n"
+                + "elif a<0 :\n"
+                + "  a=0\n"
+                + "end\n";
+       
         InterpreterBlock i = new InterpreterBlock();
         Block b = i.parse(test);
-        i.run(b);
+//        i.run(b);
         System.exit(0);
     }
     
