@@ -24,6 +24,8 @@ public class Setting implements SlotListener {
 	private ArrayList<SettingListener> listeners_ = new ArrayList<>();
 	private InNode inNode_ = null;
 	private OutNode outNode_ = null;
+	
+	private boolean autoTriggered_=false;
 
 	private Setting(String name) {
 		name_ = (name);
@@ -135,6 +137,9 @@ public class Setting implements SlotListener {
 		for (SettingListener l : listeners_) {
 			if (l != null)
 				l.valueUpdated(this, value_);
+		}
+		if (isAutoTriggered() && outNode_!=null){
+			outNode_.trigger(value_);
 		}
 	}
 
@@ -275,5 +280,13 @@ public class Setting implements SlotListener {
 
 	public void setOutput(boolean output_) {
 		this.output_ = output_;
+	}
+
+	public boolean isAutoTriggered() {
+		return autoTriggered_;
+	}
+
+	public void setAutoTriggered(boolean autoTriggered_) {
+		this.autoTriggered_ = autoTriggered_;
 	}
 }

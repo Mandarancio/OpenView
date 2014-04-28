@@ -3,6 +3,7 @@ package gui.support;
 import gui.components.OVComponent;
 import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
+import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVOperatorComponent;
 import gui.components.ovgui.OVTextArea;
@@ -46,6 +47,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			NodeBlock = "Block", IFTrigger = "IF trigger";
 	private static final String ProceduralBlock = "Procedural block",
 			Var = "Var",Const="Const",Assign="Assign";
+	private static final String Check="Check box";
 	private OVContainer father_;
 	private Point point_;
 
@@ -121,6 +123,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		i = new JMenuItem(Check);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 		i = new JMenuItem(Container);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
@@ -179,6 +185,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVPConst(father_));
 		}else if (cmd.equals(Assign)){
 			create(new OVPAssign(father_));
+		}else if (cmd.equals(Check)){
+			create(new OVCheckBox(father_));
 		}
 	}
 
