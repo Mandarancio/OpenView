@@ -12,9 +12,9 @@ import core.Value;
  *
  * @author martino
  */
-class EndBlock extends AbstractBlock{
+class ENDBlock extends AbstractBlock{
 
-    public EndBlock() {
+    public ENDBlock() {
         super("end6");
     }
 

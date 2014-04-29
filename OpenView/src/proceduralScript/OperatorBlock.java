@@ -2,6 +2,7 @@ package proceduralScript;
 
 import core.Value;
 import evaluator.operators.Operator;
+import java.util.ArrayList;
 
 public class OperatorBlock extends AbstractBlock {
 
@@ -15,18 +16,15 @@ public class OperatorBlock extends AbstractBlock {
 
     @Override
     public Value run() {
-        System.out.println("OP: "+operator_.name());
-        Value[] operands = new Value[operator_.input()];
-        int c = 0;
+        ArrayList<Value> operands = new   ArrayList<Value>();
         if (left_ != null) {
-            operands[c] = left_.run();
-            c++;
+            operands.add(left_.run());
         }
         if (right_ != null) {
-            operands[c] = right_.run();
+            operands.add( right_.run());
         }
         try {
-            return operator_.evaluate(operands);
+            return operator_.evaluate(operands.toArray(new Value[operands.size()]));
         } catch (Exception e) {
             e.printStackTrace();
             return new Value(Void.TYPE);

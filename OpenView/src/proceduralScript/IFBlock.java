@@ -38,21 +38,19 @@ public class IFBlock extends AbstractBlock {
 
     @Override
     public Block next() {
-        System.out.println(condition_.name());
-        
+
         Value v = condition_.run();
-        System.out.println(v);
         boolean b = false;
         try {
             b = v.getBoolean();
         } catch (Exception e) {
         }
         if (b) {
-            System.out.println("IF CONDITION VALID");
-            System.out.println(body_);
             return body_; //To change body of generated methods, choose Tools | Templates.
         } else {
+
             if (else_ != null) {
+
                 return else_.next();
             } else {
                 return super.next();
