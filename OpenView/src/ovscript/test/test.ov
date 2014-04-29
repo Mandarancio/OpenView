@@ -9,4 +9,33 @@ function pow(v,p)
 	return a
 end
 
-print(pow(2,10))
+function abs(v)
+	if (v<0)
+		return -v
+	else
+		return v
+	end
+end
+
+function sqrt(v)
+	x=v/2
+	xp=pow(x,2)
+	if (xp==v)
+		return x
+	end
+	d=abs(xp-v)
+	while (d>0.5)
+		if xp>v
+			x=x-0.1
+		else
+			x=x+0.15
+		end
+		xp=pow(x,2)
+		d=abs(xp-v)
+	end
+	return x
+end
+
+
+c=sqrt(8)
+print(c)

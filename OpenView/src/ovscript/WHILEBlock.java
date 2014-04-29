@@ -52,7 +52,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
 			if (rs.block != null) {
-				if (i == 0) {
+				if (b == null) {
 					b = rs.block;
 					this.setBody(b);
 				} else {

@@ -108,9 +108,31 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public void setNext(Block b) {
 		super.setNext(b);
+		getLast(body_).setNext(b);
 		if (else_ != null) {
 			else_.setNext(b);
 		}
+	}
+
+	private Block getLast(Block b) {
+		Block bb = b;
+		while (bb != null) {
+			if (bb instanceof IFBlock) {
+				Block n=((IFBlock) bb).superNext();
+				if (n!=null)
+					bb = n;
+				else 
+					return bb;
+			} else if (bb.next() != null){
+				bb = bb.next();
+			} else
+				return bb;
+		}
+		return b;
+	}
+
+	public Block superNext() {
+		return super.next();
 	}
 
 	@Override
