@@ -71,6 +71,10 @@ public class Value {
 		descriptor_ = new ValueDescriptor(ValueType.BOOLEAN);
 	}
 
+	public Value() {
+		this(Void.TYPE);
+	}
+
 	public ValueDescriptor getDescriptor() {
 		return descriptor_;
 	}

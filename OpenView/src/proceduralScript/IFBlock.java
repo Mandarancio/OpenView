@@ -6,60 +6,58 @@
 package proceduralScript;
 
 import core.Value;
-import core.ValueType;
 
 /**
- *
+ * 
  * @author martino
  */
 public class IFBlock extends AbstractBlock {
 
-    private Block condition_;
-    private Block else_;
-    private Block body_;
+	private Block condition_;
+	private Block else_;
+	private Block body_;
 
-    public IFBlock() {
-        super("IF");
-    }
+	public IFBlock() {
+		super("IF");
+	}
 
-    @Override
-    public Value run() {
-        //nothing to do here
-        return new Value(Void.TYPE);
-    }
+	@Override
+	public Value run() {
+		Value v = condition_.run();
+		boolean b = false;
+		try {
+			b = v.getBoolean();
+		} catch (Exception e) {
+		}
+		if (b) {
+			runBlock(body_);
+		} else {
 
-    public void setCondition(Block b) {
-        condition_ = b;
-    }
+			if (else_ != null) {
+				
+				return else_.run();
+			} 
+		}
+		return new Value(Void.TYPE);
+	}
 
-    public void setElse(Block b) {
-        else_ = b;
-    }
+	private void runBlock(Block body) {
+		while(body!=null){
+			body.run();
+			body=body.next();
+		}
+	}
 
-    @Override
-    public Block next() {
+	public void setCondition(Block b) {
+		condition_ = b;
+	}
 
-        Value v = condition_.run();
-        boolean b = false;
-        try {
-            b = v.getBoolean();
-        } catch (Exception e) {
-        }
-        if (b) {
-            return body_; //To change body of generated methods, choose Tools | Templates.
-        } else {
+	public void setElse(Block b) {
+		else_ = b;
+	}
 
-            if (else_ != null) {
-
-                return else_.next();
-            } else {
-                return super.next();
-            }
-        }
-    }
-
-    void setBody(Block first) {
-        body_ = first;
-    }
+	void setBody(Block first) {
+		body_ = first;
+	}
 
 }
