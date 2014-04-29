@@ -15,13 +15,13 @@ public interface Function {
 
 	public Function clone();
 
-	public Value evaluate(String propertyKey, Value... arguments)
-			throws EvalException;
+	public Value evaluate( Value... arguments)
+			throws Exception;
 
 	/**
 	 * @return The returned type
 	 */
-	public ValueType returnedType(ValueType... types) throws EvalException;
+	public ValueType returnedType(ValueType... types) throws Exception;
 
 	/**
 	 * @return true if the types are supported. If there is one type it return

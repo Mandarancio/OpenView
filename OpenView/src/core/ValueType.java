@@ -81,4 +81,8 @@ public enum ValueType {
 		return val;
 	}
 
+    public boolean isNone() {
+        return this==VOID || this==NONE;
+    }
+
 }
