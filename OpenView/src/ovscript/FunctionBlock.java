@@ -8,28 +8,30 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 
 	private CodeBlock parent_;
 	private HashMap<String, Var> variables_ = new HashMap<>();
-	private HashMap<String, Block> args_ = new HashMap<>();
-
+	private HashMap<String, Block> argsBlock_ = new HashMap<>();
+	
 	private Block body_;
 	private String[] code_;
 	private boolean definition_ = true;
 	private CodeBlock defPar_;
+	private String[] args_;
 
 	public FunctionBlock(CodeBlock defPar, String name, String[] args) {
 		super(name);
 		defPar_ = defPar;
-		for (String arg : args) {
-			variables_.put(arg, new Var(arg));
-			args_.put(arg, null);
+		for (int i=0;i<args.length;i++) {
+			variables_.put(args[i], new Var(args[i]));
+			argsBlock_.put(args[i], null);
 		}
+		args_=args;
 		definition_ = true;
 	}
 
 	@Override
 	public Value run(CodeBlock i) {
 		if (!definition_) {
-			for (String s : args_.keySet()) {
-				getVar(s).value = args_.get(s).run(this);
+			for (String s : argsBlock_.keySet()) {
+				getVar(s).value = argsBlock_.get(s).run(this);
 			}
 
 			parent_ = i;
@@ -77,9 +79,9 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	public FunctionBlock instanciate(Block... vars) {
-		if (vars.length == args_.size()) {
-			FunctionBlock fb = new FunctionBlock(defPar_, name(), args_
-					.keySet().toArray(new String[args_.size()]));
+		if (vars.length == argsBlock_.size()) {
+			
+			FunctionBlock fb = new FunctionBlock(defPar_, name(), args_);
 			fb.init(vars);
 			fb.parse(code_);
 			return fb;
@@ -88,11 +90,11 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	public void init(Block... vars) {
-		if (vars.length == args_.size()) {
+		if (vars.length == argsBlock_.size()) {
 			definition_ = false;
-			String args[] = args_.keySet().toArray(new String[args_.size()]);
+			String args[] =args_;
 			for (int i = 0; i < vars.length; i++) {
-				args_.put(args[i], vars[i]);
+				argsBlock_.put(args[i], vars[i]);
 			}
 		}
 
@@ -169,6 +171,6 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	public int args() {
-		return args_.size();
+		return argsBlock_.size();
 	}
 }

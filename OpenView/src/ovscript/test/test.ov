@@ -1,13 +1,9 @@
 #Next step is to implement the function concept
 
-function setX(x)
-	if x<5
-		return 5
-	elif x>15
-		return 15
-	end
-	return x
+
+function diff(a,b)
+	return a-b
 end
 
-
-print(setX(20))
+print(diff(1,2))
+print(1-2)
