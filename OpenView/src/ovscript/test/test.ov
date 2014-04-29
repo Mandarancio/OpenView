@@ -1,9 +1,14 @@
-#this is a comment
+#Next step is to implement the function concept
+#function name(a,b,c)
+#	return a+(b*c)
+#end
+
 a=1
 i=0
 @PRINT
-while i<10
-  a=a+i
-  i++
-  @PRINT
+for ,i<10, 
+	a=a+i
+	i++
 end
+print('while cycle ended')
+@PRINT

@@ -19,10 +19,12 @@ public class FORBlock extends AbstractBlock {
 	@Override
 	public Value run(InterpreterBlock i) {
 		try{
+			if (initalization_!=null)
 			initalization_.run(i);
 			while (condition_.run(i).getBoolean()){
 				runBlock(body_,i);
-				operation_.run(i);
+				if (operation_!=null)
+					operation_.run(i);
 			}
 		}catch (Exception e){
 			e.printStackTrace();

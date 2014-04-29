@@ -217,13 +217,15 @@ public class InterpreterBlock {
 	private ReturnStruct parseFor(String line, String[] lines) {
 		String l = line.substring(3);
 		String args[] = l.split(",");
-		if (args.length != 3) {
+		if (args.length != 3 && args.length!=2) {
 			System.err.println("Something wrong");
 			return new ReturnStruct(null, 1);
 		}
 		Block init = parseLine(args[0], lines).block;
 		Block cond = parseLine(args[1], lines).block;
-		Block oper = parseLine(args[2], lines).block;
+		Block oper = null;
+		if (args.length==3)
+			cond=parseLine(args[2], lines).block;
 
 		FORBlock fb = new FORBlock(init, cond, oper);
 		int i = 0;
@@ -311,16 +313,18 @@ public class InterpreterBlock {
 
 	private String clean(String line) {
 		String l = line;
-		if (l.startsWith(" ")) {
+		if (line.length()==0)
+			return l;
+		if (l.startsWith(" ") || l.startsWith("\t")) {
 			int c = 0;
-			while (l.charAt(c) == ' ') {
+			while (c<l.length() && (l.charAt(c) == ' ' || l.charAt(c)=='\t')) {
 				c++;
 			}
 			l = l.substring(c);
 		}
-		if (l.endsWith(" ")) {
+		if (l.endsWith(" ") || l.endsWith("\t")) {
 			int c = l.length() - 1;
-			while (l.charAt(c) == ' ') {
+			while (c>0 && (l.charAt(c) == ' '|| l.charAt(c)=='\t')) {
 				c--;
 			}
 			l = l.substring(0, c);
