@@ -10,12 +10,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import ovscript.Var;
 import core.Setting;
 import core.Value;
 import core.support.OrientationEnum;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
-import proceduralScript.Var;
 
 /**
  * 

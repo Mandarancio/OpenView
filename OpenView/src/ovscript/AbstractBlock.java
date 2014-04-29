@@ -1,4 +1,4 @@
-package proceduralScript;
+package ovscript;
 
 public abstract class AbstractBlock implements Block {
 

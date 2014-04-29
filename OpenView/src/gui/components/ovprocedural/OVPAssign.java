@@ -6,8 +6,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import ovscript.AssignBlock;
 import core.support.OrientationEnum;
-import proceduralScript.AssignBlock;
 
 public class OVPAssign extends OVProceduralNode {
 

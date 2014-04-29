@@ -1,4 +1,4 @@
-package proceduralScript;
+package ovscript;
 
 import core.Value;
 
@@ -21,8 +21,7 @@ public class AssignBlock extends AbstractBlock{
 	public Value run() {
 		Value v=rightExp_.run();
 		var_.value=v;
-
-		System.out.println(var_.name()+"="+v);
+//		System.out.println(var_.name()+"="+v);
 		return var_.run();
 	}
 

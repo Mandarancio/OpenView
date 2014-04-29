@@ -1,4 +1,4 @@
-package proceduralScript;
+package ovscript;
 
 import java.util.HashMap;
 
@@ -38,7 +38,7 @@ public class InterpreterBlock {
 		Block last = null;
 		String nexts[];
 		int i = 0;
-		
+
 		while (i < lines.length) {
 			String line = lines[i];
 
@@ -97,7 +97,7 @@ public class InterpreterBlock {
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
 			return parseFor(line, copy);
-		} else if (line.startsWith("while ")){
+		} else if (line.startsWith("while ")) {
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
 			return parseWhile(line, copy);
@@ -158,22 +158,28 @@ public class InterpreterBlock {
 				return new ReturnStruct(new AssignBlock(v, parseLine(
 						line.substring(i), nextLines).block), 1);
 			} else if (c_past == '(') {
-				int pc = 1;
-				for (; i < line.length(); i++) {
-					if (line.charAt(i) == ')') {
-						pc--;
-					} else if (line.charAt(i) == '(') {
-						pc++;
+				past = line.substring(0, i - 1);
+				if (past.equals("print")) {
+					Block b=parseLine(line.substring(i-1),nextLines).block;
+					return new ReturnStruct(new PrintBlock(b), 1);
+				} else {
+					int pc = 1;
+					for (; i < line.length(); i++) {
+						if (line.charAt(i) == ')') {
+							pc--;
+						} else if (line.charAt(i) == '(') {
+							pc++;
+						}
+						if (pc == 0) {
+							break;
+						}
 					}
-					if (pc == 0) {
-						break;
+					i++;
+					if (i < line.length()) {
+						c = line.charAt(i);
 					}
+					past = "";
 				}
-				i++;
-				if (i < line.length()) {
-					c = line.charAt(i);
-				}
-				past = "";
 			}
 			past += c;
 		}
@@ -202,7 +208,7 @@ public class InterpreterBlock {
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = parseLine(lines[i], copy);
 			Block b = rs.block;
-			if (i==0)
+			if (i == 0)
 				fb.setBody(b);
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
@@ -212,18 +218,18 @@ public class InterpreterBlock {
 		}
 		return new ReturnStruct(fb, i + 1);
 	}
-	
+
 	private ReturnStruct parseWhile(String line, String[] lines) {
-		String l = line.substring(5);		
+		String l = line.substring(5);
 		Block cond = parseLine(l, lines).block;
-		WHILEBlock fb = new WHILEBlock( cond);
+		WHILEBlock fb = new WHILEBlock(cond);
 		int i = 0;
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = parseLine(lines[i], copy);
 			Block b = rs.block;
-			if (i==0)
+			if (i == 0)
 				fb.setBody(b);
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
@@ -303,10 +309,7 @@ public class InterpreterBlock {
 	}
 
 	public static void main(String[] args) {
-		String test = "a=1\n"
-				+ "while a<10\n"
-				+ " a+=a\n"
-				+ "end\n";
+		String test = "a=1\n" + "while a<10\n" + " a+=a\n" + "end\n" + "print(a)\n";
 
 		InterpreterBlock i = new InterpreterBlock();
 

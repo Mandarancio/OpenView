@@ -1,4 +1,4 @@
-package proceduralScript;
+package ovscript;
 
 import core.Value;
 import evaluator.operators.Operator;

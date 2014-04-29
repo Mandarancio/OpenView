@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import proceduralScript.Const;
+import ovscript.Const;
 import core.Setting;
 import core.Value;
 import core.support.OrientationEnum;
