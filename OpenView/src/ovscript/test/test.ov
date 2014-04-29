@@ -1,42 +1,19 @@
 #Next step is to implement the function concept
 
-function pow(v,p)
-	a=v
-	for i=2,i<=p,i++
-		a=a*v
-	end
-	
-	return a
+function fact(n)
+    if n<=0
+        return 1
+    else
+        return n*fact(n-1)
+    end
 end
 
-function abs(v)
-	if (v<0)
-		return -v
-	else
-		return v
-	end
+i=0
+a=0
+
+while i<10
+    a+=fact(i)
+    i++
 end
 
-function sqrt(v)
-	x=v/2
-	xp=pow(x,2)
-	if (xp==v)
-		return x
-	end
-	d=abs(xp-v)
-	while (d>0.005)
-		if xp>v
-			x=x/2
-		else
-			x=x+x/2
-		end
-		
-		xp=pow(x,2)
-		d=abs(xp-v)
-	end
-	return x
-end
-
-
-c=sqrt(1000)
-print(c)
+print(a)
