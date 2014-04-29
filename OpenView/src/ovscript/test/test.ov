@@ -24,12 +24,13 @@ function sqrt(v)
 		return x
 	end
 	d=abs(xp-v)
-	while (d>0.5)
+	while (d>0.005)
 		if xp>v
-			x=x-0.1
+			x=x/2
 		else
-			x=x+0.15
+			x=x+x/2
 		end
+		
 		xp=pow(x,2)
 		d=abs(xp-v)
 	end
@@ -37,5 +38,5 @@ function sqrt(v)
 end
 
 
-c=sqrt(8)
+c=sqrt(1000)
 print(c)
