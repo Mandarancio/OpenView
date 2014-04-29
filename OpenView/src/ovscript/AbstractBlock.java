@@ -1,10 +1,13 @@
 package ovscript;
 
+import core.Value;
+
 public abstract class AbstractBlock implements Block {
 
 	private String name_;
 	private Block next_;
-
+	protected boolean __end=false;
+	
 	public AbstractBlock(String name) {
 		name_ = name;
 	}
@@ -33,11 +36,13 @@ public abstract class AbstractBlock implements Block {
 		return false;
 	}
 	
-	protected void runBlock(Block body,CodeBlock i){
+	protected Value runBlock(Block body,CodeBlock i){
 		Block b=body;
-		while(b!=null){
-			b.run(i);
+		Value last=null;
+		while(b!=null && !__end){
+			last=b.run(i);
 			b=b.next();
 		}
+		return last;
 	}
 }

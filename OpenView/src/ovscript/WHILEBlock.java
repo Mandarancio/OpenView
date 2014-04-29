@@ -21,7 +21,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public Value run(CodeBlock i) {
 		try {
-			while (condition_.run(i).getBoolean()) {
+			while (!__end && condition_.run(i).getBoolean()) {
 				runBlock(body_, this);
 			}
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public void debug(String code) {
-		parent_.debug(code);
+		DebugManager.debug(code, this);
 	}
 
 	@Override
@@ -102,4 +102,14 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 		return v;
 	}
 
+	@Override
+	public void endRun() {
+		__end=true;
+		parent_.endRun();
+	}
+	
+	@Override
+	public HashMap<String, Var> localVariableStack() {
+		return variables_;
+	}
 }

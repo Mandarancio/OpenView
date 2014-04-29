@@ -10,8 +10,10 @@ public interface CodeBlock {
 	public ReturnStruct parse(String[] lines);
 	public Value runBlock(Block b);
 	public HashMap<String, Var> variableStack();
+	public HashMap<String, Var> localVariableStack();
 	public void debug(String code);
 	public boolean isDebug();
 	public void putVar(String name, Var v);
 	public Var getVar(String name);
+	public void endRun();
 }

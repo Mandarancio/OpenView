@@ -27,7 +27,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		try{
 			if (initalization_!=null)
 			initalization_.run(i);
-			while (condition_.run(i).getBoolean()){
+			while (!__end && condition_.run(i).getBoolean()){
 				runBlock(body_,this);
 				if (operation_!=null)
 					operation_.run(this);
@@ -89,7 +89,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public void debug(String code) {
-		parent_.debug(code);
+		DebugManager.debug(code, this);
 	}
 
 	@Override
@@ -109,8 +109,16 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 			v=parent_.getVar(name);
 		return v;
 	}
-	
 
+	@Override
+	public void endRun() {
+		__end=true;
+		parent_.endRun();
+	}
 
+	@Override
+	public HashMap<String, Var> localVariableStack() {
+		return variables_;
+	}
 
 }

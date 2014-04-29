@@ -27,18 +27,8 @@ public class Interpreter implements CodeBlock {
 	}
 
 	@Override
-	public void debug(String name) {
-		if (!debug_)
-			return;
-		if (name.equals(DPRINT)) {
-			System.out.println("VARABLE STATUS:");
-			for (String s : variables_.keySet()) {
-				System.out.println("  " + s + " : " + variables_.get(s).value);
-			}
-			System.out.println("_______________");
-		} else if (name.equals(DEND)) {
-			__end = true;
-		}
+	public void debug(String code) {
+		DebugManager.debug(code, this);
 	}
 
 	@Override
@@ -102,5 +92,15 @@ public class Interpreter implements CodeBlock {
 	@Override
 	public Var getVar(String name) {
 		return variables_.get(name);
+	}
+
+	@Override
+	public void endRun() {
+		__end=true;
+	}
+
+	@Override
+	public HashMap<String, Var> localVariableStack() {
+		return variableStack();
 	}
 }

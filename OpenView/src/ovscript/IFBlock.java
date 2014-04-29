@@ -13,17 +13,17 @@ import core.Value;
  * 
  * @author martino
  */
-public class IFBlock extends AbstractBlock implements CodeBlock{
+public class IFBlock extends AbstractBlock implements CodeBlock {
 
 	private Block condition_;
 	private Block else_;
 	private Block body_;
 	private CodeBlock parent_;
-	private HashMap<String, Var> variables_=new HashMap<>();
+	private HashMap<String, Var> variables_ = new HashMap<>();
 
 	public IFBlock(CodeBlock parent) {
 		super("IF");
-		parent_=parent;
+		parent_ = parent;
 	}
 
 	@Override
@@ -35,18 +35,17 @@ public class IFBlock extends AbstractBlock implements CodeBlock{
 		} catch (Exception e) {
 		}
 		if (b) {
-			runBlock(body_,this);
+			runBlock(body_, this);
 		} else {
 
 			if (else_ != null) {
-				
+
 				return else_.run(i);
-			} 
+			}
 		}
 		return new Value(Void.TYPE);
 	}
 
-	
 	public void setCondition(Block b) {
 		condition_ = b;
 	}
@@ -68,12 +67,12 @@ public class IFBlock extends AbstractBlock implements CodeBlock{
 	public ReturnStruct parse(String[] lines) {
 		Block first = null;
 		Block last = null;
-		int i=0;
+		int i = 0;
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 
-			ReturnStruct rs = Parser.parseLine(this,lines[i], copy);
+			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
 			Block b = rs.block;
 			i += rs.lines;
 
@@ -106,14 +105,14 @@ public class IFBlock extends AbstractBlock implements CodeBlock{
 
 	@Override
 	public HashMap<String, Var> variableStack() {
-		HashMap<String, Var> vars=new HashMap<>(variables_);
+		HashMap<String, Var> vars = new HashMap<>(variables_);
 		vars.putAll(parent_.variableStack());
 		return vars;
 	}
 
 	@Override
 	public void debug(String code) {
-		parent_.debug(code);
+		DebugManager.debug(code, this);
 	}
 
 	@Override
@@ -128,10 +127,20 @@ public class IFBlock extends AbstractBlock implements CodeBlock{
 
 	@Override
 	public Var getVar(String name) {
-		Var v=variables_.get(name);
-		if (v==null)
-			v=parent_.getVar(name);
+		Var v = variables_.get(name);
+		if (v == null)
+			v = parent_.getVar(name);
 		return v;
 	}
 
+	@Override
+	public void endRun() {
+		__end = true;
+		parent_.endRun();
+	}
+
+	@Override
+	public HashMap<String, Var> localVariableStack() {
+		return variables_;
+	}
 }

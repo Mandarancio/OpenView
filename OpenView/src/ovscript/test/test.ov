@@ -10,6 +10,9 @@ for ,i<10,
 	c=10
 	if a<20
 		a=a+i
+	else
+		@PRINT
+		@STOP
 	end
 	i++
 end
