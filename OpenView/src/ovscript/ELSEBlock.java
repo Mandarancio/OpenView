@@ -11,5 +11,9 @@ package ovscript;
  * @author martino
  */
 public class ELSEBlock extends IFBlock{
+
+	public ELSEBlock(CodeBlock parent) {
+		super(parent);
+	}
     
 }

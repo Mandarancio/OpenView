@@ -19,7 +19,7 @@ class ENDBlock extends AbstractBlock{
     }
 
     @Override
-    public Value run(Interpreter i) {
+    public Value run(CodeBlock i) {
         return new Value(Void.TYPE);
     }
     

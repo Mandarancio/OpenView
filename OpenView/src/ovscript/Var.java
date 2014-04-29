@@ -16,7 +16,7 @@ public class Var extends AbstractBlock {
     }
 
     @Override
-    public Value run(Interpreter i) {
+    public Value run(CodeBlock i) {
         return new Value(value.getData());
     }
 

@@ -16,7 +16,7 @@ public class OperatorBlock extends AbstractBlock {
     }
 
     @Override
-    public Value run(Interpreter i) {
+    public Value run(CodeBlock i) {
         ArrayList<Value> operands = new   ArrayList<Value>();
         if (left_ != null) {
             operands.add(left_.run(i));

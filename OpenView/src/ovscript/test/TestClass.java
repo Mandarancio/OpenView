@@ -26,7 +26,7 @@ public class TestClass {
 			Interpreter i=new Interpreter();
 			Block b=i.parse(code);
 			i.setDebug(true);
-			i.run(b);
+			i.runBlock(b);
 			
 		} finally {
 			br.close();

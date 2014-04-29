@@ -5,24 +5,29 @@
  */
 package ovscript;
 
+import java.util.HashMap;
+
 import core.Value;
 
 /**
  * 
  * @author martino
  */
-public class IFBlock extends AbstractBlock {
+public class IFBlock extends AbstractBlock implements CodeBlock{
 
 	private Block condition_;
 	private Block else_;
 	private Block body_;
+	private CodeBlock parent_;
+	private HashMap<String, Var> variables_=new HashMap<>();
 
-	public IFBlock() {
+	public IFBlock(CodeBlock parent) {
 		super("IF");
+		parent_=parent;
 	}
 
 	@Override
-	public Value run(Interpreter i) {
+	public Value run(CodeBlock i) {
 		Value v = condition_.run(i);
 		boolean b = false;
 		try {
@@ -30,7 +35,7 @@ public class IFBlock extends AbstractBlock {
 		} catch (Exception e) {
 		}
 		if (b) {
-			runBlock(body_,i);
+			runBlock(body_,this);
 		} else {
 
 			if (else_ != null) {
@@ -52,6 +57,81 @@ public class IFBlock extends AbstractBlock {
 
 	void setBody(Block first) {
 		body_ = first;
+	}
+
+	@Override
+	public CodeBlock parent() {
+		return parent_;
+	}
+
+	@Override
+	public ReturnStruct parse(String[] lines) {
+		Block first = null;
+		Block last = null;
+		int i=0;
+		while (i < lines.length) {
+			String copy[] = new String[lines.length - i];
+			System.arraycopy(lines, i, copy, 0, copy.length);
+
+			ReturnStruct rs = Parser.parseLine(this,lines[i], copy);
+			Block b = rs.block;
+			i += rs.lines;
+
+			if (b instanceof ELSEBlock) {
+				this.setElse(b);
+
+				break;
+			} else if (b instanceof ENDBlock) {
+				this.setNext(b);
+				break;
+			} else {
+				if (first == null) {
+					first = b;
+					last = b;
+					this.setBody(first);
+				} else {
+					last.setNext(b);
+					last = b;
+				}
+			}
+
+		}
+		return new ReturnStruct(this, i + 1);
+	}
+
+	@Override
+	public Value runBlock(Block b) {
+		return run(this);
+	}
+
+	@Override
+	public HashMap<String, Var> variableStack() {
+		HashMap<String, Var> vars=new HashMap<>(variables_);
+		vars.putAll(parent_.variableStack());
+		return vars;
+	}
+
+	@Override
+	public void debug(String code) {
+		parent_.debug(code);
+	}
+
+	@Override
+	public boolean isDebug() {
+		return parent_.isDebug();
+	}
+
+	@Override
+	public void putVar(String name, Var v) {
+		variables_.put(name, v);
+	}
+
+	@Override
+	public Var getVar(String name) {
+		Var v=variables_.get(name);
+		if (v==null)
+			v=parent_.getVar(name);
+		return v;
 	}
 
 }

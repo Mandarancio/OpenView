@@ -33,7 +33,7 @@ public abstract class AbstractBlock implements Block {
 		return false;
 	}
 	
-	protected void runBlock(Block body,Interpreter i){
+	protected void runBlock(Block body,CodeBlock i){
 		Block b=body;
 		while(b!=null){
 			b.run(i);
