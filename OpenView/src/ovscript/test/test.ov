@@ -1,21 +1,12 @@
 #Next step is to implement the function concept
-#function name(a,b,c)
-#	return a+(b*c)
-#end
-a=1
-i=0
 
-@PRINT
-for ,i<10, 
-	c=10
-	if a<20
-		a=a+i
-	else
-		@PRINT
-		@STOP
-	end
-	i++
+function sum(a,b)
+	return a+b
 end
 
-print('while cycle ended')
-@PRINT
+function diff(a,b)
+	return a-b
+end
+
+print(sum(1,2))
+print(diff(1,2))

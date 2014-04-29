@@ -1,5 +1,6 @@
 package ovscript;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import core.Value;
@@ -9,6 +10,7 @@ public class Interpreter implements CodeBlock {
 
 
 	private HashMap<String, Var> variables_ = new HashMap<>();
+	private ArrayList<FunctionBlock> functions_=new ArrayList<>();
 	private boolean debug_ = false;
 	private boolean __end = false;
 
@@ -103,4 +105,19 @@ public class Interpreter implements CodeBlock {
 	public HashMap<String, Var> localVariableStack() {
 		return variableStack();
 	}
+
+	@Override
+	public void addFunctionDefinition(FunctionBlock f) {
+		functions_.add(f);
+	}
+	
+	@Override
+	public FunctionBlock getFunctionDefinition(String past, int nargs) {
+		for (FunctionBlock f: functions_){
+			if (f.name().equals(past) && f.args()==nargs)
+				return f;
+		}
+		return null;
+	}
+
 }

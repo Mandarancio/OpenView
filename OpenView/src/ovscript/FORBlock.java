@@ -5,34 +5,45 @@ import java.util.HashMap;
 import core.Value;
 
 public class FORBlock extends AbstractBlock implements CodeBlock {
-	private Block initalization_;
-	private Block condition_;
-	private Block operation_;
-	
+	private Block initalization_=null;
+	private Block condition_=null;
+	private Block operation_=null;
+
 	private Block body_;
-	
-	private HashMap<String, Var> variables_=new HashMap<>();
+
+	private HashMap<String, Var> variables_ = new HashMap<>();
 	private CodeBlock parent_;
-	
-	public FORBlock(CodeBlock parent,Block i, Block c, Block o) {
+
+	public FORBlock(CodeBlock parent, Block i, Block c, Block o) {
 		super("for");
-		initalization_=i;
-		condition_=c;
-		operation_=o;
-		parent_=parent;
+		initalization_ = i;
+		condition_ = c;
+		operation_ = o;
+		parent_ = parent;
+	}
+
+	public FORBlock(CodeBlock block, String i, String c,
+			String o) {
+		super("for");
+		parent_ = block;
+		if (i.length()>0)
+			initalization_=Parser.parseLine(this, i, new String[0]).block;
+		condition_=Parser.parseLine(this, c, new String[0]).block;
+		if (o.length()>0)
+			operation_=Parser.parseLine(this, o, new String[0]).block;
 	}
 
 	@Override
 	public Value run(CodeBlock i) {
-		try{
-			if (initalization_!=null)
-			initalization_.run(i);
-			while (!__end && condition_.run(i).getBoolean()){
-				runBlock(body_,this);
-				if (operation_!=null)
+		try {
+			if (initalization_ != null)
+				initalization_.run(i);
+			while (!__end && condition_.run(i).getBoolean()) {
+				runBlock(body_, this);
+				if (operation_ != null)
 					operation_.run(this);
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new Value();
@@ -58,7 +69,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
-			ReturnStruct rs = Parser.parseLine(this,lines[i], copy);
+			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
 			if (i == 0) {
 				b = rs.block;
 				this.setBody(b);
@@ -82,7 +93,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public HashMap<String, Var> variableStack() {
-		HashMap<String, Var> vars=new HashMap<>(variables_);
+		HashMap<String, Var> vars = new HashMap<>(variables_);
 		vars.putAll(parent_.variableStack());
 		return vars;
 	}
@@ -104,21 +115,32 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public Var getVar(String name) {
-		Var v=variables_.get(name);
-		if (v==null)
-			v=parent_.getVar(name);
+		Var v = variables_.get(name);
+		if (v == null)
+			v = parent_.getVar(name);
 		return v;
 	}
 
 	@Override
 	public void endRun() {
-		__end=true;
-		parent_.endRun();
+		__end = true;
 	}
 
 	@Override
 	public HashMap<String, Var> localVariableStack() {
 		return variables_;
+	}
+
+	@Override
+	public void addFunctionDefinition(FunctionBlock f) {
+		System.err
+				.println("something wrong! you can not define a function in a "
+						+ getClass().getSimpleName());
+	}
+
+	@Override
+	public FunctionBlock getFunctionDefinition(String past, int nargs) {
+		return parent_.getFunctionDefinition(past, nargs);
 	}
 
 }

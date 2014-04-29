@@ -4,7 +4,7 @@ import core.Value;
 
 public class Var extends AbstractBlock {
 
-    public Value value;
+    public Value value=new Value();
 
     public Var(String name) {
         super(name);

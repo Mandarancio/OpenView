@@ -5,13 +5,10 @@ import evaluator.operators.OperatorManager;
 
 public class Parser {
 
-
 	private static final OperatorManager operators_ = new OperatorManager();
 
-	
-
-	
-	public static ReturnStruct parseLine(CodeBlock block,String l, String nextLines[]) {
+	public static ReturnStruct parseLine(CodeBlock block, String l,
+			String nextLines[]) {
 		if (l.length() == 0)
 			return new ReturnStruct(null, 1);
 		String line = Parser.clean(l);
@@ -27,7 +24,7 @@ public class Parser {
 		if (line.startsWith("if ")) {
 			IFBlock ib = new IFBlock(block);
 			past = line.substring(2);
-			Block cond = parseLine(block,past, nextLines).block;
+			Block cond = parseLine(block, past, nextLines).block;
 			ib.setCondition(cond);
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
@@ -35,7 +32,7 @@ public class Parser {
 		} else if (line.startsWith("elif ")) {
 			ELSEBlock ib = new ELSEBlock(block);
 			past = line.substring(4);
-			Block cond = parseLine(block,past, nextLines).block;
+			Block cond = parseLine(block, past, nextLines).block;
 			ib.setCondition(cond);
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
@@ -52,11 +49,41 @@ public class Parser {
 		} else if (line.startsWith("for ")) {
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
-			return parseFor(block,line, copy);
+			return parseFor(block, line, copy);
 		} else if (line.startsWith("while ")) {
 			String copy[] = new String[nextLines.length - 1];
 			System.arraycopy(nextLines, 1, copy, 0, copy.length);
-			return parseWhile(block,line, copy);
+			return parseWhile(block, line, copy);
+		} else if (line.startsWith("var ")) {
+			String var = line.substring(4);
+			if (var.contains("="))
+				return parseLine(block, var, nextLines);
+			else {
+				Var v = block.getVar(var);
+				if (v == null) {
+					v = new Var(var);
+					block.putVar(var, v);
+				}
+				return new ReturnStruct(v, 1);
+			}
+		} else if (line.startsWith("function ")) {
+			String def[] = line.replace("function ", "").split("\\(");
+			if (def.length != 2) {
+				System.err.println("ERROR");
+				return new ReturnStruct(null, 1);
+			} else {
+				String name = def[0];
+				String args = def[1].replace(")", "");
+				FunctionBlock fb = new FunctionBlock(block,name, args.split(","));
+				String copy[] = new String[nextLines.length - 1];
+				System.arraycopy(nextLines, 1, copy, 0, copy.length);
+				block.addFunctionDefinition(fb);
+				return fb.parse(copy);
+			}
+
+		} else if (line.startsWith("return ")) {
+			return new ReturnStruct(new ReturnBlock(parseLine(block,
+					line.substring(7), nextLines).block), 1);
 		}
 		for (int i = 1; i < line.length(); i++) {
 			c_past = c;
@@ -72,7 +99,7 @@ public class Parser {
 				OperatorBlock op = new OperatorBlock(operators_
 						.get(c_past + "").clone());
 				op.setLeft(v);
-				op.setRight(parseLine(block,line.substring(i + 1), nextLines).block);
+				op.setRight(parseLine(block, line.substring(i + 1), nextLines).block);
 				return new ReturnStruct(new AssignBlock(v, op), 1);
 			} else if (c_past == c && (c == '+' || c == '-')) {
 				past = past.substring(0, past.length() - 1);
@@ -92,8 +119,8 @@ public class Parser {
 
 				OperatorBlock ob = new OperatorBlock(operators_.get("" + c_past
 						+ c));
-				ob.setLeft(parseLine(block,past, nextLines).block);
-				ob.setRight(parseLine(block,line.substring(i), nextLines).block);
+				ob.setLeft(parseLine(block, past, nextLines).block);
+				ob.setRight(parseLine(block, line.substring(i), nextLines).block);
 
 				return new ReturnStruct(ob, 1);
 			} else if (operators_.get("" + c_past) != null) {
@@ -101,8 +128,8 @@ public class Parser {
 
 				OperatorBlock ob = new OperatorBlock(
 						operators_.get("" + c_past));
-				ob.setLeft(parseLine(block,past, nextLines).block);
-				ob.setRight(parseLine(block,line.substring(i), nextLines).block);
+				ob.setLeft(parseLine(block, past, nextLines).block);
+				ob.setRight(parseLine(block, line.substring(i), nextLines).block);
 				return new ReturnStruct(ob, 1);
 			} else if (c_past == '=') {
 				past = past.substring(0, past.length() - 1);
@@ -115,26 +142,39 @@ public class Parser {
 						line.substring(i), nextLines).block), 1);
 			} else if (c_past == '(') {
 				past = line.substring(0, i - 1);
+
 				if (past.equals("print")) {
-					Block b = parseLine(block,line.substring(i - 1), nextLines).block;
+					Block b = parseLine(block, line.substring(i - 1), nextLines).block;
 					return new ReturnStruct(new PrintBlock(b), 1);
 				} else {
-					int pc = 1;
-					for (; i < line.length(); i++) {
-						if (line.charAt(i) == ')') {
-							pc--;
-						} else if (line.charAt(i) == '(') {
-							pc++;
+					int nargs = line.substring(i - 1).split(",").length;
+					FunctionBlock fb = block.getFunctionDefinition(past, nargs);
+					if (fb != null) {
+						String args[]=line.substring(i ).replace(")","").split(",");
+						Block blocks[]=new Block[nargs];
+						for (int j=0;j<nargs;j++){
+							blocks[j]=parseLine(block, args[j], new String[0]).block;
 						}
-						if (pc == 0) {
-							break;
+						return new ReturnStruct(fb.instanciate(blocks),1);
+
+					} else {
+						int pc = 1;
+						for (; i < line.length(); i++) {
+							if (line.charAt(i) == ')') {
+								pc--;
+							} else if (line.charAt(i) == '(') {
+								pc++;
+							}
+							if (pc == 0) {
+								break;
+							}
 						}
+						i++;
+						if (i < line.length()) {
+							c = line.charAt(i);
+						}
+						past = "";
 					}
-					i++;
-					if (i < line.length()) {
-						c = line.charAt(i);
-					}
-					past = "";
 				}
 			}
 			past += c;
@@ -145,7 +185,7 @@ public class Parser {
 
 		return new ReturnStruct(new Const(Value.parse(past)), 1);
 	}
-	
+
 	public static String clean(String line) {
 		String l = line;
 		if (line.length() == 0)
@@ -182,29 +222,34 @@ public class Parser {
 			return l;
 		}
 	}
-	
-	private static ReturnStruct parseFor(CodeBlock block,String line, String[] lines) {
+
+	private static ReturnStruct parseFor(CodeBlock block, String line,
+			String[] lines) {
 		String l = line.substring(3);
 		String args[] = l.split(",");
 		if (args.length != 3 && args.length != 2) {
 			System.err.println("Something wrong");
 			return new ReturnStruct(null, 1);
 		}
-		Block init = parseLine(block,args[0], lines).block;
-		Block cond = parseLine(block,args[1], lines).block;
-		Block oper = null;
-		if (args.length == 3)
-			cond = parseLine(block,args[2], lines).block;
+		FORBlock fb = new FORBlock(block, args[0], args[1],
+				args.length == 3 ? args[2] : "");
 
-		FORBlock fb = new FORBlock(block,init, cond, oper);
+		// Block init = parseLine(block,args[0], lines).block;
+		// Block cond = parseLine(block,args[1], lines).block;
+		// Block oper = null;
+		// if (args.length == 3)
+		// cond = parseLine(block,args[2], lines).block;
+
+		// FORBlock fb = new FORBlock(block,init, cond, oper);
 
 		return fb.parse(lines);
 	}
 
-	private static ReturnStruct parseWhile(CodeBlock block,String line, String[] lines) {
+	private static ReturnStruct parseWhile(CodeBlock block, String line,
+			String[] lines) {
 		String l = line.substring(5);
-		Block cond = parseLine(block,l, lines).block;
-		WHILEBlock fb = new WHILEBlock(block,cond);
+		Block cond = parseLine(block, l, lines).block;
+		WHILEBlock fb = new WHILEBlock(block, cond);
 		return fb.parse(lines);
 	}
 

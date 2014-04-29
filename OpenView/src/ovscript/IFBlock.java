@@ -136,11 +136,23 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public void endRun() {
 		__end = true;
-		parent_.endRun();
 	}
 
 	@Override
 	public HashMap<String, Var> localVariableStack() {
 		return variables_;
 	}
+	
+	@Override
+	public void addFunctionDefinition(FunctionBlock f) {
+		System.err
+				.println("something wrong! you can not define a function in a "
+						+ getClass().getSimpleName());
+	}
+	
+	@Override
+	public FunctionBlock getFunctionDefinition(String past, int nargs) {
+		return parent_.getFunctionDefinition(past, nargs);
+	}
+
 }

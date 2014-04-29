@@ -45,4 +45,8 @@ public abstract class AbstractBlock implements Block {
 		}
 		return last;
 	}
+
+	public void endBlock() {
+		__end=true;
+	}
 }
