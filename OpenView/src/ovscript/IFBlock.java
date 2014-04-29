@@ -28,22 +28,27 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public Value run(CodeBlock i) {
-		Value v = condition_.run(i);
+		return new Value(Void.TYPE);
+	}
+
+	@Override
+	public Block next() {
+		Value v = condition_.run(this);
 		boolean b = false;
 		try {
 			b = v.getBoolean();
 		} catch (Exception e) {
 		}
 		if (b) {
-			runBlock(body_, this);
+			return body_;
 		} else {
 
 			if (else_ != null) {
 
-				return else_.run(i);
-			}
+				return else_;
+			} else
+				return super.next();
 		}
-		return new Value(Void.TYPE);
 	}
 
 	public void setCondition(Block b) {
@@ -84,18 +89,28 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
 				this.setNext(b);
 				break;
 			} else {
-				if (first == null) {
-					first = b;
-					last = b;
-					this.setBody(first);
-				} else {
-					last.setNext(b);
-					last = b;
+				if (b != null) {
+					if (first == null) {
+						first = b;
+						last = b;
+						this.setBody(first);
+					} else {
+						last.setNext(b);
+						last = b;
+					}
 				}
 			}
 
 		}
 		return new ReturnStruct(this, i + 1);
+	}
+
+	@Override
+	public void setNext(Block b) {
+		super.setNext(b);
+		if (else_ != null) {
+			else_.setNext(b);
+		}
 	}
 
 	@Override
@@ -142,14 +157,14 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
 	public HashMap<String, Var> localVariableStack() {
 		return variables_;
 	}
-	
+
 	@Override
 	public void addFunctionDefinition(FunctionBlock f) {
 		System.err
 				.println("something wrong! you can not define a function in a "
 						+ getClass().getSimpleName());
 	}
-	
+
 	@Override
 	public FunctionBlock getFunctionDefinition(String past, int nargs) {
 		return parent_.getFunctionDefinition(past, nargs);

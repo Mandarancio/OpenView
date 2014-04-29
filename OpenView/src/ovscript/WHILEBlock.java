@@ -50,13 +50,15 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
-			ReturnStruct rs = Parser.parseLine(this,lines[i], copy);
-			if (i == 0) {
-				b = rs.block;
-				this.setBody(b);
-			} else {
-				b.setNext(rs.block);
-				b = rs.block;
+			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
+			if (rs.block != null) {
+				if (i == 0) {
+					b = rs.block;
+					this.setBody(b);
+				} else {
+					b.setNext(rs.block);
+					b = rs.block;
+				}
 			}
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
@@ -104,21 +106,21 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
 
 	@Override
 	public void endRun() {
-		__end=true;
+		__end = true;
 	}
-	
+
 	@Override
 	public HashMap<String, Var> localVariableStack() {
 		return variables_;
 	}
-	
+
 	@Override
 	public void addFunctionDefinition(FunctionBlock f) {
 		System.err
 				.println("something wrong! you can not define a function in a "
 						+ getClass().getSimpleName());
 	}
-	
+
 	@Override
 	public FunctionBlock getFunctionDefinition(String past, int nargs) {
 		return parent_.getFunctionDefinition(past, nargs);

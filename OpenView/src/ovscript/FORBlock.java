@@ -5,9 +5,9 @@ import java.util.HashMap;
 import core.Value;
 
 public class FORBlock extends AbstractBlock implements CodeBlock {
-	private Block initalization_=null;
-	private Block condition_=null;
-	private Block operation_=null;
+	private Block initalization_ = null;
+	private Block condition_ = null;
+	private Block operation_ = null;
 
 	private Block body_;
 
@@ -22,15 +22,14 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		parent_ = parent;
 	}
 
-	public FORBlock(CodeBlock block, String i, String c,
-			String o) {
+	public FORBlock(CodeBlock block, String i, String c, String o) {
 		super("for");
 		parent_ = block;
-		if (i.length()>0)
-			initalization_=Parser.parseLine(this, i, new String[0]).block;
-		condition_=Parser.parseLine(this, c, new String[0]).block;
-		if (o.length()>0)
-			operation_=Parser.parseLine(this, o, new String[0]).block;
+		if (i.length() > 0)
+			initalization_ = Parser.parseLine(this, i, new String[0]).block;
+		condition_ = Parser.parseLine(this, c, new String[0]).block;
+		if (o.length() > 0)
+			operation_ = Parser.parseLine(this, o, new String[0]).block;
 	}
 
 	@Override
@@ -70,12 +69,14 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
-			if (i == 0) {
-				b = rs.block;
-				this.setBody(b);
-			} else {
-				b.setNext(rs.block);
-				b = rs.block;
+			if (rs.block != null) {
+				if (b == null) {
+					b = rs.block;
+					this.setBody(b);
+				} else {
+					b.setNext(rs.block);
+					b = rs.block;
+				}
 			}
 			i += rs.lines;
 			if (b instanceof ENDBlock) {

@@ -28,10 +28,10 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public Value run(CodeBlock i) {
 		if (!definition_) {
-			for (String s: args_.keySet()){
-				getVar(s).value=args_.get(s).run(this);
+			for (String s : args_.keySet()) {
+				getVar(s).value = args_.get(s).run(this);
 			}
-			
+
 			parent_ = i;
 			return runBlock(body_, this);
 		} else
@@ -49,16 +49,18 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 		code_ = lines;
 		Block b = null;
 		while (i < lines.length) {
-			String line=Parser.clean(lines[i]);
+			String line = Parser.clean(lines[i]);
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = Parser.parseLine(this, line, copy);
-			if (i == 0) {
-				b = rs.block;
-				this.setBody(b);
-			} else {
-				b.setNext(rs.block);
-				b = rs.block;
+			if (rs.block != null) {
+				if (b == null) {
+					b = rs.block;
+					this.setBody(b);
+				} else {
+					b.setNext(rs.block);
+					b = rs.block;
+				}
 			}
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
@@ -88,9 +90,9 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	public void init(Block... vars) {
 		if (vars.length == args_.size()) {
 			definition_ = false;
-			String args[]=args_.keySet().toArray(new String[args_.size()]);
+			String args[] = args_.keySet().toArray(new String[args_.size()]);
 			for (int i = 0; i < vars.length; i++) {
-				args_.put(args[i],vars[i]);
+				args_.put(args[i], vars[i]);
 			}
 		}
 
@@ -143,15 +145,15 @@ public class FunctionBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	protected Value runBlock(Block body, CodeBlock i) {
 		Block b = body;
-		Value last = new Value();
 		while (b != null && !__end) {
-			if (b instanceof ReturnBlock)
-				last = b.run(i);
+			if (b instanceof ReturnBlock){
+				return  b.run(i);
+			}
 			else
 				b.run(i);
 			b = b.next();
 		}
-		return last;
+		return new Value();
 	}
 
 	@Override

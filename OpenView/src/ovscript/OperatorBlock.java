@@ -18,13 +18,14 @@ public class OperatorBlock extends AbstractBlock {
     @Override
     public Value run(CodeBlock i) {
         ArrayList<Value> operands = new   ArrayList<Value>();
-        if (right_ != null) {
-            operands.add( right_.run(i));
-        }
         if (left_ != null) {
             operands.add(left_.run(i));
         }
 
+        if (right_ != null) {
+            operands.add( right_.run(i));
+        }
+ 
         try {
             return operator_.evaluate(operands.toArray(new Value[operands.size()]));
         } catch (Exception e) {

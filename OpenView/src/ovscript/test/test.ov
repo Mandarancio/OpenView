@@ -1,12 +1,13 @@
 #Next step is to implement the function concept
 
-function sum(a,b)
-	return a+b
+function setX(x)
+	if x<5
+		return 5
+	elif x>15
+		return 15
+	end
+	return x
 end
 
-function diff(a,b)
-	return a-b
-end
 
-print(sum(1,2))
-print(diff(1,2))
+print(setX(20))
