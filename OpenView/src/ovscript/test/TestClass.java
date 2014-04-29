@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import ovscript.Block;
-import ovscript.InterpreterBlock;
+import ovscript.Interpreter;
 
 public class TestClass {
 	public static void main(String[] args) throws IOException {
@@ -23,7 +23,7 @@ public class TestClass {
 			}
 			String code = sb.toString();
 			
-			InterpreterBlock i=new InterpreterBlock();
+			Interpreter i=new Interpreter();
 			Block b=i.parse(code);
 			i.setDebug(true);
 			i.run(b);

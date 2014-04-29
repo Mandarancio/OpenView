@@ -5,7 +5,7 @@ import java.util.HashMap;
 import core.Value;
 import evaluator.operators.OperatorManager;
 
-public class InterpreterBlock {
+public class Interpreter {
 	public static String DEND="STOP", DPRINT="PRINT";
 	private class ReturnStruct {
 

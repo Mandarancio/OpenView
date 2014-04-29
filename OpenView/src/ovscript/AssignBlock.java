@@ -18,7 +18,7 @@ public class AssignBlock extends AbstractBlock{
 
 
 	@Override
-	public Value run(InterpreterBlock i) {
+	public Value run(Interpreter i) {
 		Value v=rightExp_.run(i);
 		var_.value=v;
 		return var_.run(i);

@@ -23,7 +23,7 @@ public class Const extends AbstractBlock{
 	}
 	
 	@Override
-	public Value run(InterpreterBlock i){
+	public Value run(Interpreter i){
 		return value_;
 	}
 }

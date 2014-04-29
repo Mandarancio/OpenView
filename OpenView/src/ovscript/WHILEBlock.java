@@ -14,7 +14,7 @@ public class WHILEBlock extends AbstractBlock {
 	}
 	
 	@Override
-	public Value run(InterpreterBlock i) {
+	public Value run(Interpreter i) {
 		try{
 			while (condition_.run(i).getBoolean()){
 				runBlock(body_,i);

@@ -22,7 +22,7 @@ public class IFBlock extends AbstractBlock {
 	}
 
 	@Override
-	public Value run(InterpreterBlock i) {
+	public Value run(Interpreter i) {
 		Value v = condition_.run(i);
 		boolean b = false;
 		try {

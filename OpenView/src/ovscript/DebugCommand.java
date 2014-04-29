@@ -9,7 +9,7 @@ public class DebugCommand extends AbstractBlock{
 	}
 
 	@Override
-	public Value run(InterpreterBlock i) {
+	public Value run(Interpreter i) {
 		i.debug(name());
 		return new Value();
 	}

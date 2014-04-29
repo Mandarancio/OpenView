@@ -17,7 +17,7 @@ public class FORBlock extends AbstractBlock {
 	}
 
 	@Override
-	public Value run(InterpreterBlock i) {
+	public Value run(Interpreter i) {
 		try{
 			if (initalization_!=null)
 			initalization_.run(i);
