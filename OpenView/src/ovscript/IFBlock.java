@@ -22,32 +22,26 @@ public class IFBlock extends AbstractBlock {
 	}
 
 	@Override
-	public Value run() {
-		Value v = condition_.run();
+	public Value run(InterpreterBlock i) {
+		Value v = condition_.run(i);
 		boolean b = false;
 		try {
 			b = v.getBoolean();
 		} catch (Exception e) {
 		}
 		if (b) {
-			runBlock(body_);
+			runBlock(body_,i);
 		} else {
 
 			if (else_ != null) {
 				
-				return else_.run();
+				return else_.run(i);
 			} 
 		}
 		return new Value(Void.TYPE);
 	}
 
-	private void runBlock(Block body) {
-		while(body!=null){
-			body.run();
-			body=body.next();
-		}
-	}
-
+	
 	public void setCondition(Block b) {
 		condition_ = b;
 	}

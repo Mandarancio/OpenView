@@ -6,7 +6,7 @@ import core.Value;
 import evaluator.operators.OperatorManager;
 
 public class InterpreterBlock {
-
+	public static String DEND="STOP", DPRINT="PRINT";
 	private class ReturnStruct {
 
 		public Block block;
@@ -20,14 +20,32 @@ public class InterpreterBlock {
 
 	private HashMap<String, Var> variables_ = new HashMap<>();
 	private OperatorManager operators_ = new OperatorManager();
+	private boolean debug_=false;
+	private boolean __end=false;
 
 	public void run(Block block) {
 		Block b = block;
 		while (b != null) {
-
-			b.run();
-
+		
+			b.run(this);
+			if (__end){
+				return;
+			}
 			b = b.next();
+		}
+	}
+
+	public void debug(String name) {
+		if (!debug_)
+			return;
+		if (name.equals(DPRINT)){
+			System.out.println("VARABLE STATUS:");
+			for (String s: variables_.keySet()){
+				System.out.println( "  "+s + " : "+ variables_.get(s).value);
+			}
+			System.out.println("_______________");
+		}else if (name.equals(DEND)){
+			__end=true;
 		}
 	}
 
@@ -62,9 +80,15 @@ public class InterpreterBlock {
 	}
 
 	private ReturnStruct parseLine(String l, String nextLines[]) {
-		if (l.length() == 0)
+		if (l.length() == 0 )
 			return new ReturnStruct(null, 1);
 		String line = clean(l);
+		if (line.length() == 0 || line.startsWith("#"))
+			return new ReturnStruct(null, 1);
+		else if (line.startsWith("@")){
+			//debug option
+			return new ReturnStruct(new DebugCommand(line.substring(1)), 1);
+		}
 		char c = line.charAt(0);
 		char c_past = line.charAt(0);
 		String past = "" + c_past;
@@ -203,13 +227,19 @@ public class InterpreterBlock {
 
 		FORBlock fb = new FORBlock(init, cond, oper);
 		int i = 0;
+		Block b=null;
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = parseLine(lines[i], copy);
-			Block b = rs.block;
-			if (i == 0)
+			if (i == 0){
+				b=rs.block;
 				fb.setBody(b);
+			}
+			else {
+				b.setNext(rs.block);
+				b=rs.block;
+			}
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
 				fb.setNext(b);
@@ -224,13 +254,18 @@ public class InterpreterBlock {
 		Block cond = parseLine(l, lines).block;
 		WHILEBlock fb = new WHILEBlock(cond);
 		int i = 0;
+		Block b=null;
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = parseLine(lines[i], copy);
-			Block b = rs.block;
-			if (i == 0)
+			if (i == 0){
+				b=rs.block;
 				fb.setBody(b);
+			}else{
+				b.setNext(rs.block);
+				b=rs.block;
+			}
 			i += rs.lines;
 			if (b instanceof ENDBlock) {
 				fb.setNext(b);
@@ -308,14 +343,11 @@ public class InterpreterBlock {
 		}
 	}
 
-	public static void main(String[] args) {
-		String test = "a=1\n" + "while a<10\n" + " a+=a\n" + "end\n" + "print(a)\n";
-
-		InterpreterBlock i = new InterpreterBlock();
-
-		Block b = i.parse(test);
-		i.run(b);
-		System.exit(0);
+	public void setDebug(boolean f) {
+		debug_=f;
 	}
-
+	
+	public boolean isDebug(){
+		return debug_;
+	}
 }

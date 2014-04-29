@@ -17,12 +17,12 @@ public class FORBlock extends AbstractBlock {
 	}
 
 	@Override
-	public Value run() {
+	public Value run(InterpreterBlock i) {
 		try{
-			initalization_.run();
-			while (condition_.run().getBoolean()){
-				runBlock(body_);
-				operation_.run();
+			initalization_.run(i);
+			while (condition_.run(i).getBoolean()){
+				runBlock(body_,i);
+				operation_.run(i);
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -38,13 +38,7 @@ public class FORBlock extends AbstractBlock {
 		this.body_ = body_;
 	}
 	
-	private void runBlock(Block body){
-		Block b=body;
-		while(b!=null){
-			b.run();
-			b=b.next();
-		}
-	}
+
 
 
 }

@@ -32,4 +32,12 @@ public abstract class AbstractBlock implements Block {
 	public boolean isBinary() {
 		return false;
 	}
+	
+	protected void runBlock(Block body,InterpreterBlock i){
+		Block b=body;
+		while(b!=null){
+			b.run(i);
+			b=b.next();
+		}
+	}
 }

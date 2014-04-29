@@ -2,6 +2,7 @@ package ovscript;
 
 import core.Value;
 import evaluator.operators.Operator;
+
 import java.util.ArrayList;
 
 public class OperatorBlock extends AbstractBlock {
@@ -15,13 +16,13 @@ public class OperatorBlock extends AbstractBlock {
     }
 
     @Override
-    public Value run() {
+    public Value run(InterpreterBlock i) {
         ArrayList<Value> operands = new   ArrayList<Value>();
         if (left_ != null) {
-            operands.add(left_.run());
+            operands.add(left_.run(i));
         }
         if (right_ != null) {
-            operands.add( right_.run());
+            operands.add( right_.run(i));
         }
         try {
             return operator_.evaluate(operands.toArray(new Value[operands.size()]));

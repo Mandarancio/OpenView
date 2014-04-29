@@ -12,8 +12,8 @@ public class PrintBlock extends AbstractBlock{
 	}
 
 	@Override
-	public Value run() {
-		Value v=body_.run();
+	public Value run(InterpreterBlock i) {
+		Value v=body_.run( i);
 		System.out.println(v);
 		return v;
 	}

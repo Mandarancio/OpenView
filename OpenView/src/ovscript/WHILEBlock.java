@@ -14,10 +14,10 @@ public class WHILEBlock extends AbstractBlock {
 	}
 	
 	@Override
-	public Value run() {
+	public Value run(InterpreterBlock i) {
 		try{
-			while (condition_.run().getBoolean()){
-				runBlock(body_);
+			while (condition_.run(i).getBoolean()){
+				runBlock(body_,i);
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -33,11 +33,5 @@ public class WHILEBlock extends AbstractBlock {
 		this.body_ = body_;
 	}
 	
-	private void runBlock(Block body){
-		Block b=body;
-		while(b!=null){
-			b.run();
-			b=b.next();
-		}
-	}
+
 }

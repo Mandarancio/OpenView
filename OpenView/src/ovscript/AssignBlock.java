@@ -18,11 +18,10 @@ public class AssignBlock extends AbstractBlock{
 
 
 	@Override
-	public Value run() {
-		Value v=rightExp_.run();
+	public Value run(InterpreterBlock i) {
+		Value v=rightExp_.run(i);
 		var_.value=v;
-//		System.out.println(var_.name()+"="+v);
-		return var_.run();
+		return var_.run(i);
 	}
 
 
