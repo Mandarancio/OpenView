@@ -10,7 +10,7 @@ public class Interpreter implements CodeBlock {
 
 
 	private HashMap<String, Var> variables_ = new HashMap<>();
-	private ArrayList<FunctionBlock> functions_=new ArrayList<>();
+	private ArrayList<Function> functions_=new ArrayList<>();
 	private boolean debug_ = false;
 	private boolean __end = false;
 
@@ -107,13 +107,13 @@ public class Interpreter implements CodeBlock {
 	}
 
 	@Override
-	public void addFunctionDefinition(FunctionBlock f) {
+	public void addFunctionDefinition(Function f) {
 		functions_.add(f);
 	}
 	
 	@Override
-	public FunctionBlock getFunctionDefinition(String past, int nargs) {
-		for (FunctionBlock f: functions_){
+	public Function getFunctionDefinition(String past, int nargs) {
+		for (Function f: functions_){
 			if (f.name().equals(past) && f.args()==nargs)
 				return f;
 		}

@@ -74,7 +74,7 @@ public class Parser {
 			} else {
 				String name = def[0];
 				String args = def[1].replace(")", "");
-				FunctionBlock fb = new FunctionBlock(block,name, args.split(","));
+				Function fb = new Function(block,name, args.split(","));
 				String copy[] = new String[nextLines.length - 1];
 				System.arraycopy(nextLines, 1, copy, 0, copy.length);
 				block.addFunctionDefinition(fb);
@@ -148,7 +148,7 @@ public class Parser {
 					return new ReturnStruct(new PrintBlock(b), 1);
 				} else {
 					int nargs = line.substring(i - 1).split(",").length;
-					FunctionBlock fb = block.getFunctionDefinition(past, nargs);
+					Function fb = block.getFunctionDefinition(past, nargs);
 					if (fb != null) {
 						String args[]=line.substring(i ).replace(")","").split(",");
 						Block blocks[]=new Block[nargs];

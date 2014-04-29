@@ -133,14 +133,14 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public void addFunctionDefinition(FunctionBlock f) {
+	public void addFunctionDefinition(Function f) {
 		System.err
 				.println("something wrong! you can not define a function in a "
 						+ getClass().getSimpleName());
 	}
 
 	@Override
-	public FunctionBlock getFunctionDefinition(String past, int nargs) {
+	public Function getFunctionDefinition(String past, int nargs) {
 		return parent_.getFunctionDefinition(past, nargs);
 	}
 
