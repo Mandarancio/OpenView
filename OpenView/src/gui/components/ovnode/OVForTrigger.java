@@ -29,14 +29,23 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 		super(father);
 
 		Setting s = new Setting(Start, 0.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
+		
 		s = new Setting(Stop, 10.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
+		
 		s = new Setting(Step, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
+		
 		s = new Setting(Delay, 0, 0, 10000);
+		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
+		
 		s = new Setting(EndTrigger, false);
+		s.setGuiMode(false);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 
 		trigger_ = addOutput("Trigger", ValueType.VOID);
@@ -49,6 +58,8 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 	}
 
 	private void run() {
+		if (!getMode().isExec())
+			return;
 		(new Thread() {
 			@Override
 			public void run() {
@@ -57,7 +68,6 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 					double stop = getSetting(Stop).getValue().getDouble();
 					double step = getSetting(Step).getValue().getDouble();
 					int delay = getSetting(Delay).getValue().getInt();
-					System.out.println("delay : "+delay);
 					if (step < 0) {
 						if (i < stop) {
 							double tmp = i;
@@ -68,6 +78,7 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 							if (status_ == false)
 								break;
 							trigger_.trigger(new Value());
+							System.out.println("index: " + i);
 							index_.trigger(new Value(i));
 							if (delay > 0) {
 								Thread.sleep(delay);
@@ -116,13 +127,12 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 	public void valueUpdated(Setting s, Value v) {
 		if (s.getName().equals(EndTrigger)) {
 			try {
-				boolean b=v.getBoolean();
-				if (b && endTrigger_==null){
-					endTrigger_=addOutput("End trigger", ValueType.VOID);
-				}
-				else if (!b && endTrigger_!=null){
+				boolean b = v.getBoolean();
+				if (b && endTrigger_ == null) {
+					endTrigger_ = addOutput("End trigger", ValueType.VOID);
+				} else if (!b && endTrigger_ != null) {
 					removeOutput(endTrigger_);
-					endTrigger_=null;
+					endTrigger_ = null;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

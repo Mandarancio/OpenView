@@ -210,7 +210,12 @@ public class Setting implements SlotListener {
 		if (mode_ != this.mode_) {
 			this.mode_ = mode_;
 			if (mode_ == EditorMode.RUN) {
-				value_ = new Value(values_.get(EditorMode.GUI).getData());
+				
+				if (guiMode_)
+					value_ = new Value(values_.get(EditorMode.GUI).getData());
+				else 
+					value_=new Value(value_.getData());
+				
 				if (outNode_ != null)
 					outNode_.setValue(value_);
 			} else if (mode_ == EditorMode.DEBUG) {
