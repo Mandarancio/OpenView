@@ -6,10 +6,53 @@
 
 package ovscript;
 
+import core.Value;
+import evaluator.functions.Function;
+
 /**
- *
+ * 
  * @author martino
  */
-public class FunctionBlock {
-    
+public class FunctionBlock extends AbstractBlock {
+
+	private Function function_;
+	private Block[] args_;
+
+	public FunctionBlock(Function f) {
+		super("function");
+		function_ = f;
+	}
+	
+	public FunctionBlock(Function f,Block... args) {
+		this(f);
+		setArguments(args);
+	}
+
+	@Override
+	public Value run(CodeBlock b) {
+		if (args_ != null || getArgsNumber()==0) {
+			Value[] vals = new Value[getArgsNumber()];
+			for (int i = 0; i < vals.length; i++) {
+				vals[i] = args_[i].run(b);
+			}
+			try {
+				Value v = function_.evaluate(vals);
+				return v;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return new Value();
+	}
+
+	public int getArgsNumber() {
+		return function_.input();
+	}
+
+	public void setArguments(Block... args) {
+		if (args.length == getArgsNumber()) {
+			args_ = args;
+		}
+	}
+
 }

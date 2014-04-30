@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import core.Value;
 
-public class Function extends AbstractBlock implements CodeBlock {
+public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 
 	private CodeBlock parent_;
 	private HashMap<String, Var> variables_ = new HashMap<>();
@@ -16,7 +16,7 @@ public class Function extends AbstractBlock implements CodeBlock {
 	private CodeBlock defPar_;
 	private String[] args_;
 
-	public Function(CodeBlock defPar, String name, String[] args) {
+	public FunctionDefinition(CodeBlock defPar, String name, String[] args) {
 		super(name);
 		defPar_ = defPar;
 		for (int i=0;i<args.length;i++) {
@@ -26,7 +26,7 @@ public class Function extends AbstractBlock implements CodeBlock {
 		args_=args;
 		definition_ = true;
 	}
-
+	
 	@Override
 	public Value run(CodeBlock i) {
 		if (!definition_) {
@@ -78,10 +78,10 @@ public class Function extends AbstractBlock implements CodeBlock {
 		return run(this);
 	}
 
-	public Function instanciate(Block... vars) {
+	public FunctionDefinition instanciate(Block... vars) {
 		if (vars.length == argsBlock_.size()) {
 			
-			Function fb = new Function(defPar_, name(), args_);
+			FunctionDefinition fb = new FunctionDefinition(defPar_, name(), args_);
 			fb.init(vars);
 			fb.parse(code_);
 			return fb;
@@ -159,14 +159,14 @@ public class Function extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public void addFunctionDefinition(Function f) {
+	public void addFunctionDefinition(FunctionDefinition f) {
 		System.err
 				.println("something wrong! you can not define a function in a "
 						+ getClass().getSimpleName());
 	}
 
 	@Override
-	public Function getFunctionDefinition(String past, int nargs) {
+	public FunctionDefinition getFunctionDefinition(String past, int nargs) {
 		return defPar_.getFunctionDefinition(past, nargs);
 	}
 

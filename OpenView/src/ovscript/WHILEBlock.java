@@ -137,14 +137,14 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
     }
 
     @Override
-    public void addFunctionDefinition(Function f) {
+    public void addFunctionDefinition(FunctionDefinition f) {
         System.err
                 .println("something wrong! you can not define a function in a "
                         + getClass().getSimpleName());
     }
 
     @Override
-    public Function getFunctionDefinition(String past, int nargs) {
+    public FunctionDefinition getFunctionDefinition(String past, int nargs) {
         return parent_.getFunctionDefinition(past, nargs);
     }
 

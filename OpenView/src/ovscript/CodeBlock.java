@@ -16,7 +16,7 @@ public interface CodeBlock {
 	public void putVar(String name, Var v);
 	public Var getVar(String name);
 	public void endRun();
-	public void addFunctionDefinition(Function f);
-	public Function getFunctionDefinition(String past, int nargs);
+	public void addFunctionDefinition(FunctionDefinition f);
+	public FunctionDefinition getFunctionDefinition(String past, int nargs);
 
 }

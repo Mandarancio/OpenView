@@ -1,11 +1,14 @@
 package ovscript;
 
 import core.Value;
+import evaluator.functions.Function;
+import evaluator.functions.FunctionManager;
 import evaluator.operators.OperatorManager;
 
 public class Parser {
 
 	private static final OperatorManager operators_ = new OperatorManager();
+	private static final FunctionManager functions_ = new FunctionManager();
 
 	public static ReturnStruct parseLine(CodeBlock block, String l,
 			String nextLines[]) {
@@ -74,7 +77,8 @@ public class Parser {
 			} else {
 				String name = def[0];
 				String args = def[1].replace(")", "");
-				Function fb = new Function(block,name, args.split(","));
+				FunctionDefinition fb = new FunctionDefinition(block, name,
+						args.split(","));
 				String copy[] = new String[nextLines.length - 1];
 				System.arraycopy(nextLines, 1, copy, 0, copy.length);
 				block.addFunctionDefinition(fb);
@@ -148,15 +152,26 @@ public class Parser {
 					return new ReturnStruct(new PrintBlock(b), 1);
 				} else {
 					int nargs = line.substring(i - 1).split(",").length;
-					Function fb = block.getFunctionDefinition(past, nargs);
+					FunctionDefinition fb = block.getFunctionDefinition(past,
+							nargs);
 					if (fb != null) {
-						String args[]=line.substring(i ).replace(")","").split(",");
-						Block blocks[]=new Block[nargs];
-						for (int j=0;j<nargs;j++){
-							blocks[j]=parseLine(block, args[j], new String[0]).block;
+						String args[] = line.substring(i).replace(")", "")
+								.split(",");
+						Block blocks[] = new Block[nargs];
+						for (int j = 0; j < nargs; j++) {
+							blocks[j] = parseLine(block, args[j], new String[0]).block;
 						}
-						return new ReturnStruct(fb.instanciate(blocks),1);
+						return new ReturnStruct(fb.instanciate(blocks), 1);
 
+					} else if (functions_.get(past) != null) {
+						Function f=functions_.get(past);
+						String args[] = line.substring(i).replace(")", "")
+								.split(",");
+						Block blocks[] = new Block[nargs];
+						for (int j = 0; j < nargs; j++) {
+							blocks[j] = parseLine(block, args[j], new String[0]).block;
+						}
+						return new ReturnStruct(new FunctionBlock(f,blocks), 1);
 					} else {
 						int pc = 1;
 						for (; i < line.length(); i++) {

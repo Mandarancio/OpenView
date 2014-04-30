@@ -1,19 +1,12 @@
 #Next step is to implement the function concept
 
-function fact(n)
-    if n<=0
-        return 1
-    else
-        return n*fact(n-1)
-    end
+v=0
+n=100
+
+for i=0,i<n,i++
+	v+=rand()
 end
 
-i=0
-a=0
+v/=n
 
-while i<10
-    a+=fact(i)
-    i++
-end
-
-print(a)
+print(v)
