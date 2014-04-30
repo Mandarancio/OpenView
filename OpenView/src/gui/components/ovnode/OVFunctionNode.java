@@ -44,15 +44,15 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 
 	public OVFunctionNode(OVContainer father) {
 		super(father);
-		function_ = functionManager.getOperators().get(0);
+		function_ = functionManager.getFunctions().get(0);
 		getSetting(ComponentSettings.Name).setValue("Operator");
 		output_ = addOutput("Output", ValueType.VOID);
 		checkInputs();
 
 		Setting s = new Setting(Trigger, triggerMode_);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
-		Value v = new Value(functionManager.getOperators().get(0).name());
-		for (Function o : functionManager.getOperators()) {
+		Value v = new Value(functionManager.getFunctions().get(0).name());
+		for (Function o : functionManager.getFunctions()) {
 			v.getDescriptor().addPossibility(new Value(o.name()));
 		}
 		s = new Setting(Function, v);

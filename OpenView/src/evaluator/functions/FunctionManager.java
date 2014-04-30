@@ -75,7 +75,7 @@ public class FunctionManager {
 		return getFunctionMap().get(key);
 	}
 
-	public ArrayList<Function> getOperators() {
+	public ArrayList<Function> getFunctions() {
 		return functions_;
 	}
 }
