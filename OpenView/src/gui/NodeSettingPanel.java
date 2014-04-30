@@ -258,8 +258,6 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
 				}
 			} else if (s.getType() == ValueType.DOUBLE) {
 				try {
-
-					System.out.println(s.getMin().getDouble()+","+s.getValue().getDouble()+","+s.getMax().getDouble());
 					final JSpinner sp = new JSpinner(new SpinnerNumberModel(s
 							.getValue().getDouble(), s.getMin().getDouble(), s
 							.getMax().getDouble(), 0.01));

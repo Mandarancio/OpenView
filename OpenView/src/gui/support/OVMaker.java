@@ -7,6 +7,7 @@ import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
+import gui.components.ovnode.OVForTrigger;
 import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
 import gui.components.ovnode.OVNodeBlock;
@@ -46,7 +47,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 	private static final String Label = "Label", Button = "Button",
 			TextArea = "Text Area", TextField = "Text Field",
 			Container = "Container", Operator = "Operator", Function="Function",
-			NodeBlock = "Block", IFTrigger = "IF trigger", Random="Random";
+			NodeBlock = "Block", IFTrigger = "IF trigger", Random="Random", For="For trigger";
 	private static final String ProceduralBlock = "Procedural block",
 			Var = "Var",Const="Const",Assign="Assign";
 	private static final String Check="Check box";
@@ -81,10 +82,24 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.addActionListener(this);
 		menu.add(i);
 		
+		JMenu submenu = new JMenu("Triggers");
+		
+		i = new JMenuItem(IFTrigger);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
+		
+		i = new JMenuItem(For);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
+		
 		i = new JMenuItem(Timer);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
-		menu.add(i);
+		submenu.add(i);
+		
+		menu.add(submenu);
 		
 		i = new JMenuItem(Pull);
 		i.setActionCommand(i.getText());
@@ -105,11 +120,6 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);	
-		
-		i = new JMenuItem(IFTrigger);
-		i.setActionCommand(i.getText());
-		i.addActionListener(this);
-		menu.add(i);
 		
 		i = new JMenuItem(NodeBlock);
 		i.setActionCommand(i.getText());
@@ -219,6 +229,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVRandomNode(father_));
 		}else if (cmd.equals(Function)){
 			create(new OVFunctionNode(father_));
+		}else if (cmd.equals(For)){
+			create(new OVForTrigger(father_));
 		}
 	}
 

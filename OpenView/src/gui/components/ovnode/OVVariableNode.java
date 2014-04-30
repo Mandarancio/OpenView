@@ -132,7 +132,6 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 	public void connected(OVNode n) {
 		if (output_.getType() == ValueType.VOID) {
 			value_ = new Value(new ValueDescriptor(input_.getType()));
-			System.out.println("here");
 			output_.setType(input_.getType());
 			repaint();
 		}
