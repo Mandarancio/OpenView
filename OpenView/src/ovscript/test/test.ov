@@ -1,7 +1,7 @@
 #Next step is to implement the function concept
 
 v=0
-n=100
+n=1000
 
 for i=0,i<n,i++
 	v+=rand()

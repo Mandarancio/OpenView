@@ -1,5 +1,6 @@
 package ovscript;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import core.Value;
@@ -13,6 +14,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 
 	private HashMap<String, Var> variables_ = new HashMap<>();
 	private CodeBlock parent_;
+	private String[] code_;
 
 	public FORBlock(CodeBlock parent, Block i, Block c, Block o) {
 		super("for");
@@ -35,6 +37,9 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public Value run(CodeBlock i) {
 		try {
+			if (body_==null){
+				body_=parseForRun();
+			}
 			if (initalization_ != null)
 				initalization_.run(i);
 			while (!__end && condition_.run(i).getBoolean()) {
@@ -60,11 +65,12 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	public CodeBlock parent() {
 		return parent_;
 	}
-
-	@Override
-	public ReturnStruct parse(String[] lines) {
+	
+	private Block parseForRun(){
 		int i = 0;
 		Block b = null;
+		Block first=null;
+        String[] lines=code_;
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
@@ -72,7 +78,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 			if (rs.block != null) {
 				if (b == null) {
 					b = rs.block;
-					this.setBody(b);
+					first=b;
 				} else {
 					b.setNext(rs.block);
 					b = rs.block;
@@ -84,6 +90,31 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 				break;
 			}
 		}
+		return first;
+	}
+
+	@Override
+	public ReturnStruct parse(String[] lines) {
+        int i = 0;
+        int c = 1;
+        ArrayList<String> code = new ArrayList<String>();
+        while (i < lines.length) {
+            String line = Parser.clean(lines[i]);
+            
+            if (line.startsWith("if ") || line.startsWith("for ") || line.startsWith("while ") || line.startsWith("function ")) {
+                c++;
+            } else if (line.equals("end")) {
+                c--;
+            }
+            
+            if (c == 0) {
+                code_ = code.toArray(new String[code.size()]);
+                return new ReturnStruct(this, i + 1);
+            }
+            
+            code.add(line);
+            i++;
+        }
 		return new ReturnStruct(this, i + 1);
 	}
 
