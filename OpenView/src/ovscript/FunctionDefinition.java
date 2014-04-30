@@ -147,14 +147,21 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	@Override
 	protected Value runBlock(Block body, CodeBlock i) {
 		Block b = body;
-		while (b != null && !__end) {
+		Value v=new Value();
+		__return =false;
+		while (b != null && !__end && !__return) {
 			if (b instanceof ReturnBlock){
 				return  b.run(i);
 			}
-			else
-				b.run(i);
+			else{
+				v=b.run(i);
+			}
+			if (b instanceof AbstractBlock && ((AbstractBlock) b).returnStatus()){
+				return v;
+			}
 			b = b.next();
 		}
+		v=null;
 		return new Value();
 	}
 

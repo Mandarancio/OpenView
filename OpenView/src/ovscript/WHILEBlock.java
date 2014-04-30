@@ -23,11 +23,14 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
     @Override
     public Value run(CodeBlock i) {
         try {
+			__return=false;
             if (body_ == null) {
                 body_ = parseForRun();
             }
-            while (!__end && condition_.run(i).getBoolean()) {
-                runBlock(body_, this);
+            while (!__end &&!__return && condition_.run(i).getBoolean()) {
+            	Value v=runBlock(body_, this);
+            	if (__return)
+            		return v;
             }
         } catch (Exception e) {
             e.printStackTrace();

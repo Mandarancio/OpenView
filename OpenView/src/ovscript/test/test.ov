@@ -1,4 +1,11 @@
-#Next step is to implement the function concept
+#recursive functions
+function fact(n)
+	if n<=0
+		return 1
+	else
+		return n*fact(n-1)
+	end
+end
 
 v=0
 n=1000
@@ -9,4 +16,4 @@ end
 
 v/=n
 
-print(v)
+print(fact(10))

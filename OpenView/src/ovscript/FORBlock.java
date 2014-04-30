@@ -37,12 +37,13 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	@Override
 	public Value run(CodeBlock i) {
 		try {
+			__return=false;
 			if (body_==null){
 				body_=parseForRun();
 			}
 			if (initalization_ != null)
 				initalization_.run(i);
-			while (!__end && condition_.run(i).getBoolean()) {
+			while (!__end && !__return && condition_.run(i).getBoolean()) {
 				runBlock(body_, this);
 				if (operation_ != null)
 					operation_.run(this);

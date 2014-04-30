@@ -7,6 +7,7 @@ public abstract class AbstractBlock implements Block {
 	private String name_;
 	private Block next_;
 	protected boolean __end=false;
+	protected boolean __return=false;
 	
 	public AbstractBlock(String name) {
 		name_ = name;
@@ -39,14 +40,22 @@ public abstract class AbstractBlock implements Block {
 	protected Value runBlock(Block body,CodeBlock i){
 		Block b=body;
 		Value last=null;
-		while(b!=null && !__end){
+		while(b!=null && !__end && !__return){
 			last=b.run(i);
-			b=b.next();
+			if (b instanceof ReturnBlock){
+				__return=true;
+				System.out.println("RETURN!");
+			}else
+				b=b.next();
 		}
 		return last;
 	}
 
 	public void endBlock() {
 		__end=true;
+	}
+	
+	public boolean returnStatus(){
+		return __return;
 	}
 }
