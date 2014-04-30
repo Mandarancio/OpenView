@@ -1,10 +1,9 @@
-package gui.components.ovgui;
+package gui.components.ovnode;
 
-import evaluator.operators.Operator;
-import evaluator.operators.OperatorManager;
+import evaluator.functions.Function;
+import evaluator.functions.FunctionManager;
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
-import gui.components.ovnode.OVNodeComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
@@ -22,48 +21,48 @@ import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
 
-public class OVOperatorComponent extends OVNodeComponent implements
-		NodeListener, SlotListener {
+public class OVFunctionNode extends OVNodeComponent implements NodeListener,
+		SlotListener {
 
-	public enum OperatorTriggerMode {
+	public enum FunctionTriggerMode {
 
 		AUTO, EXTERNAL
 	}
 
 	/**
-     *
-     */
+*
+*/
 	private static final long serialVersionUID = -3557751658634230282L;
-	private static final String Trigger = "Trigger", Operator = "Operator";
-	private OperatorManager operatorManager_ = new OperatorManager();
-	private Operator operator_;
+	private static final String Trigger = "Trigger", Function = "Function";
+	private static final FunctionManager functionManager = new FunctionManager();
+	private Function function_;
 	private ArrayList<InNode> opInputs_ = new ArrayList<>();
 	private HashMap<InNode, Value> values_ = new HashMap<>();
 	private OutNode output_;
 	private InNode trigger_;
-	private OperatorTriggerMode triggerMode_ = OperatorTriggerMode.AUTO;
+	private FunctionTriggerMode triggerMode_ = FunctionTriggerMode.AUTO;
 
-	public OVOperatorComponent(OVContainer father) {
+	public OVFunctionNode(OVContainer father) {
 		super(father);
-		operator_ = operatorManager_.getOperators().get(0);
+		function_ = functionManager.getOperators().get(0);
 		getSetting(ComponentSettings.Name).setValue("Operator");
 		output_ = addOutput("Output", ValueType.VOID);
 		checkInputs();
 
 		Setting s = new Setting(Trigger, triggerMode_);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
-		Value v = new Value(operatorManager_.getOperators().get(0).name());
-		for (Operator o : operatorManager_.getOperators()) {
+		Value v = new Value(functionManager.getOperators().get(0).name());
+		for (Function o : functionManager.getOperators()) {
 			v.getDescriptor().addPossibility(new Value(o.name()));
 		}
-		s = new Setting(Operator, v);
+		s = new Setting(Function, v);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 	}
 
 	@Override
 	protected void paintOVNode(Graphics2D g) {
 		g.setColor(getForeground());
-		paintText(operator_.name(), g, new Rectangle(0, 0, 60, 45),
+		paintText(function_.name(), g, new Rectangle(0, 0, 60, 45),
 				OrientationEnum.CENTER);
 		g.setFont(getFont().deriveFont(10.0f));
 		String text = getName();
@@ -74,7 +73,7 @@ public class OVOperatorComponent extends OVNodeComponent implements
 	@Override
 	public void valueRecived(SlotInterface s, Value v) {
 		if (s.equals(trigger_)) {
-			Value[] vals = new Value[operator_.input()];
+			Value[] vals = new Value[function_.input()];
 			int i = 0;
 			for (InNode in : opInputs_) {
 				if (values_.containsKey(in)) {
@@ -85,14 +84,14 @@ public class OVOperatorComponent extends OVNodeComponent implements
 				i++;
 			}
 			try {
-				output_.trigger(operator_.evaluate(vals));
+				output_.trigger(function_.evaluate(vals));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
 			values_.put((InNode) s, v);
-			if (triggerMode_ == OperatorTriggerMode.AUTO) {
-				Value[] vals = new Value[operator_.input()];
+			if (triggerMode_ == FunctionTriggerMode.AUTO) {
+				Value[] vals = new Value[function_.input()];
 				int i = 0;
 				for (InNode in : opInputs_) {
 					if (values_.containsKey(in)) {
@@ -103,7 +102,7 @@ public class OVOperatorComponent extends OVNodeComponent implements
 					i++;
 				}
 				try {
-					output_.trigger(operator_.evaluate(vals));
+					output_.trigger(function_.evaluate(vals));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -115,14 +114,14 @@ public class OVOperatorComponent extends OVNodeComponent implements
 	public void connected(OVNode n) {
 		if (n instanceof InNode) {
 			if (opInputs_.contains(n)) {
-				ValueType inps[] = new ValueType[operator_.input()];
+				ValueType inps[] = new ValueType[function_.input()];
 				int c = 0;
 				for (InNode i : opInputs_) {
 					inps[c] = i.getType();
 					c++;
 				}
 				try {
-					output_.setType(operator_.returnedType(inps));
+					output_.setType(function_.returnedType(inps));
 				} catch (Exception e) {
 					output_.setType(ValueType.VOID);
 					e.printStackTrace();
@@ -135,7 +134,7 @@ public class OVOperatorComponent extends OVNodeComponent implements
 	public void deconneced(OVNode n) {
 		if (n instanceof InNode) {
 			if (opInputs_.contains(n)) {
-				ValueType inps[] = new ValueType[operator_.input()];
+				ValueType inps[] = new ValueType[function_.input()];
 
 				int c = 0;
 				for (InNode i : opInputs_) {
@@ -144,7 +143,7 @@ public class OVOperatorComponent extends OVNodeComponent implements
 				}
 
 				try {
-					output_.setType(operator_.returnedType(inps));
+					output_.setType(function_.returnedType(inps));
 				} catch (Exception e) {
 					output_.setType(ValueType.VOID);
 					e.printStackTrace();
@@ -157,10 +156,10 @@ public class OVOperatorComponent extends OVNodeComponent implements
 	public void valueUpdated(Setting s, Value v) {
 		if (s.getName().equals(Trigger)) {
 			try {
-				OperatorTriggerMode e = (OperatorTriggerMode) v.getEnum();
+				FunctionTriggerMode e = (FunctionTriggerMode) v.getEnum();
 				if (e != triggerMode_) {
 					triggerMode_ = e;
-					if (e == OperatorTriggerMode.AUTO) {
+					if (e == FunctionTriggerMode.AUTO) {
 						this.removeInput(trigger_);
 						trigger_.removeListener(this);
 						trigger_ = null;
@@ -173,8 +172,8 @@ public class OVOperatorComponent extends OVNodeComponent implements
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-		} else if (s.getName().equals(Operator)) {
-			operator_ = operatorManager_.get(v.getString()).clone();
+		} else if (s.getName().equals(Function)) {
+			function_ = functionManager.get(v.getString()).clone();
 			checkInputs();
 			repaint();
 		} else
@@ -183,18 +182,17 @@ public class OVOperatorComponent extends OVNodeComponent implements
 	}
 
 	private void checkInputs() {
-		while (opInputs_.size() > operator_.input()) {
+		while (opInputs_.size() > function_.input()) {
 			InNode n = opInputs_.get(opInputs_.size() - 1);
 			removeInput(n);
 			n.removeListener(this);
 			opInputs_.remove(n);
 		}
-		while (opInputs_.size() < operator_.input()) {
+		while (opInputs_.size() < function_.input()) {
 			InNode in = addInput("in " + (opInputs_.size() + 1), ValueType.VOID);
 			opInputs_.add(in);
 			in.addNodeListener(this);
 			in.addListener(this);
 		}
 	}
-
 }

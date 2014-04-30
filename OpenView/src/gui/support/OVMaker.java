@@ -5,11 +5,12 @@ import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVLabel;
-import gui.components.ovgui.OVOperatorComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
+import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
 import gui.components.ovnode.OVNodeBlock;
+import gui.components.ovnode.OVOperatorNode;
 import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVRandomNode;
 import gui.components.ovnode.OVTimerTriggerNode;
@@ -44,7 +45,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			Variable = "Variable";
 	private static final String Label = "Label", Button = "Button",
 			TextArea = "Text Area", TextField = "Text Field",
-			Container = "Container", Operator = "Operator",
+			Container = "Container", Operator = "Operator", Function="Function",
 			NodeBlock = "Block", IFTrigger = "IF trigger", Random="Random";
 	private static final String ProceduralBlock = "Procedural block",
 			Var = "Var",Const="Const",Assign="Assign";
@@ -88,6 +89,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.addActionListener(this);
 		menu.add(i);
 		i = new JMenuItem(Operator);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		i = new JMenuItem(Function);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
@@ -176,7 +181,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		} else if (cmd.equals(Container)) {
 			create(new OVComponentContainer(father_));
 		} else if (cmd.equals(Operator)) {
-			create(new OVOperatorComponent(father_));
+			create(new OVOperatorNode(father_));
 		} else if (cmd.equals(TextArea)) {
 			create(new OVTextArea(father_));
 		} else if (cmd.equals(NodeBlock)) {
@@ -195,6 +200,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVCheckBox(father_));
 		}else if (cmd.equals(Random)){
 			create(new OVRandomNode(father_));
+		}else if (cmd.equals(Function)){
+			create(new OVFunctionNode(father_));
 		}
 	}
 
