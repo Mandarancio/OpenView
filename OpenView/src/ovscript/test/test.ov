@@ -1,4 +1,5 @@
 #recursive functions
+
 function fact(n)
 	if n<=0
 		return 1
@@ -7,13 +8,6 @@ function fact(n)
 	end
 end
 
-v=0
-n=1000
-
-for i=0,i<n,i++
-	v+=rand()
+for i=0,i<1000,i++
+	fact(rand()*10)
 end
-
-v/=n
-
-print(fact(10))
