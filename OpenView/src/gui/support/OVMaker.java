@@ -69,75 +69,89 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		} else if (mode == OVMakerMode.NODEONLY) {
 			initNode();
 		} else if (mode == OVMakerMode.PROCEDURAL) {
-			initProcedural();
+//			initProcedural();
 		}
 	}
 
 	private void initNode() {
 		JMenu menu = new JMenu("Basic Node");
-
+		
 		JMenuItem i = new JMenuItem(Variable);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Timer);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Pull);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Operator);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Function);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Random);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);	
+		
 		i = new JMenuItem(IFTrigger);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(NodeBlock);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		i = new JMenuItem(ProceduralBlock);
-		i.setActionCommand(i.getText());
-		i.addActionListener(this);
-		menu.add(i);
-		
+//		
+//		i = new JMenuItem(ProceduralBlock);
+//		i.setActionCommand(i.getText());
+//		i.addActionListener(this);
+//		menu.add(i);
+//		
 		add(menu);
 	}
 
 	private void initGUI() {
 		JMenu menu = new JMenu("Basic GUI");
+		
 		JMenuItem i = new JMenuItem(Label);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Button);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(TextField);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(TextArea);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Check);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
 		i = new JMenuItem(Container);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
@@ -146,22 +160,25 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 
 	}
 
-	private void initProcedural() {
-		JMenu menu = new JMenu("Procedural");
-		JMenuItem i = new JMenuItem(Var);
-		i.setActionCommand(i.getText());
-		i.addActionListener(this);
-		menu.add(i);
-		i = new JMenuItem(Const);
-		i.setActionCommand(i.getText());
-		i.addActionListener(this);
-		menu.add(i);
-		i = new JMenuItem(Assign);
-		i.setActionCommand(i.getText());
-		i.addActionListener(this);
-		menu.add(i);
-		add(menu);
-	}
+//	private void initProcedural() {
+//		JMenu menu = new JMenu("Procedural");
+//		
+//		JMenuItem i = new JMenuItem(Var);
+//		i.setActionCommand(i.getText());
+//		i.addActionListener(this);
+//		menu.add(i);
+//		
+//		i = new JMenuItem(Const);
+//		i.setActionCommand(i.getText());
+//		i.addActionListener(this);
+//		menu.add(i);
+//		
+//		i = new JMenuItem(Assign);
+//		i.setActionCommand(i.getText());
+//		i.addActionListener(this);
+//		menu.add(i);
+//		add(menu);
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

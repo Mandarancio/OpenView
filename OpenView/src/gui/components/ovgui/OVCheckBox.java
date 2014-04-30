@@ -55,7 +55,8 @@ public class OVCheckBox extends OVComponent {
 					select();
 			}
 		});
-
+		getSetting(ComponentSettings.SizeW).setValue(120);
+		getSetting(ComponentSettings.SizeH).setValue(45);
 	}
 
 	@Override
