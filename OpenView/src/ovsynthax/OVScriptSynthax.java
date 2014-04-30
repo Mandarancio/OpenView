@@ -36,13 +36,12 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 		tokenMap.put("@WAIT", Token.PREPROCESSOR);
 		tokenMap.put("@BREAK", Token.PREPROCESSOR);
 
-
 		tokenMap.put("#", Token.COMMENT_EOL);
 
 		tokenMap.put("print", Token.FUNCTION);
 		for (Function f : functions_.getFunctions())
 			tokenMap.put(f.name(), Token.FUNCTION);
-		
+
 		tokenMap.put("++", Token.OPERATOR);
 		tokenMap.put("--", Token.OPERATOR);
 		tokenMap.put("+=", Token.OPERATOR);
@@ -51,7 +50,7 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 		tokenMap.put("/=", Token.OPERATOR);
 		for (Operator o : operators_.getOperators())
 			tokenMap.put(o.name(), Token.OPERATOR);
-		wordsToHighlight=tokenMap;
+		wordsToHighlight = tokenMap;
 	}
 
 	@Override
@@ -71,57 +70,68 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 
 		currentTokenStart = offset;
 		currentTokenType = startTokenType;
+		char c;
+		for (int i = offset; i < end - 1; i++) {
 
-		for (int i = offset; i < end; i++) {
-
-			char c = array[i];
+			c = array[i];
 
 			switch (currentTokenType) {
-			case Token.OPERATOR:
-				currentTokenType=Token.OPERATOR;
-				i++;
-				break;
+
 			case Token.NULL:
 
 				currentTokenStart = i; // Starting a new token here.
-
-				switch (c) {
-				case '(': 
-				case ')':
-				case ' ':
-				case '=':
-				case '\t':
+				if (c == ' ' || c == '(' || c == ')' || c == '\t') {
 					currentTokenType = Token.WHITESPACE;
-					break;
-
-				case '\'':
+				} else if (c == '\'' || c == '\"') {
 					currentTokenType = Token.LITERAL_STRING_DOUBLE_QUOTE;
-					break;
-
-				case '#':
+				} else if (c == '#') {
 					currentTokenType = Token.COMMENT_EOL;
-					break;
-				case '@':
+				} else if (c == '@') {
 					currentTokenType = Token.PREPROCESSOR;
-					break;
-
-				default:
-					if (RSyntaxUtilities.isDigit(c)) {
-						currentTokenType = Token.LITERAL_NUMBER_DECIMAL_INT;
-						break;
-					} else if (RSyntaxUtilities.isLetter(c) || c == '/'
-							|| c == '_') {
-						currentTokenType = Token.IDENTIFIER;
-						break;
-					}
-
-					// Anything not currently handled - mark as an identifier
-					currentTokenType = Token.IDENTIFIER;
-					break;
-
-				} // End of switch (c).
-
-				break;
+				} else if (tokenMap.get(array, i, i + 1) == Token.OPERATOR) {
+					currentTokenType = Token.OPERATOR;
+					i++;
+				} else if (tokenMap.get(array,i,i)==Token.OPERATOR){
+					currentTokenType=Token.OPERATOR;
+					System.out.println("here");
+				}
+				// switch (c) {
+				// case '(':
+				// case ')':
+				// case ' ':
+				// case '=':
+				// case '\t':
+				// currentTokenType = Token.WHITESPACE;
+				// break;
+				//
+				// case '\'':
+				// currentTokenType = Token.LITERAL_STRING_DOUBLE_QUOTE;
+				// break;
+				//
+				// case '#':
+				// currentTokenType = Token.COMMENT_EOL;
+				// break;
+				// case '@':
+				// currentTokenType = Token.PREPROCESSOR;
+				// break;
+				//
+				// default:
+				// if (RSyntaxUtilities.isDigit(c)) {
+				// currentTokenType = Token.LITERAL_NUMBER_DECIMAL_INT;
+				// break;
+				// } else if (RSyntaxUtilities.isLetter(c) || c == '/'
+				// || c == '_') {
+				// currentTokenType = Token.IDENTIFIER;
+				// break;
+				// }
+				//
+				// // Anything not currently handled - mark as an identifier
+				// currentTokenType = Token.IDENTIFIER;
+				// break;
+				//
+				// } // End of switch (c).
+				//
+				// break;
 
 			case Token.WHITESPACE:
 
@@ -130,7 +140,7 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 				case '(':
 				case ')':
 				case ' ':
-			
+
 				case '\t':
 					break; // Still whitespace.
 
@@ -208,7 +218,7 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 				switch (c) {
 
 				case ' ':
-	
+
 				case '\t':
 					addToken(text, currentTokenStart, i - 1,
 							Token.LITERAL_NUMBER_DECIMAL_INT, newStartOffset
@@ -293,17 +303,18 @@ public class OVScriptSynthax extends AbstractTokenMaker {
 	public TokenMap getWordsToHighlight() {
 		return tokenMap;
 	}
-	
-	@Override
-	public void addToken(Segment segment, int start, int end, int tokenType, int startOffset) {
-	   // This assumes all keywords, etc. were parsed as "identifiers."
-	   if (tokenType==Token.IDENTIFIER) {
 
-	      int value = tokenMap.get(segment, start, end);
-	      if (value != -1) {
-	         tokenType = value;
-	      }
-	   }
-	   super.addToken(segment, start, end, tokenType, startOffset);
+	@Override
+	public void addToken(Segment segment, int start, int end, int tokenType,
+			int startOffset) {
+		// This assumes all keywords, etc. were parsed as "identifiers."
+		if (tokenType == Token.IDENTIFIER) {
+
+			int value = tokenMap.get(segment, start, end);
+			if (value != -1) {
+				tokenType = value;
+			}
+		}
+		super.addToken(segment, start, end, tokenType, startOffset);
 	}
 }
