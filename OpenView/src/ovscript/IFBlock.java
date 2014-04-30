@@ -5,10 +5,10 @@
  */
 package ovscript;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import core.Value;
-import java.util.ArrayList;
 
 /**
  *
@@ -18,7 +18,6 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
     
     private Block condition_;
     private Block else_;
-    private Block body_;
     private CodeBlock parent_;
     private HashMap<String, Var> variables_ = new HashMap<>();
     private String[] code_;
@@ -64,9 +63,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
         else_ = b;
     }
     
-    void setBody(Block first) {
-        body_ = first;
-    }
+ 
     
     @Override
     public CodeBlock parent() {
@@ -97,7 +94,6 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
                     if (first == null) {
                         first = b;
                         last = b;
-                        this.setBody(first);
                     } else {
                         last.setNext(b);
                         last = b;

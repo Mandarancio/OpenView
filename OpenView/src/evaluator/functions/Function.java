@@ -2,7 +2,6 @@ package evaluator.functions;
 
 import core.Value;
 import core.ValueType;
-import evaluator.EvalException;
 
 public interface Function {
 	public String name();
