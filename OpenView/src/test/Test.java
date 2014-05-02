@@ -14,7 +14,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import ovsynthax.OVScriptSynthax;
+import ovsynthax.OVScriptTokenMaker;
 
 public class Test extends JFrame {
 
@@ -40,7 +40,7 @@ public class Test extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory)TokenMakerFactory.getDefaultInstance();
-		atmf.putMapping("text/OVScript", OVScriptSynthax.class.getCanonicalName());
+		atmf.putMapping("text/OVScript", OVScriptTokenMaker.class.getCanonicalName());
 		textArea.setSyntaxEditingStyle("text/OVScript");
 	}
 
