@@ -3,7 +3,6 @@ package gui;
 import gui.adapters.ContainerMouseAdapter;
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
-import gui.components.ovprocedural.OVProceduralNode;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
@@ -408,8 +407,7 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 
 	@Override
 	public boolean compatible(OVComponent c) {
-		if (c instanceof OVProceduralNode)
-			return false;
+
 		return true;
 	}
 }

@@ -49,7 +49,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	private OVContainer father_;
 	private boolean selected_ = false;
 	private DragMouseAdapter mouseAdapter_;
-	private HashMap<String, ArrayList<Setting>> settings_ = new HashMap<>();
+	protected HashMap<String, ArrayList<Setting>> settings_ = new HashMap<>();
 	private HashMap<String, ArrayList<Setting>> nodeSettings_ = new HashMap<>();
 
 	protected Line __line = null;
@@ -57,7 +57,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	protected ArrayList<OutNode> outputs_ = new ArrayList<>();
 	protected ArrayList<InNode> inputs_ = new ArrayList<>();
 	protected boolean resizable_ = true;
-	private EditorMode mode_ = EditorMode.GUI;
+	protected EditorMode mode_ = EditorMode.GUI;
 	protected boolean over_ = false;
 	protected boolean container_ = false;
 	protected int __minY = 0;

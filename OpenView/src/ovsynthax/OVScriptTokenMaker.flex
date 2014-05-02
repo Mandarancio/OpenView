@@ -231,6 +231,8 @@ Identifier				= ({IdentifierStart}{IdentifierPart}*)
 	"sin" |
 	"sqrt"|
 	"tan" |
+	"import" |
+	"export" |
 	"print" { addToken(Token.FUNCTION); }
 
 	{Identifier}				{ addToken(Token.IDENTIFIER); }

@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -28,7 +30,7 @@ public class Test extends JFrame {
 		   
 		JPanel cp = new JPanel(new BorderLayout());
 
-		RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
+		final RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setCodeFoldingEnabled(true);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
@@ -42,6 +44,34 @@ public class Test extends JFrame {
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory)TokenMakerFactory.getDefaultInstance();
 		atmf.putMapping("text/OVScript", OVScriptTokenMaker.class.getCanonicalName());
 		textArea.setSyntaxEditingStyle("text/OVScript");
+		textArea.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				String[] text=textArea.getText().split("\n");
+				for (int i=0;i<text.length;i++){
+					if (text[i].contains("export(")){
+						System.out.println("export at line "+i);
+					}
+					else if (text[i].contains("import(")){
+						System.out.println("import at line "+i);
+
+					}
+				}
+			}
+		});
 	}
 
 	public static void main(String[] args) {

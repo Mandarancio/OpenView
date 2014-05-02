@@ -2,6 +2,8 @@ package ovscript;
 
 import java.util.HashMap;
 
+import core.Emitter;
+import core.Slot;
 import core.Value;
 
 public class FunctionDefinition extends AbstractBlock implements CodeBlock {
@@ -180,4 +182,15 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	public int args() {
 		return argsBlock_.size();
 	}
+	
+	@Override
+	public Slot getSlot() {
+		return parent().getSlot();
+	}
+
+	@Override
+	public Emitter getEmitter() {
+		return parent().getEmitter();
+	}
+    
 }

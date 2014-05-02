@@ -2,7 +2,10 @@ package ovscript;
 
 import java.util.HashMap;
 
+import core.Emitter;
+import core.Slot;
 import core.Value;
+
 import java.util.ArrayList;
 
 public class WHILEBlock extends AbstractBlock implements CodeBlock {
@@ -150,5 +153,14 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
     public FunctionDefinition getFunctionDefinition(String past, int nargs) {
         return parent_.getFunctionDefinition(past, nargs);
     }
+	@Override
+	public Slot getSlot() {
+		return parent().getSlot();
+	}
 
+	@Override
+	public Emitter getEmitter() {
+		return parent().getEmitter();
+	}
+    
 }

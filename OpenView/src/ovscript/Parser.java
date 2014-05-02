@@ -146,8 +146,26 @@ public class Parser {
 						line.substring(i), nextLines).block), 1);
 			} else if (c_past == '(') {
 				past = line.substring(0, i - 1);
-
-				if (past.equals("print")) {
+				if (past.equals("import")){
+					String type=line.substring(i).replace(")", "");
+					if (type.length()==0)
+						type="VOID";
+					return new ReturnStruct(new Import(type), 1);
+					
+				}
+				else if (past.equals("export")){
+					String args[] = line.substring(i).replace(")", "")
+							.split(",");
+					int nargs = args.length;
+					Block body;
+					String type="VOID";
+					body=parseLine(block, args[0],nextLines).block;
+					if (nargs==2){
+						type=args[1];
+					}
+					return new ReturnStruct(new Export(body,type), 1);
+				}
+				else if (past.equals("print")) {
 					Block b = parseLine(block, line.substring(i - 1), nextLines).block;
 					return new ReturnStruct(new PrintBlock(b), 1);
 				} else {

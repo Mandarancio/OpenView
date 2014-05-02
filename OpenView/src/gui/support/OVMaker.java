@@ -16,9 +16,6 @@ import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVRandomNode;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
-import gui.components.ovprocedural.OVPAssign;
-import gui.components.ovprocedural.OVPConst;
-import gui.components.ovprocedural.OVPVar;
 import gui.components.ovprocedural.OVProceduralBlock;
 import gui.interfaces.OVContainer;
 
@@ -48,8 +45,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			TextArea = "Text Area", TextField = "Text Field",
 			Container = "Container", Operator = "Operator", Function="Function",
 			NodeBlock = "Block", IFTrigger = "IF trigger", Random="Random", For="For trigger";
-	private static final String ProceduralBlock = "Procedural block",
-			Var = "Var",Const="Const",Assign="Assign";
+	private static final String ProceduralBlock = "Procedural block";
 	private static final String Check="Check box";
 	private OVContainer father_;
 	private Point point_;
@@ -126,10 +122,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.addActionListener(this);
 		menu.add(i);
 //		
-//		i = new JMenuItem(ProceduralBlock);
-//		i.setActionCommand(i.getText());
-//		i.addActionListener(this);
-//		menu.add(i);
+		i = new JMenuItem(ProceduralBlock);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 //		
 		add(menu);
 	}
@@ -217,13 +213,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVIFTriggerNode(father_));
 		} else if (cmd.equals(ProceduralBlock)) {
 			create(new OVProceduralBlock(father_));
-		} else if (cmd.equals(Var)) {
-			create(new OVPVar(father_));
-		}else if (cmd.equals(Const)){
-			create(new OVPConst(father_));
-		}else if (cmd.equals(Assign)){
-			create(new OVPAssign(father_));
-		}else if (cmd.equals(Check)){
+		} else if (cmd.equals(Check)){
 			create(new OVCheckBox(father_));
 		}else if (cmd.equals(Random)){
 			create(new OVRandomNode(father_));

@@ -8,6 +8,8 @@ package ovscript;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import core.Emitter;
+import core.Slot;
 import core.Value;
 
 /**
@@ -209,5 +211,15 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
     public FunctionDefinition getFunctionDefinition(String past, int nargs) {
         return parent_.getFunctionDefinition(past, nargs);
     }
+
+	@Override
+	public Slot getSlot() {
+		return parent().getSlot();
+	}
+
+	@Override
+	public Emitter getEmitter() {
+		return parent().getEmitter();
+	}
     
 }
