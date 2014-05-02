@@ -286,6 +286,8 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 		for (Integer l : in.keySet()) {
 			if (slots_.containsKey(l)) {
 				slots_.get(l).setType(in.get(l));
+				Point p=slots_.get(l).getLocation();
+				repaint(p.x-5,p.y-5,10,10);
 			} else {
 				InNode n = addInput("in " + l.toString(), in.get(l));
 				interpreter_.addSlot(l.intValue(), n);
@@ -296,6 +298,8 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 		for (Integer l : out.keySet()) {
 			if (emitters_.containsKey(l)) {
 				emitters_.get(l).setType(out.get(l));
+				Point p=emitters_.get(l).getLocation();
+				repaint(p.x-5,p.y-5,10,10);
 			} else {
 				OutNode n = addOutput("out " + l, out.get(l));
 				interpreter_.addEmitter(l.intValue(), n);
@@ -309,7 +313,7 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 				InNode n = slots_.get(l);
 				interpreter_.removeSlot(n);
 				removeInput(n);
-				slots_.remove(n);
+				slots_.remove(l);
 			}
 		}
 		keys = new ArrayList<>(emitters_.keySet());
@@ -318,7 +322,7 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 				OutNode n = emitters_.get(l);
 				interpreter_.removeEmitter(n);
 				removeOutput(n);
-				emitters_.remove(n);
+				emitters_.remove(l);
 			}
 		}
 	}

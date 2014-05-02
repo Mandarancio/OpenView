@@ -125,6 +125,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			c.add(s);
 			nodeSettings_.put(cat, c);
 		}
+		s.setGuiMode(false);
 		s.addListener(this);
 	}
 
@@ -145,6 +146,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			c.add(s);
 			settings_.put(cat, c);
 		}
+		s.setGuiMode(false);
 		s.addListener(this);
 	}
 

@@ -57,22 +57,24 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 	}
 
 	private void triggerOutput() {
-//		if (getMode().isExec())
-			trigger_.trigger(new Value(Void.TYPE));
+		// if (getMode().isExec())
+		trigger_.trigger(new Value(Void.TYPE));
 	}
 
 	private void startTimer() {
-		try {
-			timer_ = new Timer();
-			int delay = getSetting(Delay).getValue().getInt();
-			if (timerMode_ == TimerMode.SINGLE) {
-				timer_.schedule(new MyTask(), delay);
-			} else {
-				timer_.schedule(new MyTask(), delay, delay);
+		if (timer_ == null) {
+			try {
+				timer_ = new Timer();
+				int delay = getSetting(Delay).getValue().getInt();
+				if (timerMode_ == TimerMode.SINGLE) {
+					timer_.schedule(new MyTask(), delay);
+				} else {
+					timer_.schedule(new MyTask(), delay, delay);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -86,7 +88,7 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 
 	@Override
 	public void valueUpdated(Setting s, Value v) {
-		String setting =s.getName();
+		String setting = s.getName();
 		if (setting.equals(Mode)) {
 			try {
 				TimerMode m = (TimerMode) v.getEnum();
@@ -122,7 +124,7 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 					}
 				}
 
-			} else if (getMode().isExec()) {
+			} else if (!mode.isExec()) {
 				stopTimer();
 			}
 		}
@@ -137,7 +139,5 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 			stopTimer();
 		}
 	}
-
-
 
 }
