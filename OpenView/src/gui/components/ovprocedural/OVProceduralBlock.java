@@ -42,6 +42,8 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	 */
 	private static final long serialVersionUID = 7990244919879751570L;
 	private static final String Trigger = "Trigger";
+	private static final String Import = "import(";
+	private static final String Export = "export(";
 
 	private String code_ = "";
 	private boolean expand_ = true;
@@ -206,13 +208,20 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	@Override
 	public void changedUpdate(DocumentEvent arg0) {
 		String lines[]=textArea_.getText().split("\n");
+		ArrayList<ValueType> in=new ArrayList<>();
+		ArrayList<ValueType> out=new ArrayList<>();
+		
 		int sc=0;
 		int ec=0;
 		for (int i=0;i<lines.length;i++){
-			if (lines[i].contains("import("))
+			if (lines[i].contains(Import)){
+				in.add(getImportType(lines[i]));
 				sc++;
-			if (lines[i].contains("export("))
+			}
+			if (lines[i].contains(Export)){
+				out.add(getExportType(lines[i]));
 				ec++;
+			}
 		}
 		if (sc!=slots_.size()){
 			if (sc>slots_.size()){
@@ -252,6 +261,47 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 				}
 			}
 		}
+		
+		for (int i=0;i<in.size();i++){
+			slots_.get(i).setType(in.get(i));
+		}
+		for (int i=0;i<out.size();i++){
+			emitters_.get(i).setType(out.get(i));
+		}
+
+	}
+
+	private ValueType getExportType(String string) {
+		int ind=string.indexOf(Export);
+		String sub=string.substring(ind+Import.length());
+		ind=getIndex(sub);
+		if (ind>1){
+			String split[]=sub.substring(0,ind).split(",");
+			if (split.length==2){
+				String type=split[1];
+				try{
+					return ValueType.valueOf(type);
+				}catch(Exception e){
+					return ValueType.VOID;
+				}
+			}
+		}
+		return ValueType.VOID;
+	}
+
+	private ValueType getImportType(String string) {
+		int ind=string.indexOf(Import);
+		String sub=string.substring(ind+Import.length());
+		ind=getIndex(sub);
+		if (ind > 1){
+			String type=sub.substring(0,ind);
+			try{
+				return ValueType.valueOf(type);
+			}catch(Exception e){
+				return ValueType.VOID;
+			}
+		}
+		return ValueType.VOID;
 	}
 
 	@Override
@@ -262,5 +312,20 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
 		//nothing to do
+	}
+	
+	private static int getIndex(String line){
+		char array[]=line.toCharArray();
+		int p=1;
+		for (int i=0;i<array.length;i++){
+			if (array[i]=='(')
+				p++;
+			else if (array[i]==')'){
+				p--;
+				if (p==0)
+					return i;
+			}
+		}
+		return -1;
 	}
 }

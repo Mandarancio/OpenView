@@ -136,7 +136,10 @@ public class Parser {
 				ob.setRight(parseLine(block, line.substring(i), nextLines).block);
 				return new ReturnStruct(ob, 1);
 			} else if (c_past == '=') {
-				past = past.substring(0, past.length() - 1);
+				past = past.substring(0, past.length()-1);
+				System.out.println(past);
+				past= clean(past);
+				System.out.println("variable("+past+")");
 				Var v = block.getVar(past);
 				if (v == null) {
 					v = new Var(past);
@@ -232,11 +235,11 @@ public class Parser {
 			l = l.substring(c);
 		}
 		if (l.endsWith(" ") || l.endsWith("\t")) {
-			int c = l.length() - 1;
+			int c = l.length() -1;
 			while (c > 0 && (l.charAt(c) == ' ' || l.charAt(c) == '\t')) {
 				c--;
 			}
-			l = l.substring(0, c);
+			l = l.substring(0, c+1);
 		}
 		if (l.startsWith("(") && l.endsWith(")")) {
 			int c = 0;
