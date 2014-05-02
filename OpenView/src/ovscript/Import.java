@@ -28,7 +28,7 @@ public class Import extends AbstractBlock{
 	@Override
 	public Value run(CodeBlock i) {
 		if (slot_==null)
-			slot_=i.getSlot();
+			slot_=i.getSlot(getLine());
 		if (slot_!=null){
 			return slot_.pullValue();
 		}

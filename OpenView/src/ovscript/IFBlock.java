@@ -80,11 +80,12 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             String copy[] = new String[code_.length - i];
             System.arraycopy(code_, i, copy, 0, copy.length);
             
-            ReturnStruct rs = Parser.parseLine(this, code_[i], copy);
+            ReturnStruct rs = Parser.parseLine(this, code_[i], copy,getLine()+i);
             Block b = rs.block;
             i += rs.lines;
             
             if (b instanceof ELSEBlock) {
+            	System.err.println("else "+ b.getLine());
                 this.setElse(b);
                 
                 break;
@@ -126,7 +127,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             if (c == 1 && line.startsWith("elif ") || line.startsWith("else")) {
                 String copy[] = new String[lines.length - i];
                 System.arraycopy(lines, i, copy, 0, copy.length);
-                ReturnStruct rs = Parser.parseLine(this, line, copy);
+                ReturnStruct rs = Parser.parseLine(this, line, copy,getLine()+i);
                 i += rs.lines;
                 this.setElse(rs.block);
                 this.code_ = code.toArray(new String[code.size()]);
@@ -213,13 +214,13 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
     }
 
 	@Override
-	public Slot getSlot() {
-		return parent().getSlot();
+	public Slot getSlot(int line) {
+		return parent().getSlot(line);
 	}
 
 	@Override
-	public Emitter getEmitter() {
-		return parent().getEmitter();
+	public Emitter getEmitter(int line) {
+		return parent().getEmitter(line);
 	}
     
 }

@@ -9,4 +9,10 @@ public class ReturnStruct {
 		block = b;
 		lines = l;
 	}
+	
+	public ReturnStruct(Block b, int l, int line_ind, int char_ind){
+		this(b,l);
+		b.setLine(line_ind);
+		b.setChar(char_ind);
+	}
 }

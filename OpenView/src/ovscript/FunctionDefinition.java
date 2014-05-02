@@ -56,7 +56,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 			String line = Parser.clean(lines[i]);
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
-			ReturnStruct rs = Parser.parseLine(this, line, copy);
+			ReturnStruct rs = Parser.parseLine(this, line, copy,getLine()+i);
 			if (rs.block != null) {
 				if (b == null) {
 					b = rs.block;
@@ -184,13 +184,13 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 	
 	@Override
-	public Slot getSlot() {
-		return parent().getSlot();
+	public Slot getSlot(int line) {
+		return parent().getSlot(line);
 	}
 
 	@Override
-	public Emitter getEmitter() {
-		return parent().getEmitter();
+	public Emitter getEmitter(int line) {
+		return parent().getEmitter(line);
 	}
     
 }

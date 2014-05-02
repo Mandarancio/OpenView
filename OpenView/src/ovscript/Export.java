@@ -30,7 +30,7 @@ public class Export extends AbstractBlock {
 	public Value run(CodeBlock i) {
 		Value v=expression_.run(i);
 		if (emitter_==null)
-			emitter_=i.getEmitter();
+			emitter_=i.getEmitter(getLine());
 		if (emitter_!=null)
 			emitter_.trigger(v);
 		return v;

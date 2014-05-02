@@ -20,6 +20,6 @@ public interface CodeBlock {
 	public void endRun();
 	public void addFunctionDefinition(FunctionDefinition f);
 	public FunctionDefinition getFunctionDefinition(String past, int nargs);
-	public Slot getSlot();
-	public Emitter getEmitter();
+	public Slot getSlot(int line);
+	public Emitter getEmitter(int line);
 }

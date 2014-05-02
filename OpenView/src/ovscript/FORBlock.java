@@ -26,14 +26,15 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		parent_ = parent;
 	}
 
-	public FORBlock(CodeBlock block, String i, String c, String o) {
+	public FORBlock(CodeBlock block, String i, String c, String o,int currentLine) {
 		super("for");
 		parent_ = block;
+		setLine(currentLine);
 		if (i.length() > 0)
-			initalization_ = Parser.parseLine(this, i, new String[0]).block;
-		condition_ = Parser.parseLine(this, c, new String[0]).block;
+			initalization_ = Parser.parseLine(this, i, new String[0],currentLine).block;
+		condition_ = Parser.parseLine(this, c, new String[0],currentLine).block;
 		if (o.length() > 0)
-			operation_ = Parser.parseLine(this, o, new String[0]).block;
+			operation_ = Parser.parseLine(this, o, new String[0],currentLine).block;
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		while (i < lines.length) {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
-			ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
+			ReturnStruct rs = Parser.parseLine(this, lines[i], copy, getLine()+i);
 			if (rs.block != null) {
 				if (b == null) {
 					b = rs.block;
@@ -178,13 +179,13 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		return parent_.getFunctionDefinition(past, nargs);
 	}
 	@Override
-	public Slot getSlot() {
-		return parent().getSlot();
+	public Slot getSlot(int line) {
+		return parent().getSlot(line);
 	}
 
 	@Override
-	public Emitter getEmitter() {
-		return parent().getEmitter();
+	public Emitter getEmitter(int line) {
+		return parent().getEmitter(line);
 	}
     
 }

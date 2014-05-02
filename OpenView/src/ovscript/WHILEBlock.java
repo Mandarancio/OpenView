@@ -55,7 +55,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
         while (i < lines.length) {
             String copy[] = new String[lines.length - i];
             System.arraycopy(lines, i, copy, 0, copy.length);
-            ReturnStruct rs = Parser.parseLine(this, lines[i], copy);
+            ReturnStruct rs = Parser.parseLine(this, lines[i], copy,getLine());
             if (rs.block != null) {
                 if (b == null) {
                     b = rs.block;
@@ -154,13 +154,12 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
         return parent_.getFunctionDefinition(past, nargs);
     }
 	@Override
-	public Slot getSlot() {
-		return parent().getSlot();
+	public Slot getSlot(int line) {
+		return parent().getSlot(line);
 	}
 
 	@Override
-	public Emitter getEmitter() {
-		return parent().getEmitter();
+	public Emitter getEmitter(int line) {
+		return parent().getEmitter(line);
 	}
-    
 }

@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.event.DocumentEvent;
@@ -54,8 +55,8 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	private Block body_;
 	private boolean __lock = false;
 
-	private ArrayList<InNode> slots_ = new ArrayList<>();
-	private ArrayList<OutNode> emitters_ = new ArrayList<>();
+	private HashMap<Integer, InNode> slots_ = new HashMap<>();
+	private HashMap<Integer, OutNode> emitters_ = new HashMap<>();
 
 	public OVProceduralBlock(OVContainer father) {
 		super(father);
@@ -207,81 +208,20 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 
 	@Override
 	public void changedUpdate(DocumentEvent arg0) {
-		String lines[]=textArea_.getText().split("\n");
-		ArrayList<ValueType> in=new ArrayList<>();
-		ArrayList<ValueType> out=new ArrayList<>();
-		
-		int sc=0;
-		int ec=0;
-		for (int i=0;i<lines.length;i++){
-			if (lines[i].contains(Import)){
-				in.add(getImportType(lines[i]));
-				sc++;
-			}
-			if (lines[i].contains(Export)){
-				out.add(getExportType(lines[i]));
-				ec++;
-			}
-		}
-		if (sc!=slots_.size()){
-			if (sc>slots_.size()){
-				while (sc>slots_.size()){
-					InNode n=addInput("in"+slots_.size(), ValueType.VOID);
-					slots_.add(n);
-					interpreter_.addSlot(n);
-				}
-			}
-			else {
-				
-				while(sc<slots_.size()){
-					InNode n=slots_.get(slots_.size()-1);
-					
-					interpreter_.removeSlot(n);
-					removeInput(n);
-					slots_.remove(n);
-				}
-			}
-		}
-		if (ec!=emitters_.size()){
-			if (ec>emitters_.size()){
-				while (ec>emitters_.size()){
-					OutNode n=addOutput("out"+emitters_.size(), ValueType.VOID);
-					emitters_.add(n);
-					interpreter_.addEmitter(n);
-				}
-			}
-			else {
-				
-				while(ec<emitters_.size()){
-					OutNode n=emitters_.get(emitters_.size()-1);
-					
-					interpreter_.removeEmitter(n);
-					removeOutput(n);
-					emitters_.remove(n);
-				}
-			}
-		}
-		
-		for (int i=0;i<in.size();i++){
-			slots_.get(i).setType(in.get(i));
-		}
-		for (int i=0;i<out.size();i++){
-			emitters_.get(i).setType(out.get(i));
-		}
-
+		parseNodes();
 	}
 
 	private ValueType getExportType(String string) {
-		int ind=string.indexOf(Export);
-		String sub=string.substring(ind+Import.length());
-		ind=getIndex(sub);
-		if (ind>1){
-			String split[]=sub.substring(0,ind).split(",");
-			if (split.length==2){
-				String type=split[1];
-				try{
+		int ind = string.indexOf(Export);
+		String sub = string.substring(ind + Import.length());
+		ind = getIndex(sub);
+		if (ind > 1) {
+			String split[] = sub.substring(0, ind).split(",");
+			if (split.length == 2) {
+				String type = split[1];
+				try {
 					return ValueType.valueOf(type);
-				}catch(Exception e){
+				} catch (Exception e) {
 					return ValueType.VOID;
 				}
 			}
@@ -290,14 +230,14 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	}
 
 	private ValueType getImportType(String string) {
-		int ind=string.indexOf(Import);
-		String sub=string.substring(ind+Import.length());
-		ind=getIndex(sub);
-		if (ind > 1){
-			String type=sub.substring(0,ind);
-			try{
+		int ind = string.indexOf(Import);
+		String sub = string.substring(ind + Import.length());
+		ind = getIndex(sub);
+		if (ind > 1) {
+			String type = sub.substring(0, ind);
+			try {
 				return ValueType.valueOf(type);
-			}catch(Exception e){
+			} catch (Exception e) {
 				return ValueType.VOID;
 			}
 		}
@@ -306,26 +246,80 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
-		// nothing to do
+		parseNodes();
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
-		//nothing to do
+		parseNodes();
 	}
-	
-	private static int getIndex(String line){
-		char array[]=line.toCharArray();
-		int p=1;
-		for (int i=0;i<array.length;i++){
-			if (array[i]=='(')
+
+	private static int getIndex(String line) {
+		char array[] = line.toCharArray();
+		int p = 1;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == '(')
 				p++;
-			else if (array[i]==')'){
+			else if (array[i] == ')') {
 				p--;
-				if (p==0)
+				if (p == 0)
 					return i;
 			}
 		}
 		return -1;
+	}
+
+	private void parseNodes() {
+		String lines[] = textArea_.getText().split("\n");
+		HashMap<Integer, ValueType> in = new HashMap<>();
+		HashMap<Integer, ValueType> out = new HashMap<>();
+
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].contains(Import)) {
+				in.put(new Integer(i), getImportType(lines[i]));
+			}
+			if (lines[i].contains(Export)) {
+				out.put(new Integer(i), getExportType(lines[i]));
+			}
+		}
+
+		for (Integer l : in.keySet()) {
+			if (slots_.containsKey(l)) {
+				slots_.get(l).setType(in.get(l));
+			} else {
+				InNode n = addInput("in " + l.toString(), in.get(l));
+				interpreter_.addSlot(l.intValue(), n);
+				slots_.put(l, n);
+			}
+		}
+
+		for (Integer l : out.keySet()) {
+			if (emitters_.containsKey(l)) {
+				emitters_.get(l).setType(out.get(l));
+			} else {
+				OutNode n = addOutput("out " + l, out.get(l));
+				interpreter_.addEmitter(l.intValue(), n);
+				emitters_.put(l, n);
+			}
+		}
+
+		ArrayList<Integer> keys = new ArrayList<>(slots_.keySet());
+		for (Integer l : keys) {
+			if (!in.containsKey(l)) {
+				InNode n = slots_.get(l);
+				interpreter_.removeSlot(n);
+				removeInput(n);
+				slots_.remove(n);
+			}
+		}
+		keys = new ArrayList<>(emitters_.keySet());
+		for (Integer l : keys) {
+			if (!out.containsKey(l)) {
+				OutNode n = emitters_.get(l);
+				interpreter_.removeEmitter(n);
+				removeOutput(n);
+				emitters_.remove(n);
+			}
+		}
 	}
 }
