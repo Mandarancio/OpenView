@@ -137,9 +137,7 @@ public class Parser {
 				return new ReturnStruct(ob, 1);
 			} else if (c_past == '=') {
 				past = past.substring(0, past.length()-1);
-				System.out.println(past);
 				past= clean(past);
-				System.out.println("variable("+past+")");
 				Var v = block.getVar(past);
 				if (v == null) {
 					v = new Var(past);
