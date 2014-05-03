@@ -79,6 +79,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
         int i = 0;
         Block first = null;
         Block last = null;
+
         while (i < code_.length) {
             String copy[] = new String[code_.length - i];
             System.arraycopy(code_, i, copy, 0, copy.length);
@@ -88,7 +89,6 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             i += rs.lines;
 
             if (b instanceof ELSEBlock) {
-                System.err.println("else " + b.getLine());
                 this.setElse(b);
             }
 
