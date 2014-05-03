@@ -28,8 +28,8 @@ public class NotOperator extends AbstractOperator {
 			 {
 		// we want only two operandInspectorValueTypes
 		if (operands.length != 1)
-			throw new EvalException("Error: wrong number of operands");
-
+			throw new EvalException("Error: wrong number of operands ("+operands.length+")");
+                
 		// get operands
 		Value l = operands[0];
 

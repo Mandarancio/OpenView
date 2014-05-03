@@ -1,26 +1,5 @@
-#recursive functions
-
-function next(x,dir)
-    if dir
-        x++
-        if (x>=250) 
-            print('change to -')
-            export(false)
-        end
-    else
-        x--
-        if (x<=15)
-            print('change to +')
-            export(true)
-        end
-    end
-    @WAIT
-    print('export x')
-    export(x)
+dir =true
+a=250
+if (dir && a>200) || (!dir && <15)
+    print('error')
 end
-
-
-for i=15,i<300,i++
-    next(i,true)
-end
-
