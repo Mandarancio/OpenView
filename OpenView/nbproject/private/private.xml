@@ -3,13 +3,36 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/martino/git/OpenView/OpenView/src/proceduralScript/OperatorBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/proceduralScript/ELSEBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Exp.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/Operator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FunctionBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/ValueType.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Pow.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/proceduralScript/IFBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Function.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/IFBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Abs.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/AbstractFunction.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/FunctionManager.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Max.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/SubtractionOperator.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/proceduralScript/InterpreterBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/WHILEBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Asin.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/test.ov</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Sqrt.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Acos.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/AdditionOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan2.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Log.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/OperatorManager.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Rand.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Cos.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Min.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Tan.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Sin.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/OperatorBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/TestClass.java</file>
         </group>
     </open-files>
 </project-private>

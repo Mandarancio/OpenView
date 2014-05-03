@@ -1,17 +1,26 @@
 #recursive functions
 
-function fact(n)
-	if n<=0
-		return 1
-	else
-		val=1
-		for i=1,i<=n,i++
-			val=val*i
-		end
-		return val
-	end
+function next(x,dir)
+    if dir
+        x++
+        if (x>=250) 
+            print('change to -')
+            export(false)
+        end
+    else
+        x--
+        if (x<=15)
+            print('change to +')
+            export(true)
+        end
+    end
+    @WAIT
+    print('export x')
+    export(x)
 end
 
-for i=0,i<1000,i++
-	fact(rand()*10)
+
+for i=15,i<300,i++
+    next(i,true)
 end
+

@@ -215,6 +215,10 @@ Identifier				= ({IdentifierStart}{IdentifierPart}*)
 	"@BREAK" |
 	"@END" {addToken(Token.PREPROCESSOR);}
 
+        /* Boolean */
+        "true" |
+        "false" {addToken(Token.LITERAL_BOOLEAN);}
+        
 	/* Functions */
 	"abs" |
 	"acos" |
