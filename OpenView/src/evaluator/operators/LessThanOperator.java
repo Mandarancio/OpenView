@@ -27,7 +27,7 @@ public class LessThanOperator extends AbstractOperator {
 		// we need two operands
 		if (operands.length != 2)
 			throw new EvalException(this.name()
-					+ " Error: wrong number of operands");
+					+ " Error: wrong number of operands ("+operands.length+")");
 
 		// get operands
 		Value l = operands[0];

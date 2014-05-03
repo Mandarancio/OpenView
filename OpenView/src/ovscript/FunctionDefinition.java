@@ -30,7 +30,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 	
 	@Override
-	public Value run(CodeBlock i) {
+	public Value run(CodeBlock i) throws InterpreterException{
 		if (!definition_) {
 			for (String s : argsBlock_.keySet()) {
 				getVar(s).value = argsBlock_.get(s).run(this);
@@ -48,7 +48,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public ReturnStruct parse(String[] lines) {
+	public ReturnStruct parse(String[] lines) throws InterpreterException{
 		int i = 0;
 		code_ = lines;
 		Block b = null;
@@ -76,11 +76,11 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public Value runBlock(Block b) {
+	public Value runBlock(Block b) throws InterpreterException{
 		return run(this);
 	}
 
-	public FunctionDefinition instanciate(Block... vars) {
+	public FunctionDefinition instanciate(Block... vars)throws InterpreterException {
 		if (vars.length == argsBlock_.size()) {
 			
 			FunctionDefinition fb = new FunctionDefinition(defPar_, name(), args_);
@@ -147,7 +147,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	protected Value runBlock(Block body, CodeBlock i) {
+	protected Value runBlock(Block body, CodeBlock i)throws InterpreterException{
 		Block b = body;
 		Value v=new Value();
 		__return =false;

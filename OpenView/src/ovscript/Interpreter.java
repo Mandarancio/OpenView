@@ -20,7 +20,7 @@ public class Interpreter implements CodeBlock {
 
 
 	@Override
-	public Value runBlock(Block block) {
+	public Value runBlock(Block block) throws InterpreterException{
 		Block b = block;
 		Value last = new Value();
 		while (b != null) {
@@ -39,7 +39,7 @@ public class Interpreter implements CodeBlock {
 	}
 
 	@Override
-	public ReturnStruct parse(String[] lines) {
+	public ReturnStruct parse(String[] lines) throws InterpreterException {
 		Block first = null;
 		Block last = null;
 		String nexts[];
@@ -66,7 +66,7 @@ public class Interpreter implements CodeBlock {
 		return new ReturnStruct(first, lines.length);
 	}
 
-	public Block parse(String code) {
+	public Block parse(String code) throws InterpreterException {
 		String lines[] = code.split("\n");
 		return parse(lines).block;
 	}

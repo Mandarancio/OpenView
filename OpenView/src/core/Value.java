@@ -169,7 +169,7 @@ public class Value {
 	public boolean getBoolean() throws Exception {
 		if (getType() == ValueType.BOOLEAN)
 			return ((Boolean) data_).booleanValue();
-		throw new Exception("Data is not a boolean!");
+		throw new Exception("Data is not a boolean! is "+getType());
 
 	}
 

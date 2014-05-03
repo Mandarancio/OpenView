@@ -1,5 +1,10 @@
-dir =true
-a=250
-if (dir && a>200) || (!dir && <15)
-    print('error')
+dir = true
+a = 140
+if dir
+    a+=15
+    if a>150
+        dir=false
+    end
+    print('here')
 end
+@PRINT

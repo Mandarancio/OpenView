@@ -46,7 +46,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
         return parent_;
     }
 
-    private Block parseForRun() {
+    private Block parseForRun()throws InterpreterException {
         int i = 0;
         Block b = null;
         String lines[] = code_;
@@ -71,7 +71,7 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
     }
 
     @Override
-    public ReturnStruct parse(String[] lines) {
+    public ReturnStruct parse(String[] lines) throws InterpreterException{
         int i = 0;
         int c = 1;
         ArrayList<String> code = new ArrayList<String>();

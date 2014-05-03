@@ -26,7 +26,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		parent_ = parent;
 	}
 
-	public FORBlock(CodeBlock block, String i, String c, String o,int currentLine) {
+	public FORBlock(CodeBlock block, String i, String c, String o,int currentLine)throws InterpreterException {
 		super("for");
 		parent_ = block;
 		setLine(currentLine);
@@ -38,7 +38,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public Value run(CodeBlock i) {
+	public Value run(CodeBlock i)throws InterpreterException {
 		try {
 			__return=false;
 			if (body_==null){
@@ -70,7 +70,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 		return parent_;
 	}
 	
-	private Block parseForRun(){
+	private Block parseForRun()throws InterpreterException{
 		int i = 0;
 		Block b = null;
 		Block first=null;
@@ -123,7 +123,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public Value runBlock(Block b) {
+	public Value runBlock(Block b) throws InterpreterException{
 		return run(this);
 	}
 

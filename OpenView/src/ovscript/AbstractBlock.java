@@ -39,7 +39,7 @@ public abstract class AbstractBlock implements Block {
 		return false;
 	}
 
-	protected Value runBlock(Block body, CodeBlock i) {
+	protected Value runBlock(Block body, CodeBlock i) throws InterpreterException{
 		Block b = body;
 		Value last = null;
 		while (b != null && !__end && !__return) {

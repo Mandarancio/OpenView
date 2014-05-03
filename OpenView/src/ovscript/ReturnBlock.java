@@ -12,7 +12,7 @@ public class ReturnBlock extends AbstractBlock{
 	}
 
 	@Override
-	public Value run(CodeBlock i) {
+	public Value run(CodeBlock i) throws InterpreterException {
 		return body_.run(i);
 	}
 

@@ -29,7 +29,7 @@ public class FunctionBlock extends AbstractBlock {
 	}
 
 	@Override
-	public Value run(CodeBlock b) {
+	public Value run(CodeBlock b) throws InterpreterException {
 		if (args_ != null || getArgsNumber()==0) {
 			Value[] vals = new Value[getArgsNumber()];
 			for (int i = 0; i < vals.length; i++) {
@@ -39,7 +39,7 @@ public class FunctionBlock extends AbstractBlock {
 				Value v = function_.evaluate(vals);
 				return v;
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new InterpreterException(e.getMessage(), getLine());
 			}
 		}
 		return new Value();

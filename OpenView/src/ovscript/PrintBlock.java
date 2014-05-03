@@ -12,7 +12,7 @@ public class PrintBlock extends AbstractBlock{
 	}
 
 	@Override
-	public Value run(CodeBlock i) {
+	public Value run(CodeBlock i) throws InterpreterException {
 		Value v=body_.run( i);
 		System.out.println(v.getString());
 		return v;

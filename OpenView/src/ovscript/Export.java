@@ -27,7 +27,7 @@ public class Export extends AbstractBlock {
 	}
 
 	@Override
-	public Value run(CodeBlock i) {
+	public Value run(CodeBlock i) throws InterpreterException {
 		Value v=expression_.run(i);
 		if (emitter_==null)
 			emitter_=i.getEmitter(getLine());

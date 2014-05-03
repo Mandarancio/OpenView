@@ -9,8 +9,8 @@ import core.Value;
 
 public interface CodeBlock {
 	public CodeBlock parent();
-	public ReturnStruct parse(String[] lines);
-	public Value runBlock(Block b);
+	public ReturnStruct parse(String[] lines) throws InterpreterException;
+	public Value runBlock(Block b) throws InterpreterException;
 	public HashMap<String, Var> variableStack();
 	public HashMap<String, Var> localVariableStack();
 	public void debug(String code);

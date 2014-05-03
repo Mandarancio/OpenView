@@ -16,7 +16,7 @@ public class OperatorBlock extends AbstractBlock {
     }
 
     @Override
-    public Value run(CodeBlock i) {
+    public Value run(CodeBlock i) throws InterpreterException {
         ArrayList<Value> operands = new   ArrayList<Value>();
         if (left_ != null) {
             operands.add(left_.run(i));
@@ -29,8 +29,7 @@ public class OperatorBlock extends AbstractBlock {
         try {
             return operator_.evaluate(operands.toArray(new Value[operands.size()]));
         } catch (Exception e) {
-            e.printStackTrace();
-            return new Value(Void.TYPE);
+            throw new InterpreterException(e.getMessage(), getLine());
         }
     }
 

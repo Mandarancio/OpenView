@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import ovscript.Block;
 import ovscript.Interpreter;
+import ovscript.InterpreterException;
 
 public class TestClass {
 	public static int fact(int n){
@@ -18,6 +19,7 @@ public class TestClass {
 		String path = TestClass.class.getResource("test.ov").getFile();
 		System.out.println("run file: "+path);
 		BufferedReader br = new BufferedReader(new FileReader(path));
+                String code;
 		try {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
@@ -27,7 +29,7 @@ public class TestClass {
 				sb.append(System.lineSeparator());
 				line = br.readLine();
 			}
-			String code = sb.toString();
+			code = sb.toString();
 			
 			Interpreter i=new Interpreter();
 			Block b=i.parse(code);
@@ -43,7 +45,10 @@ public class TestClass {
 			et=System.currentTimeMillis();
 			System.out.println("time[java]: "+(et-st)+"ms");
 
-		} finally {
+		} catch(InterpreterException e) {
+                    System.err.println("Line "+e.getLine());
+                    
+                }finally{
 			br.close();
 		}
 	}
