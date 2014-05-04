@@ -37,19 +37,19 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
     }
 
     @Override
-    public Block next() {
+    public Block next() throws InterpreterException {
         boolean b = false;
         try {
             Value v = condition_.run(this);
             b = v.getBoolean();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new InterpreterException(e.getMessage(), getLine());
         }
         if (b) {
             try {
                 return parseForRun();
             } catch (InterpreterException ex) {
-                return super.next();
+                throw new InterpreterException(ex.getMessage(), getLine());
             }
         } else {
 
@@ -148,7 +148,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
         }
     }
 
-    public Block superNext() {
+    public Block superNext() throws InterpreterException{
         return super.next();
     }
 

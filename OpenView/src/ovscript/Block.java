@@ -5,7 +5,7 @@ import core.Value;
 public interface Block {
 	public String name();
 	public Value run(CodeBlock i) throws InterpreterException;
-	public Block next();
+	public Block next()  throws InterpreterException;
 	public void setNext(Block b);
 	public boolean isBinary();
 	public int getLine();

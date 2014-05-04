@@ -21,7 +21,7 @@ public abstract class AbstractBlock implements Block {
 	}
 
 	@Override
-	public Block next() {
+	public Block next() throws InterpreterException{
 		return next_;
 	}
 

@@ -1,10 +1,17 @@
 dir = true
-a = 140
-if dir
-    a+=15
-    if a>150
-        dir=false
+x = 15
+for i=0,i<20,i++
+    if dir
+        x+=15
+        if x>150 && dir
+            dir=false
+        end
+    else
+        x-=15
+        if x<15 && !dir
+            dir=true
+        end
     end
-    print('here')
 end
+
 @PRINT
