@@ -82,7 +82,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             String copy[] = new String[code_.length - i];
             System.arraycopy(code_, i, copy, 0, copy.length);
 
-            ReturnStruct rs = Parser.parseLine(this, code_[i], copy, getLine() + i);
+            ReturnStruct rs = Parser.parseLine(this, code_[i], copy, getLine() + i+1);
             Block b = rs.block;
             i += rs.lines;
 

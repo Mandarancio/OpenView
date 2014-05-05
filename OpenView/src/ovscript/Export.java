@@ -33,6 +33,8 @@ public class Export extends AbstractBlock {
 			emitter_=i.getEmitter(getLine());
 		if (emitter_!=null)
 			emitter_.trigger(v);
+		else 
+			throw new InterpreterException("no emitter connected to export function!", getLine());
 		return v;
 	}
 

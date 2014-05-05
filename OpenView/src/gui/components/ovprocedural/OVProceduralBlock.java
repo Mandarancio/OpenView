@@ -159,7 +159,7 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
                     interpreter_.runBlock(body_);
                     __lock = false;
                 } catch (InterpreterException e) {
-                    JOptionPane.showMessageDialog(null, "Error at line: " + e.getLine() + "\n" + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error at line: " + (e.getLine()+1) + "\n" + e.getMessage());
                 }
             }
         }).start();
@@ -174,7 +174,7 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
                     interpreter_.runBlock(body_);
                     __lock = false;
                 } catch (InterpreterException e) {
-                    JOptionPane.showMessageDialog(null, "Error at line: " + e.getLine() + "\n" + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error at line: " + (e.getLine()+1) + "\n" + e.getMessage());
                 }
             }
         }).start();
