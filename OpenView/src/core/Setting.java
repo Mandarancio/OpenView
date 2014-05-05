@@ -214,6 +214,9 @@ public class Setting implements SlotListener {
 				if (guiMode_)
 					value_ = new Value(values_.get(EditorMode.GUI).getData());
 				else 
+					value_=new Value(values_.get(EditorMode.NODE).getData());
+				
+				if (value_==null)
 					value_=new Value(value_.getData());
 				
 				if (outNode_ != null)
