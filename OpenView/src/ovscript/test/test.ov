@@ -13,5 +13,5 @@ for i=0,i<20,i++
         end
     end
 end
-
-@PRINT
+print(x)
+@PRINT  
