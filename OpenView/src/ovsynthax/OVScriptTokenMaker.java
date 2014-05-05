@@ -309,7 +309,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 		}
 
 		/**
-		 * Adds the token specified to the current linked list of tokens.
+		 * Adds the token specified to the current linked lis	t of tokens.
 		 *
 		 * @param tokenType The token's type.
 		 */
