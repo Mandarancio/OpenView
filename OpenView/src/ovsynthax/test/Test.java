@@ -31,7 +31,7 @@ public class Test extends JFrame {
 		JPanel cp = new JPanel(new BorderLayout());
 
 		final RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
-		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_SCALA);
 		textArea.setCodeFoldingEnabled(true);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		cp.add(sp);

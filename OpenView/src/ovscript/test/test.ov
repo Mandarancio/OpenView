@@ -18,4 +18,4 @@ for i=0,i<12,i++
     end
 end
 
-@ALERT 'x position: '+x
+@ALERT 'position : '+x

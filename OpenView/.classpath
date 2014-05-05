@@ -2,6 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="resources/RSyntaxTextArea.jar"/>
+	<classpathentry kind="lib" path="resources/jar/jmathplot.jar"/>
+	<classpathentry kind="lib" path="resources/jar/RSyntaxTextArea.jar"/>
+	<classpathentry kind="lib" path="resources/jar/akka-actors.jar"/>
+	<classpathentry kind="lib" path="resources/jar/jline.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-actors-migration.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-actors.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-compiler.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-library.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-reflect.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scala-swing.jar"/>
+	<classpathentry kind="lib" path="resources/jar/scalap.jar"/>
+	<classpathentry kind="lib" path="resources/jar/typesafe-config.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

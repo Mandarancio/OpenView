@@ -213,6 +213,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVIFTriggerNode(father_));
 		} else if (cmd.equals(ProceduralBlock)) {
 			create(new OVProceduralBlock(father_));
+//			create(new OVScalarBlock(father_));
 		} else if (cmd.equals(Check)){
 			create(new OVCheckBox(father_));
 		}else if (cmd.equals(Random)){
