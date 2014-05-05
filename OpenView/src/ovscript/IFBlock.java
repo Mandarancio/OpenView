@@ -11,8 +11,6 @@ import java.util.HashMap;
 import core.Emitter;
 import core.Slot;
 import core.Value;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

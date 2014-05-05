@@ -5,7 +5,6 @@ import evaluator.functions.Function;
 import evaluator.functions.FunctionManager;
 import evaluator.operators.Operator;
 import evaluator.operators.OperatorManager;
-import sun.security.ssl.Debug;
 
 public class Parser {
 

@@ -11,7 +11,11 @@ package ovscript;
  * @author martino
  */
 public class InterpreterException extends  Exception{
-    private int line=-1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3083112810263700197L;
+	private int line=-1;
     public InterpreterException(String msg, int line){
         super(msg);
         this.line=line;
