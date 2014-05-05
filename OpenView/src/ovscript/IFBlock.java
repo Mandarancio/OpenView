@@ -128,7 +128,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
                 return new ReturnStruct(this, i + 1);
             } else if (c == 0) {
                 this.code_ = code.toArray(new String[code.size()]);
-                return new ReturnStruct(this, i);
+                return new ReturnStruct(this, i+1);
             } else {
                 i++;
             }
