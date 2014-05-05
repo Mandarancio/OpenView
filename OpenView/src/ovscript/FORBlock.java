@@ -135,8 +135,8 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
     }
 
     @Override
-    public void debug(String code) {
-        DebugManager.debug(code, this);
+    public void debug(String code, int line) {
+        DebugManager.debug(code,this, line);
     }
 
     @Override

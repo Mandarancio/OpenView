@@ -1,4 +1,4 @@
-package test;
+package ovsynthax.test;
 
 import java.awt.BorderLayout;
 

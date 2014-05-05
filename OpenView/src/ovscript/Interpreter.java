@@ -18,9 +18,8 @@ public class Interpreter implements CodeBlock {
 	private HashMap<Integer, Slot> slots_ = new HashMap<>();
 	private HashMap<Integer, Emitter> emitters_ = new HashMap<>();
 
-
 	@Override
-	public Value runBlock(Block block) throws InterpreterException{
+	public Value runBlock(Block block) throws InterpreterException {
 		Block b = block;
 		Value last = new Value();
 		while (b != null) {
@@ -34,8 +33,8 @@ public class Interpreter implements CodeBlock {
 	}
 
 	@Override
-	public void debug(String code) {
-		DebugManager.debug(code, this);
+	public void debug(String code, int line) {
+		DebugManager.debug(code, this, line);
 	}
 
 	@Override

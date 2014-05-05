@@ -186,6 +186,10 @@ public class Parser {
 						Block b = parseLine(block, line.substring(i - 1),
 								nextLines, currentLine).block;
 						return new ReturnStruct(new PrintBlock(b), 1);
+					} else if (past.equals("alert")) {
+						Block b = parseLine(block, line.substring(i - 1),
+								nextLines, currentLine).block;
+						return new ReturnStruct(new Alert(b), 1);
 					} else {
 						String arg = getArg(line.substring(i));
 						int nargs = arg.split(",").length;
@@ -217,7 +221,7 @@ public class Parser {
 				for (; i < line.length(); i++) {
 					if (array[i] == ')') {
 						pc--;
-					} else if (array[i]== '(') {
+					} else if (array[i] == '(') {
 						pc++;
 					}
 					if (pc == 0) {
@@ -233,7 +237,7 @@ public class Parser {
 			} else if (c_past == '\'' || c_past == '"') {
 				char achar = c_past;
 				for (; i < line.length(); i++) {
-					past+=array[i];
+					past += array[i];
 
 					if (array[i] == achar) {
 						break;
@@ -242,7 +246,7 @@ public class Parser {
 				i++;
 				if (i < line.length()) {
 					c = line.charAt(i);
-				}			
+				}
 				continue;
 			}
 			past += c;

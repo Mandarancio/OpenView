@@ -17,7 +17,8 @@ import org.fife.ui.rsyntaxtextarea.TokenImpl;
  * <tt>/home/martino/git/OpenView/OpenView/src/ovsynthax/OVScriptTokenMaker.flex</tt>
  */
 public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
-	/** This character denotes the end of file */
+
+	  /** This character denotes the end of file */
 	  public static final int YYEOF = -1;
 
 	  /** initial size of the lookahead buffer */
@@ -41,16 +42,16 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	   * Translates characters to character classes
 	   */
 	  private static final String ZZ_CMAP_PACKED = 
-	    "\11\0\1\10\1\11\1\13\1\14\1\12\22\0\1\10\1\62\1\4"+
-	    "\1\7\1\0\1\63\1\65\1\3\2\16\1\63\1\66\1\6\1\67"+
-	    "\1\6\1\63\2\2\1\54\7\2\1\62\1\6\1\70\1\64\1\71"+
-	    "\1\62\1\37\1\41\1\47\1\1\1\52\1\50\3\1\1\42\1\1"+
-	    "\1\51\2\1\1\46\1\1\1\44\1\1\1\45\1\1\1\43\2\1"+
-	    "\1\40\3\1\1\16\1\5\1\16\1\62\1\1\1\0\1\34\1\53"+
-	    "\1\22\1\32\1\27\1\17\1\57\1\36\1\24\2\1\1\30\1\60"+
-	    "\1\21\1\25\1\56\1\61\1\26\1\31\1\23\1\20\1\33\1\35"+
-	    "\1\55\2\1\1\15\1\72\1\15\1\62\6\0\1\13\u1fa2\0\1\13"+
-	    "\1\13\udfd6\0";
+	    "\11\0\1\11\1\7\1\13\1\14\1\12\22\0\1\11\1\64\1\4"+
+	    "\1\10\1\0\1\65\1\67\1\3\2\16\1\65\1\70\1\6\1\71"+
+	    "\1\20\1\65\2\2\1\56\7\2\1\64\1\6\1\72\1\66\1\73"+
+	    "\1\64\1\17\1\42\1\50\1\1\1\54\1\51\3\1\1\43\1\1"+
+	    "\1\52\1\53\1\1\1\47\1\1\1\45\1\1\1\46\1\1\1\44"+
+	    "\2\1\1\41\3\1\1\16\1\5\1\16\1\64\1\1\1\0\1\36"+
+	    "\1\55\1\24\1\34\1\31\1\21\1\61\1\40\1\26\2\1\1\32"+
+	    "\1\62\1\23\1\27\1\60\1\63\1\30\1\33\1\25\1\22\1\35"+
+	    "\1\37\1\57\2\1\1\15\1\74\1\15\1\64\6\0\1\13\u1fa2\0"+
+	    "\1\13\1\13\udfd6\0";
 
 	  /** 
 	   * Translates characters to character classes
@@ -64,14 +65,14 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 
 	  private static final String ZZ_ACTION_PACKED_0 =
 	    "\2\0\2\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-	    "\13\1\1\10\2\1\10\11\1\12\1\3\1\13\2\3"+
-	    "\1\14\4\1\1\15\13\1\4\0\3\1\1\3\1\16"+
-	    "\1\3\1\14\1\0\1\17\1\16\1\13\1\3\1\14"+
-	    "\1\1\1\20\5\1\1\20\3\1\4\0\1\1\1\13"+
-	    "\1\21\2\1\1\20\3\0\1\10\2\1\1\0\1\1";
+	    "\1\10\1\11\15\1\10\12\1\13\1\3\1\14\1\3"+
+	    "\1\4\1\15\2\4\1\11\5\0\6\1\1\16\17\1"+
+	    "\1\3\1\17\1\14\1\3\1\20\1\4\5\0\2\1"+
+	    "\1\21\6\1\1\21\4\1\4\0\1\1\1\22\1\1"+
+	    "\1\21\1\0\3\1";
 
 	  private static int [] zzUnpackAction() {
-	    int [] result = new int[100];
+	    int [] result = new int[106];
 	    int offset = 0;
 	    offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
 	    return result;
@@ -96,22 +97,23 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	  private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
 	  private static final String ZZ_ROWMAP_PACKED_0 =
-	    "\0\0\0\73\0\73\0\166\0\261\0\354\0\u0127\0\u0162"+
-	    "\0\73\0\73\0\u019d\0\u01d8\0\u0213\0\u024e\0\u0289\0\u02c4"+
-	    "\0\u02ff\0\u033a\0\u0375\0\u03b0\0\u03eb\0\u0426\0\u0461\0\u049c"+
-	    "\0\73\0\u04d7\0\u0512\0\u054d\0\u0588\0\u05c3\0\u05fe\0\u0639"+
-	    "\0\u0674\0\u06af\0\u06ea\0\u0725\0\u0760\0\u079b\0\u07d6\0\u0811"+
-	    "\0\u084c\0\u0887\0\166\0\u08c2\0\u08fd\0\u0938\0\u0973\0\u09ae"+
-	    "\0\u09e9\0\u0a24\0\u0a5f\0\u0a9a\0\u0ad5\0\u0b10\0\u0b4b\0\u0b86"+
-	    "\0\u0bc1\0\u0bfc\0\u0c37\0\u0c72\0\u0cad\0\u0ce8\0\u06ea\0\u0d23"+
-	    "\0\u0d5e\0\u06ea\0\u06ea\0\73\0\u0d5e\0\u0d99\0\u0dd4\0\u0e0f"+
-	    "\0\166\0\u0e4a\0\u0e85\0\u0ec0\0\u0efb\0\u0f36\0\u0e4a\0\u0f71"+
-	    "\0\u0fac\0\u0fe7\0\u1022\0\u105d\0\u1098\0\u10d3\0\u110e\0\73"+
-	    "\0\73\0\u1149\0\u1184\0\u11bf\0\u11fa\0\u1235\0\u1270\0\73"+
-	    "\0\u12ab\0\u12e6\0\u1321\0\u135c";
+	    "\0\0\0\75\0\75\0\172\0\267\0\364\0\u0131\0\75"+
+	    "\0\u016e\0\u01ab\0\75\0\u01e8\0\u0225\0\u0262\0\u029f\0\u02dc"+
+	    "\0\u0319\0\u0356\0\u0393\0\u03d0\0\u040d\0\u044a\0\u0487\0\u04c4"+
+	    "\0\u0501\0\75\0\u053e\0\u057b\0\u05b8\0\u05f5\0\u0632\0\u066f"+
+	    "\0\u06ac\0\u06e9\0\u0726\0\75\0\u0763\0\u07a0\0\75\0\u07dd"+
+	    "\0\u081a\0\75\0\u0857\0\u0894\0\u08d1\0\u090e\0\u094b\0\u0988"+
+	    "\0\u09c5\0\u0a02\0\u0a3f\0\u0a7c\0\u0ab9\0\172\0\u0af6\0\u0b33"+
+	    "\0\u0b70\0\u0bad\0\u0bea\0\u0c27\0\u0c64\0\u0ca1\0\u0cde\0\u0d1b"+
+	    "\0\u0d58\0\u0d95\0\u0dd2\0\u0e0f\0\u0e4c\0\u0e89\0\75\0\u07a0"+
+	    "\0\u0ec6\0\75\0\u0f03\0\u0f40\0\u0f7d\0\u0fba\0\u0ff7\0\u1034"+
+	    "\0\u1071\0\u10ae\0\172\0\u10eb\0\u1128\0\u1165\0\u11a2\0\u11df"+
+	    "\0\u121c\0\u1128\0\u1259\0\u1296\0\u12d3\0\u1310\0\u134d\0\u138a"+
+	    "\0\u13c7\0\u1404\0\u1441\0\172\0\u147e\0\u14bb\0\u14f8\0\u1535"+
+	    "\0\u1572\0\u15af";
 
 	  private static int [] zzUnpackRowMap() {
-	    int [] result = new int[100];
+	    int [] result = new int[106];
 	    int offset = 0;
 	    offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
 	    return result;
@@ -134,83 +136,77 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	  private static final int [] ZZ_TRANS = zzUnpackTrans();
 
 	  private static final String ZZ_TRANS_PACKED_0 =
-	    "\1\3\1\4\1\5\1\6\3\3\1\7\1\10\1\11"+
-	    "\2\0\1\10\2\12\1\13\2\4\1\14\1\15\1\16"+
-	    "\1\4\1\17\1\20\1\21\1\22\1\4\1\23\1\24"+
-	    "\1\25\1\4\1\26\14\4\1\5\1\4\1\27\1\4"+
-	    "\1\30\1\4\1\31\2\32\1\33\1\34\1\35\1\36"+
-	    "\1\37\1\40\74\0\2\4\14\0\20\4\1\0\22\4"+
-	    "\11\0\2\41\1\5\2\0\1\41\1\0\1\41\3\0"+
-	    "\1\41\1\0\1\41\1\0\35\41\1\5\5\41\11\0"+
-	    "\3\42\1\43\1\44\1\45\3\42\1\46\61\42\11\7"+
-	    "\4\0\56\7\10\0\1\10\3\0\1\10\57\0\2\4"+
-	    "\14\0\1\4\1\47\4\4\1\50\11\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\6\4\1\51\11\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\15\4\1\52\2\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\1\53\17\4\1\0\20\4\1\54"+
-	    "\1\4\12\0\2\4\14\0\10\4\1\55\4\4\1\56"+
-	    "\2\4\1\0\22\4\12\0\2\4\14\0\2\4\1\57"+
-	    "\6\4\1\60\6\4\1\0\15\4\1\61\4\4\12\0"+
-	    "\2\4\14\0\6\4\1\62\11\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\5\4\1\52\12\4\1\0\21\4\1\63"+
-	    "\12\0\2\4\14\0\15\4\1\50\2\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\3\4\1\14\1\64\5\4\1\65"+
-	    "\5\4\1\0\13\4\1\51\6\4\12\0\2\4\14\0"+
-	    "\17\4\1\66\1\0\22\4\51\0\1\67\3\0\1\70"+
-	    "\2\0\1\71\1\72\23\0\2\4\14\0\6\4\1\73"+
-	    "\1\74\10\4\1\0\22\4\12\0\2\4\14\0\5\4"+
-	    "\1\52\7\4\1\75\2\4\1\0\22\4\75\0\1\31"+
-	    "\73\0\1\31\71\0\1\31\1\0\1\31\70\0\1\31"+
-	    "\2\0\1\31\73\0\1\32\73\0\1\32\73\0\1\31"+
-	    "\3\41\2\0\1\41\1\0\1\41\3\0\1\41\1\0"+
-	    "\1\41\1\0\43\41\11\0\3\76\1\77\1\100\1\45"+
-	    "\3\76\1\101\61\76\3\102\1\103\2\0\3\102\1\0"+
-	    "\61\102\3\100\1\104\1\100\1\45\3\100\1\101\64\100"+
-	    "\1\105\5\100\1\0\3\106\56\100\3\101\1\104\1\101"+
-	    "\1\107\65\101\1\0\2\4\14\0\2\4\1\110\15\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\7\4\1\53\10\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\12\4\1\111\5\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\2\4\1\111\15\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\20\4\1\0\16\4"+
-	    "\1\112\3\4\12\0\2\4\14\0\4\4\1\113\13\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\2\4\1\114\15\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\13\4\1\53\4\4"+
-	    "\1\0\22\4\12\0\2\4\14\0\5\4\1\115\4\4"+
-	    "\1\116\5\4\1\0\22\4\12\0\2\4\14\0\20\4"+
-	    "\1\0\16\4\1\117\3\4\12\0\2\4\14\0\20\4"+
-	    "\1\0\17\4\1\111\2\4\12\0\2\4\14\0\7\4"+
-	    "\1\120\10\4\1\0\22\4\12\0\2\4\14\0\15\4"+
-	    "\1\121\2\4\1\0\22\4\12\0\2\4\14\0\5\4"+
-	    "\1\52\12\4\1\0\22\4\12\0\2\4\14\0\5\4"+
-	    "\1\122\12\4\1\0\22\4\52\0\1\123\76\0\1\124"+
-	    "\72\0\1\125\73\0\1\126\25\0\2\4\14\0\16\4"+
-	    "\1\111\1\4\1\0\22\4\12\0\2\4\14\0\5\4"+
-	    "\1\127\12\4\1\0\22\4\12\0\2\4\14\0\20\4"+
-	    "\1\0\15\4\1\111\4\4\11\0\3\76\1\43\1\100"+
-	    "\1\45\3\76\1\101\61\76\3\100\1\130\1\100\1\45"+
-	    "\3\100\1\101\61\100\3\101\1\131\1\101\1\107\65\101"+
-	    "\3\106\1\130\5\106\1\0\61\106\11\101\4\0\56\101"+
-	    "\1\0\2\4\14\0\3\4\1\132\14\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\6\4\1\63\11\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\1\4\1\133\16\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\13\4\1\111\4\4\1\0\22\4"+
-	    "\12\0\2\4\14\0\1\53\17\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\10\4\1\53\7\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\4\4\1\111\13\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\2\4\1\134\15\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\11\4\1\116\6\4\1\0\22\4\53\0"+
-	    "\1\135\72\0\1\136\100\0\1\137\74\0\1\140\21\0"+
-	    "\2\4\14\0\2\4\1\120\15\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\4\4\1\141\13\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\7\4\1\142\10\4\1\0\22\4\12\0"+
-	    "\2\4\14\0\20\4\1\0\14\4\1\111\5\4\54\0"+
-	    "\1\140\75\0\1\135\65\0\1\143\32\0\2\4\14\0"+
-	    "\5\4\1\144\12\4\1\0\22\4\12\0\2\4\14\0"+
-	    "\2\4\1\53\15\4\1\0\22\4\62\0\1\140\22\0"+
-	    "\2\4\14\0\6\4\1\142\11\4\1\0\22\4\11\0";
+	    "\1\3\1\4\1\5\1\6\1\7\2\3\1\10\1\11"+
+	    "\1\12\2\0\1\12\2\13\1\14\1\3\1\15\2\4"+
+	    "\1\16\1\17\1\20\1\4\1\21\1\22\1\23\1\24"+
+	    "\1\4\1\25\1\26\1\27\16\4\1\5\1\4\1\30"+
+	    "\1\4\1\31\1\4\1\32\2\33\1\34\1\35\1\36"+
+	    "\1\37\1\40\1\41\76\0\2\4\16\0\43\4\11\0"+
+	    "\2\42\1\5\2\0\1\42\2\0\1\42\2\0\1\42"+
+	    "\1\0\1\42\1\0\1\42\1\0\35\42\1\5\5\42"+
+	    "\11\0\3\43\1\44\1\43\1\45\1\43\1\46\65\43"+
+	    "\4\7\1\47\1\50\1\7\1\51\65\7\7\11\1\0"+
+	    "\2\11\3\0\60\11\11\0\1\12\2\0\1\12\100\0"+
+	    "\1\52\20\0\1\53\1\54\2\0\1\55\2\0\1\56"+
+	    "\1\57\24\0\2\4\16\0\1\4\1\60\4\4\1\61"+
+	    "\6\4\1\62\25\4\12\0\2\4\16\0\6\4\1\63"+
+	    "\34\4\12\0\2\4\16\0\7\4\1\64\5\4\1\65"+
+	    "\25\4\12\0\2\4\16\0\1\66\40\4\1\67\1\4"+
+	    "\12\0\2\4\16\0\10\4\1\70\4\4\1\71\25\4"+
+	    "\12\0\2\4\16\0\2\4\1\72\6\4\1\73\24\4"+
+	    "\1\74\4\4\12\0\2\4\16\0\6\4\1\75\34\4"+
+	    "\12\0\2\4\16\0\5\4\1\65\34\4\1\76\12\0"+
+	    "\2\4\16\0\15\4\1\61\25\4\12\0\2\4\16\0"+
+	    "\3\4\1\16\1\77\4\4\1\100\1\101\21\4\1\63"+
+	    "\6\4\12\0\2\4\16\0\17\4\1\102\23\4\12\0"+
+	    "\2\4\16\0\6\4\1\103\1\104\33\4\12\0\2\4"+
+	    "\16\0\5\4\1\65\7\4\1\105\25\4\77\0\1\32"+
+	    "\75\0\1\32\73\0\1\32\1\0\1\32\72\0\1\32"+
+	    "\2\0\1\32\75\0\1\33\75\0\1\33\75\0\1\32"+
+	    "\3\42\2\0\1\42\2\0\1\42\2\0\1\42\1\0"+
+	    "\1\42\1\0\1\42\1\0\43\42\11\0\3\106\1\107"+
+	    "\1\106\1\45\1\106\1\46\70\106\1\110\3\106\1\0"+
+	    "\2\106\3\111\60\106\3\46\1\112\1\46\1\113\67\46"+
+	    "\7\51\1\0\2\51\3\0\64\51\1\112\1\50\67\51"+
+	    "\42\0\1\114\105\0\1\115\67\0\1\116\74\0\1\117"+
+	    "\75\0\1\120\26\0\2\4\16\0\2\4\1\121\40\4"+
+	    "\12\0\2\4\16\0\7\4\1\66\33\4\12\0\2\4"+
+	    "\16\0\11\4\1\122\31\4\12\0\2\4\16\0\12\4"+
+	    "\1\123\30\4\12\0\2\4\16\0\1\4\1\124\41\4"+
+	    "\12\0\2\4\16\0\2\4\1\123\40\4\12\0\2\4"+
+	    "\16\0\37\4\1\125\3\4\12\0\2\4\16\0\4\4"+
+	    "\1\126\36\4\12\0\2\4\16\0\2\4\1\127\40\4"+
+	    "\12\0\2\4\16\0\13\4\1\66\27\4\12\0\2\4"+
+	    "\16\0\5\4\1\130\4\4\1\131\30\4\12\0\2\4"+
+	    "\16\0\37\4\1\132\3\4\12\0\2\4\16\0\40\4"+
+	    "\1\123\2\4\12\0\2\4\16\0\7\4\1\133\33\4"+
+	    "\12\0\2\4\16\0\15\4\1\134\25\4\12\0\2\4"+
+	    "\16\0\10\4\1\76\32\4\12\0\2\4\16\0\5\4"+
+	    "\1\65\35\4\12\0\2\4\16\0\5\4\1\135\35\4"+
+	    "\12\0\2\4\16\0\16\4\1\123\24\4\12\0\2\4"+
+	    "\16\0\5\4\1\136\35\4\12\0\2\4\16\0\36\4"+
+	    "\1\123\4\4\11\0\3\106\1\44\1\106\1\45\1\106"+
+	    "\1\46\65\106\3\111\1\44\3\111\1\0\65\111\7\46"+
+	    "\1\0\2\46\3\0\60\46\43\0\1\137\102\0\1\140"+
+	    "\66\0\1\141\102\0\1\142\77\0\1\52\21\0\2\4"+
+	    "\16\0\3\4\1\143\37\4\12\0\2\4\16\0\12\4"+
+	    "\1\124\30\4\12\0\2\4\16\0\10\4\1\144\32\4"+
+	    "\12\0\2\4\16\0\6\4\1\76\34\4\12\0\2\4"+
+	    "\16\0\1\4\1\145\41\4\12\0\2\4\16\0\13\4"+
+	    "\1\123\27\4\12\0\2\4\16\0\1\66\42\4\12\0"+
+	    "\2\4\16\0\10\4\1\66\32\4\12\0\2\4\16\0"+
+	    "\4\4\1\123\36\4\12\0\2\4\16\0\2\4\1\146"+
+	    "\40\4\12\0\2\4\16\0\11\4\1\131\31\4\12\0"+
+	    "\2\4\16\0\2\4\1\133\40\4\55\0\1\52\76\0"+
+	    "\1\137\75\0\1\137\67\0\1\147\33\0\2\4\16\0"+
+	    "\4\4\1\150\36\4\12\0\2\4\16\0\7\4\1\151"+
+	    "\33\4\12\0\2\4\16\0\35\4\1\123\5\4\63\0"+
+	    "\1\52\23\0\2\4\16\0\5\4\1\152\35\4\12\0"+
+	    "\2\4\16\0\2\4\1\66\40\4\12\0\2\4\16\0"+
+	    "\6\4\1\151\34\4\11\0";
 
 	  private static int [] zzUnpackTrans() {
-	    int [] result = new int[5015];
+	    int [] result = new int[5612];
 	    int offset = 0;
 	    offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
 	    return result;
@@ -248,12 +244,13 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	  private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
 	  private static final String ZZ_ATTRIBUTE_PACKED_0 =
-	    "\1\0\1\10\1\11\5\1\2\11\16\1\1\11\35\1"+
-	    "\4\0\7\1\1\0\1\1\1\11\16\1\4\0\1\1"+
-	    "\2\11\3\1\3\0\1\11\2\1\1\0\1\1";
+	    "\1\0\1\10\1\11\4\1\1\11\2\1\1\11\16\1"+
+	    "\1\11\11\1\1\11\2\1\1\11\2\1\1\11\5\0"+
+	    "\27\1\1\11\2\1\1\11\1\1\5\0\16\1\4\0"+
+	    "\4\1\1\0\3\1";
 
 	  private static int [] zzUnpackAttribute() {
-	    int [] result = new int[100];
+	    int [] result = new int[106];
 	    int offset = 0;
 	    offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
 	    return result;
@@ -391,7 +388,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 
 			s = text;
 			try {
-				yyreset(zzReader);
+				yyyreset(zzReader);
 				yybegin(state);
 				return yylex();
 			} catch (IOException ioe) {
@@ -407,7 +404,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 		 * @return      <code>true</code> if EOF was reached, otherwise
 		 *              <code>false</code>.
 		 */
-		private boolean zzRefill() {
+		private boolean zzzRefill() {
 			return zzCurrentPos>=s.offset+s.count;
 		}
 
@@ -421,7 +418,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 		 *
 		 * @param reader   the new input stream 
 		 */
-		public final void yyreset(Reader reader) {
+		public final void yyyreset(Reader reader) {
 			// 's' has been updated.
 			zzBuffer = s.array;
 			/*
@@ -433,7 +430,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 			//zzStartRead = zzEndRead = s.offset;
 			zzStartRead = s.offset;
 			zzEndRead = zzStartRead + s.count - 1;
-			zzCurrentPos = zzMarkedPos = s.offset;
+			zzCurrentPos = zzMarkedPos  = s.offset;
 			zzLexicalState = YYINITIAL;
 			zzReader = reader;
 			zzAtEOF  = false;
@@ -472,7 +469,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	    char [] map = new char[0x10000];
 	    int i = 0;  /* index in packed string  */
 	    int j = 0;  /* index in unpacked array */
-	    while (i < 184) {
+	    while (i < 186) {
 	      int  count = packed.charAt(i++);
 	      char value = packed.charAt(i++);
 	      do map[j++] = value; while (--count > 0);
@@ -505,7 +502,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	   *
 	   * @param reader   the new input stream 
 	   */
-	  public final void yyyreset(java.io.Reader reader) {
+	  public final void yyreset(java.io.Reader reader) {
 	    zzReader = reader;
 	    zzAtEOF  = false;
 	    zzEndRead = zzStartRead = 0;
@@ -660,7 +657,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	            // store back cached positions
 	            zzCurrentPos  = zzCurrentPosL;
 	            zzMarkedPos   = zzMarkedPosL;
-	            boolean eof = zzRefill();
+	            boolean eof = zzzRefill();
 	            // get translated positions and possibly new buffer
 	            zzCurrentPosL  = zzCurrentPos;
 	            zzMarkedPosL   = zzMarkedPos;
@@ -695,71 +692,75 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	        case 1: 
 	          { addToken(Token.IDENTIFIER);
 	          }
-	        case 18: break;
+	        case 19: break;
 	        case 2: 
 	          { addToken(Token.LITERAL_NUMBER_DECIMAL_INT);
 	          }
-	        case 19: break;
+	        case 20: break;
 	        case 3: 
 	          { addToken(Token.ERROR_CHAR); addNullToken(); return firstToken;
 	          }
-	        case 20: break;
-	        case 4: 
-	          { addToken(Token.COMMENT_EOL); addNullToken(); return firstToken;
-	          }
 	        case 21: break;
-	        case 5: 
-	          { addToken(Token.WHITESPACE);
+	        case 4: 
+	          { addToken(Token.ERROR_STRING_DOUBLE); addNullToken(); return firstToken;
 	          }
 	        case 22: break;
-	        case 6: 
+	        case 5: 
 	          { addNullToken(); return firstToken;
 	          }
 	        case 23: break;
-	        case 7: 
-	          { addToken(Token.SEPARATOR);
+	        case 6: 
+	          { addToken(Token.COMMENT_EOL); addNullToken(); return firstToken;
 	          }
 	        case 24: break;
-	        case 8: 
-	          { addToken(Token.PREPROCESSOR);
+	        case 7: 
+	          { addToken(Token.WHITESPACE);
 	          }
 	        case 25: break;
-	        case 9: 
-	          { addToken(Token.OPERATOR);
+	        case 8: 
+	          { addToken(Token.SEPARATOR);
 	          }
 	        case 26: break;
-	        case 10: 
-	          { addToken(Token.ERROR_NUMBER_FORMAT);
+	        case 9: 
+	          { addToken(Token.PREPROCESSOR);
 	          }
 	        case 27: break;
-	        case 11: 
-	          { addToken(Token.ERROR_CHAR);
+	        case 10: 
+	          { addToken(Token.OPERATOR);
 	          }
 	        case 28: break;
-	        case 12: 
-	          { addToken(Token.ERROR_STRING_DOUBLE); addNullToken(); return firstToken;
+	        case 11: 
+	          { addToken(Token.ERROR_NUMBER_FORMAT);
 	          }
 	        case 29: break;
-	        case 13: 
-	          { addToken(Token.RESERVED_WORD);
+	        case 12: 
+	          { addToken(Token.ERROR_CHAR);
 	          }
 	        case 30: break;
-	        case 14: 
-	          { addToken(Token.LITERAL_CHAR);
-	          }
-	        case 31: break;
-	        case 15: 
+	        case 13: 
 	          { addToken(Token.LITERAL_STRING_DOUBLE_QUOTE);
 	          }
+	        case 31: break;
+	        case 14: 
+	          { addToken(Token.RESERVED_WORD);
+	          }
 	        case 32: break;
-	        case 16: 
-	          { addToken(Token.FUNCTION);
+	        case 15: 
+	          { addToken(Token.LITERAL_CHAR);
 	          }
 	        case 33: break;
-	        case 17: 
+	        case 16: 
 	          { addToken(Token.ERROR_STRING_DOUBLE);
 	          }
 	        case 34: break;
+	        case 17: 
+	          { addToken(Token.FUNCTION);
+	          }
+	        case 35: break;
+	        case 18: 
+	          { addToken(Token.LITERAL_BOOLEAN);
+	          }
+	        case 36: break;
 	        default: 
 	          if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
 	            zzAtEOF = true;
@@ -767,7 +768,7 @@ public class OVScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	            case YYINITIAL: {
 	              addNullToken(); return firstToken;
 	            }
-	            case 101: break;
+	            case 107: break;
 	            default:
 	            return null;
 	            }

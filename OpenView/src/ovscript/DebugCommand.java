@@ -10,7 +10,7 @@ public class DebugCommand extends AbstractBlock{
 
 	@Override
 	public Value run(CodeBlock i) {
-		i.debug(name());
+		i.debug(name(),getLine());
 		return new Value();
 	}
 

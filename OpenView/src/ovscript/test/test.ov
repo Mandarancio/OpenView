@@ -17,4 +17,5 @@ for i=0,i<12,i++
     	dir=!dir
     end
 end
-@PRINT
+
+@ALERT 'x position: '+x

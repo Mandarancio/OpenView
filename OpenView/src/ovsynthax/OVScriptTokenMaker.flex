@@ -167,7 +167,7 @@ import org.fife.ui.rsyntaxtextarea.*;
 
 Letter							= [A-Za-z]
 Digit							= ([0-9])
-AnyCharacterButApostropheOrBackSlash	= ([^\\'])
+AnyCharacterButApostropheOrBackSlash	= ([^\\'\n])
 AnyCharacterButDoubleQuoteOrBackSlash	= ([^\\\"\n])
 NonSeparator						= ([^\t\f\r\n\ \(\)\[\]\;\,\.\=\>\<\!\~\?\:\+\-\*\/\&\|\^\%\"\']|"#"|"\\")
 IdentifierStart					= ({Letter}|"_")
@@ -177,9 +177,9 @@ WhiteSpace				= ([ \t\f]+)
 CharLiteral					= ([\']({AnyCharacterButApostropheOrBackSlash})[\'])
 UnclosedCharLiteral			= ([\'][^\'\n]*)
 ErrorCharLiteral			= ({UnclosedCharLiteral}[\'])
-StringLiteral				= ([\']({AnyCharacterButDoubleQuoteOrBackSlash})*[\'])
-UnclosedStringLiteral		= ([\']([\\].|[^\\\'])*[^\']?)
-ErrorStringLiteral			= ({UnclosedStringLiteral}[\'])
+StringLiteral				= ([\']({AnyCharacterButApostropheOrBackSlash})*[\']|[\"]({AnyCharacterButDoubleQuoteOrBackSlash})*[\"])
+UnclosedStringLiteral		= ([\']([\\].|[^\\\'])*[^\']?|[\"]([\\].|[^\\\"])*[^\"]?)
+ErrorStringLiteral			= ({UnclosedStringLiteral}[\']|{UnclosedStringLiteral}[\"])
 
 LineCommentBegin			= "#"
 
@@ -190,6 +190,8 @@ Separator					= ([\(\)\{\}\[\]])
 Separator2				= ([\,.])
 
 Identifier				= ({IdentifierStart}{IdentifierPart}*)
+
+Preprocessor 			= ([\@][.])
 
 %state MLC
 
@@ -213,7 +215,9 @@ Identifier				= ({IdentifierStart}{IdentifierPart}*)
 	"@WAIT" |
 	"@PRINT" | 
 	"@BREAK" |
-	"@END" {addToken(Token.PREPROCESSOR);}
+	"@ALERT" |
+	"@END" | 
+	{Preprocessor} {addToken(Token.PREPROCESSOR);}
 
         /* Boolean */
         "true" |
@@ -237,6 +241,7 @@ Identifier				= ({IdentifierStart}{IdentifierPart}*)
 	"tan" |
 	"import" |
 	"export" |
+	"alert" |
 	"print" { addToken(Token.FUNCTION); }
 
 	{Identifier}				{ addToken(Token.IDENTIFIER); }
