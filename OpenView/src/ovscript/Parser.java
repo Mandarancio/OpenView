@@ -215,9 +215,9 @@ public class Parser {
 				}
 				int pc = 1;
 				for (; i < line.length(); i++) {
-					if (line.charAt(i) == ')') {
+					if (array[i] == ')') {
 						pc--;
-					} else if (line.charAt(i) == '(') {
+					} else if (array[i]== '(') {
 						pc++;
 					}
 					if (pc == 0) {
@@ -230,6 +230,20 @@ public class Parser {
 				}
 				past = "";
 
+			} else if (c_past == '\'' || c_past == '"') {
+				char achar = c_past;
+				for (; i < line.length(); i++) {
+					past+=array[i];
+
+					if (array[i] == achar) {
+						break;
+					}
+				}
+				i++;
+				if (i < line.length()) {
+					c = line.charAt(i);
+				}			
+				continue;
 			}
 			past += c;
 		}
@@ -357,12 +371,6 @@ public class Parser {
 			}
 		}
 		return false;
-	}
-
-	public static void main(String args[]) {
-		String a = "import(),test)";
-		System.out.println(getArg(a));
-		System.exit(0);
 	}
 
 }

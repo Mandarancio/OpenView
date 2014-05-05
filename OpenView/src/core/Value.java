@@ -186,7 +186,13 @@ public class Value {
 
 	public static Value parse(String s) {
 		Value val;
-		if (s.length() == 0 || s.equals("void")) {
+		if (s.startsWith("'") && s.endsWith("'")){
+			val=new Value(s.substring(1,s.length()-1));
+		}
+		else if (s.startsWith("\"") && s.endsWith("\"")){
+			val=new Value(s.substring(1,s.length()-1));
+		}
+		else if (s.length() == 0 || s.equals("void")) {
 			val = new Value(Void.TYPE);
 		} else if (s.equals("true")) {
 			val = new Value(true);

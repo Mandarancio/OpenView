@@ -1,17 +1,21 @@
 dir = true
 x = 15
-for i=0,i<20,i++
+for i=0,i<2,i++
+	@PRINT
     if dir
+        print('+15')
         x+=15
         if x>=150 && dir
             dir=false
         end
     else
+    	print('-15')
         x-=15
         if x<=15 && !dir
             dir=true
         end
     end
+    print(x)
 end
-print(x)
+print('done')
 @PRINT  
