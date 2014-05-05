@@ -145,8 +145,9 @@ public class Parser {
 
 			} else if (c_past == '=') {
 
-				if (i <= 2
-						|| (array[i - 2] == '>' || array[i - 2] == '<' || array[i - 2] == '!')) {
+				if (i > 2 && array[i - 2] == '>' || array[i - 2] == '<'
+						|| array[i - 2] == '!') {
+				} else {
 					past = past.substring(0, past.length() - 1);
 					past = clean(past);
 					Var v = block.getVar(past);
