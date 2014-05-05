@@ -94,10 +94,6 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
                 }
             }
             i += rs.lines;
-            if (b instanceof ENDBlock) {
-                this.setNext(b);
-                break;
-            }
         }
         return first;
     }
@@ -109,7 +105,6 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
         ArrayList<String> code = new ArrayList<String>();
         while (i < lines.length) {
             String line = Parser.clean(lines[i]);
-
             if (line.startsWith("if ") || line.startsWith("for ") || line.startsWith("while ") || line.startsWith("function ")) {
                 c++;
             } else if (line.equals("end")) {
