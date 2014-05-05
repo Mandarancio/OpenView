@@ -180,7 +180,7 @@ public class OutNode extends Emitter implements OVNode {
 	@Override
 	public void trigger(Value v) {
 		super.trigger(v);
-		if (parent_.getMode() == EditorMode.DEBUG) {
+		if (parent_!=null && parent_.getMode() == EditorMode.DEBUG) {
 			for (Line l : lines_) {
 				if (v.getType() == ValueType.VOID
 						|| v.getType() == ValueType.NONE) {

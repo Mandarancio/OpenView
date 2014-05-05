@@ -1,16 +1,20 @@
 dir = true
 x = 15
-for i=0,i<2,i++
+for i=0,i<12,i++
     if dir
         x+=15
-        if x>=150 && dir
-            dir=false
-        end
     else
-        x-=15
-        if x<=15 && !dir
-            dir=true
-        end
+		x-=15
+    end
+    if i<10
+    	print('  '+i+ ': done')
+    elif i<100
+    	print(' '+i+ ': done')
+    else
+   		print(i+ ': done')
+    end
+    if (dir && x>=150) || (!dir && x<=15)
+    	dir=!dir
     end
 end
 @PRINT
