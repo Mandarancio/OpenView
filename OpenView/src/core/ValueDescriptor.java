@@ -15,6 +15,12 @@ public class ValueDescriptor {
     public ValueDescriptor(Object obj) {
         type_ = ValueType.getType(obj);
     }
+    public ValueDescriptor(ValueDescriptor desc){
+    	type_=desc.getType();
+    	unit_=desc.getUnit();
+    	label_=desc.getLabel();
+    	possibilities_=new ArrayList<>(desc.getPossibilities());
+    }
 
     public ValueDescriptor(ValueType type) {
         type_ = type;

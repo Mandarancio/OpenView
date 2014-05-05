@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import core.Message.MessageType;
@@ -22,6 +23,7 @@ public enum ValueType {
 	
 	static public ValueType getType(Object obj){
 		if (obj == null )return VOID;
+		else if (obj instanceof ArrayList<?>) return ARRAY;
 		else if (obj.getClass().isArray()) return ARRAY;
 		else if (obj instanceof Double) return DOUBLE;
 		else if (obj instanceof Float) return FLOAT;
@@ -77,6 +79,14 @@ public enum ValueType {
 			return Void.TYPE;
 		}else if (this==ENUM){
 			return val;
+		}else if (this==ARRAY){
+			String line=val.substring(1,val.length()-1);
+			String elements[]=line.split(",");
+			ArrayList<Value> values_=new ArrayList<>();
+			for (String e:elements){
+				values_.add(new Value(parse(e)));
+			}
+			return values_;
 		}
 		return val;
 	}

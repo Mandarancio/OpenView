@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +19,48 @@ public class Value {
 	}
 
 	public Value(Object obj) {
-		descriptor_ = new ValueDescriptor(obj);
+		if (obj instanceof Value) {
+			copyValue((Value) obj);
+		} else {
+			descriptor_ = new ValueDescriptor(obj);
+			switch (getType()) {
+			case FLOAT:
+				data_ = new Float((Float) obj);
+				break;
+			case DOUBLE:
+				data_ = new Double((Double) obj);
+				break;
+			case INTEGER:
+				data_ = new Integer((Integer) obj);
+				break;
+			case LONG:
+				data_ = new Long((Long) obj);
+				break;
+			case SHORT:
+				data_ = new Short((Short) obj);
+				break;
+			case BYTE:
+				data_ = new Byte((Byte) obj);
+				break;
+			case STRING:
+				data_ = obj.toString();
+				break;
+			case BOOLEAN:
+				data_ = new Boolean((Boolean) obj);
+				break;
+			case ARRAY:
+				copyArray(obj);
+				break;
+			default:
+				data_ = obj;
+				break;
+			}
+		}
+	}
+
+	private void copyValue(Value val) {
+		descriptor_ = new ValueDescriptor(val.getDescriptor());
+		Object obj = val.getData();
 		switch (getType()) {
 		case FLOAT:
 			data_ = new Float((Float) obj);
@@ -44,11 +86,35 @@ public class Value {
 		case BOOLEAN:
 			data_ = new Boolean((Boolean) obj);
 			break;
+		case ARRAY:
+			copyArray(obj);
+			break;
 		default:
 			data_ = obj;
 			break;
 		}
+	}
 
+	private void copyArray(Object obj) {
+		if (obj instanceof ArrayList<?>) {
+			ArrayList<Value> value = new ArrayList<>();
+			@SuppressWarnings("unchecked")
+			ArrayList<Object> data = (ArrayList<Object>) obj;
+			for (Object o : data) {
+				value.add(new Value(o));
+			}
+			data_ = value;
+
+		} else {
+
+			ArrayList<Value> values = new ArrayList<>();
+			String[] array = (String[]) obj;
+			for (String o : array) {
+				values.add(new Value(o));
+			}
+
+			data_ = values;
+		}
 	}
 
 	public Value(String val, ValueType type) {
@@ -132,6 +198,18 @@ public class Value {
 			return "void";
 		else if (getType() == ValueType.COLOR)
 			return Utils.codeColor((Color) data_);
+		else if (getType() == ValueType.STRING) {
+			@SuppressWarnings("unchecked")
+			ArrayList<Value> vals = (ArrayList<Value>) data_;
+			if (vals.size() == 0)
+				return "[]";
+			String str = "[" + vals.get(0).getString();
+			for (int i = 1; i < vals.size(); i++) {
+				str += ", " + vals.get(i).getString();
+			}
+			str += "]";
+			return str;
+		}
 		return data_.toString();
 	}
 
@@ -169,7 +247,7 @@ public class Value {
 	public boolean getBoolean() throws Exception {
 		if (getType() == ValueType.BOOLEAN)
 			return ((Boolean) data_).booleanValue();
-		throw new Exception("Data is not a boolean! is "+getType());
+		throw new Exception("Data is not a boolean! is " + getType());
 
 	}
 
@@ -186,13 +264,11 @@ public class Value {
 
 	public static Value parse(String s) {
 		Value val;
-		if (s.startsWith("'") && s.endsWith("'")){
-			val=new Value(s.substring(1,s.length()-1));
-		}
-		else if (s.startsWith("\"") && s.endsWith("\"")){
-			val=new Value(s.substring(1,s.length()-1));
-		}
-		else if (s.length() == 0 || s.equals("void")) {
+		if (s.startsWith("'") && s.endsWith("'")) {
+			val = new Value(s.substring(1, s.length() - 1));
+		} else if (s.startsWith("\"") && s.endsWith("\"")) {
+			val = new Value(s.substring(1, s.length() - 1));
+		} else if (s.length() == 0 || s.equals("void")) {
 			val = new Value(Void.TYPE);
 		} else if (s.equals("true")) {
 			val = new Value(true);
