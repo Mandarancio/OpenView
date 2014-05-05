@@ -24,8 +24,8 @@ public class Setting implements SlotListener {
 	private ArrayList<SettingListener> listeners_ = new ArrayList<>();
 	private InNode inNode_ = null;
 	private OutNode outNode_ = null;
-	
-	private boolean autoTriggered_=false;
+
+	private boolean autoTriggered_ = false;
 
 	private Setting(String name) {
 		name_ = (name);
@@ -138,7 +138,7 @@ public class Setting implements SlotListener {
 			if (l != null)
 				l.valueUpdated(this, value_);
 		}
-		if (isAutoTriggered() && outNode_!=null){
+		if (isAutoTriggered() && outNode_ != null) {
 			outNode_.trigger(value_);
 		}
 	}
@@ -210,15 +210,16 @@ public class Setting implements SlotListener {
 		if (mode_ != this.mode_) {
 			this.mode_ = mode_;
 			if (mode_ == EditorMode.RUN) {
-				
+				Value v;
 				if (guiMode_)
-					value_ = new Value(values_.get(EditorMode.GUI).getData());
-				else 
-					value_=new Value(values_.get(EditorMode.NODE).getData());
-				
-				if (value_==null)
-					value_=new Value(value_.getData());
-				
+					v = values_.get(EditorMode.GUI);
+				else
+					v = values_.get(EditorMode.NODE);
+
+				if (v == null)
+					value_ = new Value(value_.getData());
+				else
+					value_ = new Value(v.getData());
 				if (outNode_ != null)
 					outNode_.setValue(value_);
 			} else if (mode_ == EditorMode.DEBUG) {
