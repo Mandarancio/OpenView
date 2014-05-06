@@ -4,10 +4,15 @@ import core.Value;
 
 public class ArrayElement extends Var {
 
+	private static final Object Lenght = "lenght";
+	private static final Object Add = "add";
+	private static final Object Remove = "remove";
 	private Block index_;
 	private CodeBlock parent_;
 	private Var var_;
-	private boolean lenght_=false;
+	private boolean methodMode_ = false;
+	private String method_ = "";
+	private Block[] args_;
 
 	public ArrayElement(Var var, Block index, CodeBlock parent) {
 		super(var.name());
@@ -15,11 +20,13 @@ public class ArrayElement extends Var {
 		parent_ = parent;
 		var_ = var;
 	}
-	
-	public ArrayElement(Var var){
+
+	public ArrayElement(Var var, String method, Block... args) {
 		super(var.name());
 		var_ = var;
-		lenght_=true;
+		methodMode_ = true;
+		method_ = method;
+		args_ = args;
 	}
 
 	@Override
@@ -43,7 +50,7 @@ public class ArrayElement extends Var {
 			try {
 				int ind = index_.run(parent_).getInt();
 				if (var_.getValue().getArray().size() > ind) {
-					var_.getValue().getArray().set(ind, new Value(v));					
+					var_.getValue().getArray().set(ind, new Value(v));
 				} else {
 					var_.getValue().getArray().add(v);
 				}
@@ -54,18 +61,48 @@ public class ArrayElement extends Var {
 			throw new InterpreterException("variable is not an array!",
 					getLine());
 	}
-	
+
 	@Override
 	public Value run(CodeBlock i) throws InterpreterException {
-		if (!lenght_)
+		if (!methodMode_)
 			return getValue();
 		else {
-			try{
+			return runMethod(i);
+		}
+	}
+
+	private Value runMethod(CodeBlock i) throws InterpreterException {
+		if (method_.equals(Lenght)) {
+			try {
 				return new Value(var_.getValue().getArray().size());
-			}catch (Exception e){
-				throw new InterpreterException(e.getMessage(),getLine());
+			} catch (Exception e) {
+				throw new InterpreterException(e.getMessage(), getLine());
+			}
+		} else if (method_.equals(Add)) {
+			try {
+				Value v = args_[0].run(i);
+				if (args_.length == 2) {
+					var_.getValue().getArray().add(args_[1].run(i).getInt(), v);
+				} else
+					var_.getValue().getArray().add(v);
+				return var_.getValue();
+			} catch (Exception e) {
+				throw new InterpreterException(e.getMessage(), getLine());
+
+			}
+		} else if (method_.equals(Remove)) {
+			try {
+				Value v = args_[0].run(i);
+				int ind = v.getInt();
+				var_.getValue().getArray().remove(ind);
+				return var_.getValue();
+			} catch (Exception e) {
+				throw new InterpreterException(e.getMessage(), getLine());
+
 			}
 		}
+		throw new InterpreterException("No method : " + method_ + " found",
+				getLine());
 	}
 
 }

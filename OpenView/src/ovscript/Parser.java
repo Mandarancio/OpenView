@@ -1,5 +1,7 @@
 package ovscript;
 
+import java.util.ArrayList;
+
 import core.Value;
 import evaluator.functions.Function;
 import evaluator.functions.FunctionManager;
@@ -190,13 +192,13 @@ public class Parser {
 				if (i > 2 && array[i - 2] == '>' || array[i - 2] == '<'
 						|| array[i - 2] == '!') {
 				} else {
-					past = line.substring(0,i-1);
+					past = line.substring(0, i - 1);
 					past = clean(past);
 
-					Block b=parseLine(block, past, nextLines, currentLine).block;
-					Var v=null;
+					Block b = parseLine(block, past, nextLines, currentLine).block;
+					Var v = null;
 					if (b instanceof Var)
-						v=(Var)b;
+						v = (Var) b;
 					if (v == null) {
 						v = new Var(past);
 						block.putVar(past, v);
@@ -218,7 +220,7 @@ public class Parser {
 
 					} else if (past.equals("export")) {
 						String arg = getArg(line.substring(i));
-						String args[] = arg.split(",");
+						String args[] = getArgs(arg);
 						int nargs = args.length;
 						Block body;
 						String type = "VOID";
@@ -238,11 +240,12 @@ public class Parser {
 						return new ReturnStruct(new Alert(b), 1);
 					} else {
 						String arg = getArg(line.substring(i));
-						int nargs = arg.split(",").length;
+						int nargs = getArgs(arg).length;
 						FunctionDefinition fb = block.getFunctionDefinition(
 								past, nargs);
 						if (fb != null) {
-							String args[] = arg.split(",");
+							String args[] = getArgs(arg);
+							;
 							Block blocks[] = new Block[nargs];
 							for (int j = 0; j < nargs; j++) {
 								blocks[j] = parseLine(block, args[j],
@@ -252,7 +255,7 @@ public class Parser {
 
 						} else if (functions_.get(past) != null) {
 							Function f = functions_.get(past);
-							String args[] = arg.split(",");
+							String args[] = getArgs(arg);
 							Block blocks[] = new Block[nargs];
 							for (int j = 0; j < nargs; j++) {
 								blocks[j] = parseLine(block, args[j],
@@ -263,7 +266,8 @@ public class Parser {
 						} else if (block.getVar(past) != null) {
 							ArrayElement el = new ArrayElement(
 									block.getVar(past), parseLine(block, arg,
-											nextLines, currentLine).block, block);
+											nextLines, currentLine).block,
+									block);
 							el.setLine(currentLine);
 							return new ReturnStruct(el, 1);
 						}
@@ -289,7 +293,6 @@ public class Parser {
 			}
 			past += c;
 		}
-		
 
 		if (opSel != null) {
 			String left = line.substring(0, opSelInd);
@@ -304,22 +307,39 @@ public class Parser {
 			return new ReturnStruct(ob, 1);
 		}
 
-		if (past.contains(":")){
-			String split[]=line.split(":");
-			if (split.length==2){
-				String var=split[0];
-				String method=split[1];
-
+		if (line.contains(":")) {
+			String split[] = line.split(":");
+			if (split.length == 2) {
+				String var = split[0];
+				String method = split[1];
 				if (block.variableStack().containsKey(var)) {
-					if (method.equals("lenght")){
-						ArrayElement el=new ArrayElement(block.getVar(var));
+					if (method.contains("(")) {
+						int startIndex = method.indexOf("(");
+						String arg = method.substring(startIndex + 1);
+						method = method.substring(0, startIndex);
+						arg = getArg(arg);
+						String args[] = getArgs(arg);
+						int nargs = args.length;
+						Block blocks[] = new Block[nargs];
+
+						for (int j = 0; j < nargs; j++) {
+							blocks[j] = parseLine(block, args[j],
+									new String[0], currentLine).block;
+						}
+						ArrayElement el = new ArrayElement(block.getVar(var),
+								method, blocks);
+						return new ReturnStruct(el, 1);
+
+					} else {
+						ArrayElement el = new ArrayElement(block.getVar(var),
+								method);
 						el.setLine(currentLine);
 						return new ReturnStruct(el, 1);
 					}
 				}
 			}
 		}
-		
+
 		if (block.variableStack().containsKey(past)) {
 			return new ReturnStruct(block.getVar(past), 1);
 		}
@@ -349,6 +369,7 @@ public class Parser {
 		if (l.startsWith("(") && l.endsWith(")")
 				&& checkClsoing(l.substring(1))) {
 			int c = 0;
+			
 			for (int i = 1; i < l.length() - 1; i++) {
 				if (l.charAt(i) == '(') {
 					c++;
@@ -368,7 +389,7 @@ public class Parser {
 	private static ReturnStruct parseFor(CodeBlock block, String line,
 			String[] lines, int currentLine) throws InterpreterException {
 		String l = line.substring(3);
-		String args[] = l.split(",");
+		String args[] = getArgs(l);
 		if (args.length != 3 && args.length != 2) {
 			throw new InterpreterException(
 					"For has this syntax for init,cond,oper", currentLine);
@@ -408,6 +429,44 @@ public class Parser {
 			}
 		}
 		return substring;
+	}
+
+	private static String[] getArgs(String arg) {
+		ArrayList<String> args = new ArrayList<>();
+		char array[] = arg.toCharArray();
+		int begin = 0;
+		int cp = 0;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == ',') {
+				args.add(arg.substring(begin, i));
+				begin = i + 1;
+			} else if (array[i] == '\'' || array[i] == '"') {
+				char c = array[i];
+				i++;
+				for (; i < array.length; i++) {
+					if (array[i] == c)
+						break;
+				}
+				i++;
+			} else if (array[i] == '(') {
+				cp=1;
+				i++;
+				for (; i < array.length; i++) {
+					if (array[i] == '(')
+						cp++;
+					else if (array[i] == ')') {
+						cp--;
+						if (cp == 0)
+							break;
+					}
+				}
+				
+			}
+		}
+
+		args.add(arg.substring(begin, arg.length()));
+
+		return args.toArray(new String[args.size()]);
 	}
 
 	private static boolean checkClsoing(String substring) {
