@@ -8,12 +8,13 @@ import core.Message.MessageType;
 import core.support.Utils;
 
 public enum ValueType {
-	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM;
+	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX;
 
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
-				|| this == LONG || this == FLOAT || this == DOUBLE);
+				|| this == LONG || this == FLOAT || this == DOUBLE );
 	}
+	
 
 	public boolean isCompatible(ValueType type) {
 		if (this == type || this == NONE)
@@ -54,6 +55,8 @@ public enum ValueType {
 			return ARRAY;
 		else if (obj instanceof Color)
 			return COLOR;
+		else if (obj instanceof Complex)
+			return COMPLEX;
 		else if (obj instanceof Enum<?>)
 			return ENUM;
 		return NONE;
