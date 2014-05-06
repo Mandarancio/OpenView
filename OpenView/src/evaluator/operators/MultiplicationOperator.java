@@ -22,7 +22,8 @@ public class MultiplicationOperator extends AbstractOperator {
 
 		// if they are numerical
 		if (l.getType().isNumeric() && r.getType().isNumeric()) {
-			if (l.getType() == ValueType.DOUBLE || r.getType() == ValueType.DOUBLE)
+			if (l.getType() == ValueType.DOUBLE
+					|| r.getType() == ValueType.DOUBLE)
 				return new Value(new Double(l.getDouble() * r.getDouble()));
 
 			if (l.getType() == ValueType.LONG || r.getType() == ValueType.LONG)
@@ -37,7 +38,52 @@ public class MultiplicationOperator extends AbstractOperator {
 			return new Value(new Boolean(l.getBoolean() && r.getBoolean()));
 		}
 
-		
+		// If they are both arrays
+		if (l.getType().isArray() && r.getType().isArray()) {
+			Value[] lValues = l.getValues();
+			Value[] rValues = r.getValues();
+
+			// Check dimension
+			if (lValues.length == rValues.length) { // if they are OK
+				Value result[] = new Value[lValues.length];
+
+				// compute one by one the result
+				for (int i = 0; i < result.length; i++) {
+					result[i] = evaluate(lValues[i], rValues[i]);
+				}
+
+				return new Value(result);
+			} else {
+				throw new EvalException("Vectors dimensions differs!");
+			}
+		}
+
+		// // if it is a Vector plus a scalar
+		if ((l.getType().isArray() && (r.getType().isNumeric() || r.getType() == ValueType.BOOLEAN))) {
+			Value scalar = r;
+			Value[] vector = l.getValues();
+			Value result[] = new Value[vector.length];
+			//
+			// // compute one by one the result
+			for (int i = 0; i < result.length; i++) {
+				result[i] = evaluate(vector[i], scalar);
+			}
+
+			return new Value(result);
+		}
+		// // if it is a Vector plus a scalar
+		if ((r.getType().isArray() && (l.getType().isNumeric() || l.getType() == ValueType.BOOLEAN))) {
+			Value scalar = l;
+			Value[] vector = r.getValues();
+			Value result[] = new Value[vector.length];
+			//
+			// // compute one by one the result
+			for (int i = 0; i < result.length; i++) {
+				result[i] = evaluate(vector[i], scalar);
+			}
+
+			return new Value(result);
+		}
 
 		throw new EvalException(this.name() + " Operands type is invalid!");
 	}

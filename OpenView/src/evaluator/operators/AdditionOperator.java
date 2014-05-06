@@ -17,7 +17,7 @@ public class AdditionOperator extends AbstractOperator {
 	}
 
 	@Override
-	public Value evaluate(Value... operands) throws EvalException ,Exception{
+	public Value evaluate(Value... operands) throws EvalException, Exception {
 		// we need two operands
 		if (operands.length != 2)
 			throw new EvalException("Error: wrong number of operands");
@@ -53,29 +53,51 @@ public class AdditionOperator extends AbstractOperator {
 		}
 
 		// If they are both arrays
-		/*
-		 * if (l.getType().isArray() && r.getType().isArray()) { Value[] lValues
-		 * = l.getValues(); Value[] rValues = r.getValues();
-		 * 
-		 * // Check dimension if (lValues.length == rValues.length) { // if they
-		 * are OK Value result[] = new Value[lValues.length];
-		 * 
-		 * // compute one by one the result for (int i = 0; i < result.length;
-		 * i++) { result[i] = evaluate(lValues[i], rValues[i]); }
-		 * 
-		 * return new Value(result); } else { throw new
-		 * EvalException("Vectors dimensions differs!"); } }
-		 * 
-		 * // if it is a Vector plus a scalar if ((l.getType().isArray() &&
-		 * (r.getType().isNumeric() || r.getType() == ValueType.BOOLEAN))) {
-		 * Value scalar = r; Value[] vector = l.getValues(); Value result[] =
-		 * new Value[vector.length];
-		 * 
-		 * // compute one by one the result for (int i = 0; i < result.length;
-		 * i++) { result[i] = evaluate(vector[i], scalar); }
-		 * 
-		 * return new Value(result); }
-		 */
+		if (l.getType().isArray() && r.getType().isArray()) {
+			Value[] lValues = l.getValues();
+			Value[] rValues = r.getValues();
+
+			// Check dimension
+			if (lValues.length == rValues.length) { // if they are OK
+				Value result[] = new Value[lValues.length];
+
+				// compute one by one the result
+				for (int i = 0; i < result.length; i++) {
+					result[i] = evaluate(lValues[i], rValues[i]);
+				}
+
+				return new Value(result);
+			} else {
+				throw new EvalException("Vectors dimensions differs!");
+			}
+		}
+
+		// // if it is a Vector plus a scalar
+		if ((l.getType().isArray() && (r.getType().isNumeric() || r.getType() == ValueType.BOOLEAN))) {
+			Value scalar = r;
+			Value[] vector = l.getValues();
+			Value result[] = new Value[vector.length];
+			//
+			// // compute one by one the result
+			for (int i = 0; i < result.length; i++) {
+				result[i] = evaluate(vector[i], scalar);
+			}
+
+			return new Value(result);
+		}
+		// // if it is a Vector plus a scalar
+		if ((r.getType().isArray() && (l.getType().isNumeric() || l.getType() == ValueType.BOOLEAN))) {
+			Value scalar = l;
+			Value[] vector = r.getValues();
+			Value result[] = new Value[vector.length];
+			//
+			// // compute one by one the result
+			for (int i = 0; i < result.length; i++) {
+				result[i] = evaluate(vector[i], scalar);
+			}
+
+			return new Value(result);
+		}
 
 		throw new EvalException("Operands type is invalid!");
 	}

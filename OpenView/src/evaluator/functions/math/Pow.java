@@ -12,88 +12,127 @@ import evaluator.functions.AbstractFunction;
 import evaluator.functions.Function;
 
 /**
- *
+ * 
  * @author martino
  */
 public class Pow extends AbstractFunction {
 
-    static final private String description = "";
+	static final private String description = "";
 
-    public Pow() {
-        super("pow", "Pow", description, 2);
-    }
+	public Pow() {
+		super("pow", "Pow", description, 2);
+	}
 
-    @Override
-    public Value evaluate(Value... arguments) throws Exception {
-        // Check the number of argument
-        if (arguments.length == 2) {
-            // get Value
-            Value value = arguments[0];
-            Value value2 = arguments[1];
+	@Override
+	public Value evaluate(Value... arguments) throws Exception {
+		// Check the number of argument
+		if (arguments.length == 2) {
+			// get Value
+			Value value = arguments[0];
+			Value value2 = arguments[1];
+			// If numerical
+			if (value.getType().isNumeric() && value2.getType().isNumeric()) {
+				return new Value(new Double(Math.pow(value.getDouble(),
+						value2.getDouble())));
+			}
+			if (value.getType() == ValueType.ARRAY
+					&& value2.getType() == ValueType.ARRAY) {
 
-            // If numerical
-            if (value.getType().isNumeric() && value2.getType().isNumeric()) {
-                return new Value(new Double(Math.pow(value.getDouble(), value2.getDouble())));
-            }
+				Value[] vector1 = value.getValues();
+				Value[] vector2 = value2.getValues();
+				if (vector1.length == vector2.length) {
+					Value result[] = new Value[vector1.length];
+					for (int i = 0; i < vector1.length; i++) {
+						result[i] = evaluate(vector1[i], vector2[i]);
+					}
+					return new Value(result);
+				}
+			}
 
-      
+			if (value.getType() == ValueType.ARRAY
+					&& value2.getType().isNumeric()) {
+				Value[] vector1 = value.getValues();
+				Value result[] = new Value[vector1.length];
+				for (int i = 0; i < vector1.length; i++) {
+					result[i] = evaluate(vector1[i], value2);
+				}
+				return new Value(result);
+			}
 
-            // the type is incorrect
-            throw new EvalException(this.name() + " function does not handle " + value.getType().toString() + " type");
-        }
+			if (value.getType().isNumeric()
+					&& value2.getType() == ValueType.ARRAY) {
 
-        // number of argument is incorrect
-        throw new EvalException(this.name() + " function needs 2 numerical parameters");
-    }
+				Value[] vector2 = value2.getValues();
+				Value result[] = new Value[vector2.length];
+				for (int i = 0; i < vector2.length; i++) {
+					result[i] = evaluate(value, vector2[i]);
+				}
+				return new Value(result);
 
-    @Override
-    public ValueType returnedType(ValueType... types) throws Exception {
-        // Check the number of argument
-        if (types.length == input()) {
-            if (types[0].isNone() && types[1].isNone()) {
-                return ValueType.NONE;
-            }
+			}
 
-            // If numerical
-            if (types[0].isNumeric() && (types[1].isNumeric() || types[1].isNone())) {
-                return ValueType.DOUBLE;
-            }
+			// the type is incorrect
+			throw new EvalException(this.name() + " function does not handle "
+					+ value.getType().toString() + " type");
+		}
 
-            // if array
-            if (types[0].isArray() && (types[1].isNumeric() || types[1].isNone() || types[1].isArray())) {
-                return ValueType.ARRAY;
-            }
+		// number of argument is incorrect
+		throw new EvalException(this.name()
+				+ " function needs 2 numerical parameters");
+	}
 
-            if (types[1].isArray()) {
-                return ValueType.ARRAY;
-            }
+	@Override
+	public ValueType returnedType(ValueType... types) throws Exception {
+		// Check the number of argument
+		if (types.length == input()) {
+			if (types[0].isNone() && types[1].isNone()) {
+				return ValueType.NONE;
+			}
 
-            if (types[1].isNone() || types[1].isNumeric()) {
-                return ValueType.NONE;
-            }
+			// If numerical
+			if (types[0].isNumeric()
+					&& (types[1].isNumeric() || types[1].isNone())) {
+				return ValueType.DOUBLE;
+			}
 
-            // the type is incorrect
-            throw new EvalException(this.name() + " function does not handle " + types[0].toString() + " type");
-        }
+			// if array
+			if (types[0].isArray()
+					&& (types[1].isNumeric() || types[1].isNone() || types[1]
+							.isArray())) {
+				return ValueType.ARRAY;
+			}
 
-        // number of argument is incorrect
-        throw new EvalException(this.name() + " function only allows one numerical parameter");
-    }
+			if (types[1].isArray()) {
+				return ValueType.ARRAY;
+			}
 
-    @Override
-    public boolean isTypeSupported(ValueType... types) {
-        try {
-            returnedType(types);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
+			if (types[1].isNone() || types[1].isNumeric()) {
+				return ValueType.NONE;
+			}
 
-    @Override
-    public Function clone() {
-        return new Pow();
-    }
-    
-    
+			// the type is incorrect
+			throw new EvalException(this.name() + " function does not handle "
+					+ types[0].toString() + " type");
+		}
+
+		// number of argument is incorrect
+		throw new EvalException(this.name()
+				+ " function only allows one numerical parameter");
+	}
+
+	@Override
+	public boolean isTypeSupported(ValueType... types) {
+		try {
+			returnedType(types);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	@Override
+	public Function clone() {
+		return new Pow();
+	}
+
 }

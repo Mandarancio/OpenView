@@ -33,7 +33,8 @@ public class SubtractionOperator extends AbstractOperator {
 					return new Value(new Double(l.getDouble() - r.getDouble()));
 
 				// compute the result
-				if (r.getType() == ValueType.LONG || l.getType() == ValueType.LONG) {
+				if (r.getType() == ValueType.LONG
+						|| l.getType() == ValueType.LONG) {
 					return new Value(new Long(l.getLong() - r.getLong()));
 				}
 
@@ -42,10 +43,59 @@ public class SubtractionOperator extends AbstractOperator {
 			}
 
 			// if they are String remove sub string
-			if (l.getType() == ValueType.STRING || r.getType() == ValueType.STRING)
+			if (l.getType() == ValueType.STRING
+					|| r.getType() == ValueType.STRING)
 				return new Value(new String(l.getString().replaceAll(
 						r.getString(), "")));
 
+			// If they are both arrays
+			if (l.getType().isArray() && r.getType().isArray()) {
+				Value[] lValues = l.getValues();
+				Value[] rValues = r.getValues();
+
+				// Check dimension
+				if (lValues.length == rValues.length) { // if they are OK
+					Value result[] = new Value[lValues.length];
+
+					// compute one by one the result
+					for (int i = 0; i < result.length; i++) {
+						result[i] = evaluate(lValues[i], rValues[i]);
+					}
+
+					return new Value(result);
+				} else {
+					throw new EvalException("Vectors dimensions differs!");
+				}
+			}
+
+			// // if it is a Vector plus a scalar
+			if ((l.getType().isArray() && (r.getType().isNumeric() || r
+					.getType() == ValueType.BOOLEAN))) {
+				Value scalar = r;
+				Value[] vector = l.getValues();
+				Value result[] = new Value[vector.length];
+				//
+				// // compute one by one the result
+				for (int i = 0; i < result.length; i++) {
+					result[i] = evaluate(vector[i], scalar);
+				}
+
+				return new Value(result);
+			}
+			// // if it is a Vector plus a scalar
+			if ((r.getType().isArray() && (l.getType().isNumeric() || l
+					.getType() == ValueType.BOOLEAN))) {
+				Value scalar = l;
+				Value[] vector = r.getValues();
+				Value result[] = new Value[vector.length];
+				//
+				// // compute one by one the result
+				for (int i = 0; i < result.length; i++) {
+					result[i] = evaluate(vector[i], scalar);
+				}
+
+				return new Value(result);
+			}
 
 		} else {
 			// get operands
@@ -64,7 +114,6 @@ public class SubtractionOperator extends AbstractOperator {
 					return new Value(new Integer(-l.getInt()));
 				return new Value(new Double(-l.getDouble()));
 			}
-
 
 		}
 

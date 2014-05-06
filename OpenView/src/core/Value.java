@@ -19,6 +19,7 @@ public class Value {
 	}
 
 	public Value(Object obj) {
+		
 		if (obj instanceof Value) {
 			copyValue((Value) obj);
 		} else {
@@ -108,8 +109,9 @@ public class Value {
 		} else {
 
 			ArrayList<Value> values = new ArrayList<>();
-			String[] array = (String[]) obj;
-			for (String o : array) {
+			
+			Object[] array = (Object[]) obj;
+			for (Object o : array) {
 				values.add(new Value(o));
 			}
 
@@ -212,13 +214,18 @@ public class Value {
 		}
 		return data_.toString();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ArrayList<Value> getArray() throws Exception{
-		if (getType()==ValueType.ARRAY && data_!=null){
-			return (ArrayList<Value>)data_;
+	public ArrayList<Value> getArray() throws Exception {
+		if (getType() == ValueType.ARRAY && data_ != null) {
+			return (ArrayList<Value>) data_;
 		}
-		throw new Exception("Data is not an array but a "+getType());		
+		throw new Exception("Data is not an array but a " + getType());
+	}
+
+	public Value[] getValues() throws Exception {
+		ArrayList<Value> values = this.getArray();
+		return values.toArray(new Value[values.size()]);
 	}
 
 	public Enum<?> getEnum() throws Exception {
@@ -299,6 +306,5 @@ public class Value {
 		}
 		return value_;
 	}
-
 
 }

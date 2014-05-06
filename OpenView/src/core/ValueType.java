@@ -154,7 +154,6 @@ public enum ValueType {
 
 		values.add(string.substring(begin, string.length()));
 
-		System.out.println(values);
 
 		return values.toArray(new String[values.size()]);
 	}

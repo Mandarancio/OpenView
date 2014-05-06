@@ -27,6 +27,9 @@ public class OperatorManager {
 
 		operators_.add(new LeftShiftOperator());
 		operators_.add(new RightShiftOperator());
+		
+		operators_.add(new MatrixMultiplicationOperator());
+
 	}
 
 	public HashMap<String, Operator> getOperatorMap() {

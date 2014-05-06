@@ -1,21 +1,15 @@
-dir = true
-x = 15
-for i=0,i<12,i++
-    if dir
-        x+=15
-    else
-		x-=15
-    end
-    if i<10
-    	print('  '+i+ ': done')
-    elif i<100
-    	print(' '+i+ ': done')
-    else
-   		print(i+ ': done')
-    end
-    if (dir && x>=150) || (!dir && x<=15)
-    	dir=!dir
-    end
-end
+a=[[1,1,2],[0,1,-3]]
+b=[[1,2,0],[1,5,-2],[1,1,1]]
+c=axb
 
-@ALERT 'position : '+x
+print(a)
+print(b)
+print(c)
+
+a=[[1,2,0],[3,-1,4]]
+b=[1,0,-1]
+c=axb
+
+print(a)
+print(b)
+print(c)

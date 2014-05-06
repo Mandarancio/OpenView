@@ -103,7 +103,49 @@ public class Parser {
 		for (int i = 1; i < line.length(); i++) {
 			c_past = c;
 			c = array[i];
-			if ((c_past == '+' || c_past == '-' || c_past == '*' || c_past == '/')
+			if (c_past == '[') {
+				int pc = 1;
+				for (; i < line.length(); i++) {
+					past += array[i];
+					if (array[i] == '\'' || array[i] == '"') {
+						char achar = array[i];
+						for (; i < line.length(); i++) {
+							past += array[i];
+
+							if (array[i] == achar) {
+								break;
+							}
+						}
+					}
+					if (array[i] == '[')
+						pc++;
+					else if (array[i] == ']') {
+						pc--;
+						if (pc == 0)
+							break;
+					}
+
+				}
+				i++;
+				if (i < line.length()) {
+					c = line.charAt(i);
+				}
+				continue;
+			} else if (c_past == '\'' || c_past == '"') {
+				char achar = c_past;
+				for (; i < line.length(); i++) {
+					past += array[i];
+
+					if (array[i] == achar) {
+						break;
+					}
+				}
+				i++;
+				if (i < line.length()) {
+					c = line.charAt(i);
+				}
+				continue;
+			} else if ((c_past == '+' || c_past == '-' || c_past == '*' || c_past == '/')
 					&& c == '=') {
 				past = past.substring(0, past.length() - 1);
 				Var v = block.getVar(past);
@@ -234,20 +276,6 @@ public class Parser {
 				}
 				past = "";
 
-			} else if (c_past == '\'' || c_past == '"') {
-				char achar = c_past;
-				for (; i < line.length(); i++) {
-					past += array[i];
-
-					if (array[i] == achar) {
-						break;
-					}
-				}
-				i++;
-				if (i < line.length()) {
-					c = line.charAt(i);
-				}
-				continue;
 			}
 			past += c;
 		}
@@ -268,7 +296,6 @@ public class Parser {
 		if (block.variableStack().containsKey(past)) {
 			return new ReturnStruct(block.getVar(past), 1);
 		}
-
 		return new ReturnStruct(new Const(Value.parseValue(past)), 1);
 	}
 

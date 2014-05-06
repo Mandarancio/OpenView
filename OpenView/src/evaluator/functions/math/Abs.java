@@ -54,7 +54,15 @@ public class Abs extends AbstractFunction{
             // if integer
             if (value.getType() == ValueType.LONG)
                 return new Value(new Long(Math.abs(value.getLong())));
-
+            
+            if (value.getType() == ValueType.ARRAY){
+            	Value[] vector = value.getValues();
+    			Value result[] = new Value[vector.length];
+    			for (int i=0;i<vector.length;i++){
+    				result[i]=evaluate(vector[i]);
+    			}
+    			return new Value(result);
+            }
            
 
             // the type is incorrect
