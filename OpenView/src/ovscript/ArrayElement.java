@@ -36,8 +36,7 @@ public class ArrayElement extends Var {
 			try {
 				int ind = index_.run(parent_).getInt();
 				if (var_.getValue().getArray().size() > ind) {
-					Value el = var_.getValue().getArray().get(ind);
-					el.setData(v.getData());
+					var_.getValue().getArray().set(ind, new Value(v));					
 				} else {
 					var_.getValue().getArray().add(v);
 				}
@@ -48,6 +47,11 @@ public class ArrayElement extends Var {
 			throw new InterpreterException("variable is not an array!",
 					getLine());
 
+	}
+	
+	@Override
+	public Value run(CodeBlock i) throws InterpreterException {
+		return getValue();
 	}
 
 }
