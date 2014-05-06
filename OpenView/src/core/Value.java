@@ -198,7 +198,7 @@ public class Value {
 			return "void";
 		else if (getType() == ValueType.COLOR)
 			return Utils.codeColor((Color) data_);
-		else if (getType() == ValueType.STRING) {
+		else if (getType() == ValueType.ARRAY) {
 			@SuppressWarnings("unchecked")
 			ArrayList<Value> vals = (ArrayList<Value>) data_;
 			if (vals.size() == 0)
@@ -211,6 +211,14 @@ public class Value {
 			return str;
 		}
 		return data_.toString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Value> getArray() throws Exception{
+		if (getType()==ValueType.ARRAY && data_!=null){
+			return (ArrayList<Value>)data_;
+		}
+		throw new Exception("Data is not an array but a "+getType());		
 	}
 
 	public Enum<?> getEnum() throws Exception {
@@ -262,32 +270,35 @@ public class Value {
 		throw new Exception("Data is not a number");
 	}
 
-	public static Value parse(String s) {
-		Value val;
-		if (s.startsWith("'") && s.endsWith("'")) {
-			val = new Value(s.substring(1, s.length() - 1));
-		} else if (s.startsWith("\"") && s.endsWith("\"")) {
-			val = new Value(s.substring(1, s.length() - 1));
-		} else if (s.length() == 0 || s.equals("void")) {
-			val = new Value(Void.TYPE);
+	public final static Value parseValue(String s) {
+		Value value_ = null;
+		if (s.length() == 0 || s.equals("void")) {
+			value_ = new Value(Void.TYPE);
 		} else if (s.equals("true")) {
-			val = new Value(true);
+			value_ = new Value(true);
 		} else if (s.equals("false")) {
-			val = new Value(false);
-
+			value_ = new Value(false);
+		} else if (s.startsWith("[") && s.endsWith("]")) {
+			value_ = new Value(ValueType.ARRAY.parse(s));
+		} else if (s.startsWith("'") && s.endsWith("'")) {
+			return new Value(s);
+		} else if (s.startsWith("\"") && s.endsWith("\"")) {
+			return new Value(s);
 		} else if (s.contains(".")) {
 			try {
-				val = new Value(Double.valueOf(s));
+				value_ = new Value(Double.valueOf(s));
 			} catch (NumberFormatException e) {
-				val = new Value(s);
+				value_ = new Value(s);
 			}
 		} else {
 			try {
-				val = new Value(Integer.valueOf(s));
+				value_ = new Value(Integer.valueOf(s));
 			} catch (NumberFormatException e) {
-				val = new Value(s);
+				value_ = new Value(s);
 			}
 		}
-		return val;
+		return value_;
 	}
+
+
 }

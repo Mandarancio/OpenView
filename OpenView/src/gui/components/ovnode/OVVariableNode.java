@@ -101,26 +101,7 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 	}
 
 	private void setValue(String s) {
-		if (s.length() == 0 || s.equals("void")) {
-			value_ = new Value(Void.TYPE);
-		} else if (s.equals("true")) {
-			value_ = new Value(true);
-		} else if (s.equals("false")) {
-			value_ = new Value(false);
-
-		} else if (s.contains(".")) {
-			try {
-				value_ = new Value(Double.valueOf(s));
-			} catch (NumberFormatException e) {
-				value_ = new Value(s);
-			}
-		} else {
-			try {
-				value_ = new Value(Integer.valueOf(s));
-			} catch (NumberFormatException e) {
-				value_ = new Value(s);
-			}
-		}
+		value_ = core.Value.parseValue(s);
 		input_.setType(value_.getDescriptor().getType());
 		output_.setType(value_.getDescriptor().getType());
 		output_.setValue(value_);

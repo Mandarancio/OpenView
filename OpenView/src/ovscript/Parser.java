@@ -269,7 +269,7 @@ public class Parser {
 			return new ReturnStruct(block.getVar(past), 1);
 		}
 
-		return new ReturnStruct(new Const(Value.parse(past)), 1);
+		return new ReturnStruct(new Const(Value.parseValue(past)), 1);
 	}
 
 	public static String clean(String line) {
