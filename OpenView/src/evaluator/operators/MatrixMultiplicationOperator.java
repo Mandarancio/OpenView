@@ -6,7 +6,7 @@ import evaluator.EvalException;
 
 public class MatrixMultiplicationOperator extends AbstractOperator {
 	public MatrixMultiplicationOperator() {
-		super("x", 2, 2);
+		super("@", 2, 2);
 	}
 
 	@Override

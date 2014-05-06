@@ -5,6 +5,7 @@ import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVLabel;
+import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
 import gui.components.ovnode.OVForTrigger;
@@ -43,10 +44,12 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			Variable = "Variable";
 	private static final String Label = "Label", Button = "Button",
 			TextArea = "Text Area", TextField = "Text Field",
-			Container = "Container", Operator = "Operator", Function="Function",
-			NodeBlock = "Block", IFTrigger = "IF trigger", Random="Random", For="For trigger";
+			Container = "Container", Operator = "Operator",
+			Function = "Function", NodeBlock = "Block",
+			IFTrigger = "IF trigger", Random = "Random", For = "For trigger";
 	private static final String ProceduralBlock = "Procedural block";
-	private static final String Check="Check box";
+	private static final String Check = "Check box";
+	private static final String Plot = "Plot";
 	private OVContainer father_;
 	private Point point_;
 
@@ -66,94 +69,99 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		} else if (mode == OVMakerMode.NODEONLY) {
 			initNode();
 		} else if (mode == OVMakerMode.PROCEDURAL) {
-//			initProcedural();
+			// initProcedural();
 		}
 	}
 
 	private void initNode() {
 		JMenu menu = new JMenu("Basic Node");
-		
+
 		JMenuItem i = new JMenuItem(Variable);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		JMenu submenu = new JMenu("Triggers");
-		
+
 		i = new JMenuItem(IFTrigger);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		submenu.add(i);
-		
+
 		i = new JMenuItem(For);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		submenu.add(i);
-		
+
 		i = new JMenuItem(Timer);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		submenu.add(i);
-		
+
 		menu.add(submenu);
-		
+
 		i = new JMenuItem(Pull);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Operator);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Function);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Random);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
-		menu.add(i);	
-		
+		menu.add(i);
+
 		i = new JMenuItem(NodeBlock);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-//		
+		//
 		i = new JMenuItem(ProceduralBlock);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-//		
+		//
 		add(menu);
 	}
 
 	private void initGUI() {
 		JMenu menu = new JMenu("Basic GUI");
-		
+
 		JMenuItem i = new JMenuItem(Label);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Button);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(TextField);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(TextArea);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Check);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		
+		i = new JMenuItem(Plot);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
@@ -162,29 +170,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		add(menu);
 
+		add(menu);
 	}
 
-//	private void initProcedural() {
-//		JMenu menu = new JMenu("Procedural");
-//		
-//		JMenuItem i = new JMenuItem(Var);
-//		i.setActionCommand(i.getText());
-//		i.addActionListener(this);
-//		menu.add(i);
-//		
-//		i = new JMenuItem(Const);
-//		i.setActionCommand(i.getText());
-//		i.addActionListener(this);
-//		menu.add(i);
-//		
-//		i = new JMenuItem(Assign);
-//		i.setActionCommand(i.getText());
-//		i.addActionListener(this);
-//		menu.add(i);
-//		add(menu);
-//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -213,15 +202,17 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVIFTriggerNode(father_));
 		} else if (cmd.equals(ProceduralBlock)) {
 			create(new OVProceduralBlock(father_));
-//			create(new OVScalarBlock(father_));
-		} else if (cmd.equals(Check)){
+			// create(new OVScalarBlock(father_));
+		} else if (cmd.equals(Check)) {
 			create(new OVCheckBox(father_));
-		}else if (cmd.equals(Random)){
+		} else if (cmd.equals(Random)) {
 			create(new OVRandomNode(father_));
-		}else if (cmd.equals(Function)){
+		} else if (cmd.equals(Function)) {
 			create(new OVFunctionNode(father_));
-		}else if (cmd.equals(For)){
+		} else if (cmd.equals(For)) {
 			create(new OVForTrigger(father_));
+		} else if (cmd.equals(Plot)) {
+			create(new OVPlotComponent(father_));
 		}
 	}
 
