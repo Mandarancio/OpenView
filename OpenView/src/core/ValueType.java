@@ -114,6 +114,36 @@ public enum ValueType {
 	final private static Object parseArrary(String val) {
 		String array = val.substring(1, val.length() - 1);
 		String values[] = splitArray(array);
+		if (values.length == 1) {
+			if (array.contains(":")) {
+				values = array.split(":");
+				if (values.length == 3) {
+					String sdv = values[1];
+					String sstart = values[0];
+					String send = values[2];
+					double dv = ((Double) ValueType.DOUBLE.parse(sdv))
+							.doubleValue();
+					double start = ((Double) ValueType.DOUBLE.parse(sstart))
+							.doubleValue();
+					double end = ((Double) ValueType.DOUBLE.parse(send))
+							.doubleValue();
+					int l = (int) Math.round((end - start) / dv);
+					if (start + dv * l != end)
+						l++;
+					l++;
+					Value vals[] = new Value[l];
+					double v = start;
+					vals[0] = new Value(start);
+					for (int i = 1; i < l - 1; i++) {
+						v += dv;
+						vals[i] = new Value(v);
+					}
+					vals[l - 1] = new Value(end);
+					return vals;
+				}
+			}
+		}
+
 		ArrayList<Value> vals = new ArrayList<>();
 		for (String value : values) {
 			vals.add(Value.parseValue(value));
@@ -153,7 +183,6 @@ public enum ValueType {
 		}
 
 		values.add(string.substring(begin, string.length()));
-
 
 		return values.toArray(new String[values.size()]);
 	}
