@@ -242,6 +242,9 @@ Preprocessor 			= ([\@][.])
 	"import" |
 	"export" |
 	"alert" |
+	"add" |
+	"length" |
+	"remove" |
 	"print" { addToken(Token.FUNCTION); }
 
 	{Identifier}				{ addToken(Token.IDENTIFIER); }

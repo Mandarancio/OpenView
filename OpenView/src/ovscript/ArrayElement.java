@@ -4,7 +4,7 @@ import core.Value;
 
 public class ArrayElement extends Var {
 
-	private static final Object Lenght = "lenght";
+	private static final Object Length = "length";
 	private static final Object Add = "add";
 	private static final Object Remove = "remove";
 	private Block index_;
@@ -72,7 +72,7 @@ public class ArrayElement extends Var {
 	}
 
 	private Value runMethod(CodeBlock i) throws InterpreterException {
-		if (method_.equals(Lenght)) {
+		if (method_.equals(Length)) {
 			try {
 				return new Value(var_.getValue().getArray().size());
 			} catch (Exception e) {
@@ -82,9 +82,23 @@ public class ArrayElement extends Var {
 			try {
 				Value v = args_[0].run(i);
 				if (args_.length == 2) {
-					var_.getValue().getArray().add(args_[1].run(i).getInt(), v);
-				} else
-					var_.getValue().getArray().add(v);
+					int ind = args_[1].run(i).getInt();
+					if (v.getType().isArray()) {
+						for (int j = 0; j < v.getValues().length; j++) {
+							var_.getValue().getArray().add(j+ind, v.getValues()[j]);
+						}
+					} else {
+						var_.getValue().getArray().add(ind, v);
+					}
+
+				} else {
+					if (v.getType().isArray()) {
+						for (int j = 0; j < v.getValues().length; j++) {
+							var_.getValue().getArray().add(v.getValues()[j]);
+						}
+					} else
+						var_.getValue().getArray().add(v);
+				}
 				return var_.getValue();
 			} catch (Exception e) {
 				throw new InterpreterException(e.getMessage(), getLine());

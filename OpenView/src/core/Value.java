@@ -288,9 +288,11 @@ public class Value {
 		} else if (s.startsWith("[") && s.endsWith("]")) {
 			value_ = new Value(ValueType.ARRAY.parse(s));
 		} else if (s.startsWith("'") && s.endsWith("'")) {
-			return new Value(s);
+			String str=s.substring(1,s.length()-1);
+			return new Value(str);
 		} else if (s.startsWith("\"") && s.endsWith("\"")) {
-			return new Value(s);
+			String str=s.substring(1,s.length()-1);
+			return new Value(str);
 		} else if (s.contains(".")) {
 			try {
 				value_ = new Value(Double.valueOf(s));

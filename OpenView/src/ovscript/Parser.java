@@ -34,9 +34,7 @@ public class Parser {
 		if (line.startsWith("if ")) {
 			IFBlock ib = new IFBlock(block);
 			ib.setLine(currentLine);
-
 			past = line.substring(2);
-
 			Block cond = parseLine(block, past, nextLines, currentLine).block;
 			ib.setCondition(cond);
 			String copy[] = new String[nextLines.length - 1];
@@ -54,7 +52,6 @@ public class Parser {
 		} else if (line.equals("else")) {
 			ELSEBlock ib = new ELSEBlock(block);
 			ib.setLine(currentLine);
-
 			Block cond = new Const(new Value(true));
 			ib.setCondition(cond);
 			String copy[] = new String[nextLines.length - 1];
@@ -188,10 +185,11 @@ public class Parser {
 				}
 
 			} else if (c_past == '=') {
-
 				if (i > 2 && array[i - 2] == '>' || array[i - 2] == '<'
-						|| array[i - 2] == '!') {
+						|| array[i - 2] == '!' || array[i - 2] == '=') {
+
 				} else {
+
 					past = line.substring(0, i - 1);
 					past = clean(past);
 
@@ -208,7 +206,7 @@ public class Parser {
 							1);
 				}
 			} else if (c_past == '(') {
-				if (checkClsoing(line.substring(i))) {
+				if (checkClsoing(line.substring(i)) && opSel == null) {
 					past = line.substring(0, i - 1);
 					if (past.equals("import")) {
 						String type = getArg(line.substring(i));
@@ -293,7 +291,6 @@ public class Parser {
 			}
 			past += c;
 		}
-
 		if (opSel != null) {
 			String left = line.substring(0, opSelInd);
 			int i = opSelInd + opSel.name().length();
@@ -369,7 +366,7 @@ public class Parser {
 		if (l.startsWith("(") && l.endsWith(")")
 				&& checkClsoing(l.substring(1))) {
 			int c = 0;
-			
+
 			for (int i = 1; i < l.length() - 1; i++) {
 				if (l.charAt(i) == '(') {
 					c++;
@@ -449,7 +446,7 @@ public class Parser {
 				}
 				i++;
 			} else if (array[i] == '(') {
-				cp=1;
+				cp = 1;
 				i++;
 				for (; i < array.length; i++) {
 					if (array[i] == '(')
@@ -460,7 +457,7 @@ public class Parser {
 							break;
 					}
 				}
-				
+
 			}
 		}
 
