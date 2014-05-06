@@ -190,9 +190,13 @@ public class Parser {
 				if (i > 2 && array[i - 2] == '>' || array[i - 2] == '<'
 						|| array[i - 2] == '!') {
 				} else {
-					past = past.substring(0, past.length() - 1);
+					past = line.substring(0,i-1);
 					past = clean(past);
-					Var v = block.getVar(past);
+
+					Block b=parseLine(block, past, nextLines, currentLine).block;
+					Var v=null;
+					if (b instanceof Var)
+						v=(Var)b;
 					if (v == null) {
 						v = new Var(past);
 						block.putVar(past, v);
@@ -256,6 +260,12 @@ public class Parser {
 							}
 							return new ReturnStruct(
 									new FunctionBlock(f, blocks), 1);
+						} else if (block.getVar(past) != null) {
+							ArrayElement el = new ArrayElement(
+									block.getVar(past), parseLine(block, arg,
+											nextLines, currentLine).block, block);
+							el.setLine(currentLine);
+							return new ReturnStruct(el, 1);
 						}
 					}
 				}

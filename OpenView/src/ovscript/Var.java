@@ -4,7 +4,7 @@ import core.Value;
 
 public class Var extends AbstractBlock {
 
-    public Value value=new Value();
+    private Value value=new Value();
 
     public Var(String name) {
         super(name);
@@ -21,6 +21,15 @@ public class Var extends AbstractBlock {
     		return new Value(value.getData());
     	else
     		return new Value();
+    }
+    
+    
+    public Value getValue() throws InterpreterException{
+    	return value;
+    }
+    
+    public void setValue(Value v) throws InterpreterException{
+    	value=new Value(v);
     }
 
 }

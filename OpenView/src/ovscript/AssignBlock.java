@@ -20,7 +20,7 @@ public class AssignBlock extends AbstractBlock{
 	@Override
 	public Value run(CodeBlock i) throws InterpreterException {
 		Value v=rightExp_.run(i);
-		var_.value=v;
+		var_.setValue(v);
 		return var_.run(i);
 	}
 

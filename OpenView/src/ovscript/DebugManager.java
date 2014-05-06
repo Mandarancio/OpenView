@@ -20,12 +20,16 @@ public class DebugManager {
 				System.out.println("VARIABLE STATUS OF "
 						+ block.getClass().getSimpleName() + " : ");
 				for (String s : block.localVariableStack().keySet()) {
-					System.out.println("  " + s + " : "
-							+ block.localVariableStack().get(s).value);
+					try {
+						System.out.println("  " + s + " : "
+								+ block.localVariableStack().get(s).getValue());
+					} catch (InterpreterException e) {
+						e.printStackTrace();
+					}
 				}
 				System.out.println("----\n");
 				if (block.parent() != null) {
-					block.parent().debug(code,line);
+					block.parent().debug(code, line);
 				}
 			} else if (code.equals(DBREAK)) {
 				block.endRun();
@@ -33,12 +37,12 @@ public class DebugManager {
 				JOptionPane.showMessageDialog(null, "Waiting...");
 			} else if (code.startsWith(DALERT + " ")) {
 				String s = code.substring(DALERT.length());
-				String msg="";
+				String msg = "";
 				try {
 					Block b = Parser.parseLine(block, s, new String[0], line).block;
-					msg=b.run(block).getString();
+					msg = b.run(block).getString();
 				} catch (Exception e) {
-					msg=e.getMessage();
+					msg = e.getMessage();
 				}
 				JOptionPane.showMessageDialog(null, msg);
 			}

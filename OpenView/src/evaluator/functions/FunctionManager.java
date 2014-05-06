@@ -8,6 +8,9 @@ package evaluator.functions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import evaluator.functions.array.ArrayAdd;
+import evaluator.functions.array.ArrayGet;
+import evaluator.functions.array.ArrayRemove;
 import evaluator.functions.converters.ToString;
 import evaluator.functions.math.Abs;
 import evaluator.functions.math.Acos;
@@ -62,6 +65,10 @@ public class FunctionManager {
 		// functions_.add(new ToRadians());
 
 		functions_.add(new ToString());
+		
+		functions_.add(new ArrayGet());
+		functions_.add(new ArrayAdd());
+		functions_.add(new ArrayRemove());
 	}
 
 	public HashMap<String, Function> getFunctionMap() {

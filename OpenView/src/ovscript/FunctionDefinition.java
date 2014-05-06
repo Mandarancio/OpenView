@@ -11,7 +11,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	private CodeBlock parent_;
 	private HashMap<String, Var> variables_ = new HashMap<>();
 	private HashMap<String, Block> argsBlock_ = new HashMap<>();
-	
+
 	private Block body_;
 	private String[] code_;
 	private boolean definition_ = true;
@@ -21,19 +21,19 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	public FunctionDefinition(CodeBlock defPar, String name, String[] args) {
 		super(name);
 		defPar_ = defPar;
-		for (int i=0;i<args.length;i++) {
+		for (int i = 0; i < args.length; i++) {
 			variables_.put(args[i], new Var(args[i]));
 			argsBlock_.put(args[i], null);
 		}
-		args_=args;
+		args_ = args;
 		definition_ = true;
 	}
-	
+
 	@Override
-	public Value run(CodeBlock i) throws InterpreterException{
+	public Value run(CodeBlock i) throws InterpreterException {
 		if (!definition_) {
 			for (String s : argsBlock_.keySet()) {
-				getVar(s).value = argsBlock_.get(s).run(this);
+				getVar(s).setValue(argsBlock_.get(s).run(this));
 			}
 
 			parent_ = i;
@@ -48,7 +48,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public ReturnStruct parse(String[] lines) throws InterpreterException{
+	public ReturnStruct parse(String[] lines) throws InterpreterException {
 		int i = 0;
 		code_ = lines;
 		Block b = null;
@@ -56,7 +56,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 			String line = Parser.clean(lines[i]);
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
-			ReturnStruct rs = Parser.parseLine(this, line, copy,getLine()+i);
+			ReturnStruct rs = Parser.parseLine(this, line, copy, getLine() + i);
 			if (rs.block != null) {
 				if (b == null) {
 					b = rs.block;
@@ -76,14 +76,16 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public Value runBlock(Block b) throws InterpreterException{
+	public Value runBlock(Block b) throws InterpreterException {
 		return run(this);
 	}
 
-	public FunctionDefinition instanciate(Block... vars)throws InterpreterException {
+	public FunctionDefinition instanciate(Block... vars)
+			throws InterpreterException {
 		if (vars.length == argsBlock_.size()) {
-			
-			FunctionDefinition fb = new FunctionDefinition(defPar_, name(), args_);
+
+			FunctionDefinition fb = new FunctionDefinition(defPar_, name(),
+					args_);
 			fb.init(vars);
 			fb.parse(code_);
 			return fb;
@@ -94,7 +96,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	public void init(Block... vars) {
 		if (vars.length == argsBlock_.size()) {
 			definition_ = false;
-			String args[] =args_;
+			String args[] = args_;
 			for (int i = 0; i < vars.length; i++) {
 				argsBlock_.put(args[i], vars[i]);
 			}
@@ -108,8 +110,8 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	public void debug(String code,int line) {
-		DebugManager.debug(code, this,line);
+	public void debug(String code, int line) {
+		DebugManager.debug(code, this, line);
 	}
 
 	@Override
@@ -147,23 +149,24 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	}
 
 	@Override
-	protected Value runBlock(Block body, CodeBlock i)throws InterpreterException{
+	protected Value runBlock(Block body, CodeBlock i)
+			throws InterpreterException {
 		Block b = body;
-		Value v=new Value();
-		__return =false;
+		Value v = new Value();
+		__return = false;
 		while (b != null && !__end && !__return) {
-			if (b instanceof ReturnBlock){
-				return  b.run(i);
+			if (b instanceof ReturnBlock) {
+				return b.run(i);
+			} else {
+				v = b.run(i);
 			}
-			else{
-				v=b.run(i);
-			}
-			if (b instanceof AbstractBlock && ((AbstractBlock) b).returnStatus()){
+			if (b instanceof AbstractBlock
+					&& ((AbstractBlock) b).returnStatus()) {
 				return v;
 			}
 			b = b.next();
 		}
-		v=null;
+		v = null;
 		return new Value();
 	}
 
@@ -182,7 +185,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	public int args() {
 		return argsBlock_.size();
 	}
-	
+
 	@Override
 	public Slot getSlot(int line) {
 		return parent().getSlot(line);
@@ -192,5 +195,5 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 	public Emitter getEmitter(int line) {
 		return parent().getEmitter(line);
 	}
-    
+
 }
