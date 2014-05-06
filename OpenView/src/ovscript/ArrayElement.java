@@ -7,12 +7,19 @@ public class ArrayElement extends Var {
 	private Block index_;
 	private CodeBlock parent_;
 	private Var var_;
+	private boolean lenght_=false;
 
 	public ArrayElement(Var var, Block index, CodeBlock parent) {
 		super(var.name());
 		index_ = index;
 		parent_ = parent;
 		var_ = var;
+	}
+	
+	public ArrayElement(Var var){
+		super(var.name());
+		var_ = var;
+		lenght_=true;
 	}
 
 	@Override
@@ -46,12 +53,19 @@ public class ArrayElement extends Var {
 		} else
 			throw new InterpreterException("variable is not an array!",
 					getLine());
-
 	}
 	
 	@Override
 	public Value run(CodeBlock i) throws InterpreterException {
-		return getValue();
+		if (!lenght_)
+			return getValue();
+		else {
+			try{
+				return new Value(var_.getValue().getArray().size());
+			}catch (Exception e){
+				throw new InterpreterException(e.getMessage(),getLine());
+			}
+		}
 	}
 
 }

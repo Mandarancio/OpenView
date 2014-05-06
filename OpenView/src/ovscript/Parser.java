@@ -289,6 +289,7 @@ public class Parser {
 			}
 			past += c;
 		}
+		
 
 		if (opSel != null) {
 			String left = line.substring(0, opSelInd);
@@ -303,6 +304,22 @@ public class Parser {
 			return new ReturnStruct(ob, 1);
 		}
 
+		if (past.contains(":")){
+			String split[]=line.split(":");
+			if (split.length==2){
+				String var=split[0];
+				String method=split[1];
+
+				if (block.variableStack().containsKey(var)) {
+					if (method.equals("lenght")){
+						ArrayElement el=new ArrayElement(block.getVar(var));
+						el.setLine(currentLine);
+						return new ReturnStruct(el, 1);
+					}
+				}
+			}
+		}
+		
 		if (block.variableStack().containsKey(past)) {
 			return new ReturnStruct(block.getVar(past), 1);
 		}
