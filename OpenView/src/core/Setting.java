@@ -253,11 +253,16 @@ public class Setting implements SlotListener {
 		e.setAttribute("gui_mode", Boolean.toString(guiMode_));
 		e.setAttribute("node_mode", Boolean.toString(nodeMode_));
 		e.appendChild(value_.getXML(doc));
-		if (minValue_ != null)
-			e.appendChild(minValue_.getXML(doc));
-		if (maxValue_ != null)
-			e.appendChild(maxValue_.getXML(doc));
-
+		if (minValue_ != null){
+			Element min=minValue_.getXML(doc);
+			doc.renameNode(min, null, "min");
+			e.appendChild(min);
+		}
+		if (maxValue_ != null){
+			Element max=maxValue_.getXML(doc);
+			doc.renameNode(max, null, "max");
+			e.appendChild(max);
+		}
 		return e;
 	}
 
