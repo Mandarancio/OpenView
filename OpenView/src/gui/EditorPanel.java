@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import core.support.OrientationEnum;
 
 public class EditorPanel extends JLayeredPane implements OVContainer,
@@ -409,5 +412,13 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 	public boolean compatible(OVComponent c) {
 
 		return true;
+	}
+
+	public Element getXML(Document doc) {
+		Element e=doc.createElement("EditorPanel");
+		for (OVComponent c: components_){
+			e.appendChild(c.getXML(doc));
+		}
+		return e;
 	}
 }

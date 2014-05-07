@@ -2,17 +2,25 @@ package gui;
 
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
+import gui.support.XMLBuilder;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
+
+import org.w3c.dom.Document;
 
 public class MainPanel extends JPanel {
 
@@ -24,6 +32,7 @@ public class MainPanel extends JPanel {
 	private EditorPanel editor_;
 
 	public MainPanel() {
+
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		toolBar.setPreferredSize(new Dimension(30, 30));
@@ -51,6 +60,36 @@ public class MainPanel extends JPanel {
 
 		toolBar.add(runButton);
 		toolBar.add(debugButton);
+
+		toolBar.addSeparator(new Dimension(30, 10));
+		JButton saveButton = new JButton(UIManager.getIcon("Tree.saveIcon"));
+		saveButton.setText("Save");
+
+		saveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Create a file chooser
+				final JFileChooser fc = new JFileChooser();
+
+				// In response to a button click:
+				int returnVal = fc.showOpenDialog(MainPanel.this);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						File f = fc.getSelectedFile();
+						Document doc = XMLBuilder.makeDoc();
+						doc.appendChild(editor_.getXML(doc));
+						XMLBuilder.saveDoc(doc, f);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(MainPanel.this, e.getMessage());
+					}
+				}
+
+			}
+		});
+
+		toolBar.add(saveButton);
 
 		debugButton.addActionListener(new ActionListener() {
 

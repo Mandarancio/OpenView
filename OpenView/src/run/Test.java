@@ -12,7 +12,7 @@ public class Test {
 		
 		System.out.println(v);
 		
-		
+
 		System.exit(0);
 	}
 }
