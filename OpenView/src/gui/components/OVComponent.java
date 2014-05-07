@@ -38,6 +38,7 @@ import core.Setting;
 import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
+import java.util.UUID;
 
 public class OVComponent extends JLayeredPane implements DragComponent,
 		SettingListener {
@@ -63,9 +64,12 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	protected int __minY = 0;
 	private OVToolTip toolTip_;
 
+        private UUID uuid_;
+        
 	public OVComponent(OVContainer father) {
 		father_ = (father);
-		this.setMinimumSize(new Dimension(30, 30));
+		uuid_=UUID.randomUUID();
+                this.setMinimumSize(new Dimension(30, 30));
 		// this.setSize(50, 50);
 		// this.setLayout(null);
 		this.setBackground(new Color(69, 70, 64));
@@ -583,6 +587,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	public Element getXML(Document doc) {
 		Element node = doc.createElement(getClass().getSimpleName());
+                node.setAttribute("uuid",uuid_.toString());
 		for (String key : settings_.keySet()) {
 			Element subNode = doc.createElement("category");
 			subNode.setAttribute("name", key);
@@ -684,4 +689,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	public String toString() {
 		return getName()+" - "+getClass().getSimpleName();
 	}
+        
+        public UUID getUUID(){
+            return uuid_;
+        }
 }

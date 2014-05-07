@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
 import core.EmitterInterface;
 import core.Slot;
 import core.ValueType;
+import java.util.UUID;
 
 public class InNode extends Slot implements OVNode {
 	final static public int radius = 4;
@@ -25,6 +26,7 @@ public class InNode extends Slot implements OVNode {
 	private ArrayList<NodeListener> nListeners_ = new ArrayList<>();
 	private boolean hidden_;
 	private OVComponent parent_;
+        private UUID uuid_;
 
 	public InNode(Point p, String label, ValueType type, OVComponent parent) {
 		super(label, type);
@@ -32,7 +34,8 @@ public class InNode extends Slot implements OVNode {
 			polymorf_ = true;
 		location_ = p;
 		parent_ = parent;
-	}
+                uuid_=UUID.randomUUID();
+        }
 
 	public boolean contains(Point p) {
 		int dx = p.x - location_.x, dy = p.y - location_.y;
@@ -107,8 +110,10 @@ public class InNode extends Slot implements OVNode {
 	}
 
 	public Element getXML(Document doc) {
-		// TODO Auto-generated method stub
-		return null;
+                Element e= doc.createElement(getClass().getSimpleName());
+                e.setAttribute("uuid", uuid_.toString());
+                e.setAttribute("type",getType().toString());
+                return e;
 	}
 
 	@Override
@@ -169,4 +174,8 @@ public class InNode extends Slot implements OVNode {
 	public boolean visible() {
 		return !hidden_;
 	}
+        
+        public UUID getUUID(){
+            return uuid_;
+        }
 }
