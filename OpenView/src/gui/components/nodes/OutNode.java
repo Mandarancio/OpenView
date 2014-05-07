@@ -17,188 +17,205 @@ import core.Emitter;
 import core.SlotInterface;
 import core.Value;
 import core.ValueType;
+import java.util.UUID;
 
 public class OutNode extends Emitter implements OVNode {
-	final static public int radius = 4;
-	private Point location_;
-	public boolean over = false;
-	private boolean hidden_;
-	private OVComponent parent_;
-	private ArrayList<NodeListener> nListeners_ = new ArrayList<>();
-	private ArrayList<Line> lines_ = new ArrayList<>();
 
-	public OutNode(Point p, String label, ValueType type, OVComponent parent) {
-		super(label, type);
-		parent_ = (parent);
-		location_ = p;
-	}
+    final static public int radius = 4;
+    private Point location_;
+    public boolean over = false;
+    private boolean hidden_;
+    private OVComponent parent_;
+    private ArrayList<NodeListener> nListeners_ = new ArrayList<>();
+    private ArrayList<Line> lines_ = new ArrayList<>();
+    private UUID uuid_;
 
-	public boolean contains(Point p) {
-		int dx = p.x - location_.x, dy = p.y - location_.y;
-		double d = Math.sqrt(dx * dx + dy * dy);
-		return (d <= radius);
-	}
+    public OutNode(Point p, String label, ValueType type, OVComponent parent) {
+        super(label, type);
+        parent_ = (parent);
+        location_ = p;
+        uuid_ = UUID.randomUUID();
+    }
 
-	public void paint(Graphics2D g) {
-		if (hidden_) {
-			g.setColor(getType().getColor().darker());
-		} else {
-			g.setColor(getType().getColor());
-		}
-		g.fillOval(location_.x - radius, location_.y - radius, radius * 2,
-				radius * 2);
-		g.setColor(Color.black);
-		g.drawOval(location_.x - radius, location_.y - radius, radius * 2,
-				radius * 2);
-	}
+    public boolean contains(Point p) {
+        int dx = p.x - location_.x, dy = p.y - location_.y;
+        double d = Math.sqrt(dx * dx + dy * dy);
+        return (d <= radius);
+    }
 
-	public void setLocation(Point p) {
-		location_ = p;
-	}
+    public void paint(Graphics2D g) {
+        if (hidden_) {
+            g.setColor(getType().getColor().darker());
+        } else {
+            g.setColor(getType().getColor());
+        }
+        g.fillOval(location_.x - radius, location_.y - radius, radius * 2,
+                radius * 2);
+        g.setColor(Color.black);
+        g.drawOval(location_.x - radius, location_.y - radius, radius * 2,
+                radius * 2);
+    }
 
-	public Point getLocation() {
-		return location_;
-	}
+    public void setLocation(Point p) {
+        location_ = p;
+    }
 
-	@Override
-	public boolean compatible(OVNode a) {
-		return (a instanceof InNode)
-				&& (((InNode) a).isCompatible(this) && !a.getParent().equals(
-						parent_));
-	}
+    public Point getLocation() {
+        return location_;
+    }
 
-	public Element getXML(Document doc) {
-		return null;
-	}
+    @Override
+    public boolean compatible(OVNode a) {
+        return (a instanceof InNode)
+                && (((InNode) a).isCompatible(this) && !a.getParent().equals(
+                        parent_));
+    }
 
-	public void delete() {
-		for (Line l : lines_) {
-			l.delete();
-		}
-		lines_.clear();
-		for (SlotInterface s : connections_) {
-			if (s instanceof InNode) {
-				if (((InNode) s).getLine(this) != null)
-					((InNode) s).getLine(this).delete();
-			}
-			s.deconnect(this);
-		}
-		parent_ = null;
-		connections_.clear();
-	}
+    public Element getXML(Document doc) {
+        Element e = doc.createElement(getClass().getSimpleName());
+        e.setAttribute("uuid", uuid_.toString());
+        e.setAttribute("label",getLabel());
+        e.setAttribute("type", getType().toString());
+        
+        return e;
+    }
 
-	@Override
-	public void addNodeListener(NodeListener l) {
-		nListeners_.add(l);
-	}
+    public void delete() {
+        for (Line l : lines_) {
+            l.delete();
+        }
+        lines_.clear();
+        for (SlotInterface s : connections_) {
+            if (s instanceof InNode) {
+                if (((InNode) s).getLine(this) != null) {
+                    ((InNode) s).getLine(this).delete();
+                }
+            }
+            s.deconnect(this);
+        }
+        parent_ = null;
+        connections_.clear();
+    }
 
-	@Override
-	public void removeNodeListener(NodeListener l) {
-		nListeners_.remove(l);
-	}
+    @Override
+    public void addNodeListener(NodeListener l) {
+        nListeners_.add(l);
+    }
 
-	private void trigConn() {
-		for (NodeListener l : nListeners_) {
-			l.connected(this);
-		}
-	}
+    @Override
+    public void removeNodeListener(NodeListener l) {
+        nListeners_.remove(l);
+    }
 
-	private void trigDeconn() {
-		for (NodeListener l : nListeners_) {
-			l.deconneced(this);
-		}
-	}
+    private void trigConn() {
+        for (NodeListener l : nListeners_) {
+            l.connected(this);
+        }
+    }
 
-	@Override
-	public void hide() {
-		hidden_ = true;
-	}
+    private void trigDeconn() {
+        for (NodeListener l : nListeners_) {
+            l.deconneced(this);
+        }
+    }
 
-	@Override
-	public void show() {
-		hidden_ = false;
-	}
+    @Override
+    public void hide() {
+        hidden_ = true;
+    }
 
-	@Override
-	public OVComponent getParent() {
-		return parent_;
-	}
+    @Override
+    public void show() {
+        hidden_ = false;
+    }
 
-	@Override
-	public boolean connect(SlotInterface s) {
-		if (isPolyvalent()) {
-			setType(s.getType());
-			boolean flag = super.connect(s);
-			if (flag)
-				trigConn();
-			return flag;
-		}
-		boolean flag = super.connect(s);
-		if (flag)
-			trigConn();
-		return flag;
-	}
+    @Override
+    public OVComponent getParent() {
+        return parent_;
+    }
 
-	@Override
-	public boolean deconnect(SlotInterface s) {
-		Line l = getLine((OVNode) s);
-		if (l != null) {
-			lines_.remove(l);
-		}
+    @Override
+    public boolean connect(SlotInterface s) {
+        if (isPolyvalent()) {
+            setType(s.getType());
+            boolean flag = super.connect(s);
+            if (flag) {
+                trigConn();
+            }
+            return flag;
+        }
+        boolean flag = super.connect(s);
+        if (flag) {
+            trigConn();
+        }
+        return flag;
+    }
 
-		if (isPolyvalent() && connections_.size() == 0)
-			setType(ValueType.VOID);
-		boolean flag = super.deconnect(s);
-		if (flag)
-			trigDeconn();
-		return flag;
-	}
+    @Override
+    public boolean deconnect(SlotInterface s) {
+        Line l = getLine((OVNode) s);
+        if (l != null) {
+            lines_.remove(l);
+        }
 
-	public void setPolyvalent(boolean poly) {
-		super.setPolyvalent(poly);
-	}
+        if (isPolyvalent() && connections_.size() == 0) {
+            setType(ValueType.VOID);
+        }
+        boolean flag = super.deconnect(s);
+        if (flag) {
+            trigDeconn();
+        }
+        return flag;
+    }
 
-	@Override
-	public void addLine(Line l) {
-		lines_.add(l);
-	}
+    public void setPolyvalent(boolean poly) {
+        super.setPolyvalent(poly);
+    }
 
-	@Override
-	public Line getLine(OVNode n) {
-		for (Line l : lines_) {
-			if (l.a.equals(n) || l.b.equals(n))
-				return l;
-		}
-		return null;
-	}
+    @Override
+    public void addLine(Line l) {
+        lines_.add(l);
+    }
 
-	@Override
-	public boolean visible() {
-		return !hidden_;
-	}
+    @Override
+    public Line getLine(OVNode n) {
+        for (Line l : lines_) {
+            if (l.a.equals(n) || l.b.equals(n)) {
+                return l;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public void trigger(Value v) {
-		super.trigger(v);
-		if (parent_!=null && parent_.getMode() == EditorMode.DEBUG) {
-			for (Line l : lines_) {
-				if (v.getType() == ValueType.VOID
-						|| v.getType() == ValueType.NONE) {
-					l.debugDisplay("");
-				} else {
-					l.debugDisplay(v.getString());
-				}
-			}
-		}
-	}
+    @Override
+    public boolean visible() {
+        return !hidden_;
+    }
 
-	public void deconnectAll() {
-		ArrayList<SlotInterface> connections=new ArrayList<>(connections_);
-		for (SlotInterface s: connections){
-			deconnect(s);
-		}
-		connections.clear();
-	}
+    @Override
+    public void trigger(Value v) {
+        super.trigger(v);
+        if (parent_ != null && parent_.getMode() == EditorMode.DEBUG) {
+            for (Line l : lines_) {
+                if (v.getType() == ValueType.VOID
+                        || v.getType() == ValueType.NONE) {
+                    l.debugDisplay("");
+                } else {
+                    l.debugDisplay(v.getString());
+                }
+            }
+        }
+    }
 
-	
+    public void deconnectAll() {
+        ArrayList<SlotInterface> connections = new ArrayList<>(connections_);
+        for (SlotInterface s : connections) {
+            deconnect(s);
+        }
+        connections.clear();
+    }
+
+    public UUID getUUID() {
+        return uuid_;
+    }
 }

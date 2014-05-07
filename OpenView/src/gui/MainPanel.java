@@ -83,7 +83,8 @@ public class MainPanel extends JPanel {
 						XMLBuilder.saveDoc(doc, f);
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(MainPanel.this, e.getMessage());
-					}
+                                                e.printStackTrace();
+                                        }
 				}
 
 			}
