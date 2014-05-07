@@ -76,7 +76,7 @@ public class OutNode extends Emitter implements OVNode {
         e.setAttribute("uuid", uuid_.toString());
         e.setAttribute("label",getLabel());
         e.setAttribute("type", getType().toString());
-        
+        e.setAttribute("parent",parent_.getUUID().toString());
         return e;
     }
 

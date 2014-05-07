@@ -252,7 +252,16 @@ public class Setting implements SlotListener {
 		e.setAttribute("constant", Boolean.toString(constant_));
 		e.setAttribute("gui_mode", Boolean.toString(guiMode_));
 		e.setAttribute("node_mode", Boolean.toString(nodeMode_));
-		e.appendChild(value_.getXML(doc));
+                e.setAttribute("output",Boolean.toString(output_));
+		e.setAttribute("input",Boolean.toString(input_));
+                e.setAttribute("output",Boolean.toString(output_));
+//                e.setAttribute("hasInNode", Boolean.toString(inNode_!=null));
+//                e.setAttribute("hasOutNode", Boolean.toString(outNode_!=null));
+                for (EditorMode mode: values_.keySet()){
+                    Element el=values_.get(mode).getXML(doc);
+                    doc.renameNode(el, null, mode.toString());
+                    e.appendChild(el);
+                }
 		if (minValue_ != null){
 			Element min=minValue_.getXML(doc);
 			doc.renameNode(min, null, "min");
@@ -263,6 +272,12 @@ public class Setting implements SlotListener {
 			doc.renameNode(max, null, "max");
 			e.appendChild(max);
 		}
+                if (inNode_!=null){
+                    e.appendChild(inNode_.getXML(doc));
+                }
+                if (outNode_!=null){
+                    e.appendChild(outNode_.getXML(doc));
+                }
 		return e;
 	}
 

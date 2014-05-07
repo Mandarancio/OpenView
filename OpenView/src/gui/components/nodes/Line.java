@@ -24,6 +24,9 @@ import java.util.TimerTask;
 import javax.swing.JComponent;
 
 import core.support.OrientationEnum;
+import java.util.UUID;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class Line extends JComponent implements ComponentListener {
 
@@ -50,7 +53,8 @@ public class Line extends JComponent implements ComponentListener {
 	private boolean __debug;
 	private Timer __timer;
 	private OVToolTip __tooltip;
-
+        private UUID uuid_;
+        
 	public Line(OVNode n, OVComponent c, OVContainer father) {
 		father_ = father;
 		a = n;
@@ -63,7 +67,8 @@ public class Line extends JComponent implements ComponentListener {
 		p1 = p2;
 		ca.addComponentListener(this);
 		this.addMouseListener(mouseListener_);
-	}
+                uuid_=UUID.randomUUID();
+        }
 
 	public void connect(OVNode n, OVComponent c) {
 		b = n;
@@ -323,4 +328,18 @@ public class Line extends JComponent implements ComponentListener {
 			}
 		}
 	}
+        
+        public Element getXML(Document doc){
+            Element e=doc.createElement(this.getClass().getSimpleName());
+            e.setAttribute("uuid", uuid_.toString());
+            e.appendChild(a.getXML(doc));
+            e.appendChild(b.getXML(doc));
+            return e;
+        }
+        
+        public UUID getUUID(){
+            return uuid_;
+        }
+        
+        
 }

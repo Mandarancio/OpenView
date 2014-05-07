@@ -5,6 +5,8 @@ import gui.components.nodes.Line;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public interface OVNode {
 	public void setLocation(Point p);
@@ -33,5 +35,7 @@ public interface OVNode {
 	public Line getLine(OVNode n);
 
 	public boolean visible();
+        
+        public Element getXML(Document doc);
 
 }

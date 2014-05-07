@@ -419,6 +419,9 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 		for (OVComponent c: components_){
 			e.appendChild(c.getXML(doc));
 		}
+                for (Line l: lines_){
+                    e.appendChild(l.getXML(doc));
+                }
 		return e;
 	}
 }
