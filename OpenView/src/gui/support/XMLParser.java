@@ -1,6 +1,7 @@
 package gui.support;
 
 import gui.components.OVComponent;
+import gui.components.nodes.Line;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVLabel;
@@ -31,5 +32,10 @@ public class XMLParser {
 		}
 		if (c != null)
 			father.addComponent(c);
+	}
+
+	public static Line parseLine(Element e, OVContainer parent) {
+		
+		return new Line(e,parent);
 	}
 }

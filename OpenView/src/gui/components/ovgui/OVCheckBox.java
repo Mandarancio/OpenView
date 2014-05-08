@@ -37,6 +37,20 @@ public class OVCheckBox extends OVComponent {
 		s = new Setting(Selected, new Boolean(false));
 		s.setAutoTriggered(true);
 		addSetting(ComponentSettings.SpecificCategory, s);
+		initCheckBox();
+
+		getSetting(ComponentSettings.SizeW).setValue(120);
+		getSetting(ComponentSettings.SizeH).setValue(45);
+	}
+
+	public OVCheckBox(Element e, OVContainer father) {
+		super(e, father);
+		initCheckBox();
+		triggerSettings();
+	}
+
+	private void initCheckBox() {
+		String txt = "Check me";
 
 		checkBox_ = new JCheckBox();
 		checkBox_.setUI(new ModernCheckBoxUI());
@@ -44,7 +58,6 @@ public class OVCheckBox extends OVComponent {
 		checkBox_.setBackground(getBackground());
 		this.add(checkBox_, BorderLayout.CENTER);
 		checkBox_.setText(txt);
-	
 
 		checkBox_.addActionListener(new ActionListener() {
 
@@ -57,12 +70,6 @@ public class OVCheckBox extends OVComponent {
 					select();
 			}
 		});
-		getSetting(ComponentSettings.SizeW).setValue(120);
-		getSetting(ComponentSettings.SizeH).setValue(45);
-	}
-	
-	public OVCheckBox(Element e , OVContainer father) {
-		super(e,father);
 	}
 
 	@Override
@@ -70,14 +77,16 @@ public class OVCheckBox extends OVComponent {
 		if (s.getName().equals(Selected)) {
 			if (!__lock) {
 				try {
-					checkBox_.setSelected(v.getBoolean());
+					if (checkBox_ != null)
+						checkBox_.setSelected(v.getBoolean());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else
 				__lock = false;
 		} else if (s.getName().equals(Text)) {
-			checkBox_.setText(v.getString());
+			if (checkBox_ != null)
+				checkBox_.setText(v.getString());
 		}
 		super.valueUpdated(s, v);
 	}

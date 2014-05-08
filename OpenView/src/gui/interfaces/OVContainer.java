@@ -2,8 +2,8 @@ package gui.interfaces;
 
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
-import gui.support.OVToolTip;
 import gui.support.OVMaker.OVMakerMode;
+import gui.support.OVToolTip;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -32,4 +32,5 @@ public interface OVContainer {
 	public boolean contains(OVComponent c);
 	public void removeSelected();
 	public void clickEvent(Point p,Object source);
+	public OVNode getNode(String parent, String uuid);
 }

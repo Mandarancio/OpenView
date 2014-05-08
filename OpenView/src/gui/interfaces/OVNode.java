@@ -5,6 +5,8 @@ import gui.components.nodes.Line;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.UUID;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -31,11 +33,11 @@ public interface OVNode {
 
 	public void addLine(Line l);
 
-
 	public Line getLine(OVNode n);
 
 	public boolean visible();
-        
-        public Element getXML(Document doc);
 
+	public Element getXML(Document doc);
+
+	public UUID getUUID();
 }

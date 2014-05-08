@@ -442,6 +442,24 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 				}
 			}
 		}
+
+		nl = el.getElementsByTagName(Line.class.getSimpleName());
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node n = nl.item(i);
+			if (n != null && n instanceof Element) {
+				Element e = (Element) n;
+				if (e.getParentNode().equals(el)) {
+					Line l = XMLParser.parseLine(e, this);
+					lines_.add(l);
+					this.add(l);
+					this.moveToBack(l);
+					l.setSelected(false);
+					l.addKeyListener(this);
+					if (mode_ == EditorMode.RUN || mode_ == EditorMode.GUI)
+						l.setVisible(false);
+				}
+			}
+		}
 	}
 
 	public void clearAll() {
@@ -457,6 +475,16 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 		lines_.clear();
 		removeAll();
 		repaint();
+	}
+
+	@Override
+	public OVNode getNode(String parent, String uuid) {
+		for (OVComponent c : components_) {
+			if (c.getUUID().toString().equals(parent)) {
+				return c.getNode(uuid);
+			}
+		}
+		return null;
 	}
 
 }

@@ -48,6 +48,48 @@ public class OVTextArea extends OVComponent implements SlotListener {
 		super(father);
 		getSetting(ComponentSettings.SizeW).setValue(120);
 		getSetting(ComponentSettings.SizeH).setValue(45);
+		initTextArea();
+
+		textOut_ = addOutput(Text, ValueType.STRING);
+
+		Setting s = new Setting(Text, "");
+		s.setGuiMode(false);
+		addSetting(ComponentSettings.SpecificCategory, s);
+		s.setOutput(false);
+		s = new Setting(Trigger, triggerMode_);
+		addNodeSetting(ComponentSettings.SpecificCategory, s);
+	}
+
+	public OVTextArea(Element e, OVContainer father) {
+		super(e, father);
+		initTextArea();
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Text)) {
+				textOut_ = n;
+				break;
+			}
+		}
+		try {
+			TextAreaTrigger mode = (TextAreaTrigger) getNodeSetting(Trigger)
+					.getValue().getEnum();
+			if (mode == TextAreaTrigger.EXTERNAL) {
+				for (InNode n : inputs_) {
+					if (n.getLabel().equals(Trigger)) {
+						trigger_ = n;
+						trigger_.addListener(this);
+						break;
+					}
+				}
+			}
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		triggerSettings();
+	}
+
+	private void initTextArea() {
 		textArea_ = new JTextArea();
 		textArea_.setLineWrap(true);
 		textArea_.setWrapStyleWord(true);
@@ -88,41 +130,6 @@ public class OVTextArea extends OVComponent implements SlotListener {
 		p.setBackground(getBackground());
 
 		this.add(p, BorderLayout.CENTER);
-
-		textOut_ = addOutput(Text, ValueType.STRING);
-
-		Setting s = new Setting(Text, "");
-		s.setGuiMode(false);
-		addSetting(ComponentSettings.SpecificCategory, s);
-		s.setOutput(false);
-		s = new Setting(Trigger, triggerMode_);
-		addNodeSetting(ComponentSettings.SpecificCategory, s);
-	}
-
-	public OVTextArea(Element e, OVContainer father) {
-		super(e, father);
-		for (OutNode n : outputs_) {
-			if (n.getLabel().equals(Text)) {
-				textOut_ = n;
-				break;
-			}
-		}
-		try {
-			TextAreaTrigger mode = (TextAreaTrigger) getSetting(Trigger)
-					.getValue().getEnum();
-			if (mode == TextAreaTrigger.EXTERNAL) {
-				for (InNode n : inputs_) {
-					if (n.getLabel().equals(Trigger)) {
-						trigger_ = n;
-						trigger_.addListener(this);
-						break;
-					}
-				}
-			}
-
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
 	}
 
 	@Override

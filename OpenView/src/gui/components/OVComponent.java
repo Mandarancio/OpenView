@@ -166,7 +166,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		triggerSettings();
 	}
 
-	private void triggerSettings() {
+	protected void triggerSettings() {
 		for (String s : settings_.keySet()) {
 			for (Setting stg : settings_.get(s)) {
 				stg.trigg();
@@ -712,7 +712,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		for (String key : nodeSettings_.keySet()) {
 			Element subNode = doc.createElement("category");
 			subNode.setAttribute("name", key);
-			for (Setting s : settings_.get(key)) {
+			for (Setting s : nodeSettings_.get(key)) {
 				subNode.appendChild(s.getXML(doc));
 			}
 			el.appendChild(subNode);
@@ -825,5 +825,18 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	public void addInput(InNode node) {
 		inputs_.add(node);
 		repaint();
+	}
+
+	public OVNode getNode(String uuid) {
+		for (InNode n : inputs_) {
+			if (n.getUUID().toString().equals(uuid))
+				return n;
+		}
+		for (OutNode n : outputs_) {
+			if (n.getUUID().toString().equals(uuid))
+				return n;
+		}
+
+		return null;
 	}
 }

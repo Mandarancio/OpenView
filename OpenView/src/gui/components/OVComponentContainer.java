@@ -492,4 +492,10 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		return true;
 	}
 
+	@Override
+	public OVNode getNode(String parent, String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

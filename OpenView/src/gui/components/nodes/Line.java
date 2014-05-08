@@ -20,13 +20,16 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Path2D.Double;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import javax.swing.JComponent;
 
-import core.support.OrientationEnum;
-import java.util.UUID;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import core.support.OrientationEnum;
 
 public class Line extends JComponent implements ComponentListener {
 
@@ -53,8 +56,8 @@ public class Line extends JComponent implements ComponentListener {
 	private boolean __debug;
 	private Timer __timer;
 	private OVToolTip __tooltip;
-        private UUID uuid_;
-        
+	private UUID uuid_;
+
 	public Line(OVNode n, OVComponent c, OVContainer father) {
 		father_ = father;
 		a = n;
@@ -67,8 +70,58 @@ public class Line extends JComponent implements ComponentListener {
 		p1 = p2;
 		ca.addComponentListener(this);
 		this.addMouseListener(mouseListener_);
-                uuid_=UUID.randomUUID();
-        }
+		uuid_ = UUID.randomUUID();
+	}
+
+	public Line(Element e, OVContainer father) {
+		father_ = father;
+		uuid_ = UUID.fromString(e.getAttribute("uuid"));
+		this.addMouseListener(mouseListener_);
+		NodeList nl = e.getChildNodes();
+		InNode in = null;
+		OutNode out = null;
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node n = nl.item(i);
+			if (n != null && n instanceof Element) {
+				Element el = (Element) n;
+				if (el.getParentNode().equals(e)) {
+					if (el.getTagName().equals(InNode.class.getSimpleName())
+							&& in == null) {
+						String uuid = el.getAttribute("uuid");
+						String parent = el.getAttribute("parent");
+						in = (InNode) father.getNode(parent, uuid);
+					} else if (el.getTagName().equals(
+							OutNode.class.getSimpleName())
+							&& out == null) {
+						String uuid = el.getAttribute("uuid");
+						String parent = el.getAttribute("parent");
+						out = (OutNode) father.getNode(parent, uuid);
+					}
+				}
+			}
+		}
+
+		if (in != null && out != null) {
+			a = out;
+			ca = out.getParent();
+			this.addMouseListener(mouseListener_);
+			b = in;
+			cb = in.getParent();
+			p1 = new Point();
+			p2 = new Point();
+
+			out.connect(in);
+			in.connect(out);
+			in.addLine(this);
+			out.addLine(this);
+			cb.addComponentListener(this);
+			ca.addComponentListener(this);
+			updateBounds();
+		} else {
+			System.err
+					.println("something in the constructor of line went seriusly bad!");
+		}
+	}
 
 	public void connect(OVNode n, OVComponent c) {
 		b = n;
@@ -328,18 +381,17 @@ public class Line extends JComponent implements ComponentListener {
 			}
 		}
 	}
-        
-        public Element getXML(Document doc){
-            Element e=doc.createElement(Line.class.getSimpleName());
-            e.setAttribute("uuid", uuid_.toString());
-            e.appendChild(a.getXML(doc));
-            e.appendChild(b.getXML(doc));
-            return e;
-        }
-        
-        public UUID getUUID(){
-            return uuid_;
-        }
-        
-        
+
+	public Element getXML(Document doc) {
+		Element e = doc.createElement(Line.class.getSimpleName());
+		e.setAttribute("uuid", uuid_.toString());
+		e.appendChild(a.getXML(doc));
+		e.appendChild(b.getXML(doc));
+		return e;
+	}
+
+	public UUID getUUID() {
+		return uuid_;
+	}
+
 }

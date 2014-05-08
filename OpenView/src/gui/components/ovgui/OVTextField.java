@@ -45,6 +45,49 @@ public class OVTextField extends OVComponent implements SlotListener {
 		super(father);
 		getSetting(ComponentSettings.SizeW).setValue(120);
 		getSetting(ComponentSettings.SizeH).setValue(45);
+		initTextField();
+
+		textOut_ = addOutput(Text, ValueType.STRING);
+
+		Setting s = new Setting(Text, "");
+		addSetting(ComponentSettings.SpecificCategory, s);
+		s.setOutput(false);
+		s = new Setting(Trigger, triggerMode_);
+		addNodeSetting(ComponentSettings.SpecificCategory, s);
+
+	}
+
+	public OVTextField(Element e, OVContainer father) {
+		super(e, father);
+		initTextField();
+
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Text)) {
+				textOut_ = n;
+				break;
+			}
+		}
+		try {
+			TextFieldTrigger mode = (TextFieldTrigger) getNodeSetting(Trigger)
+					.getValue().getEnum();
+			if (mode == TextFieldTrigger.EXTERNAL) {
+				for (InNode n : inputs_) {
+					if (n.getLabel().equals(Trigger)) {
+						trigger_ = n;
+						trigger_.addListener(this);
+						break;
+					}
+				}
+			}
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		triggerSettings();
+	}
+
+	private void initTextField() {
 		textField_ = new JTextField();
 		textField_.setBackground(this.getBackground());
 		textField_.setForeground(this.getForeground());
@@ -91,50 +134,16 @@ public class OVTextField extends OVComponent implements SlotListener {
 
 		this.add(textField_, BorderLayout.CENTER);
 
-		textOut_ = addOutput(Text, ValueType.STRING);
-
-		Setting s = new Setting(Text, "");
-		addSetting(ComponentSettings.SpecificCategory, s);
-		s.setOutput(false);
-		s = new Setting(Trigger, triggerMode_);
-		addNodeSetting(ComponentSettings.SpecificCategory, s);
-
 	}
-	
-	public OVTextField(Element e, OVContainer father) {
-		super(e, father);
-		for (OutNode n : outputs_) {
-			if (n.getLabel().equals(Text)) {
-				textOut_ = n;
-				break;
-			}
-		}
-		try {
-			TextFieldTrigger mode = (TextFieldTrigger) getSetting(Trigger).getValue()
-					.getEnum();
-			if (mode == TextFieldTrigger.EXTERNAL) {
-				for (InNode n : inputs_) {
-					if (n.getLabel().equals(Trigger)) {
-						trigger_ = n;
-						trigger_.addListener(this);
-						break;
-					}
-				}
-			}
-
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-
 
 	@Override
 	public void valueUpdated(Setting s, Value v) {
-		String setting=s.getName();
+		String setting = s.getName();
 		if (setting.equals(Text)) {
 			if (!loopFlag_) {
 				loopFlag_ = true;
-				textField_.setText(v.getString());
+				if (textField_ != null)
+					textField_.setText(v.getString());
 			} else
 				loopFlag_ = false;
 		} else if (setting.equals(Trigger)) {
