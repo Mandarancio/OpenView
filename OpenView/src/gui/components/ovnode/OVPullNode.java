@@ -1,5 +1,7 @@
 package gui.components.ovnode;
 
+import org.w3c.dom.Element;
+
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
@@ -36,7 +38,24 @@ public class OVPullNode extends OVNodeComponent implements NodeListener,
 		output_ = addOutput(Output, ValueType.VOID);
 
 	}
-
+	
+	public OVPullNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Trigger)) {
+				n.addListener(this);
+			}
+			else if (n.getLabel().equals(Value)){
+				input_=n;
+				input_.addNodeListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Output))
+				output_ = n;
+		}
+	}
+	
 	@Override
 	public void valueRecived(SlotInterface s, Value v) {
 		if (s.getLabel().equals(Trigger)) {

@@ -1,5 +1,7 @@
 package gui.components.ovnode;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -17,6 +19,7 @@ public class OVIFTriggerNode extends OVNodeComponent implements SlotListener {
 	 */
 	private static final long serialVersionUID = 6116299768813356191L;
 	private static final String Input = "Input", Trigger = "Trigger";
+	private static final String Else = "Else", If = "If";
 	private OutNode elseTrigger_;
 	private OutNode ifTrigger_;
 	private InNode trigger_;
@@ -24,14 +27,33 @@ public class OVIFTriggerNode extends OVNodeComponent implements SlotListener {
 
 	public OVIFTriggerNode(OVContainer father) {
 		super(father);
-		ifTrigger_ = addOutput("If", ValueType.VOID);
-		elseTrigger_ = addOutput("Else", ValueType.VOID);
+		ifTrigger_ = addOutput(If, ValueType.VOID);
+		elseTrigger_ = addOutput(Else, ValueType.VOID);
 		InNode in = addInput(Input, ValueType.BOOLEAN);
 		in.addListener(this);
 		Setting s = new Setting(Trigger, new Boolean(false));
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 		getSetting(ComponentSettings.Name).setValue("IF");
 
+	}
+
+	public OVIFTriggerNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Trigger)) {
+				n.addListener(this);
+				trigger_ = n;
+			} else if (n.getLabel().equals(Input)) {
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Else)) {
+				elseTrigger_ = n;
+			} else if (n.getLabel().equals(If)) {
+				ifTrigger_ = n;
+			}
+		}
 	}
 
 	@Override
@@ -78,6 +100,5 @@ public class OVIFTriggerNode extends OVNodeComponent implements SlotListener {
 		}
 		super.valueUpdated(s, v);
 	}
-
 
 }

@@ -3,6 +3,8 @@ package gui.components.ovnode;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -56,6 +58,24 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 
 	}
 
+	public OVTimerTriggerNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Starter)) {
+				starter_=n;
+				starter_.addListener(this);
+			}
+			else if (n.getLabel().equals(Stopper)){
+				stopper_=n;
+				stopper_.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Trigger))
+				trigger_ = n;
+		}
+	}
+	
 	private void triggerOutput() {
 		// if (getMode().isExec())
 		trigger_.trigger(new Value(Void.TYPE));

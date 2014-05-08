@@ -1,5 +1,7 @@
 package gui.components.ovnode;
 
+import org.w3c.dom.Element;
+
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
@@ -20,6 +22,9 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 	private static final String Start = "Start", Stop = "Stop", Step = "Step";
 	private static final String Delay = "Delay";
 	private static final String EndTrigger = "End trigger";
+	private static final String Trigger = "Trigger";
+	private static final String Index = "Index";
+
 	private OutNode index_;
 	private OutNode trigger_;
 	private OutNode endTrigger_ = null;
@@ -31,30 +36,48 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 		Setting s = new Setting(Start, 0.0, -Double.MAX_VALUE, Double.MAX_VALUE);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		
+
 		s = new Setting(Stop, 10.0, -Double.MAX_VALUE, Double.MAX_VALUE);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		
+
 		s = new Setting(Step, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		
+
 		s = new Setting(Delay, 0, 0, 10000);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		
+
 		s = new Setting(EndTrigger, false);
 		s.setGuiMode(false);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 
-		trigger_ = addOutput("Trigger", ValueType.VOID);
-		index_ = addOutput("Index", ValueType.DOUBLE);
+		trigger_ = addOutput(Trigger, ValueType.VOID);
+		index_ = addOutput(Index, ValueType.DOUBLE);
 
 		InNode start = addInput(Start, ValueType.VOID);
 		start.addListener(this);
 
 		getSetting(ComponentSettings.Name).setValue("For");
+	}
+
+	public OVForTrigger(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Start)) {
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Trigger)) {
+				trigger_ = n;
+			} else if (n.getLabel().equals(Index)) {
+				index_ = n;
+			} else if (n.getLabel().equals(EndTrigger)) {
+				endTrigger_ = n;
+			}
+		}
 	}
 
 	private void run() {

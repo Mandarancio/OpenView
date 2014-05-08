@@ -15,6 +15,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -22,15 +24,16 @@ import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
 
-public class OVOperatorNode extends OVNodeComponent implements
-		NodeListener, SlotListener {
+public class OVOperatorNode extends OVNodeComponent implements NodeListener,
+		SlotListener {
 
 	/**
      *
      */
 	private static final long serialVersionUID = -3557751658634230282L;
 	private static final String Trigger = "Trigger", Operator = "Operator";
-	private static final OperatorManager operatorManager_ = new OperatorManager();
+	private static final OperatorManager operatorManager = new OperatorManager();
+	private static final String Output = "Output";
 	private Operator operator_;
 	private ArrayList<InNode> opInputs_ = new ArrayList<>();
 	private HashMap<InNode, Value> values_ = new HashMap<>();
@@ -40,19 +43,40 @@ public class OVOperatorNode extends OVNodeComponent implements
 
 	public OVOperatorNode(OVContainer father) {
 		super(father);
-		operator_ = operatorManager_.getOperators().get(0);
+		operator_ = operatorManager.getOperators().get(0);
 		getSetting(ComponentSettings.Name).setValue("Operator");
-		output_ = addOutput("Output", ValueType.VOID);
+		output_ = addOutput(Output, ValueType.VOID);
 		checkInputs();
 
 		Setting s = new Setting(Trigger, triggerMode_);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
-		Value v = new Value(operatorManager_.getOperators().get(0).name());
-		for (Operator o : operatorManager_.getOperators()) {
+		Value v = new Value(operatorManager.getOperators().get(0).name());
+		for (Operator o : operatorManager.getOperators()) {
 			v.getDescriptor().addPossibility(new Value(o.name()));
 		}
 		s = new Setting(Operator, v);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
+	}
+
+	public OVOperatorNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().startsWith("in ")) {
+				opInputs_.add(n);
+				n.addListener(this);
+				n.addNodeListener(this);
+			} else if (n.getLabel().equals(Trigger)) {
+				trigger_ = n;
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Output))
+				output_ = n;
+		}
+
+		Setting s = getNodeSetting(Operator);
+		operator_ = operatorManager.get(s.getValue().getString());
 	}
 
 	@Override
@@ -169,7 +193,7 @@ public class OVOperatorNode extends OVNodeComponent implements
 				e1.printStackTrace();
 			}
 		} else if (s.getName().equals(Operator)) {
-			operator_ = operatorManager_.get(v.getString()).clone();
+			operator_ = operatorManager.get(v.getString()).clone();
 			checkInputs();
 			repaint();
 		} else

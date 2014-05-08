@@ -15,6 +15,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -32,6 +34,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 	private static final long serialVersionUID = -3557751658634230282L;
 	private static final String Trigger = "Trigger", Function = "Function";
 	private static final FunctionManager functionManager = new FunctionManager();
+	private static final String Output = "Output";
 	private Function function_;
 	private ArrayList<InNode> opInputs_ = new ArrayList<>();
 	private HashMap<InNode, Value> values_ = new HashMap<>();
@@ -43,7 +46,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 		super(father);
 		function_ = functionManager.getFunctions().get(0);
 		getSetting(ComponentSettings.Name).setValue("Operator");
-		output_ = addOutput("Output", ValueType.VOID);
+		output_ = addOutput(Output, ValueType.VOID);
 		checkInputs();
 
 		Setting s = new Setting(Trigger, triggerMode_);
@@ -56,6 +59,28 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 	}
 
+
+	public OVFunctionNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().startsWith("in ")) {
+				opInputs_.add(n);
+				n.addListener(this);
+				n.addNodeListener(this);
+			} else if (n.getLabel().equals(Trigger)) {
+				trigger_ = n;
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Output))
+				output_ = n;
+		}
+
+		Setting s = getNodeSetting(Function);
+		function_ = functionManager.get(s.getValue().getString());
+	}
+	
 	@Override
 	protected void paintOVNode(Graphics2D g) {
 		g.setColor(getForeground());

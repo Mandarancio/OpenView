@@ -1,5 +1,7 @@
 package gui.components.ovnode;
 
+import org.w3c.dom.Element;
+
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
@@ -28,12 +30,26 @@ public class OVRandomNode extends OVNodeComponent implements SlotListener {
 
 		trigger_.addListener(this);
 
-		Setting s = new Setting(Min, -1.0,-Double.MAX_VALUE, Double.MAX_VALUE);
+		Setting s = new Setting(Min, -1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(Max, 1.0,-Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(Max, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-	
+
 		getSetting(ComponentSettings.Name).setValue("Rand");
+	}
+
+	public OVRandomNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Trigger)) {
+				trigger_ = n;
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Value))
+				output_ = n;
+		}
 	}
 
 	@Override
@@ -44,8 +60,8 @@ public class OVRandomNode extends OVNodeComponent implements SlotListener {
 			double min = 0.0;
 
 			try {
-				max=getSetting(Max).getValue().getDouble();
-				min=getSetting(Min).getValue().getDouble();
+				max = getSetting(Max).getValue().getDouble();
+				min = getSetting(Min).getValue().getDouble();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
