@@ -90,10 +90,10 @@ public class Setting implements SlotListener {
 					}
 				} else if (el.getTagName()
 						.equals(OutNode.class.getSimpleName())) {
-					outNode_ = new OutNode(el, parent);
+					setOutputNode(new OutNode(el, parent));
 					parent.addOutput(outNode_);
 				} else if (el.getTagName().equals(InNode.class.getSimpleName())) {
-					inNode_ = new InNode(el, parent);
+					setInputNode(new InNode(el, parent));
 					parent.addInput(inNode_);
 				}
 			}
@@ -359,6 +359,6 @@ public class Setting implements SlotListener {
 	}
 
 	public void trigg() {
-		triggerListener();		
+		triggerListener();
 	}
 }

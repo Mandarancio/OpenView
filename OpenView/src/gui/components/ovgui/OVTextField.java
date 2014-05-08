@@ -167,8 +167,9 @@ public class OVTextField extends OVComponent implements SlotListener {
 	}
 
 	protected void triggerOutput() {
-		if (getMode() == EditorMode.RUN)
+		if (getMode().isExec()) {
 			textOut_.trigger(getSetting(Text).getValue());
+		}
 	}
 
 	@Override
