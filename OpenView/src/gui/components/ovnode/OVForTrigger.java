@@ -169,7 +169,7 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 		if (mode_ != getMode()) {
 			if (status_)
 				status_ = false;
-			super.setMode(mode_);
 		}
+		super.setMode(mode_);
 	}
 }

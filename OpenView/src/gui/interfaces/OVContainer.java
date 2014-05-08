@@ -2,6 +2,7 @@ package gui.interfaces;
 
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
+import gui.enums.EditorMode;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
 
@@ -33,4 +34,5 @@ public interface OVContainer {
 	public void removeSelected();
 	public void clickEvent(Point p,Object source);
 	public OVNode getNode(String parent, String uuid);
+	public EditorMode getMode();
 }

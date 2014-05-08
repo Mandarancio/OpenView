@@ -11,11 +11,14 @@ import gui.components.ovgui.OVTextField;
 import gui.components.ovnode.OVForTrigger;
 import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
+import gui.components.ovnode.OVNodeComponent;
 import gui.components.ovnode.OVOperatorNode;
 import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVRandomNode;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
+import gui.components.ovprocedural.OVProceduralBlock;
+import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 
 import org.w3c.dom.Element;
@@ -53,9 +56,15 @@ public class XMLParser {
 			c = new OVPullNode(e, father);
 		} else if (name.equals(OVRandomNode.class.getSimpleName())) {
 			c = new OVRandomNode(e, father);
+		} else if (name.equals(OVProceduralBlock.class.getSimpleName())) {
+			c = new OVProceduralBlock(e, father);
 		}
-		if (c != null)
+		if (c != null) {
 			father.addComponent(c);
+			if ((c instanceof OVNodeComponent || c instanceof OVProceduralBlock) && father.getMode()==EditorMode.GUI){
+				c.setVisible(false);
+			}
+		}
 	}
 
 	public static Line parseLine(Element e, OVContainer parent) {

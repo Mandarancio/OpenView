@@ -1,6 +1,7 @@
 package core.support;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 
 public class Utils {
@@ -49,5 +50,25 @@ public class Utils {
 		}
 		return new Point();
 	}
+	/***
+	 * Format w,h
+	 * @param d size to code
+	 * @return string
+	 */
+	public static String codeDimension(Dimension d) {
+		return d.width+","+d.height;
+	}
+
+	public static Dimension parseDimension(String d) {
+		String split[]=d.split(",");
+		if (split.length==2){
+			int x=Integer.parseInt(split[0]);
+			int y=Integer.parseInt(split[1]);
+			return new Dimension(x,y);
+		}
+		return new Dimension();
+	}
+	
+	
 	
 }

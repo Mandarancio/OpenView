@@ -34,6 +34,7 @@ public class XMLBuilder {
 		Transformer transformer = transformerFactory.newTransformer();
 
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(f);

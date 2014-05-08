@@ -36,6 +36,7 @@ import core.SlotListener;
 import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
+import core.support.Utils;
 
 import javax.swing.JOptionPane;
 
@@ -66,7 +67,6 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 
 	public OVProceduralBlock(OVContainer father) {
 		super(father);
-		interpreter_ = new Interpreter();
 		getSetting(ComponentSettings.Name).setValue("Code");
 		oldSize_ = new Dimension(getSize());
 		expand_ = true;
@@ -76,11 +76,25 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 		trigger.addListener(this);
 		getSetting(ComponentSettings.SizeW).setValue(300);
 		getSetting(ComponentSettings.SizeH).setValue(250);
-		this.setBorder(BorderFactory.createEmptyBorder(20, 5, 5, 5));
 		initTextArea();
 	}
 
+	public OVProceduralBlock(Element e, OVContainer father) {
+		super(e, father);
+		initTextArea();
+
+		expand_ = Boolean.parseBoolean(e.getAttribute("expand"));
+		oldSize_ = Utils.parseDimension(e.getAttribute("size"));
+		if (!expand_)
+			comprime();
+	}
+
 	private void initTextArea() {
+		interpreter_ = new Interpreter();
+		__minY = 4;
+
+		this.setBorder(BorderFactory.createEmptyBorder(20, 5, 5, 5));
+
 		textArea_ = new RSyntaxTextArea(5, 30);
 		textArea_.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea_.setCodeFoldingEnabled(true);
@@ -97,27 +111,24 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 
 	@Override
 	public void setMode(EditorMode mode) {
-
-		if (mode != getMode()) {
-			if (mode == EditorMode.DEBUG) {
-				interpreter_.setDebug(true);
-			} else {
-				interpreter_.setDebug(false);
-			}
-
-			this.mode_ = mode;
-			for (String s : settings_.keySet()) {
-				for (Setting stg : settings_.get(s)) {
-					stg.setMode(getMode());
-				}
-			}
-			if (mode_ != EditorMode.NODE && mode_ != EditorMode.DEBUG) {
-				setVisible(false);
-			} else {
-				setVisible(true);
-			}
-			repaint();
+		if (mode == EditorMode.DEBUG) {
+			interpreter_.setDebug(true);
+		} else {
+			interpreter_.setDebug(false);
 		}
+
+		this.mode_ = mode;
+		for (String s : settings_.keySet()) {
+			for (Setting stg : settings_.get(s)) {
+				stg.setMode(getMode());
+			}
+		}
+		if (mode_ != EditorMode.NODE && mode_ != EditorMode.DEBUG) {
+			setVisible(false);
+		} else {
+			setVisible(true);
+		}
+		repaint();
 	}
 
 	@Override
@@ -195,14 +206,16 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	}
 
 	private void expand() {
-		expand_ = true;
-		scrollArea_.setVisible(true);
-		__minY = 4;
-		setSize(oldSize_);
-		getSetting(ComponentSettings.SizeW).setValue(oldSize_.width);
-		getSetting(ComponentSettings.SizeH).setValue(oldSize_.height);
-		resizable_ = true;
-		repaint();
+		if (!expand_) {
+			expand_ = true;
+			scrollArea_.setVisible(true);
+			__minY = 4;
+			setSize(oldSize_);
+			getSetting(ComponentSettings.SizeW).setValue(oldSize_.width);
+			getSetting(ComponentSettings.SizeH).setValue(oldSize_.height);
+			resizable_ = true;
+			repaint();
+		}
 	}
 
 	private void comprime() {
@@ -356,8 +369,11 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 	@Override
 	public Element getXML(Document doc) {
 		Element e = super.getXML(doc);
+		e.setAttribute("expand", Boolean.toString(expand_));
+		e.setAttribute("size", Utils.codeDimension(oldSize_));
 		Element codeEl = doc.createElement("code");
-		codeEl.setNodeValue(code_);
+		String text = this.textArea_.getText();
+		codeEl.appendChild(doc.createTextNode(text));
 		e.appendChild(codeEl);
 		return e;
 	}
