@@ -28,6 +28,8 @@ import core.ValueType;
 import core.support.OrientationEnum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class OVComponentContainer extends OVComponent implements OVContainer,
         NodeListener {
@@ -53,6 +55,24 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
         getSetting(ComponentSettings.Name).setValue("Container");
     }
     
+    public OVComponentContainer(Element e,OVContainer father){
+        super(e,father);
+        this.setLayout(null);
+        NodeList nl=e.getElementsByTagName("InnerNode");
+        for (int i=0;i<nl.getLength();i++){
+            Node n=nl.item(i);
+            if (n!=null && n  instanceof Element){
+                Element el= (Element)n;
+                PolyOutNode out =new PolyOutNode(el, this);
+                String uuid= el.getAttribute("connected");
+                InNode in=(InNode)getNode(uuid);
+//                out.addNodeListener(this);
+//                in.addNodeListener(this);  
+                innerNodes_.add(new NodeGroup(in, out));
+            }
+        }
+    }
+
     protected void addDynamicInNode() {
         InNode in = addInput("input", ValueType.VOID);
         Point p = new Point(in.getLocation());
@@ -515,14 +535,50 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
     public Element getXML(Document doc) {
         Element el = super.getXML(doc);
         Element e = doc.createElement("container");
+
+        for (NodeGroup g : innerNodes_) {
+            Element ee = g.getOutNode().getXML(doc);
+            ee.setAttribute("connected", g.getInNode().getUUID().toString());
+            doc.renameNode(ee, null, "InnerNode");
+            el.appendChild(ee);
+        }
+
+        for (NodeGroup g : outterNodes_) {
+            Element ee = g.getInNode().getXML(doc);
+            ee.setAttribute("connected", g.getOutNode().getUUID().toString());
+            doc.renameNode(ee, null, "OutterNode");
+            el.appendChild(ee);
+        }
+
         for (OVComponent c : components_) {
             e.appendChild(c.getXML(doc));
         }
         for (Line l : lines_) {
             e.appendChild(l.getXML(doc));
         }
+
         el.appendChild(e);
         return el; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OVNode getNode(String uuid) {
+        OVNode n = super.getNode(uuid);
+        if (n == null) {
+            for (NodeGroup g : innerNodes_) {
+                if (g.getOutNode().getUUID().toString().equals(uuid)) {
+                    return g.getOutNode();
+                }
+            }
+            for (NodeGroup g : outterNodes_) {
+                if (g.getInNode().getUUID().toString().equals(uuid)) {
+                    return g.getInNode();
+                }
+            }
+        } else {
+            return n;
+        }
+        return null;
     }
 
 }
