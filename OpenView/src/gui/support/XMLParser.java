@@ -25,7 +25,6 @@ import org.w3c.dom.Element;
 
 public class XMLParser {
 	static public void loadComponent(Element e, OVContainer father) {
-
 		String name = e.getTagName();
 		OVComponent c = null;
 		if (name.equals(OVLabel.class.getSimpleName())) {
