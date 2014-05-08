@@ -53,13 +53,26 @@ public class ObjectManager extends JTree implements SettingListener {
 
 		String name = c.getSetting(ComponentSettings.Name).getValue()
 				.getString();
-		name = removePrefix(name);
-		name = checkName(c.getSetting(ComponentSettings.Name), name, 1);
+		if (!isAvaiable(name)) {
+			name = removePrefix(name);
+			name = checkName(c.getSetting(ComponentSettings.Name), name, 1);
+		}
 		c.getSetting(ComponentSettings.Name).setValue(name);
 		c.getSetting(ComponentSettings.Name).addListener(this);
 		components_.add(c);
 		model_.createNode(c);
 		select(c);
+	}
+
+	private boolean isAvaiable(String name) {
+		for (OVComponent c : components_) {
+			Setting s = c.getSetting(ComponentSettings.Name);
+			String n = s.getValue().getString();
+			if (n.equals(name))
+				return false;
+
+		}
+		return true;
 	}
 
 	private String checkName(Setting setting, String name, int id) {
@@ -142,7 +155,7 @@ public class ObjectManager extends JTree implements SettingListener {
 	public void select(OVComponent c) {
 		DefaultMutableTreeNode n = model_.find(c);
 		if (n != null) {
-			__locked=true;
+			__locked = true;
 			TreeNode[] nodes = model_.getPathToRoot(n);
 			this.setExpandsSelectedPaths(true);
 
@@ -153,5 +166,5 @@ public class ObjectManager extends JTree implements SettingListener {
 	public void deselect() {
 		setSelectionPath(new TreePath(model_.getRoot()));
 	}
-	
+
 }
