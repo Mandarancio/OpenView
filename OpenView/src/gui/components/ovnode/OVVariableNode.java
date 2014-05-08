@@ -13,6 +13,10 @@ import java.awt.Rectangle;
 
 import javax.swing.JOptionPane;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -48,6 +52,29 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 		trigger.addListener(this);
 		input_.addListener(this);
 		input_.addNodeListener(this);
+	}
+
+	public OVVariableNode(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Value)) {
+				input_ = n;
+				input_.addListener(this);
+				input_.addNodeListener(this);
+			} else if (n.getLabel().equals(Trigger)) {
+				n.addListener(this);
+			}
+		}
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Value)) {
+				output_ = n;
+				break;
+			}
+		}
+		NodeList nl=e.getElementsByTagName(core.Value.class.getSimpleName());
+		if (nl.getLength()!=0){
+			value_=new Value((Element)nl.item(0));
+		}
 	}
 
 	@Override
@@ -127,6 +154,13 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 			value_.getDescriptor().setType(ValueType.VOID);
 			repaint();
 		}
+	}
+
+	@Override
+	public Element getXML(Document doc) {
+		Element e = super.getXML(doc);
+		e.appendChild(value_.getXML(doc));
+		return e;
 	}
 
 }

@@ -330,7 +330,7 @@ public class Line extends JComponent implements ComponentListener {
 	}
         
         public Element getXML(Document doc){
-            Element e=doc.createElement(this.getClass().getSimpleName());
+            Element e=doc.createElement(Line.class.getSimpleName());
             e.setAttribute("uuid", uuid_.toString());
             e.appendChild(a.getXML(doc));
             e.appendChild(b.getXML(doc));

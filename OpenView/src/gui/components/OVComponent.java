@@ -26,6 +26,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -33,12 +34,12 @@ import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import core.Setting;
 import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
-import java.util.UUID;
 
 public class OVComponent extends JLayeredPane implements DragComponent,
 		SettingListener {
@@ -64,14 +65,12 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	protected int __minY = 0;
 	private OVToolTip toolTip_;
 
-        private UUID uuid_;
-        
+	private UUID uuid_;
+
 	public OVComponent(OVContainer father) {
 		father_ = (father);
-		uuid_=UUID.randomUUID();
-                this.setMinimumSize(new Dimension(30, 30));
-		// this.setSize(50, 50);
-		// this.setLayout(null);
+		uuid_ = UUID.randomUUID();
+		this.setMinimumSize(new Dimension(30, 30));
 		this.setBackground(new Color(69, 70, 64));
 		this.setForeground(new Color(200, 200, 200));
 		this.setBounds(0, 0, 60, 60);
@@ -87,17 +86,42 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	}
 
+	public OVComponent(Element e, OVContainer father) {
+		father_ = father;
+		this.setMinimumSize(new Dimension(30, 30));
+		this.setBackground(new Color(69, 70, 64));
+		this.setForeground(new Color(200, 200, 200));
+		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.setOpaque(false);
+		this.setLayout(new BorderLayout());
+		this.setBounds(0, 0, 60, 60);
+		uuid_ = UUID.fromString(e.getAttribute("uuid"));
+
+		loadSettings(e);
+		loadNodes(e);
+
+		mouseAdapter_ = new DragMouseAdapter(this);
+		this.addMouseListener(mouseAdapter_);
+		this.addMouseMotionListener(mouseAdapter_);
+	}
+
 	protected void initBasicSettings() {
 		Setting s = new Setting(ComponentSettings.Name, getClass()
-				.getSimpleName().replace("OV",""));
+				.getSimpleName().replace("OV", ""));
 		addBothSetting(ComponentSettings.GenericCategory, s);
 		s.setNodeMode(false);
+		s.setGuiMode(true);
+
 		s = new Setting(ComponentSettings.Family, getClass().getSimpleName());
 		s.setConstant(true);
-		s.setNodeMode(false);
 		addBothSetting(ComponentSettings.GenericCategory, s);
+		s.setNodeMode(false);
+		s.setGuiMode(true);
+
 		s = new Setting(ComponentSettings.Enable, new Boolean(true));
-		addSetting(ComponentSettings.GenericCategory, s);
+		addBothSetting(ComponentSettings.GenericCategory, s);
+		s.setNodeMode(false);
+		s.setGuiMode(true);
 
 		s = new Setting(ComponentSettings.PosX, 0, 0, 1920);
 		addSetting(ComponentSettings.GeometryCategory, s);
@@ -108,6 +132,80 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		s = new Setting(ComponentSettings.SizeH, 50, 30, 1080);
 		addSetting(ComponentSettings.GeometryCategory, s);
 
+	}
+
+	protected void loadSettings(Element e) {
+		Element gs = (Element) e.getElementsByTagName("GUISettings").item(0);
+		NodeList gsl = gs.getElementsByTagName("category");
+		for (int i = 0; i < gsl.getLength(); i++) {
+			Element c = (Element) gsl.item(i);
+			String cname = c.getAttribute("name");
+			NodeList nl = c.getElementsByTagName(Setting.class.getSimpleName());
+			for (int j = 0; j < nl.getLength(); j++) {
+				addSetting(cname, new Setting((Element) nl.item(j), this));
+			}
+		}
+
+		gs = (Element) e.getElementsByTagName("NODESettings").item(0);
+		gsl = gs.getElementsByTagName("category");
+		for (int i = 0; i < gsl.getLength(); i++) {
+			Element c = (Element) gsl.item(i);
+			String cname = c.getAttribute("name");
+			NodeList nl = c.getElementsByTagName(Setting.class.getSimpleName());
+			for (int j = 0; j < nl.getLength(); j++) {
+				Element el = (Element) nl.item(j);
+				Setting s = getSetting(el.getAttribute("label"));
+				if (s != null) {
+					updateNodeSetting(cname, s);
+				} else {
+					addNodeSetting(cname, new Setting(el, this));
+				}
+			}
+		}
+		mode_ = EditorMode.GUI;
+		triggerSettings();
+	}
+
+	private void triggerSettings() {
+		for (String s : settings_.keySet()) {
+			for (Setting stg : settings_.get(s)) {
+				stg.trigg();
+			}
+		}
+	}
+
+	protected void loadNodes(Element el) {
+		NodeList nl = el.getElementsByTagName(InNode.class.getSimpleName());
+		for (int i = 0; i < nl.getLength(); i++) {
+			Element e = (Element) nl.item(i);
+			String uuid = e.getAttribute("uuid");
+			if (!nodeExist(uuid)) {
+				InNode n = new InNode(e, this);
+				addInput(n);
+			}
+		}
+
+		nl = el.getElementsByTagName(OutNode.class.getSimpleName());
+		for (int i = 0; i < nl.getLength(); i++) {
+			Element e = (Element) nl.item(i);
+			String uuid = e.getAttribute("uuid");
+			if (!nodeExist(uuid)) {
+				OutNode n = new OutNode(e, this);
+				addOutput(n);
+			}
+		}
+	}
+
+	private boolean nodeExist(String uuid) {
+		for (InNode n : inputs_) {
+			if (n.getUUID().toString().equals(uuid))
+				return true;
+		}
+		for (OutNode n : outputs_) {
+			if (n.getUUID().toString().equals(uuid))
+				return true;
+		}
+		return false;
 	}
 
 	protected void addSetting(String cat, Setting s) {
@@ -152,6 +250,17 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		}
 		s.setGuiMode(false);
 		s.addListener(this);
+	}
+
+	protected void updateNodeSetting(String cat, Setting s) {
+
+		if (nodeSettings_.containsKey(cat)) {
+			nodeSettings_.get(cat).add(s);
+		} else {
+			ArrayList<Setting> c = new ArrayList<>();
+			c.add(s);
+			nodeSettings_.put(cat, c);
+		}
 	}
 
 	public Set<String> getSettingCategories() {
@@ -495,7 +604,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 					n.over = false;
 				} else if (!n.over && n.contains(p)) {
 					n.over = true;
-					toolTip_=father_.showToolTip(n.getLabel(),
+					toolTip_ = father_.showToolTip(n.getLabel(),
 							father_.getAbsoluteLocation(this, n.getLocation()),
 							OrientationEnum.RIGHT);
 				}
@@ -506,7 +615,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 					n.over = false;
 				} else if (!n.over && n.contains(p)) {
 					n.over = true;
-					toolTip_=father_.showToolTip(n.getLabel(),
+					toolTip_ = father_.showToolTip(n.getLabel(),
 							father_.getAbsoluteLocation(this, n.getLocation()),
 							OrientationEnum.LEFT);
 				}
@@ -587,15 +696,29 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	public Element getXML(Document doc) {
 		Element node = doc.createElement(getClass().getSimpleName());
-                node.setAttribute("uuid",uuid_.toString());
+		node.setAttribute("uuid", uuid_.toString());
+		Element el = doc.createElement("GUISettings");
 		for (String key : settings_.keySet()) {
 			Element subNode = doc.createElement("category");
 			subNode.setAttribute("name", key);
 			for (Setting s : settings_.get(key)) {
 				subNode.appendChild(s.getXML(doc));
 			}
-			node.appendChild(subNode);
+			el.appendChild(subNode);
 		}
+		node.appendChild(el);
+
+		el = doc.createElement("NODESettings");
+		for (String key : nodeSettings_.keySet()) {
+			Element subNode = doc.createElement("category");
+			subNode.setAttribute("name", key);
+			for (Setting s : settings_.get(key)) {
+				subNode.appendChild(s.getXML(doc));
+			}
+			el.appendChild(subNode);
+		}
+		node.appendChild(el);
+
 		for (InNode in : inputs_) {
 			node.appendChild(in.getXML(doc));
 		}
@@ -684,13 +807,23 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			}
 		}
 	}
-	
+
 	@Override
 	public String toString() {
-		return getName()+" - "+getClass().getSimpleName();
+		return getName() + " - " + getClass().getSimpleName();
 	}
-        
-        public UUID getUUID(){
-            return uuid_;
-        }
+
+	public UUID getUUID() {
+		return uuid_;
+	}
+
+	public void addOutput(OutNode node) {
+		outputs_.add(node);
+		repaint();
+	}
+
+	public void addInput(InNode node) {
+		inputs_.add(node);
+		repaint();
+	}
 }

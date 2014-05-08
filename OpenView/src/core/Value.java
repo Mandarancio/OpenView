@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import core.support.EnumManager;
 import core.support.Utils;
 
 public class Value {
@@ -18,8 +20,23 @@ public class Value {
 		data_ = null;
 	}
 
+	public Value(Element e) {
+		String val = e.getAttribute("val");
+		NodeList nl = e.getElementsByTagName(ValueDescriptor.class.getSimpleName());
+		if (nl.getLength() != 0) {
+			Element vde = (Element) nl.item(0);
+			descriptor_ = new ValueDescriptor(vde);
+			data_ = descriptor_.getType().parse(val);
+
+		} else {
+			Value v = parseValue(val);
+			data_ = v.getData();
+			descriptor_ = v.getDescriptor();
+		}
+	}
+
 	public Value(Object obj) {
-		
+
 		if (obj instanceof Value) {
 			copyValue((Value) obj);
 		} else {
@@ -109,7 +126,7 @@ public class Value {
 		} else {
 
 			ArrayList<Value> values = new ArrayList<>();
-			
+
 			Object[] array = (Object[]) obj;
 			for (Object o : array) {
 				values.add(new Value(o));
@@ -235,8 +252,12 @@ public class Value {
 	}
 
 	public Element getXML(Document doc) {
-		Element e = doc.createElement("value");
-		e.setAttribute("val", getString());
+		Element e = doc.createElement(getClass().getSimpleName());
+		if (getType() == ValueType.ENUM) {
+			e.setAttribute("val", getData().getClass().getSimpleName() + ":"
+					+ getString());
+		} else
+			e.setAttribute("val", getString());
 		e.appendChild(descriptor_.getXML(doc));
 		return e;
 	}
@@ -288,10 +309,10 @@ public class Value {
 		} else if (s.startsWith("[") && s.endsWith("]")) {
 			value_ = new Value(ValueType.ARRAY.parse(s));
 		} else if (s.startsWith("'") && s.endsWith("'")) {
-			String str=s.substring(1,s.length()-1);
+			String str = s.substring(1, s.length() - 1);
 			return new Value(str);
 		} else if (s.startsWith("\"") && s.endsWith("\"")) {
-			String str=s.substring(1,s.length()-1);
+			String str = s.substring(1, s.length() - 1);
 			return new Value(str);
 		} else if (s.contains(".")) {
 			try {
@@ -303,7 +324,25 @@ public class Value {
 			try {
 				value_ = new Value(Integer.valueOf(s));
 			} catch (NumberFormatException e) {
-				value_ = new Value(s);
+				if (s.contains(":")) {
+					try {
+						Enum<?> en = EnumManager.parseEnum(s);
+						if (en != null)
+							value_ = new Value(en);
+						else
+							value_ = new Value(s);
+					} catch (Exception e1) {
+						value_ = new Value(s);
+					}
+				} else if (s.contains(",") && s.split(",").length == 4) {
+					try {
+						Color c = Utils.parseColor(s);
+						value_=new Value(c);
+					} catch (Exception e1) {
+						value_ = new Value(s);
+					}
+				} else
+					value_ = new Value(s);
 			}
 		}
 		return value_;

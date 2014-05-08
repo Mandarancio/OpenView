@@ -35,7 +35,7 @@ import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;
 
-public class OVScalarBlock extends OVNodeComponent implements SlotListener,
+public class OVScalaBlock extends OVNodeComponent implements SlotListener,
 		DocumentListener {
 
 	private static class ErrorHandler extends
@@ -67,7 +67,7 @@ public class OVScalarBlock extends OVNodeComponent implements SlotListener,
 	private HashMap<Integer, OutNode> emitters_ = new HashMap<>();
 	private GenericRunnerSettings settings;
 
-	public OVScalarBlock(OVContainer father) {
+	public OVScalaBlock(OVContainer father) {
 		super(father);
 		getSetting(ComponentSettings.Name).setValue("Code");
 		oldSize_ = new Dimension(getSize());

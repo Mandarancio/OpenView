@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import core.Message.MessageType;
+import core.support.EnumManager;
 import core.support.Utils;
 
 public enum ValueType {
@@ -12,9 +13,8 @@ public enum ValueType {
 
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
-				|| this == LONG || this == FLOAT || this == DOUBLE );
+				|| this == LONG || this == FLOAT || this == DOUBLE);
 	}
-	
 
 	public boolean isCompatible(ValueType type) {
 		if (this == type || this == NONE)
@@ -107,9 +107,18 @@ public enum ValueType {
 		} else if (this == VOID || this == NONE) {
 			return Void.TYPE;
 		} else if (this == ENUM) {
+			Enum<?> e = EnumManager.parseEnum(val);
+			if (e != null)
+				return e;
 			return val;
 		} else if (this == ARRAY) {
 			return parseArrary(val);
+		} else if (this == STRING) {
+			if ((val.startsWith("'") && val.endsWith("'"))
+					|| (val.startsWith("\"") && val.endsWith("\""))) {
+				return val.subSequence(1, val.length() - 1);
+			}
+			return val;
 		}
 		return val;
 	}

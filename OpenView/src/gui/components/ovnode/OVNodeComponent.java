@@ -8,6 +8,8 @@ import gui.interfaces.OVContainer;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 
 public class OVNodeComponent extends OVComponent {
@@ -21,22 +23,22 @@ public class OVNodeComponent extends OVComponent {
 		super(father);
 		getSetting(ComponentSettings.SizeW).setValue(60);
 		getSetting(ComponentSettings.SizeH).setValue(60);
-		resizable_=false;
-		this.setBackground(new Color(0,0,0,180));
-		
-		
-		
-		for (Setting s:  getSettings()){
+		resizable_ = false;
+		this.setBackground(new Color(0, 0, 0, 180));
+
+		for (Setting s : getSettings()) {
 			s.setNodeMode(false);
-		}		
+		}
 	}
 
-	
+	public OVNodeComponent(Element e, OVContainer father) {
+		super(e, father);
+	}
 
 	@Override
 	public void setMode(EditorMode mode_) {
 		super.setMode(mode_);
-		if (mode_ != EditorMode.NODE && mode_!=EditorMode.DEBUG)
+		if (mode_ != EditorMode.NODE && mode_ != EditorMode.DEBUG)
 			setVisible(false);
 		else
 			setVisible(true);

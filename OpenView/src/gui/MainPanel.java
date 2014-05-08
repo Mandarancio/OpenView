@@ -73,7 +73,7 @@ public class MainPanel extends JPanel {
 				final JFileChooser fc = new JFileChooser();
 
 				// In response to a button click:
-				int returnVal = fc.showOpenDialog(MainPanel.this);
+				int returnVal = fc.showSaveDialog(MainPanel.this);
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					try {
@@ -82,15 +82,43 @@ public class MainPanel extends JPanel {
 						doc.appendChild(editor_.getXML(doc));
 						XMLBuilder.saveDoc(doc, f);
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(MainPanel.this, e.getMessage());
-                                                e.printStackTrace();
-                                        }
+						JOptionPane.showMessageDialog(MainPanel.this,
+								e.getMessage());
+						e.printStackTrace();
+					}
 				}
 
 			}
 		});
 
 		toolBar.add(saveButton);
+
+		JButton openButton = new JButton(UIManager.getIcon("Tree.openIcon"));
+		openButton.setText("Open");
+		openButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Create a file chooser
+				final JFileChooser fc = new JFileChooser();
+
+				// In response to a button click:
+				int returnVal = fc.showOpenDialog(MainPanel.this);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						File f = fc.getSelectedFile();
+						Document doc = XMLBuilder.loadDoc(f);
+						editor_.loadXML(doc.getDocumentElement());
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(MainPanel.this,
+								e.getMessage());
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		toolBar.add(openButton);
 
 		debugButton.addActionListener(new ActionListener() {
 

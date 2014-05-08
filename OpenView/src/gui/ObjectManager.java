@@ -53,6 +53,7 @@ public class ObjectManager extends JTree implements SettingListener {
 
 		String name = c.getSetting(ComponentSettings.Name).getValue()
 				.getString();
+		name = removePrefix(name);
 		name = checkName(c.getSetting(ComponentSettings.Name), name, 1);
 		c.getSetting(ComponentSettings.Name).setValue(name);
 		c.getSetting(ComponentSettings.Name).addListener(this);

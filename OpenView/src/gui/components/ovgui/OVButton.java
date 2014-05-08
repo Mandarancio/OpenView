@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 
+import org.w3c.dom.Element;
+
 import core.Value;
 import core.ValueType;
 
@@ -26,6 +28,20 @@ public class OVButton extends OVLabel {
 		super(father);
 		getSetting("Text").setValue("Button");
 		signalNode_ = addOutput("Click", ValueType.VOID);
+	}
+
+	public OVButton(Element e, OVContainer father) {
+		super(e, father);
+		for (OutNode o : outputs_) {
+			if (o.getLabel().equals("Click")) {
+				signalNode_ = o;
+				break;
+			}
+		}
+		if (signalNode_ == null) {
+			signalNode_ = addOutput("Click", ValueType.VOID);
+			System.err.println("something very wrong! (OVButton line 43)");
+		}
 	}
 
 	@Override

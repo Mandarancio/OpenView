@@ -9,6 +9,7 @@ import gui.interfaces.OVNode;
 import gui.support.OVMaker;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
+import gui.support.XMLParser;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -24,6 +25,8 @@ import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import core.support.OrientationEnum;
 
@@ -415,13 +418,45 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 	}
 
 	public Element getXML(Document doc) {
-		Element e=doc.createElement("EditorPanel");
-		for (OVComponent c: components_){
+		Element e = doc.createElement(EditorPanel.class.getSimpleName());
+		for (OVComponent c : components_) {
 			e.appendChild(c.getXML(doc));
 		}
-                for (Line l: lines_){
-                    e.appendChild(l.getXML(doc));
-                }
+		for (Line l : lines_) {
+			e.appendChild(l.getXML(doc));
+		}
 		return e;
 	}
+
+	public void loadXML(Element el) {
+		clearAll();
+		NodeList nl = el.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node n = nl.item(i);
+			if (n != null && n instanceof Element) {
+				Element e = (Element) n;
+				if (e.getParentNode().equals(el)) {
+					if (!e.getTagName().equals(Line.class.getSimpleName())) {
+						XMLParser.loadComponent(e, this);
+					}
+				}
+			}
+		}
+	}
+
+	public void clearAll() {
+		for (Line l : lines_) {
+			l.delete();
+			remove(l);
+		}
+		for (OVComponent c : components_) {
+			c.delete();
+			remove(c);
+		}
+		components_.clear();
+		lines_.clear();
+		removeAll();
+		repaint();
+	}
+
 }

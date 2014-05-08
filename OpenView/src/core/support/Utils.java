@@ -1,6 +1,7 @@
 package core.support;
 
 import java.awt.Color;
+import java.awt.Point;
 
 public class Utils {
 	//Format: RRR,GGG,BBB,AAA
@@ -25,4 +26,28 @@ public class Utils {
 		return Integer.toString(r)+","+Integer.toString(g)+","+Integer.toString(b)+","+Integer.toString(a);
 	}
 
+	/***
+	 * Format x,y
+	 * @param p point to code
+	 * @return string
+	 */
+	public static String codePoint(Point p){
+		return p.x+","+p.y;
+	}
+	
+	/***
+	 * Format x,y
+	 * @param s string to parse
+	 * @return point
+	 */
+	public static Point parsePoint(String s){
+		String split[]=s.split(",");
+		if (split.length==2){
+			int x=Integer.parseInt(split[0]);
+			int y=Integer.parseInt(split[1]);
+			return new Point(x,y);
+		}
+		return new Point();
+	}
+	
 }

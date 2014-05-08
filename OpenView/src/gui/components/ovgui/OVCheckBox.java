@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
+import org.w3c.dom.Element;
+
 import ui.ModernCheckBoxUI;
 import core.Setting;
 import core.Value;
@@ -57,6 +59,10 @@ public class OVCheckBox extends OVComponent {
 		});
 		getSetting(ComponentSettings.SizeW).setValue(120);
 		getSetting(ComponentSettings.SizeH).setValue(45);
+	}
+	
+	public OVCheckBox(Element e , OVContainer father) {
+		super(e,father);
 	}
 
 	@Override

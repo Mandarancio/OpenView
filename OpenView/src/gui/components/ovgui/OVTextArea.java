@@ -14,6 +14,8 @@ import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -51,7 +53,7 @@ public class OVTextArea extends OVComponent implements SlotListener {
 		textArea_.setWrapStyleWord(true);
 		textArea_.setBackground(this.getBackground());
 		textArea_.setForeground(this.getForeground());
-//		textArea_.setUI(new ModernTextFieldUI());
+		// textArea_.setUI(new ModernTextFieldUI());
 		textArea_.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -82,9 +84,9 @@ public class OVTextArea extends OVComponent implements SlotListener {
 
 			}
 		});
-		JScrollPane p=new JScrollPane(textArea_);
+		JScrollPane p = new JScrollPane(textArea_);
 		p.setBackground(getBackground());
-		
+
 		this.add(p, BorderLayout.CENTER);
 
 		textOut_ = addOutput(Text, ValueType.STRING);
@@ -95,6 +97,32 @@ public class OVTextArea extends OVComponent implements SlotListener {
 		s.setOutput(false);
 		s = new Setting(Trigger, triggerMode_);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
+	}
+
+	public OVTextArea(Element e, OVContainer father) {
+		super(e, father);
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(Text)) {
+				textOut_ = n;
+				break;
+			}
+		}
+		try {
+			TextAreaTrigger mode = (TextAreaTrigger) getSetting(Trigger)
+					.getValue().getEnum();
+			if (mode == TextAreaTrigger.EXTERNAL) {
+				for (InNode n : inputs_) {
+					if (n.getLabel().equals(Trigger)) {
+						trigger_ = n;
+						trigger_.addListener(this);
+						break;
+					}
+				}
+			}
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

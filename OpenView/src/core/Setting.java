@@ -1,5 +1,6 @@
 package core;
 
+import gui.components.OVComponent;
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
 import gui.enums.EditorMode;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Setting implements SlotListener {
 	private Value value_;
@@ -55,6 +58,46 @@ public class Setting implements SlotListener {
 
 	public Setting(String name, ValueDescriptor desc) {
 		this(name, new Value(desc));
+	}
+
+	public Setting(Element e, OVComponent parent) {
+		name_ = e.getAttribute("name");
+		constant_ = Boolean.parseBoolean(e.getAttribute("constant"));
+		guiMode_ = Boolean.parseBoolean(e.getAttribute("gui_mode"));
+		nodeMode_ = Boolean.parseBoolean(e.getAttribute("node_mode"));
+		output_ = Boolean.parseBoolean(e.getAttribute("output"));
+		input_ = Boolean.parseBoolean(e.getAttribute("input"));
+		mode_ = EditorMode.GUI;
+
+		NodeList nl = e.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node n = nl.item(i);
+			if (n instanceof Element) {
+				Element el = (Element) n;
+				if (el.getTagName().equals("min")) {
+					minValue_ = new Value(el);
+				} else if (el.getTagName().equals("max")) {
+					maxValue_ = new Value(el);
+				} else if (el.getTagName().equals(EditorMode.GUI.toString())) {
+					value_ = new Value(el);
+					values_.put(EditorMode.GUI, value_);
+				} else if (el.getTagName().equals(EditorMode.NODE.toString())) {
+					if (value_ == null) {
+						value_ = new Value(el);
+						values_.put(EditorMode.NODE, value_);
+					} else {
+						values_.put(EditorMode.NODE, new Value(el));
+					}
+				} else if (el.getTagName()
+						.equals(OutNode.class.getSimpleName())) {
+					outNode_ = new OutNode(el, parent);
+					parent.addOutput(outNode_);
+				} else if (el.getTagName().equals(InNode.class.getSimpleName())) {
+					inNode_ = new InNode(el, parent);
+					parent.addInput(inNode_);
+				}
+			}
+		}
 	}
 
 	public Value getValue() {
@@ -144,7 +187,6 @@ public class Setting implements SlotListener {
 	}
 
 	public ValueType getType() {
-		// TODO Auto-generated method stub
 		return value_.getDescriptor().getType();
 	}
 
@@ -247,37 +289,34 @@ public class Setting implements SlotListener {
 	}
 
 	public Element getXML(Document doc) {
-		Element e = doc.createElement("setting");
+		Element e = doc.createElement(getClass().getSimpleName());
 		e.setAttribute("name", name_);
 		e.setAttribute("constant", Boolean.toString(constant_));
 		e.setAttribute("gui_mode", Boolean.toString(guiMode_));
 		e.setAttribute("node_mode", Boolean.toString(nodeMode_));
-                e.setAttribute("output",Boolean.toString(output_));
-		e.setAttribute("input",Boolean.toString(input_));
-                e.setAttribute("output",Boolean.toString(output_));
-//                e.setAttribute("hasInNode", Boolean.toString(inNode_!=null));
-//                e.setAttribute("hasOutNode", Boolean.toString(outNode_!=null));
-                for (EditorMode mode: values_.keySet()){
-                    Element el=values_.get(mode).getXML(doc);
-                    doc.renameNode(el, null, mode.toString());
-                    e.appendChild(el);
-                }
-		if (minValue_ != null){
-			Element min=minValue_.getXML(doc);
+		e.setAttribute("output", Boolean.toString(output_));
+		e.setAttribute("input", Boolean.toString(input_));
+		for (EditorMode mode : values_.keySet()) {
+			Element el = values_.get(mode).getXML(doc);
+			doc.renameNode(el, null, mode.toString());
+			e.appendChild(el);
+		}
+		if (minValue_ != null) {
+			Element min = minValue_.getXML(doc);
 			doc.renameNode(min, null, "min");
 			e.appendChild(min);
 		}
-		if (maxValue_ != null){
-			Element max=maxValue_.getXML(doc);
+		if (maxValue_ != null) {
+			Element max = maxValue_.getXML(doc);
 			doc.renameNode(max, null, "max");
 			e.appendChild(max);
 		}
-                if (inNode_!=null){
-                    e.appendChild(inNode_.getXML(doc));
-                }
-                if (outNode_!=null){
-                    e.appendChild(outNode_.getXML(doc));
-                }
+		if (inNode_ != null) {
+			e.appendChild(inNode_.getXML(doc));
+		}
+		if (outNode_ != null) {
+			e.appendChild(outNode_.getXML(doc));
+		}
 		return e;
 	}
 
@@ -317,5 +356,9 @@ public class Setting implements SlotListener {
 
 	public void setAutoTriggered(boolean autoTriggered_) {
 		this.autoTriggered_ = autoTriggered_;
+	}
+
+	public void trigg() {
+		triggerListener();		
 	}
 }

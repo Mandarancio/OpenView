@@ -236,7 +236,6 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
 							try {
 								sp.setValue(v.getInt());
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}

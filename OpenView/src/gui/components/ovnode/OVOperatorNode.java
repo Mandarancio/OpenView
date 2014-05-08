@@ -4,6 +4,7 @@ import evaluator.operators.Operator;
 import evaluator.operators.OperatorManager;
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
+import gui.components.ovnode.enums.TriggerMode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
@@ -24,11 +25,6 @@ import core.support.OrientationEnum;
 public class OVOperatorNode extends OVNodeComponent implements
 		NodeListener, SlotListener {
 
-	public enum OperatorTriggerMode {
-
-		AUTO, EXTERNAL
-	}
-
 	/**
      *
      */
@@ -40,7 +36,7 @@ public class OVOperatorNode extends OVNodeComponent implements
 	private HashMap<InNode, Value> values_ = new HashMap<>();
 	private OutNode output_;
 	private InNode trigger_;
-	private OperatorTriggerMode triggerMode_ = OperatorTriggerMode.AUTO;
+	private TriggerMode triggerMode_ = TriggerMode.AUTO;
 
 	public OVOperatorNode(OVContainer father) {
 		super(father);
@@ -90,7 +86,7 @@ public class OVOperatorNode extends OVNodeComponent implements
 			}
 		} else {
 			values_.put((InNode) s, v);
-			if (triggerMode_ == OperatorTriggerMode.AUTO) {
+			if (triggerMode_ == TriggerMode.AUTO) {
 				Value[] vals = new Value[operator_.input()];
 				int i = 0;
 				for (InNode in : opInputs_) {
@@ -156,10 +152,10 @@ public class OVOperatorNode extends OVNodeComponent implements
 	public void valueUpdated(Setting s, Value v) {
 		if (s.getName().equals(Trigger)) {
 			try {
-				OperatorTriggerMode e = (OperatorTriggerMode) v.getEnum();
+				TriggerMode e = (TriggerMode) v.getEnum();
 				if (e != triggerMode_) {
 					triggerMode_ = e;
-					if (e == OperatorTriggerMode.AUTO) {
+					if (e == TriggerMode.AUTO) {
 						this.removeInput(trigger_);
 						trigger_.removeListener(this);
 						trigger_ = null;

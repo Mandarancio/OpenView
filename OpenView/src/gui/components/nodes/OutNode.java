@@ -17,6 +17,8 @@ import core.Emitter;
 import core.SlotInterface;
 import core.Value;
 import core.ValueType;
+import core.support.Utils;
+
 import java.util.UUID;
 
 public class OutNode extends Emitter implements OVNode {
@@ -37,7 +39,16 @@ public class OutNode extends Emitter implements OVNode {
         uuid_ = UUID.randomUUID();
     }
 
-    public boolean contains(Point p) {
+    public OutNode(Element el, OVComponent parent) {
+    	super(el.getAttribute("label"),ValueType.valueOf(el.getAttribute("type")));
+    	uuid_=UUID.fromString(el.getAttribute("uuid"));
+    	parent_=parent;
+    	location_=Utils.parsePoint(el.getAttribute("location"));
+    	setPolyvalent(Boolean.parseBoolean(el.getAttribute("polyvalent")));
+    	
+    }
+
+	public boolean contains(Point p) {
         int dx = p.x - location_.x, dy = p.y - location_.y;
         double d = Math.sqrt(dx * dx + dy * dy);
         return (d <= radius);
@@ -72,11 +83,13 @@ public class OutNode extends Emitter implements OVNode {
     }
 
     public Element getXML(Document doc) {
-        Element e = doc.createElement(getClass().getSimpleName());
+        Element e = doc.createElement(OutNode.class.getSimpleName());
         e.setAttribute("uuid", uuid_.toString());
         e.setAttribute("label",getLabel());
         e.setAttribute("type", getType().toString());
         e.setAttribute("parent",parent_.getUUID().toString());
+        e.setAttribute("location",Utils.codePoint(location_));
+        e.setAttribute("polyvalent", Boolean.toString(isPolyvalent()));
         return e;
     }
 

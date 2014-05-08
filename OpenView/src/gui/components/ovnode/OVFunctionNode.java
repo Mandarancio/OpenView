@@ -4,6 +4,7 @@ import evaluator.functions.Function;
 import evaluator.functions.FunctionManager;
 import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
+import gui.components.ovnode.enums.TriggerMode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
@@ -24,10 +25,6 @@ import core.support.OrientationEnum;
 public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 		SlotListener {
 
-	public enum FunctionTriggerMode {
-
-		AUTO, EXTERNAL
-	}
 
 	/**
 *
@@ -40,7 +37,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 	private HashMap<InNode, Value> values_ = new HashMap<>();
 	private OutNode output_;
 	private InNode trigger_;
-	private FunctionTriggerMode triggerMode_ = FunctionTriggerMode.AUTO;
+	private TriggerMode triggerMode_ = TriggerMode.AUTO;
 
 	public OVFunctionNode(OVContainer father) {
 		super(father);
@@ -90,7 +87,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 			}
 		} else {
 			values_.put((InNode) s, v);
-			if (triggerMode_ == FunctionTriggerMode.AUTO) {
+			if (triggerMode_ == TriggerMode.AUTO) {
 				Value[] vals = new Value[function_.input()];
 				int i = 0;
 				for (InNode in : opInputs_) {
@@ -156,10 +153,10 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 	public void valueUpdated(Setting s, Value v) {
 		if (s.getName().equals(Trigger)) {
 			try {
-				FunctionTriggerMode e = (FunctionTriggerMode) v.getEnum();
+				TriggerMode e = (TriggerMode) v.getEnum();
 				if (e != triggerMode_) {
 					triggerMode_ = e;
-					if (e == FunctionTriggerMode.AUTO) {
+					if (e == TriggerMode.AUTO) {
 						this.removeInput(trigger_);
 						trigger_.removeListener(this);
 						trigger_ = null;
