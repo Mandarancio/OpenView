@@ -469,14 +469,18 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
     }
 
     public void clearAll() {
-        for (Line l : lines_) {
+        ArrayList<Line> ls=new ArrayList<>(lines_);
+        for (Line l : ls) {
             l.delete();
             remove(l);
         }
-        for (OVComponent c : components_) {
+        ArrayList<OVComponent> cs=new ArrayList<>(components_);
+        for (OVComponent c : cs) {
             c.delete();
             remove(c);
         }
+        ls.clear();
+        cs.clear();
         components_.clear();
         lines_.clear();
         removeAll();

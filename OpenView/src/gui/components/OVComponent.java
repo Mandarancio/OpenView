@@ -154,7 +154,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
             NodeList nl = c.getElementsByTagName(Setting.class.getSimpleName());
             for (int j = 0; j < nl.getLength(); j++) {
                 Element el = (Element) nl.item(j);
-                Setting s = getSetting(el.getAttribute("label"));
+
+                Setting s = getSetting(el.getAttribute("name"));
                 if (s != null) {
                     updateNodeSetting(cname, s);
                 } else {
@@ -534,11 +535,14 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
         if (mode != this.mode_) {
             this.mode_ = mode;
-            for (String s : settings_.keySet()) {
-                for (Setting stg : settings_.get(s)) {
-                    stg.setMode(getMode());
-                }
+            for (Setting stg : getSettings()) {
+                stg.setMode(getMode());
             }
+
+            for (Setting s : getNodeSettings()) {
+                s.setMode(mode);
+            }
+
             if (!isContainer() && mode == EditorMode.NODE) {
                 for (Component c : getComponents()) {
                     c.setVisible(false);

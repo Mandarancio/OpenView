@@ -40,14 +40,14 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
     private OutNode output_;
     private InNode trigger_;
     private TriggerMode triggerMode_ = TriggerMode.AUTO;
-    
+
     public OVFunctionNode(OVContainer father) {
         super(father);
         function_ = functionManager.getFunctions().get(0);
         getSetting(ComponentSettings.Name).setValue("Operator");
         output_ = addOutput(Output, ValueType.VOID);
         checkInputs();
-        
+
         Setting s = new Setting(Trigger, triggerMode_);
         addNodeSetting(ComponentSettings.SpecificCategory, s);
         Value v = new Value(functionManager.getFunctions().get(0).name());
@@ -57,20 +57,20 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
         s = new Setting(Function, v);
         addNodeSetting(ComponentSettings.SpecificCategory, s);
     }
-    
+
     public OVFunctionNode(Element e, OVContainer father) {
         super(e, father);
-        ArrayList<InNode> ins=new ArrayList<>(inputs_);
+        ArrayList<InNode> ins = new ArrayList<>(inputs_);
         for (InNode n : ins) {
             if (n.getLabel().startsWith("in ")) {
                 opInputs_.add(n);
                 n.addListener(this);
                 n.addNodeListener(this);
             } else if (n.getLabel().equals(Trigger)) {
-                if (trigger_ != null) {                    
+                if (trigger_ != null) {
                     trigger_.removeListener(this);
                     removeInput(trigger_);
-                    trigger_=null;
+                    trigger_ = null;
                 }
                 trigger_ = n;
                 n.addListener(this);
@@ -82,11 +82,15 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
                 output_ = n;
             }
         }
-        
+
         Setting s = getNodeSetting(Function);
         function_ = functionManager.get(s.getValue().getString());
+        try {
+            triggerMode_ = (TriggerMode) getNodeSetting(Trigger).getValue().getEnum();
+        } catch (Exception ex) {
+        }
     }
-    
+
     @Override
     protected void paintOVNode(Graphics2D g) {
         g.setColor(getForeground());
@@ -95,9 +99,9 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
         g.setFont(getFont().deriveFont(10.0f));
         String text = getName();
         paintText(text, g, new Rectangle(0, 30, 60, 30), OrientationEnum.CENTER);
-        
+
     }
-    
+
     @Override
     public void valueRecived(SlotInterface s, Value v) {
         if (s.equals(trigger_)) {
@@ -116,7 +120,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (!s.getLabel().equals(Trigger)){
+        } else if (!s.getLabel().equals(Trigger)) {
             values_.put((InNode) s, v);
             if (triggerMode_ == TriggerMode.AUTO) {
                 Value[] vals = new Value[function_.input()];
@@ -137,7 +141,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
             }
         }
     }
-    
+
     @Override
     public void connected(OVNode n) {
         if (n instanceof InNode) {
@@ -157,19 +161,19 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
             }
         }
     }
-    
+
     @Override
     public void deconneced(OVNode n) {
         if (n instanceof InNode) {
             if (opInputs_.contains(n)) {
                 ValueType inps[] = new ValueType[function_.input()];
-                
+
                 int c = 0;
                 for (InNode i : opInputs_) {
                     inps[c] = i.getType();
                     c++;
                 }
-                
+
                 try {
                     output_.setType(function_.returnedType(inps));
                 } catch (Exception e) {
@@ -179,24 +183,23 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
             }
         }
     }
-    
+
     @Override
     public void valueUpdated(Setting s, Value v) {
         if (s.getName().equals(Trigger)) {
             try {
                 TriggerMode e = (TriggerMode) v.getEnum();
-                if (e != triggerMode_) {
-                    triggerMode_ = e;
-                    if (e == TriggerMode.AUTO) {
-                        this.removeInput(trigger_);
-                        trigger_.removeListener(this);
-                        trigger_ = null;
-                    } else {
-                        trigger_ = this.addInput(Trigger, ValueType.VOID);
-                        trigger_.addListener(this);
-                    }
+                triggerMode_ = e;
+                if (e == TriggerMode.AUTO && trigger_ != null) {
+                    this.removeInput(trigger_);
+                    trigger_.removeListener(this);
+                    trigger_ = null;
+                } else if (e == TriggerMode.EXTERNAL && trigger_ == null) {
+
+                    trigger_ = this.addInput(Trigger, ValueType.VOID);
+                    trigger_.addListener(this);
                 }
-                
+
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -208,7 +211,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
             super.valueUpdated(s, v); // To change body of generated methods,
         }										// choose Tools | Templates.
     }
-    
+
     private void checkInputs() {
         while (opInputs_.size() > function_.input()) {
             InNode n = opInputs_.get(opInputs_.size() - 1);
