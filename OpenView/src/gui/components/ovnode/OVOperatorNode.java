@@ -191,6 +191,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
                     } else {
                         trigger_ = this.addInput(Trigger, ValueType.VOID);
                         trigger_.addListener(this);
+                        
                     }
                 }
 
