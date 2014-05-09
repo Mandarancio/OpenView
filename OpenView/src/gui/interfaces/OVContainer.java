@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import core.support.OrientationEnum;
+import gui.ObjectManager;
 
 public interface OVContainer {
 	public void addComponent(OVComponent c);
@@ -35,4 +36,5 @@ public interface OVContainer {
 	public void clickEvent(Point p,Object source);
 	public OVNode getNode(String parent, String uuid);
 	public EditorMode getMode();
+        public ObjectManager getObjectManager();
 }

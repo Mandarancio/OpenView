@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 
 import core.ValueType;
 import core.support.OrientationEnum;
+import gui.ObjectManager;
 import gui.support.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -59,6 +60,8 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
     public OVComponentContainer(Element e, OVContainer father) {
         super(e, father);
         this.setLayout(null);
+        container_ = true;
+
         NodeList nl = e.getElementsByTagName("InnerNode");
         for (int i = 0; i < nl.getLength(); i++) {
             Node n = nl.item(i);
@@ -67,8 +70,6 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 PolyOutNode out = new PolyOutNode(el, this);
                 String uuid = el.getAttribute("connected");
                 InNode in = (InNode) getNode(uuid);
-//                out.addNodeListener(this);
-//                in.addNodeListener(this);  
                 innerNodes_.add(new NodeGroup(in, out));
             }
         }
@@ -81,8 +82,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 PolyInNode in = new PolyInNode(el, this);
                 String uuid = el.getAttribute("connected");
                 OutNode out = (OutNode) getNode(uuid);
-//                out.addNodeListener(this);
-//                in.addNodeListener(this);  
+                System.err.println("conn: " + uuid);
                 outterNodes_.add(new NodeGroup(in, out));
             }
         }
@@ -122,11 +122,12 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 Element e = (Element) n;
                 if (e.getParentNode().equals(el)) {
                     Line l = XMLParser.parseLine(e, this);
+
                     lines_.add(l);
                     this.add(l);
                     this.moveToBack(l);
                     l.setSelected(false);
-//					l.addKeyListener(superParent());
+                    l.addKeyListener((KeyListener) superParent());
                     if (mode_ == EditorMode.RUN || mode_ == EditorMode.GUI) {
                         l.setVisible(false);
                     }
@@ -169,12 +170,16 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 }
             }
         }
-        Point p = superParent().getAbsoluteLocation(this, new Point(0, 0));
-        p.x = c.getX() - p.x;
-        p.y = c.getY() - p.y;
-        c.setFather(this);
+        if (!c.getFather().equals(this)) {
+            Point p = superParent().getAbsoluteLocation(this, new Point(0, 0));
+            p.x = c.getX() - p.x;
+            p.y = c.getY() - p.y;
+            c.setFather(this);
+            c.moveTo(p.x, p.y);
+        }
         components_.add(c);
-        c.moveTo(p.x, p.y);
+        c.addKeyListener((KeyListener) superParent());
+        getObjectManager().add(c);;
         this.add(c);
         select(c);
         c.setMode(getMode());
@@ -519,7 +524,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
     @Override
     protected void updateNodes() {
         super.updateNodes();
-        if (innerNodes_ != null && outterNodes_!=null) {
+        if (innerNodes_ != null && outterNodes_ != null) {
             for (NodeGroup g : innerNodes_) {
                 OutNode o = g.getOutNode();
                 InNode i = g.getInNode();
@@ -587,6 +592,10 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 
     @Override
     public OVNode getNode(String parent, String uuid) {
+        if (parent.equals(getUUID().toString())) {
+            return getNode(uuid);
+        }
+
         for (OVComponent c : components_) {
             if (c.getUUID().toString().equals(parent)) {
                 return c.getNode(uuid);
@@ -643,6 +652,11 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
             return n;
         }
         return null;
+    }
+
+    @Override
+    public ObjectManager getObjectManager() {
+        return superParent().getObjectManager();
     }
 
 }

@@ -177,21 +177,27 @@ public class OVComponent extends JLayeredPane implements DragComponent,
     protected void loadNodes(Element el) {
         NodeList nl = el.getElementsByTagName(InNode.class.getSimpleName());
         for (int i = 0; i < nl.getLength(); i++) {
+
             Element e = (Element) nl.item(i);
-            String uuid = e.getAttribute("uuid");
-            if (!nodeExist(uuid)) {
-                InNode n = new InNode(e, this);
-                addInput(n);
+            if (e.getParentNode().equals(el)) {
+
+                String uuid = e.getAttribute("uuid");
+                if (!nodeExist(uuid)) {
+                    InNode n = new InNode(e, this);
+                    addInput(n);
+                }
             }
         }
 
         nl = el.getElementsByTagName(OutNode.class.getSimpleName());
         for (int i = 0; i < nl.getLength(); i++) {
             Element e = (Element) nl.item(i);
-            String uuid = e.getAttribute("uuid");
-            if (!nodeExist(uuid)) {
-                OutNode n = new OutNode(e, this);
-                addOutput(n);
+            if (e.getParentNode().equals(el)) {
+                String uuid = e.getAttribute("uuid");
+                if (!nodeExist(uuid)) {
+                    OutNode n = new OutNode(e, this);
+                    addOutput(n);
+                }
             }
         }
     }
@@ -823,19 +829,20 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
     public void addOutput(OutNode node) {
         if (outputs_.size() > 0) {
-            int i=0;
-            boolean flag=false;
-            int y=node.getLocation().y;
-            for (;i<outputs_.size();i++){
-                if (outputs_.get(i).getLocation().y>y){
-                    flag=true;
+            int i = 0;
+            boolean flag = false;
+            int y = node.getLocation().y;
+            for (; i < outputs_.size(); i++) {
+                if (outputs_.get(i).getLocation().y > y) {
+                    flag = true;
                     break;
                 }
             }
-            if (flag){
-                outputs_.add(i-1,node);
-            }else
+            if (flag) {
+                outputs_.add(i - 1, node);
+            } else {
                 outputs_.add(node);
+            }
         } else {
             outputs_.add(node);
         }
@@ -844,20 +851,21 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
     public void addInput(InNode node) {
         if (inputs_.size() > 0) {
-            int i=0;
-            boolean flag=false;
-            int y=node.getLocation().y;
-            for (;i<inputs_.size();i++){
-                if (inputs_.get(i).getLocation().y>y){
-                    flag=true;
-                    
+            int i = 0;
+            boolean flag = false;
+            int y = node.getLocation().y;
+            for (; i < inputs_.size(); i++) {
+                if (inputs_.get(i).getLocation().y > y) {
+                    flag = true;
+
                     break;
                 }
             }
-            if (flag){
-                inputs_.add(i-1,node);
-            }else
+            if (flag) {
+                inputs_.add(i - 1, node);
+            } else {
                 inputs_.add(node);
+            }
         } else {
             inputs_.add(node);
         }

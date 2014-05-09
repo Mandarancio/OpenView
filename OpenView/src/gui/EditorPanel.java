@@ -487,4 +487,10 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 		return null;
 	}
 
+    @Override
+    public ObjectManager getObjectManager() {
+        return objectManager_;
+    }
+
+        
 }
