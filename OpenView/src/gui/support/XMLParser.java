@@ -12,6 +12,7 @@ import gui.components.ovgui.OVTextField;
 import gui.components.ovnode.OVForTrigger;
 import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
+import gui.components.ovnode.OVNodeBlock;
 import gui.components.ovnode.OVNodeComponent;
 import gui.components.ovnode.OVOperatorNode;
 import gui.components.ovnode.OVPullNode;
@@ -61,7 +62,10 @@ public class XMLParser {
             c = new OVProceduralBlock(e, father);
         } else if (name.equals(OVComponentContainer.class.getSimpleName())) {
             c = new OVComponentContainer(e, father);
+        } else if (name.equals(OVNodeBlock.class.getSimpleName())) {
+            c = new OVNodeBlock(e, father);
         }
+
         if (c != null) {
             father.addComponent(c);
             if ((c instanceof OVNodeComponent || c instanceof OVProceduralBlock) && father.getMode() == EditorMode.GUI) {
@@ -73,7 +77,7 @@ public class XMLParser {
     public static Line parseLine(Element e, OVContainer parent) {
         try {
             return new Line(e, parent);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

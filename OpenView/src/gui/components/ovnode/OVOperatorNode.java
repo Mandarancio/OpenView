@@ -60,16 +60,24 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 
     public OVOperatorNode(Element e, OVContainer father) {
         super(e, father);
-        for (InNode n : inputs_) {
+        ArrayList<InNode> ins = new ArrayList<>(inputs_);
+        for (InNode n : ins) {
             if (n.getLabel().startsWith("in ")) {
                 opInputs_.add(n);
                 n.addListener(this);
                 n.addNodeListener(this);
             } else if (n.getLabel().equals(Trigger)) {
+                if (trigger_ != null) {
+                    trigger_.removeListener(this);
+                    removeInput(trigger_);
+                    trigger_ = null;
+                }
                 trigger_ = n;
                 n.addListener(this);
             }
         }
+        ins.clear();
+
         for (OutNode n : outputs_) {
             if (n.getLabel().equals(Output)) {
                 output_ = n;
@@ -81,6 +89,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
         try {
             triggerMode_ = (TriggerMode) getNodeSetting(Trigger).getValue().getEnum();
         } catch (Exception ex) {
+            ex.printStackTrace();   
         }
     }
 
@@ -191,7 +200,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
                     } else {
                         trigger_ = this.addInput(Trigger, ValueType.VOID);
                         trigger_.addListener(this);
-                        
+
                     }
                 }
 

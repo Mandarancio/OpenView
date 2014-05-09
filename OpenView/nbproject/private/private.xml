@@ -5,25 +5,37 @@
         <group>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyInNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/RightPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/Message.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/SettingPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/OVMaker.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/support/OrientationEnum.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVContainer.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/Line.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/Setting.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/ObjectManager.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponentContainer.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/ObjectManager.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLBuilder.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/InNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVVariableNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVFunctionNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/OVMaker.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVContainer.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVTimerTriggerNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/Setting.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/Line.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/LineException.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/OutNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVScalaBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/support/EnumManager.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyOutNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLParser.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/InNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/Complex.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVOperatorNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/MainPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/Complex.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeComponent.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/NodeSettingPanel.java</file>
         </group>
     </open-files>
 </project-private>
