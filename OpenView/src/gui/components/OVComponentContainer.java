@@ -67,10 +67,13 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
             Node n = nl.item(i);
             if (n != null && n instanceof Element) {
                 Element el = (Element) n;
-                PolyOutNode out = new PolyOutNode(el, this);
-                String uuid = el.getAttribute("connected");
-                InNode in = (InNode) getNode(uuid);
-                innerNodes_.add(new NodeGroup(in, out));
+                if (el.getParentNode().equals(e)) {
+
+                    PolyOutNode out = new PolyOutNode(el, this);
+                    String uuid = el.getAttribute("connected");
+                    InNode in = (InNode) getNode(uuid);
+                    innerNodes_.add(new NodeGroup(in, out));
+                }
             }
         }
 
@@ -79,11 +82,12 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
             Node n = nl.item(i);
             if (n != null && n instanceof Element) {
                 Element el = (Element) n;
-                PolyInNode in = new PolyInNode(el, this);
-                String uuid = el.getAttribute("connected");
-                OutNode out = (OutNode) getNode(uuid);
-                System.err.println("conn: " + uuid);
-                outterNodes_.add(new NodeGroup(in, out));
+                if (el.getParentNode().equals(e)) {
+                    PolyInNode in = new PolyInNode(el, this);
+                    String uuid = el.getAttribute("connected");
+                    OutNode out = (OutNode) getNode(uuid);
+                    outterNodes_.add(new NodeGroup(in, out));
+                }
             }
         }
 
@@ -179,7 +183,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
         }
         components_.add(c);
         c.addKeyListener((KeyListener) superParent());
-        getObjectManager().add(c);;
+        getObjectManager().add(c);
         this.add(c);
         select(c);
         c.setMode(getMode());

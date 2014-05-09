@@ -10,9 +10,11 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVContainer.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/Line.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Setting.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/ObjectManager.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponentContainer.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/OutNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVScalaBlock.java</file>
