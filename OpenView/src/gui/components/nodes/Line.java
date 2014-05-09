@@ -74,7 +74,7 @@ public class Line extends JComponent implements ComponentListener {
         uuid_ = UUID.randomUUID();
     }
 
-    public Line(Element e, OVContainer father) {
+    public Line(Element e, OVContainer father) throws LineException {
         father_ = father;
         uuid_ = UUID.fromString(e.getAttribute("uuid"));
         this.addMouseListener(mouseListener_);
@@ -119,11 +119,7 @@ public class Line extends JComponent implements ComponentListener {
             ca.addComponentListener(this);
             updateBounds();
         } else {
-            System.err.println("in: "+in);
-            System.err.println("out: "+out);
-            
-            System.err
-                    .println("something in the constructor of line went seriusly bad!");
+           throw new LineException("something in the constructor of line went seriusly bad!");
         }
     }
 

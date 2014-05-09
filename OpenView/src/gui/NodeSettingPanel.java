@@ -104,7 +104,7 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
 				for (Value v : s.getValue().getDescriptor().getPossibilities()) {
 					cb.addItem(v.getString());
 				}
-
+                                cb.setSelectedItem(s.getValue().getString());
 				SettingListener listener = new SettingListener() {
 
 					@Override

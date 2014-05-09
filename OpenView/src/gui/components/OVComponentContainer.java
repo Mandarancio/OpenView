@@ -126,14 +126,15 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 Element e = (Element) n;
                 if (e.getParentNode().equals(el)) {
                     Line l = XMLParser.parseLine(e, this);
-
-                    lines_.add(l);
-                    this.add(l);
-                    this.moveToBack(l);
-                    l.setSelected(false);
-                    l.addKeyListener((KeyListener) superParent());
-                    if (mode_ == EditorMode.RUN || mode_ == EditorMode.GUI) {
-                        l.setVisible(false);
+                    if (l != null) {
+                        lines_.add(l);
+                        this.add(l);
+                        this.moveToBack(l);
+                        l.setSelected(false);
+                        l.addKeyListener((KeyListener) superParent());
+                        if (mode_ == EditorMode.RUN || mode_ == EditorMode.GUI) {
+                            l.setVisible(false);
+                        }
                     }
                 }
             }

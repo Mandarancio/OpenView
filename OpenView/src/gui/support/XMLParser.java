@@ -71,7 +71,11 @@ public class XMLParser {
     }
 
     public static Line parseLine(Element e, OVContainer parent) {
-
-        return new Line(e, parent);
+        try {
+            return new Line(e, parent);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
     }
 }
