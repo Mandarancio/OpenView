@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 
 import core.ValueType;
 import core.support.OrientationEnum;
+import gui.support.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,21 +55,82 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
         getSetting(ComponentSettings.SizeH).setValue(120);
         getSetting(ComponentSettings.Name).setValue("Container");
     }
-    
-    public OVComponentContainer(Element e,OVContainer father){
-        super(e,father);
+
+    public OVComponentContainer(Element e, OVContainer father) {
+        super(e, father);
         this.setLayout(null);
-        NodeList nl=e.getElementsByTagName("InnerNode");
-        for (int i=0;i<nl.getLength();i++){
-            Node n=nl.item(i);
-            if (n!=null && n  instanceof Element){
-                Element el= (Element)n;
-                PolyOutNode out =new PolyOutNode(el, this);
-                String uuid= el.getAttribute("connected");
-                InNode in=(InNode)getNode(uuid);
+        NodeList nl = e.getElementsByTagName("InnerNode");
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node n = nl.item(i);
+            if (n != null && n instanceof Element) {
+                Element el = (Element) n;
+                PolyOutNode out = new PolyOutNode(el, this);
+                String uuid = el.getAttribute("connected");
+                InNode in = (InNode) getNode(uuid);
 //                out.addNodeListener(this);
 //                in.addNodeListener(this);  
                 innerNodes_.add(new NodeGroup(in, out));
+            }
+        }
+
+        nl = e.getElementsByTagName("OutterNode");
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node n = nl.item(i);
+            if (n != null && n instanceof Element) {
+                Element el = (Element) n;
+                PolyInNode in = new PolyInNode(el, this);
+                String uuid = el.getAttribute("connected");
+                OutNode out = (OutNode) getNode(uuid);
+//                out.addNodeListener(this);
+//                in.addNodeListener(this);  
+                outterNodes_.add(new NodeGroup(in, out));
+            }
+        }
+
+        //load components
+        loadXML((Element) e.getElementsByTagName("container").item(0));
+
+        for (NodeGroup g : innerNodes_) {
+            g.getInNode().addNodeListener(this);
+            g.getOutNode().addNodeListener(this);
+        }
+
+        for (NodeGroup g : outterNodes_) {
+            g.getInNode().addNodeListener(this);
+            g.getOutNode().addNodeListener(this);
+        }
+    }
+
+    protected void loadXML(Element el) {
+        NodeList nl = el.getChildNodes();
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node n = nl.item(i);
+            if (n != null && n instanceof Element) {
+                Element e = (Element) n;
+                if (e.getParentNode().equals(el)) {
+                    if (!e.getTagName().equals(Line.class.getSimpleName())) {
+                        XMLParser.loadComponent(e, this);
+                    }
+                }
+            }
+        }
+
+        nl = el.getElementsByTagName(Line.class.getSimpleName());
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node n = nl.item(i);
+            if (n != null && n instanceof Element) {
+                Element e = (Element) n;
+                if (e.getParentNode().equals(el)) {
+                    Line l = XMLParser.parseLine(e, this);
+                    lines_.add(l);
+                    this.add(l);
+                    this.moveToBack(l);
+                    l.setSelected(false);
+//					l.addKeyListener(superParent());
+                    if (mode_ == EditorMode.RUN || mode_ == EditorMode.GUI) {
+                        l.setVisible(false);
+                    }
+                }
             }
         }
     }
@@ -457,16 +519,18 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
     @Override
     protected void updateNodes() {
         super.updateNodes();
-        for (NodeGroup g : innerNodes_) {
-            OutNode o = g.getOutNode();
-            InNode i = g.getInNode();
-            o.setLocation(new Point(i.getLocation().x + 10, i.getLocation().y));
-        }
+        if (innerNodes_ != null && outterNodes_!=null) {
+            for (NodeGroup g : innerNodes_) {
+                OutNode o = g.getOutNode();
+                InNode i = g.getInNode();
+                o.setLocation(new Point(i.getLocation().x + 10, i.getLocation().y));
+            }
 
-        for (NodeGroup g : outterNodes_) {
-            OutNode o = g.getOutNode();
-            InNode i = g.getInNode();
-            i.setLocation(new Point(o.getLocation().x - 10, o.getLocation().y));
+            for (NodeGroup g : outterNodes_) {
+                OutNode o = g.getOutNode();
+                InNode i = g.getInNode();
+                i.setLocation(new Point(o.getLocation().x - 10, o.getLocation().y));
+            }
         }
     }
 

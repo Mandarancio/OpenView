@@ -1,6 +1,7 @@
 package gui.support;
 
 import gui.components.OVComponent;
+import gui.components.OVComponentContainer;
 import gui.components.nodes.Line;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
@@ -24,50 +25,53 @@ import gui.interfaces.OVContainer;
 import org.w3c.dom.Element;
 
 public class XMLParser {
-	static public void loadComponent(Element e, OVContainer father) {
-		String name = e.getTagName();
-		OVComponent c = null;
-		if (name.equals(OVLabel.class.getSimpleName())) {
-			c = new OVLabel(e, father);
-		} else if (name.equals(OVButton.class.getSimpleName())) {
-			c = new OVButton(e, father);
-		} else if (name.equals(OVCheckBox.class.getSimpleName())) {
-			c = new OVCheckBox(e, father);
-		} else if (name.equals(OVTextArea.class.getSimpleName())) {
-			c = new OVTextArea(e, father);
-		} else if (name.equals(OVTextField.class.getSimpleName())) {
-			c = new OVTextField(e, father);
-		} else if (name.equals(OVPlotComponent.class.getSimpleName())) {
-			c = new OVPlotComponent(e, father);
-		} else if (name.equals(OVVariableNode.class.getSimpleName())) {
-			c = new OVVariableNode(e, father);
-		} else if (name.equals(OVOperatorNode.class.getSimpleName())) {
-			c = new OVOperatorNode(e, father);
-		} else if (name.equals(OVFunctionNode.class.getSimpleName())) {
-			c = new OVFunctionNode(e, father);
-		} else if (name.equals(OVTimerTriggerNode.class.getSimpleName())) {
-			c = new OVTimerTriggerNode(e, father);
-		} else if (name.equals(OVForTrigger.class.getSimpleName())) {
-			c = new OVForTrigger(e, father);
-		} else if (name.equals(OVIFTriggerNode.class.getSimpleName())) {
-			c = new OVIFTriggerNode(e, father);
-		} else if (name.equals(OVPullNode.class.getSimpleName())) {
-			c = new OVPullNode(e, father);
-		} else if (name.equals(OVRandomNode.class.getSimpleName())) {
-			c = new OVRandomNode(e, father);
-		} else if (name.equals(OVProceduralBlock.class.getSimpleName())) {
-			c = new OVProceduralBlock(e, father);
-		}
-		if (c != null) {
-			father.addComponent(c);
-			if ((c instanceof OVNodeComponent || c instanceof OVProceduralBlock) && father.getMode()==EditorMode.GUI){
-				c.setVisible(false);
-			}
-		}
-	}
 
-	public static Line parseLine(Element e, OVContainer parent) {
+    static public void loadComponent(Element e, OVContainer father) {
+        String name = e.getTagName();
+        OVComponent c = null;
+        if (name.equals(OVLabel.class.getSimpleName())) {
+            c = new OVLabel(e, father);
+        } else if (name.equals(OVButton.class.getSimpleName())) {
+            c = new OVButton(e, father);
+        } else if (name.equals(OVCheckBox.class.getSimpleName())) {
+            c = new OVCheckBox(e, father);
+        } else if (name.equals(OVTextArea.class.getSimpleName())) {
+            c = new OVTextArea(e, father);
+        } else if (name.equals(OVTextField.class.getSimpleName())) {
+            c = new OVTextField(e, father);
+        } else if (name.equals(OVPlotComponent.class.getSimpleName())) {
+            c = new OVPlotComponent(e, father);
+        } else if (name.equals(OVVariableNode.class.getSimpleName())) {
+            c = new OVVariableNode(e, father);
+        } else if (name.equals(OVOperatorNode.class.getSimpleName())) {
+            c = new OVOperatorNode(e, father);
+        } else if (name.equals(OVFunctionNode.class.getSimpleName())) {
+            c = new OVFunctionNode(e, father);
+        } else if (name.equals(OVTimerTriggerNode.class.getSimpleName())) {
+            c = new OVTimerTriggerNode(e, father);
+        } else if (name.equals(OVForTrigger.class.getSimpleName())) {
+            c = new OVForTrigger(e, father);
+        } else if (name.equals(OVIFTriggerNode.class.getSimpleName())) {
+            c = new OVIFTriggerNode(e, father);
+        } else if (name.equals(OVPullNode.class.getSimpleName())) {
+            c = new OVPullNode(e, father);
+        } else if (name.equals(OVRandomNode.class.getSimpleName())) {
+            c = new OVRandomNode(e, father);
+        } else if (name.equals(OVProceduralBlock.class.getSimpleName())) {
+            c = new OVProceduralBlock(e, father);
+        } else if (name.equals(OVComponentContainer.class.getSimpleName())) {
+            c = new OVComponentContainer(e, father);
+        }
+        if (c != null) {
+            father.addComponent(c);
+            if ((c instanceof OVNodeComponent || c instanceof OVProceduralBlock) && father.getMode() == EditorMode.GUI) {
+                c.setVisible(false);
+            }
+        }
+    }
 
-		return new Line(e, parent);
-	}
+    public static Line parseLine(Element e, OVContainer parent) {
+
+        return new Line(e, parent);
+    }
 }

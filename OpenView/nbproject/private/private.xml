@@ -6,6 +6,7 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyInNode.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/RightPanel.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/SettingPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/OVMaker.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
@@ -17,7 +18,9 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVScalaBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyOutNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLParser.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/InNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/Complex.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/MainPanel.java</file>
         </group>
     </open-files>
