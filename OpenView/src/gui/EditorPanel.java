@@ -242,7 +242,6 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
     @Override
     public OVToolTip showToolTip(String tooltip, Point p,
             OrientationEnum orientation) {
-        System.out.println(p);
         OVToolTip toolTip = new OVToolTip(tooltip, p, orientation, getFont());
         this.add(toolTip);
         this.moveToFront(toolTip);

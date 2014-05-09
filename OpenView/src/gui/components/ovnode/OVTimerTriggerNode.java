@@ -55,7 +55,7 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 
 		s = new Setting(Delay, 1000, 10, 10000);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-
+                s.setGuiMode(false);
 	}
 
 	public OVTimerTriggerNode(Element e, OVContainer father) {
@@ -86,6 +86,7 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 			try {
 				timer_ = new Timer();
 				int delay = getSetting(Delay).getValue().getInt();
+                                System.out.println("!!!! DT: "+delay);
 				if (timerMode_ == TimerMode.SINGLE) {
 					timer_.schedule(new MyTask(), delay);
 				} else {
