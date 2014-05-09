@@ -118,7 +118,6 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
 
     @Override
     public void valueRecived(SlotInterface s, Value v) {
-        System.err.println("Data: "+v);
         if (getMode().isExec()) {
             if (plotLines_.contains(s)) {
                 try {
