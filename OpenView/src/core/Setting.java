@@ -265,9 +265,9 @@ public class Setting implements SlotListener {
                 }
 
                 if (v == null) {
-                    value_ = new Value(value_.getData());
+                    value_ = new Value(value_);
                 } else {
-                    value_ = new Value(v.getData());
+                    value_ = new Value(v);
                 }
                 if (outNode_ != null) {
                     outNode_.setValue(value_);
@@ -288,7 +288,7 @@ public class Setting implements SlotListener {
                 } else {
                     if ((mode_ == EditorMode.GUI && guiMode_)
                             || (mode_ == EditorMode.NODE && nodeMode_)) {
-                        value_ = new Value(value_.getData());
+                        value_ = new Value(value_);
 
                     }
                     values_.put(mode_, value_);

@@ -44,7 +44,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
     public OVFunctionNode(OVContainer father) {
         super(father);
         function_ = functionManager.getFunctions().get(0);
-        getSetting(ComponentSettings.Name).setValue("Operator");
+        getSetting(ComponentSettings.Name).setValue("Function");
         output_ = addOutput(Output, ValueType.VOID);
         checkInputs();
 
@@ -94,8 +94,11 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
     @Override
     protected void paintOVNode(Graphics2D g) {
         g.setColor(getForeground());
-        paintText(function_.name(), g, new Rectangle(0, 0, 60, 45),
-                OrientationEnum.CENTER);
+        if (function_ != null) {
+            paintText(function_.name(), g, new Rectangle(0, 0, 60, 45),
+                    OrientationEnum.CENTER);
+        }
+
         g.setFont(getFont().deriveFont(10.0f));
         String text = getName();
         paintText(text, g, new Rectangle(0, 30, 60, 30), OrientationEnum.CENTER);
@@ -145,7 +148,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
     @Override
     public void connected(OVNode n) {
         if (n instanceof InNode) {
-            if (opInputs_.contains(n)) {
+            if (opInputs_.contains(n) && function_.input()==opInputs_.size()) {
                 ValueType inps[] = new ValueType[function_.input()];
                 int c = 0;
                 for (InNode i : opInputs_) {
@@ -213,17 +216,19 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
     }
 
     private void checkInputs() {
-        while (opInputs_.size() > function_.input()) {
-            InNode n = opInputs_.get(opInputs_.size() - 1);
-            removeInput(n);
-            n.removeListener(this);
-            opInputs_.remove(n);
-        }
-        while (opInputs_.size() < function_.input()) {
-            InNode in = addInput("in " + (opInputs_.size() + 1), ValueType.VOID);
-            opInputs_.add(in);
-            in.addNodeListener(this);
-            in.addListener(this);
+        if (function_ != null) {
+            while (opInputs_.size() > function_.input()) {
+                InNode n = opInputs_.get(opInputs_.size() - 1);
+                removeInput(n);
+                n.removeListener(this);
+                opInputs_.remove(n);
+            }
+            while (opInputs_.size() < function_.input()) {
+                InNode in = addInput("in " + (opInputs_.size() + 1), ValueType.VOID);
+                opInputs_.add(in);
+                in.addNodeListener(this);
+                in.addListener(this);
+            }
         }
     }
 }

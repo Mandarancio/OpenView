@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import evaluator.functions.array.ArrayAdd;
 import evaluator.functions.array.ArrayGet;
+import evaluator.functions.array.ArrayLength;
 import evaluator.functions.array.ArrayRemove;
 import evaluator.functions.converters.ToString;
 import evaluator.functions.math.Abs;
@@ -69,6 +70,7 @@ public class FunctionManager {
 		functions_.add(new ArrayGet());
 		functions_.add(new ArrayAdd());
 		functions_.add(new ArrayRemove());
+                functions_.add(new ArrayLength());
 	}
 
 	public HashMap<String, Function> getFunctionMap() {

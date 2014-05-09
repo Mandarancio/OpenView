@@ -125,6 +125,9 @@ public enum ValueType {
 
 	final private static Object parseArrary(String val) {
 		String array = val.substring(1, val.length() - 1);
+                if (array.length()==0){
+                    return new ArrayList<Value>();
+                }
 		String values[] = splitArray(array);
 		if (values.length == 1) {
 			if (array.contains(":")) {

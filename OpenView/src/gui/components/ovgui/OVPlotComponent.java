@@ -101,7 +101,7 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
                 data[i][1] = vls[i].getDouble();
                 data[i][0] = i;
             }
-            if (plot_.getPlots().size() > plot) {
+            if (plot_.getPlots().size() > plot && plot_.getPlots().size()>0) {
 
                 Plot p = plot_.getPlot(plot);
 
