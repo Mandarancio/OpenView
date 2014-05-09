@@ -19,13 +19,6 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
     private CodeBlock parent_;
     private String[] code_;
 
-    public FORBlock(CodeBlock parent, Block i, Block c, Block o) {
-        super("for");
-        initalization_ = i;
-        condition_ = c;
-        operation_ = o;
-        parent_ = parent;
-    }
 
     public FORBlock(CodeBlock block, String i, String c, String o, int currentLine) throws InterpreterException {
         super("for");
@@ -34,6 +27,8 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
         if (i.length() > 0) {
             initalization_ = Parser.parseLine(this, i, new String[0], currentLine).block;
         }
+        System.err.println("PRINT");
+        DebugManager.debug("PRINT",this,0);
         condition_ = Parser.parseLine(this, c, new String[0], currentLine).block;
         if (o.length() > 0) {
             operation_ = Parser.parseLine(this, o, new String[0], currentLine).block;
@@ -84,6 +79,7 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
             String copy[] = new String[lines.length - i];
             System.arraycopy(lines, i, copy, 0, copy.length);
             ReturnStruct rs = Parser.parseLine(this, lines[i], copy, getLine() + i);
+            rs.block.setLine(getLine()+i+1);
             if (rs.block != null) {
                 if (b == null) {
                     b = rs.block;

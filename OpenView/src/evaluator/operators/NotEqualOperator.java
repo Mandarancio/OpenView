@@ -9,7 +9,7 @@ public class NotEqualOperator extends AbstractOperator {
 	 * Default constructor.
 	 */
 	public NotEqualOperator() {
-		super("!=", "Not equal operator", 3);
+		super("!=", "Not equal operator", 0);
 	}
 
 	/*

@@ -12,7 +12,7 @@ public class EqualOperator extends AbstractOperator {
 	 * Default constructor.
 	 */
 	public EqualOperator() {
-		super("==", "Equal operator", 3);
+		super("==", "Equal operator", 0);
 	}
 
 	/*

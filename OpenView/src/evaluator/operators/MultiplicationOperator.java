@@ -7,7 +7,7 @@ import evaluator.EvalException;
 public class MultiplicationOperator extends AbstractOperator {
 
 	public MultiplicationOperator() {
-		super("*", "Multiplication Operator.", 2);
+		super("*", "Multiplication Operator.", 5);
 	}
 
 	@Override

@@ -82,10 +82,10 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             String copy[] = new String[code_.length - i];
             System.arraycopy(code_, i, copy, 0, copy.length);
 
-            ReturnStruct rs = Parser.parseLine(this, code_[i], copy, getLine() + i+1);
+            ReturnStruct rs = Parser.parseLine(this, code_[i], copy, getLine() + i + 1);
             Block b = rs.block;
             i += rs.lines;
-
+            rs.block.setLine(getLine() + 1+i);
             if (b instanceof ELSEBlock) {
                 this.setElse(b);
             }
@@ -128,7 +128,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
                 return new ReturnStruct(this, i + 1);
             } else if (c == 0) {
                 this.code_ = code.toArray(new String[code.size()]);
-                return new ReturnStruct(this, i+1);
+                return new ReturnStruct(this, i + 1);
             } else {
                 i++;
             }
@@ -146,7 +146,7 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
         }
     }
 
-    public Block superNext() throws InterpreterException{
+    public Block superNext() throws InterpreterException {
         return super.next();
     }
 
@@ -163,8 +163,8 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
     }
 
     @Override
-    public void debug(String code,int line) {
-		DebugManager.debug(code, this,line);
+    public void debug(String code, int line) {
+        DebugManager.debug(code, this, line);
     }
 
     @Override

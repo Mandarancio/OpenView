@@ -57,6 +57,7 @@ public class FunctionDefinition extends AbstractBlock implements CodeBlock {
 			String copy[] = new String[lines.length - i];
 			System.arraycopy(lines, i, copy, 0, copy.length);
 			ReturnStruct rs = Parser.parseLine(this, line, copy, getLine() + i);
+                        rs.block.setLine(i+1+getLine());
 			if (rs.block != null) {
 				if (b == null) {
 					b = rs.block;

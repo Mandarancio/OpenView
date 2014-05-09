@@ -29,6 +29,7 @@ public class OperatorBlock extends AbstractBlock {
         try {
             return operator_.evaluate(operands.toArray(new Value[operands.size()]));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InterpreterException(e.getMessage(), getLine());
         }
     }

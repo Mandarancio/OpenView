@@ -12,7 +12,7 @@ public class GreaterThanOrEqualOperator extends AbstractOperator {
 	 * Default constructor.
 	 */
 	public GreaterThanOrEqualOperator() {
-		super(">=", "Greater than operatror.", 4);
+		super(">=", "Greater than operatror.", 0);
 	}
 
 	/*

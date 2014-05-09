@@ -12,7 +12,7 @@ public class LessThanOperator extends AbstractOperator {
 	 * Default constructor.
 	 */
 	public LessThanOperator() {
-		super("<", "Greater than operatror.", 4);
+		super("<", "Greater than operatror.", 0);
 	}
 
 	/*
