@@ -119,7 +119,7 @@ public class Line extends JComponent implements ComponentListener {
             ca.addComponentListener(this);
             updateBounds();
         } else {
-           throw new LineException("something in the constructor of line went seriusly bad!");
+            throw new LineException("something in the constructor of line went seriusly bad!");
         }
     }
 
@@ -322,6 +322,9 @@ public class Line extends JComponent implements ComponentListener {
             parentRepaint();
             getFather().hideToolTip(__tooltip);
             if (val != null && val.length() > 0) {
+                if (val.length() > 10) {
+                    val = val.substring(0, 7) + "...";
+                }
                 OVNode n = getOutNode();
                 if (n != null && n.visible()) {
                     Point p = new Point(n.getLocation());

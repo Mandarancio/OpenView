@@ -40,15 +40,15 @@ public class OutNode extends Emitter implements OVNode {
     }
 
     public OutNode(Element el, OVComponent parent) {
-    	super(el.getAttribute("label"),ValueType.valueOf(el.getAttribute("type")));
-    	uuid_=UUID.fromString(el.getAttribute("uuid"));
-    	parent_=parent;
-    	location_=Utils.parsePoint(el.getAttribute("location"));
-    	setPolyvalent(Boolean.parseBoolean(el.getAttribute("polyvalent")));
-    	
+        super(el.getAttribute("label"), ValueType.valueOf(el.getAttribute("type")));
+        uuid_ = UUID.fromString(el.getAttribute("uuid"));
+        parent_ = parent;
+        location_ = Utils.parsePoint(el.getAttribute("location"));
+        setPolyvalent(Boolean.parseBoolean(el.getAttribute("polyvalent")));
+
     }
 
-	public boolean contains(Point p) {
+    public boolean contains(Point p) {
         int dx = p.x - location_.x, dy = p.y - location_.y;
         double d = Math.sqrt(dx * dx + dy * dy);
         return (d <= radius);
@@ -85,10 +85,10 @@ public class OutNode extends Emitter implements OVNode {
     public Element getXML(Document doc) {
         Element e = doc.createElement(OutNode.class.getSimpleName());
         e.setAttribute("uuid", uuid_.toString());
-        e.setAttribute("label",getLabel());
+        e.setAttribute("label", getLabel());
         e.setAttribute("type", getType().toString());
-        e.setAttribute("parent",parent_.getUUID().toString());
-        e.setAttribute("location",Utils.codePoint(location_));
+        e.setAttribute("parent", parent_.getUUID().toString());
+        e.setAttribute("location", Utils.codePoint(location_));
         e.setAttribute("polyvalent", Boolean.toString(isPolyvalent()));
         return e;
     }
@@ -208,6 +208,7 @@ public class OutNode extends Emitter implements OVNode {
     @Override
     public void trigger(Value v) {
         super.trigger(v);
+
         if (parent_ != null && parent_.getMode() == EditorMode.DEBUG) {
             for (Line l : lines_) {
                 if (v.getType() == ValueType.VOID

@@ -106,10 +106,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 
     @Override
     public void valueRecived(SlotInterface s, Value v) {
-        System.err.println(s.getLabel());
         if (s.getLabel().equals(Trigger)) {
-            System.err.println("trigger");
-            System.err.println("Inputs: "+operator_.input()+"\nCount: "+values_.keySet());
             Value[] vals = new Value[operator_.input()];
             int i = 0;
             for (InNode in : opInputs_) {
