@@ -120,7 +120,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
         s = new Setting(ComponentSettings.Enable, new Boolean(true));
         addBothSetting(ComponentSettings.GenericCategory, s);
-        s.setNodeMode(false);
+        s.setNodeMode(true);
         s.setGuiMode(true);
 
         s = new Setting(ComponentSettings.PosX, 0, 0, 1920);

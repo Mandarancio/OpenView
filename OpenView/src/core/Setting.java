@@ -307,9 +307,13 @@ public class Setting implements SlotListener {
         e.setAttribute("output", Boolean.toString(output_));
         e.setAttribute("input", Boolean.toString(input_));
         for (EditorMode mode : values_.keySet()) {
-            Element el = values_.get(mode).getXML(doc);
-            doc.renameNode(el, null, mode.toString());
-            e.appendChild(el);
+            if (!mode.isExec()) {
+                if ((mode == EditorMode.GUI && guiMode_) || (mode == EditorMode.NODE && nodeMode_)) {
+                    Element el = values_.get(mode).getXML(doc);
+                    doc.renameNode(el, null, mode.toString());
+                    e.appendChild(el);
+                }
+            }
         }
         if (minValue_ != null) {
             Element min = minValue_.getXML(doc);
@@ -374,7 +378,7 @@ public class Setting implements SlotListener {
 
     @Override
     public String toString() {
-        return "Setting[" + name_ + "," + getValue() + "," + mode_ + "]\n"+values_;
+        return "Setting[" + name_ + "," + getValue() + "," + mode_ + "]\n" + values_;
     }
 
 }

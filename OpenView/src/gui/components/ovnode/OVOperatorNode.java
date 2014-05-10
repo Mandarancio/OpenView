@@ -49,12 +49,14 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
         checkInputs();
 
         Setting s = new Setting(Trigger, triggerMode_);
+        s.setGuiMode(false);
         addNodeSetting(ComponentSettings.SpecificCategory, s);
         Value v = new Value(operatorManager.getOperators().get(0).name());
         for (Operator o : operatorManager.getOperators()) {
             v.getDescriptor().addPossibility(new Value(o.name()));
         }
         s = new Setting(Operator, v);
+        s.setGuiMode(false);
         addNodeSetting(ComponentSettings.SpecificCategory, s);
     }
 
