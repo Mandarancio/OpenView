@@ -245,6 +245,7 @@ Preprocessor 			= ([\@][.])
 	"add" |
 	"length" |
 	"remove" |
+        "wait" |
 	"print" { addToken(Token.FUNCTION); }
 
 	{Identifier}				{ addToken(Token.IDENTIFIER); }

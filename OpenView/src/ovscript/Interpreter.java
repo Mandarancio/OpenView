@@ -6,6 +6,8 @@ import java.util.HashMap;
 import core.Emitter;
 import core.Slot;
 import core.Value;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Interpreter implements CodeBlock {
 
@@ -20,17 +22,28 @@ public class Interpreter implements CodeBlock {
     private HashMap<Integer, Emitter> emitters_ = new HashMap<>();
 
     @Override
-    public Value runBlock(Block block) throws InterpreterException {
-        Block b = block;
-        Value last = new Value();
-        while (b != null) {
-            last = b.run(this);
-            if (__end) {
-                return last;
+    public Value runBlock(final Block block) throws InterpreterException {
+        (new Thread() {
+
+            @Override
+            public void run() {
+                Block b = block;
+                Value last = new Value();
+                while (b != null) {
+                    try {
+                        last = b.run(Interpreter.this);
+                        if (__end) {
+                            return;
+                        }
+                        b = b.next();
+                    } catch (InterpreterException ex) {
+                        Logger.getLogger(Interpreter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            b = b.next();
-        }
-        return last;
+
+        }).start();
+        return new Value();
     }
 
     @Override
@@ -132,7 +145,7 @@ public class Interpreter implements CodeBlock {
 
     @Override
     public Emitter getEmitter(int line) {
-        System.out.println("Emitter["+line+"] in "+emitters_.keySet());
+        System.out.println("Emitter[" + line + "] in " + emitters_.keySet());
         return emitters_.get(new Integer(line));
 
     }

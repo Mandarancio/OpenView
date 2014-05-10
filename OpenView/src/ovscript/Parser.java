@@ -234,6 +234,10 @@ public class Parser {
                         Block b = parseLine(block, line.substring(i - 1),
                                 nextLines, currentLine).block;
                         return new ReturnStruct(new PrintBlock(b), 1);
+                    }else if (past.equals("wait")){
+                             Block b = parseLine(block, line.substring(i - 1),
+                                nextLines, currentLine).block;
+                        return new ReturnStruct(new Wait(b), 1);
                     } else if (past.equals("alert")) {
                         Block b = parseLine(block, line.substring(i - 1),
                                 nextLines, currentLine).block;
