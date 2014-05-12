@@ -1,20 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package gui.components.ovnode;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import gui.components.nodes.InNode;
-import gui.components.nodes.OutNode;
-import gui.constants.ComponentSettings;
-import gui.enums.EditorMode;
-import gui.interfaces.OVContainer;
-
-import javax.swing.JOptionPane;
-
-import org.w3c.dom.Element;
 
 import core.Setting;
 import core.SlotInterface;
@@ -22,19 +11,28 @@ import core.SlotListener;
 import core.Value;
 import core.ValueDescriptor;
 import core.ValueType;
-import java.util.Scanner;
+import gui.components.nodes.InNode;
+import gui.components.nodes.OutNode;
+import gui.constants.ComponentSettings;
+import gui.enums.EditorMode;
+import gui.interfaces.OVContainer;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.w3c.dom.Element;
 
-public class OVTextFile extends OVNodeComponent implements SlotListener {
+/**
+ *
+ * @author martino
+ */
+public class OVCSVFile extends OVNodeComponent implements SlotListener {
 
-    public enum TextFileMode {
-
-        LINE, ALL
-    }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -3461901041165688465L;
     private static final String Input = "Input";
     private static final String Trigger = "Trigger";
     private static final String File = "File";
@@ -44,25 +42,23 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
     private BufferedWriter writer_;
     private BufferedReader reader_;
     private OutNode output_;
-    private TextFileMode mode_ = TextFileMode.LINE;
 
-    public OVTextFile(OVContainer father) {
+    public OVCSVFile(OVContainer father) {
         super(father);
         Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE));
         this.addBothSetting(ComponentSettings.SpecificCategory, s);
 
-        InNode input = addInput(Input, ValueType.STRING);
+        InNode input = addInput(Input, ValueType.ARRAY);
         input.addListener(this);
         InNode trigger = addInput(Trigger, ValueType.VOID);
         trigger.addListener(this);
 
-        output_ = addOutput(Output, ValueType.STRING);
+        output_ = addOutput(Output, ValueType.ARRAY);
 
-        getSetting(ComponentSettings.Name).setValue("Text");
-
+        getSetting(ComponentSettings.Name).setValue("CSV");
     }
 
-    public OVTextFile(Element e, OVContainer father) {
+    public OVCSVFile(Element e, OVContainer father) {
         super(e, father);
         for (InNode n : inputs_) {
             if (n.getLabel().equals(Trigger)) {
@@ -128,36 +124,37 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
         if (status_) {
             if (s.getLabel().equals(Trigger)) {
                 try {
-                    if (mode_ == TextFileMode.LINE) {
-                        String line = reader_.readLine();
-                        if (line != null) {
-                            output_.trigger(new Value(line, ValueType.STRING));
+                    String line = reader_.readLine();
+                    System.err.println("Line: "+line);
+                    if (line != null) {
+                        String values[] = line.split(",");
+                        ArrayList<Value> list = new ArrayList<>();
+                        for (String val : values) {
+                            list.add(Value.parseValue(val));
                         }
-                    } else {
-                        if (reader_ != null) {
-                            reader_.close();
-                        }
-                        reader_ = new BufferedReader(new FileReader(file_));
-
-                        String lines = "";
-                        String str = reader_.readLine();
-//						
-                        while (str != null) {
-                            lines += str + "\n";
-                            str = reader_.readLine();
-                        }
-                        output_.trigger(new Value(lines, ValueType.STRING));
-
+                        output_.trigger(new Value(list));
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (s.getLabel().equals(Input)) {
                 try {
-                    writer_.write(v.getString() + "\n");
+                    String values = "";
+                    for (Value val : v.getArray()) {
+                        if (values.length() > 0) {
+                            values += "," + val.getString();
+                        } else {
+                            values = val.getString();
+                        }
+                    }
+
+                    writer_.write(values + "\n");
                     writer_.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (Exception ex) {
+                    Logger.getLogger(OVCSVFile.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
