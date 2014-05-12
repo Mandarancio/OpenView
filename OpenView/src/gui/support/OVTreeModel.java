@@ -23,14 +23,17 @@ public class OVTreeModel extends DefaultTreeModel {
 		if (c.getFather() instanceof OVComponent) {
 			DefaultMutableTreeNode n = find((OVComponent) c.getFather());
 			if (n == null) {
-				System.err.println("something wrong");
+				root_.add(new DefaultMutableTreeNode(c));
+				nodeStructureChanged(root_);
+
 			} else {
 				System.out.println("added to " + c);
 				n.add(new DefaultMutableTreeNode(c));
 				nodeStructureChanged(n);
 			}
 		} else {
-			root_.add(new DefaultMutableTreeNode(c));		}
+			root_.add(new DefaultMutableTreeNode(c));
+		}
 		nodeStructureChanged(root_);
 	}
 
@@ -67,6 +70,5 @@ public class OVTreeModel extends DefaultTreeModel {
 		}
 
 	}
-
 
 }

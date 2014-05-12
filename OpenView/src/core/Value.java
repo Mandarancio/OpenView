@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 
 import org.w3c.dom.Document;
@@ -228,6 +229,10 @@ public class Value {
 			}
 			str += "]";
 			return str;
+		}else if (getType()==ValueType.FILE){
+			String str="file:";
+			str+=((File)data_).getAbsolutePath();
+			return str;
 		}
 		return data_.toString();
 	}
@@ -297,6 +302,12 @@ public class Value {
 			return ((Number) data_).shortValue();
 		throw new Exception("Data is not a number");
 	}
+	
+	public File getFile() throws Exception{
+		if (getType() == ValueType.FILE)
+			return (File)data_;
+		throw new Exception("Data is not a File but a "+getType());
+	}
 
 	public final static Value parseValue(String s) {
 		Value value_ = null;
@@ -306,7 +317,9 @@ public class Value {
 			value_ = new Value(true);
 		} else if (s.equals("false")) {
 			value_ = new Value(false);
-		} else if (s.startsWith("[") && s.endsWith("]")) {
+		} else if (s.startsWith("file:")){
+			value_=new Value(ValueType.FILE.parse(s));
+		}else if (s.startsWith("[") && s.endsWith("]")) {
 			value_ = new Value(ValueType.ARRAY.parse(s));
 		} else if (s.startsWith("'") && s.endsWith("'")) {
 			String str = s.substring(1, s.length() - 1);

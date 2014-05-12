@@ -10,16 +10,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -332,6 +336,32 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
                 s.addListener(listener);
                 listeners_.put(s, listener);
                 c = box;
+            }else if (s.getType()==ValueType.FILE){
+            	JButton b=new JButton("Open");
+            	b.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// Create a file chooser
+						final JFileChooser fc = new JFileChooser();
+
+						// In response to a button click:
+						int returnVal = fc.showOpenDialog(null);
+						
+
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							try {
+								File f = fc.getSelectedFile();
+								s.setValue(f);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null,
+										e.getMessage());
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+            	c=b;
             }
         }
 

@@ -16,6 +16,7 @@ import gui.components.ovnode.OVNodeBlock;
 import gui.components.ovnode.OVOperatorNode;
 import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVRandomNode;
+import gui.components.ovnode.OVTextFile;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovprocedural.OVProceduralBlock;
@@ -46,8 +47,9 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 	private static final String Label = "Label", Button = "Button",
 			TextArea = "Text Area", TextField = "Text Field",
 			Container = "Container", Operator = "Operator",
-			Function = "Function", NodeBlock = "Block", Comment="Comment",
-			IFTrigger = "IF trigger", Random = "Random", For = "For trigger";
+			Function = "Function", NodeBlock = "Block", Comment = "Comment",
+			TextFile = "Text File", IFTrigger = "IF trigger",
+			Random = "Random", For = "For trigger";
 	private static final String ProceduralBlock = "Procedural block";
 	private static final String Check = "Check box";
 	private static final String Plot = "Plot";
@@ -78,6 +80,11 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		JMenu menu = new JMenu("Basic Node");
 
 		JMenuItem i = new JMenuItem(Variable);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		
+		i = new JMenuItem(TextFile);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
@@ -130,12 +137,12 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Comment);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		//
 		add(menu);
 	}
@@ -167,12 +174,12 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Plot);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
-		
+
 		i = new JMenuItem(Container);
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
@@ -180,7 +187,6 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 
 		add(menu);
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -220,8 +226,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVForTrigger(father_));
 		} else if (cmd.equals(Plot)) {
 			create(new OVPlotComponent(father_));
-		} else if (cmd.equals(Comment)){
+		} else if (cmd.equals(Comment)) {
 			create(new OVComment(father_));
+		} else if (cmd.equals(TextFile)){
+			create(new OVTextFile(father_));
 		}
 	}
 

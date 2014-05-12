@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,7 +10,7 @@ import core.support.EnumManager;
 import core.support.Utils;
 
 public enum ValueType {
-	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX;
+	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE;
 
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
@@ -59,6 +60,8 @@ public enum ValueType {
 			return COMPLEX;
 		else if (obj instanceof Enum<?>)
 			return ENUM;
+		else if (obj instanceof File)
+			return FILE;
 		return NONE;
 	}
 
@@ -78,6 +81,8 @@ public enum ValueType {
 			return new Color(255, 200, 255);
 		else if (this == COLOR)
 			return new Color(240, 200, 210);
+		else if (this == FILE)
+			return new Color(255,255,255);
 		return new Color(200, 200, 200);
 	}
 
@@ -119,15 +124,21 @@ public enum ValueType {
 				return val.subSequence(1, val.length() - 1);
 			}
 			return val;
+		} else if (this == FILE) {
+			//FILE file:PATH
+			if (val.startsWith("file:")){
+				String path=val.substring(5);
+				return new File(path);
+			}
 		}
 		return val;
 	}
 
 	final private static Object parseArrary(String val) {
 		String array = val.substring(1, val.length() - 1);
-                if (array.length()==0){
-                    return new ArrayList<Value>();
-                }
+		if (array.length() == 0) {
+			return new ArrayList<Value>();
+		}
 		String values[] = splitArray(array);
 		if (values.length == 1) {
 			if (array.contains(":")) {
