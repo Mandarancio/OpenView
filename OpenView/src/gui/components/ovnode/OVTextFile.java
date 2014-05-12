@@ -25,6 +25,10 @@ import core.ValueType;
 
 public class OVTextFile extends OVNodeComponent implements SlotListener {
 
+	public enum TextFileMode{
+		LINE,ALL
+	}
+	
 	/**
 	 * 
 	 */
@@ -38,6 +42,9 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 	private BufferedWriter writer_;
 	private BufferedReader reader_;
 	private OutNode output_;
+	private TextFileMode mode_=TextFileMode.LINE;
+	
+
 
 	public OVTextFile(OVContainer father) {
 		super(father);
@@ -118,14 +125,32 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 		if (status_) {
 			if (s.getLabel().equals(Trigger)) {
 				try {
+					if (mode_==TextFileMode.LINE){
 					String line = reader_.readLine();
-					output_.trigger(new Value(line, ValueType.STRING));
+					if (line!=null)
+						output_.trigger(new Value(line, ValueType.STRING));
+					}else {
+						if (reader_!=null)
+							reader_.close();
+						reader_ = new BufferedReader(new FileReader(file_));
+
+						String lines="";
+						String str=reader_.readLine();
+//						
+						while(str!=null){
+							lines+=str+"\n";
+							str=reader_.readLine();
+						}
+						output_.trigger(new Value(lines, ValueType.STRING));
+
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else if (s.getLabel().equals(Input)) {
 				try {
 					writer_.write(v.getString() + "\n");
+					writer_.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
