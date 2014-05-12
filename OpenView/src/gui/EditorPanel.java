@@ -3,6 +3,7 @@ package gui;
 import gui.adapters.ContainerMouseAdapter;
 import gui.components.OVComponent;
 import gui.components.nodes.Line;
+import gui.components.ovnode.OVComment;
 import gui.constants.ComponentSettings;
 import gui.enums.DragAction;
 import gui.enums.EditorMode;
@@ -43,6 +44,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
      */
 	private static final long serialVersionUID = 1075006905710700282L;
 	private static final int GridStep = 15;
+	public static final Integer linesLayer = new Integer(1);
+	public static final Integer commentsLayer = new Integer(0);
+	public static final Integer componentsLayer = new Integer(2);
+
 	private ArrayList<OVComponent> components_ = new ArrayList<>();
 	private ArrayList<Line> lines_ = new ArrayList<>();
 	private RightPanel rightPanel_;
@@ -71,8 +76,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		this.getSetting(ComponentSettings.Enable).setConstant(true);
 		this.getSetting(ComponentSettings.PosX).setConstant(true);
 		this.getSetting(ComponentSettings.PosY).setConstant(true);
-		getSetting(ComponentSettings.SizeH).setMax(new Value(Integer.MAX_VALUE));
-		getSetting(ComponentSettings.SizeW).setMax(new Value(Integer.MAX_VALUE));
+		getSetting(ComponentSettings.SizeH)
+				.setMax(new Value(Integer.MAX_VALUE));
+		getSetting(ComponentSettings.SizeW)
+				.setMax(new Value(Integer.MAX_VALUE));
 	}
 
 	private void setKeyListener(OVComponent c) {
@@ -106,7 +113,11 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			setKeyListener(c);
 			if (!addFlag) {
 				components_.add(c);
-				this.add(c);
+				if (c instanceof OVComment) {
+					this.add(c, commentsLayer, 0);
+				} else {
+					this.add(c, componentsLayer, 0);
+				}
 				select(c);
 				c.setMode(mode_);
 			}
@@ -283,7 +294,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	public Line createLine(OVNode n, OVComponent ovComponent) {
 		Line l = new Line(n, ovComponent, this);
 		lines_.add(l);
-		this.add(l);
+		this.add(l, linesLayer, 0);
 		this.moveToBack(l);
 		l.setSelected(true);
 
