@@ -44,9 +44,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
      */
 	private static final long serialVersionUID = 1075006905710700282L;
 	private static final int GridStep = 15;
-	public static final Integer linesLayer = new Integer(1);
-	public static final Integer commentsLayer = new Integer(0);
-	public static final Integer componentsLayer = new Integer(2);
+	public static final Integer linesLayer = new Integer(2);
+	public static final Integer commentsLayer = new Integer(1);
+	public static final Integer componentsLayer = new Integer(3);
 
 	private ArrayList<OVComponent> components_ = new ArrayList<>();
 	private ArrayList<Line> lines_ = new ArrayList<>();
@@ -529,7 +529,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 					Line l = XMLParser.parseLine(e, this);
 					if (l != null) {
 						lines_.add(l);
-						this.add(l);
+						this.add(l,linesLayer);
 						this.moveToBack(l);
 						l.setSelected(false);
 						l.addKeyListener(this);
