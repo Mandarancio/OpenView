@@ -44,9 +44,11 @@ public class EditorPanel extends OVComponent implements OVContainer,
      */
 	private static final long serialVersionUID = 1075006905710700282L;
 	private static final int GridStep = 15;
-	public static final Integer linesLayer = new Integer(2);
 	public static final Integer commentsLayer = new Integer(1);
+	public static final Integer linesLayer = new Integer(2);
 	public static final Integer componentsLayer = new Integer(3);
+	public static final Integer toolTipLayer = new Integer(4);
+	
 
 	private ArrayList<OVComponent> components_ = new ArrayList<>();
 	private ArrayList<Line> lines_ = new ArrayList<>();
@@ -271,7 +273,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	public OVToolTip showToolTip(String tooltip, Point p,
 			OrientationEnum orientation) {
 		OVToolTip toolTip = new OVToolTip(tooltip, p, orientation, getFont());
-		this.add(toolTip);
+		this.add(toolTip,toolTipLayer,0);
 		this.moveToFront(toolTip);
 		return toolTip;
 	}
