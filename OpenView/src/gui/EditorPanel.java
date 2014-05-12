@@ -353,9 +353,11 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
     	for (Element e: clipboard_){
     		OVComponent c=XMLParser.parseElement(e, this);
     		if (c!=null){
+    			c.setFather(this);
     			c.resetUUID();
-    			addComponent(c);
     			c.setLocation(p.x, p.y);
+
+    			addComponent(c);
     		}    		
     	}
 	}
