@@ -9,12 +9,14 @@ import gui.interfaces.OVNode;
 import gui.support.OVMaker;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
+import gui.support.XMLBuilder;
 import gui.support.XMLParser;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,6 +50,7 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
 
     private ObjectManager objectManager_;
     private EditorMode mode_ = EditorMode.GUI;
+	private ArrayList<Element> clipboard_;
 
     public EditorPanel(RightPanel panel) {
         this.objectManager_ = panel.getManager();
@@ -328,8 +332,49 @@ public class EditorPanel extends JLayeredPane implements OVContainer,
             if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 
                 removeSelected();
+            }else if (e.getKeyCode()==KeyEvent.VK_C && e.getModifiers()==KeyEvent.CTRL_MASK){
+            	copy();
+            }else if (e.getKeyCode()==KeyEvent.VK_V && e.getModifiers()==KeyEvent.CTRL_MASK){
+            	paste();
+            }else if (e.getKeyCode()==KeyEvent.VK_Z && e.getModifiers()==KeyEvent.CTRL_MASK ){
+            	//undo
+            }else if (e.getKeyCode()==KeyEvent.VK_Y && e.getModifiers()==KeyEvent.CTRL_MASK ){
+            	//redo
             }
+            
+            
         }
+    }
+    
+    private void paste() {
+    	Point p=MouseInfo.getPointerInfo().getLocation();
+    	SwingUtilities.convertPointFromScreen(p, this);
+    	p=validate(p);
+    	for (Element e: clipboard_){
+    		OVComponent c=XMLParser.parseElement(e, this);
+    		if (c!=null){
+    			c.resetUUID();
+    			addComponent(c);
+    			c.setLocation(p.x, p.y);
+    		}    		
+    	}
+	}
+
+	private void copy(){
+    	ArrayList<Element>clipboard=new ArrayList<>();
+    	Document doc;
+		try {
+			doc = XMLBuilder.makeDoc();
+		   	for (OVComponent c: components_){
+	    		if (c.isSelected()){
+	    			clipboard.add(c.getXML(doc));
+	    		}
+	    	}
+		   	if (clipboard.size()>0)
+		   		clipboard_=clipboard;
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
     }
 
     public void removeSelected() {
