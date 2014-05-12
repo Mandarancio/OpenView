@@ -125,11 +125,11 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 		s = new Setting(ComponentSettings.PosX, 0, 0, 1920);
 		addSetting(ComponentSettings.GeometryCategory, s);
-		s = new Setting(ComponentSettings.PosY, 0, 0, 1080);
+		s = new Setting(ComponentSettings.PosY, 0, 0, 1200);
 		addSetting(ComponentSettings.GeometryCategory, s);
 		s = new Setting(ComponentSettings.SizeW, 50, 30, 1920);
 		addSetting(ComponentSettings.GeometryCategory, s);
-		s = new Setting(ComponentSettings.SizeH, 50, 30, 1080);
+		s = new Setting(ComponentSettings.SizeH, 50, 30, 1200);
 		addSetting(ComponentSettings.GeometryCategory, s);
 
 	}
@@ -552,8 +552,9 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 					c.setVisible(true);
 				}
 			}
-			repaint();
 		}
+		repaint();
+
 	}
 
 	protected void paintOVComponent(Graphics2D g2d) {

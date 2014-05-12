@@ -49,7 +49,7 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 	public OVTextFile(OVContainer father) {
 		super(father);
 		Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE));
-		this.addNodeSetting(ComponentSettings.SpecificCategory, s);
+		this.addBothSetting(ComponentSettings.SpecificCategory, s);
 
 		InNode input = addInput(Input, ValueType.STRING);
 		input.addListener(this);
@@ -59,6 +59,7 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 		output_ = addOutput(Output, ValueType.STRING);
 		
 		getSetting(ComponentSettings.Name).setValue("Text");
+
 
 	}
 

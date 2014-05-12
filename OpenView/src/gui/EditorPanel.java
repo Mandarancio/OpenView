@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import core.Value;
 import core.support.OrientationEnum;
 
 public class EditorPanel extends OVComponent implements OVContainer,
@@ -70,6 +71,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		this.getSetting(ComponentSettings.Enable).setConstant(true);
 		this.getSetting(ComponentSettings.PosX).setConstant(true);
 		this.getSetting(ComponentSettings.PosY).setConstant(true);
+		getSetting(ComponentSettings.SizeH).setMax(new Value(Integer.MAX_VALUE));
+		getSetting(ComponentSettings.SizeW).setMax(new Value(Integer.MAX_VALUE));
 	}
 
 	private void setKeyListener(OVComponent c) {

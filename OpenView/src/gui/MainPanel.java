@@ -55,6 +55,8 @@ public class MainPanel extends JPanel {
 						: true);
 				modeBox.setEnabled(editor_.getMode() != EditorMode.RUN);
 				debugButton.setEnabled(modeBox.isEnabled());
+				revalidate();
+
 			}
 		});
 
@@ -128,6 +130,8 @@ public class MainPanel extends JPanel {
 						.getSelectedItem() : EditorMode.DEBUG));
 				modeBox.setEnabled(editor_.getMode() != EditorMode.DEBUG);
 				runButton.setEnabled(modeBox.isEnabled());
+				revalidate();
+
 			}
 		});
 
