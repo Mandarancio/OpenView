@@ -12,7 +12,12 @@ package gui.components.nodes;
  */
 class LineException extends Exception {
 
-    public LineException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2646230144601090830L;
+
+	public LineException(String msg) {
         super(msg);
     }
     

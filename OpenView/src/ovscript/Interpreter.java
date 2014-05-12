@@ -28,10 +28,9 @@ public class Interpreter implements CodeBlock {
             @Override
             public void run() {
                 Block b = block;
-                Value last = new Value();
                 while (b != null) {
                     try {
-                        last = b.run(Interpreter.this);
+                        b.run(Interpreter.this);
                         if (__end) {
                             return;
                         }
