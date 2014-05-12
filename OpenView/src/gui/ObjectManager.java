@@ -167,4 +167,6 @@ public class ObjectManager extends JTree implements SettingListener {
 		setSelectionPath(new TreePath(model_.getRoot()));
 	}
 
+
+
 }

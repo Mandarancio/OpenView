@@ -384,7 +384,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	}
 
 	public void select() {
-		if (!selected_) {
+		if (!selected_ && father_ != null) {
 			father_.select(this);
 		}
 	}
@@ -637,7 +637,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	@Override
 	public void mouseExited() {
-		father_.hideToolTip(toolTip_);
+		if (father_ != null)
+			father_.hideToolTip(toolTip_);
 		over_ = false;
 		repaint();
 	}
