@@ -18,6 +18,7 @@ import gui.components.ovnode.OVNodeComponent;
 import gui.components.ovnode.OVOperatorNode;
 import gui.components.ovnode.OVPullNode;
 import gui.components.ovnode.OVRandomNode;
+import gui.components.ovnode.OVTextFile;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovprocedural.OVProceduralBlock;
@@ -28,7 +29,7 @@ import org.w3c.dom.Element;
 
 public class XMLParser {
 
-	static public OVComponent parseElement(Element e, OVContainer father){
+	static public OVComponent parseElement(Element e, OVContainer father) {
 		String name = e.getTagName();
 		OVComponent c = null;
 		if (name.equals(OVLabel.class.getSimpleName())) {
@@ -67,13 +68,15 @@ public class XMLParser {
 			c = new OVNodeBlock(e, father);
 		} else if (name.equals(OVComment.class.getSimpleName())) {
 			c = new OVComment(e, father);
+		} else if (name.equals(OVTextFile.class.getSimpleName())) {
+			c = new OVTextFile(e, father);
 		}
 		return c;
 	}
-	
+
 	static public void loadComponent(Element e, OVContainer father) {
-		OVComponent c=parseElement(e,father);
-		
+		OVComponent c = parseElement(e, father);
+
 		if (c != null) {
 			father.addComponent(c);
 			if ((c instanceof OVNodeComponent || c instanceof OVProceduralBlock)
