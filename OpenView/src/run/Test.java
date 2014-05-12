@@ -1,14 +1,12 @@
 package run;
 
 import core.Value;
-import core.ValueType;
 
 public class Test {
 	public static void main(String[] args) {
 //		String array[]={"ciao","ciao"};
-		String toParse="[1.0, 2.0]";
-		Value v=new Value(toParse,ValueType.ARRAY);
-		
+		String toParse="[0:1:10]";
+		Value v=Value.parseValue(toParse);
 		
 		System.out.println(v);
 		
