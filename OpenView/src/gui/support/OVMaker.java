@@ -8,6 +8,7 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
+import gui.components.ovnode.OVComment;
 import gui.components.ovnode.OVForTrigger;
 import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
@@ -45,7 +46,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 	private static final String Label = "Label", Button = "Button",
 			TextArea = "Text Area", TextField = "Text Field",
 			Container = "Container", Operator = "Operator",
-			Function = "Function", NodeBlock = "Block",
+			Function = "Function", NodeBlock = "Block", Comment="Comment",
 			IFTrigger = "IF trigger", Random = "Random", For = "For trigger";
 	private static final String ProceduralBlock = "Procedural block";
 	private static final String Check = "Check box";
@@ -129,6 +130,12 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 		i.setActionCommand(i.getText());
 		i.addActionListener(this);
 		menu.add(i);
+		
+		i = new JMenuItem(Comment);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		
 		//
 		add(menu);
 	}
@@ -213,6 +220,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 			create(new OVForTrigger(father_));
 		} else if (cmd.equals(Plot)) {
 			create(new OVPlotComponent(father_));
+		} else if (cmd.equals(Comment)){
+			create(new OVComment(father_));
 		}
 	}
 
