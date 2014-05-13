@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="resources/jar/scala-swing.jar"/>
 	<classpathentry kind="lib" path="resources/jar/scalap.jar"/>
 	<classpathentry kind="lib" path="resources/jar/typesafe-config.jar"/>
+	<classpathentry kind="lib" path="resources/jar/RXTXcomm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,16 +1,30 @@
 package run;
 
+import gnu.io.CommPortIdentifier;
+
+import java.util.Enumeration;
+
 import core.Value;
+import core.ValueDescriptor;
+import core.ValueType;
 
 public class Test {
 	public static void main(String[] args) {
-//		String array[]={"ciao","ciao"};
-		String toParse="[0:1:10]";
-		Value v=Value.parseValue(toParse);
+		Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
+		ValueDescriptor vd=new ValueDescriptor(ValueType.STRING);
 		
-		System.out.println(v);
-		
+		while (ports.hasMoreElements()) {
+			CommPortIdentifier curPort = (CommPortIdentifier) ports
+					.nextElement();
 
-		System.exit(0);
+			// get only serial ports
+			if (curPort.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+					vd.addPossibility(new Value(curPort.getName(),ValueType.STRING));
+			}
+		}
+		
+		Value v=new Value(vd);
+		v.setData(vd.getPossibilities().get(0).getData());
+		System.out.println(v);
 	}
 }

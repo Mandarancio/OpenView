@@ -38,17 +38,17 @@ public class MatrixMultiplicationOperator extends AbstractOperator {
 				} else if (lvec[0].getType().isArray()
 						&& rvec[0].getType().isArray()
 						&& lvec[0].getValues().length == rvec[0].getValues().length) {
-					Value[][] res=new Value[lvec.length][rvec.length];
-					for (int i=0;i<lvec.length;i++){
-						Value[] row=lvec[i].getValues();
-						
-						for (int j=0;j<rvec.length;j++){
-							Value[] column=rvec[j].getValues();
-							double v=0;
-							for (int h=0;h<column.length;h++){
-								v+=row[h].getDouble()*column[h].getDouble();
+					Value[][] res = new Value[lvec.length][rvec.length];
+					for (int i = 0; i < lvec.length; i++) {
+						Value[] row = lvec[i].getValues();
+
+						for (int j = 0; j < rvec.length; j++) {
+							Value[] column = rvec[j].getValues();
+							double v = 0;
+							for (int h = 0; h < column.length; h++) {
+								v += row[h].getDouble() * column[h].getDouble();
 							}
-							res[i][j]=new Value(v);
+							res[i][j] = new Value(v);
 						}
 					}
 					return new Value(res);
@@ -112,4 +112,8 @@ public class MatrixMultiplicationOperator extends AbstractOperator {
 		}
 	}
 
+	@Override
+	public AbstractOperator clone() {
+		return new MatrixMultiplicationOperator();
+	}
 }
