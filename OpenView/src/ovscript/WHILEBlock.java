@@ -57,8 +57,8 @@ public class WHILEBlock extends AbstractBlock implements CodeBlock {
             String copy[] = new String[lines.length - i];
             System.arraycopy(lines, i, copy, 0, copy.length);
             ReturnStruct rs = Parser.parseLine(this, lines[i], copy, getLine());
-            rs.block.setLine(getLine() + 1+i);
             if (rs.block != null) {
+                rs.block.setLine(getLine() + 1+i);
                 if (b == null) {
                     b = rs.block;
                     first = rs.block;

@@ -85,8 +85,8 @@ public class IFBlock extends AbstractBlock implements CodeBlock {
             ReturnStruct rs = Parser.parseLine(this, code_[i], copy, getLine() + i + 1);
             Block b = rs.block;
             i += rs.lines;
-            rs.block.setLine(getLine() + 1+i);
             if (b instanceof ELSEBlock) {
+                rs.block.setLine(getLine() + 1 + i);
                 this.setElse(b);
             }
 
