@@ -5,12 +5,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.math.plot.plots.Plot;
+
 import core.Message.MessageType;
 import core.support.EnumManager;
 import core.support.Utils;
 
 public enum ValueType {
-	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE;
+	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE, PLOT;
 
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
@@ -62,6 +64,8 @@ public enum ValueType {
 			return ENUM;
 		else if (obj instanceof File)
 			return FILE;
+		else if (obj instanceof Plot)
+			return PLOT;
 		return NONE;
 	}
 

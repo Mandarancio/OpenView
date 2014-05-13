@@ -83,21 +83,21 @@ public class ArrayElement extends Var {
 				Value v = args_[0].run(i);
 				if (args_.length == 2) {
 					int ind = args_[1].run(i).getInt();
-					if (v.getType().isArray()) {
-						for (int j = 0; j < v.getValues().length; j++) {
-							var_.getValue().getArray().add(j+ind, v.getValues()[j]);
-						}
-					} else {
-						var_.getValue().getArray().add(ind, v);
-					}
+					// if (v.getType().isArray()) {
+					// for (int j = 0; j < v.getValues().length; j++) {
+					// var_.getValue().getArray().add(j+ind, v.getValues()[j]);
+					// }
+					// } else {
+					var_.getValue().getArray().add(ind, v);
+					// }
 
 				} else {
-					if (v.getType().isArray()) {
-						for (int j = 0; j < v.getValues().length; j++) {
-							var_.getValue().getArray().add(v.getValues()[j]);
-						}
-					} else
-						var_.getValue().getArray().add(v);
+					// if (v.getType().isArray()) {
+					// for (int j = 0; j < v.getValues().length; j++) {
+					// var_.getValue().getArray().add(v.getValues()[j]);
+					// }
+					// } else
+					var_.getValue().getArray().add(v);
 				}
 				return var_.getValue();
 			} catch (Exception e) {

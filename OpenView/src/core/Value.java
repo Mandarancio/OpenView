@@ -23,7 +23,8 @@ public class Value {
 
 	public Value(Element e) {
 		String val = e.getAttribute("val");
-		NodeList nl = e.getElementsByTagName(ValueDescriptor.class.getSimpleName());
+		NodeList nl = e.getElementsByTagName(ValueDescriptor.class
+				.getSimpleName());
 		if (nl.getLength() != 0) {
 			Element vde = (Element) nl.item(0);
 			descriptor_ = new ValueDescriptor(vde);
@@ -229,9 +230,9 @@ public class Value {
 			}
 			str += "]";
 			return str;
-		}else if (getType()==ValueType.FILE){
-			String str="file:";
-			str+=((File)data_).getAbsolutePath();
+		} else if (getType() == ValueType.FILE) {
+			String str = "file:";
+			str += ((File) data_).getAbsolutePath();
 			return str;
 		}
 		return data_.toString();
@@ -261,8 +262,12 @@ public class Value {
 		if (getType() == ValueType.ENUM) {
 			e.setAttribute("val", getData().getClass().getSimpleName() + ":"
 					+ getString());
-		} else
+		} else if (getType() == ValueType.STRING) {
+			e.setAttribute("val", "'" + getString() + "'");
+
+		} else {
 			e.setAttribute("val", getString());
+		}
 		e.appendChild(descriptor_.getXML(doc));
 		return e;
 	}
@@ -302,11 +307,11 @@ public class Value {
 			return ((Number) data_).shortValue();
 		throw new Exception("Data is not a number");
 	}
-	
-	public File getFile() throws Exception{
+
+	public File getFile() throws Exception {
 		if (getType() == ValueType.FILE)
-			return (File)data_;
-		throw new Exception("Data is not a File but a "+getType());
+			return (File) data_;
+		throw new Exception("Data is not a File but a " + getType());
 	}
 
 	public final static Value parseValue(String s) {
@@ -317,9 +322,9 @@ public class Value {
 			value_ = new Value(true);
 		} else if (s.equals("false")) {
 			value_ = new Value(false);
-		} else if (s.startsWith("file:")){
-			value_=new Value(ValueType.FILE.parse(s));
-		}else if (s.startsWith("[") && s.endsWith("]")) {
+		} else if (s.startsWith("file:")) {
+			value_ = new Value(ValueType.FILE.parse(s));
+		} else if (s.startsWith("[") && s.endsWith("]")) {
 			value_ = new Value(ValueType.ARRAY.parse(s));
 		} else if (s.startsWith("'") && s.endsWith("'")) {
 			String str = s.substring(1, s.length() - 1);
@@ -350,7 +355,7 @@ public class Value {
 				} else if (s.contains(",") && s.split(",").length == 4) {
 					try {
 						Color c = Utils.parseColor(s);
-						value_=new Value(c);
+						value_ = new Value(c);
 					} catch (Exception e1) {
 						value_ = new Value(s);
 					}
