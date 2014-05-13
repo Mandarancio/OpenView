@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 import core.Setting;
 import core.Value;
 import core.support.OrientationEnum;
-import javax.swing.SwingUtilities;
 
 public class OVComment extends OVNodeComponent {
 
