@@ -4,6 +4,7 @@ import gui.components.OVComponent;
 import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
+import gui.components.ovgui.OVGauge;
 import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
@@ -34,223 +35,230 @@ import javax.swing.JPopupMenu;
 
 public class OVMaker extends JPopupMenu implements ActionListener {
 
-    public enum OVMakerMode {
+	public enum OVMakerMode {
 
-        GUI, NODE, PROCEDURAL, NODEONLY
-    }
+		GUI, NODE, PROCEDURAL, NODEONLY
+	}
 
-    /**
+	/**
      *
      */
-    private static final long serialVersionUID = -6272300889162031511L;
-    private static final String Timer = "Timer", Pull = "Pull",
-            Variable = "Variable";
-    private static final String Label = "Label", Button = "Button",
-            TextArea = "Text Area", TextField = "Text Field",
-            Container = "Container", Operator = "Operator",
-            Function = "Function", NodeBlock = "Block", Comment = "Comment",
-            TextFile = "Text File", IFTrigger = "IF trigger",
-            Random = "Random", For = "For trigger", CSVFile = "CSV File";
-    private static final String ProceduralBlock = "Procedural block";
-    private static final String Check = "Check box";
-    private static final String Plot = "Plot";
-    private OVContainer father_;
-    private Point point_;
+	private static final long serialVersionUID = -6272300889162031511L;
+	private static final String Timer = "Timer", Pull = "Pull",
+			Variable = "Variable", Operator = "Operator",
+			Function = "Function", NodeBlock = "Block", Comment = "Comment",
+			TextFile = "Text File", IFTrigger = "IF trigger",
+			Random = "Random", For = "For trigger", CSVFile = "CSV File";
+	private static final String Label = "Label", Button = "Button",
+			TextArea = "Text Area", TextField = "Text Field",
+			Container = "Container", Gauge = "Gauge";
+	private static final String ProceduralBlock = "Procedural block";
+	private static final String Check = "Check box";
+	private static final String Plot = "Plot";
+	private OVContainer father_;
+	private Point point_;
 
-    public OVMaker(Point p, OVMakerMode mode, OVContainer father) {
-        father_ = father;
-        point_ = p;
-        this.initMenu(mode);
-        this.show((JComponent) father, p.x, p.y);
-    }
+	public OVMaker(Point p, OVMakerMode mode, OVContainer father) {
+		father_ = father;
+		point_ = p;
+		this.initMenu(mode);
+		this.show((JComponent) father, p.x, p.y);
+	}
 
-    private void initMenu(OVMakerMode mode) {
-        if (mode == OVMakerMode.GUI) {
-            initGUI();
-        } else if (mode == OVMakerMode.NODE) {
-            initGUI();
-            initNode();
-        } else if (mode == OVMakerMode.NODEONLY) {
-            initNode();
-        } else if (mode == OVMakerMode.PROCEDURAL) {
-            // initProcedural();
-        }
-    }
+	private void initMenu(OVMakerMode mode) {
+		if (mode == OVMakerMode.GUI) {
+			initGUI();
+		} else if (mode == OVMakerMode.NODE) {
+			initGUI();
+			initNode();
+		} else if (mode == OVMakerMode.NODEONLY) {
+			initNode();
+		} else if (mode == OVMakerMode.PROCEDURAL) {
+			// initProcedural();
+		}
+	}
 
-    private void initNode() {
-        JMenu menu = new JMenu("Basic Node");
+	private void initNode() {
+		JMenu menu = new JMenu("Basic Node");
 
-        JMenuItem i = new JMenuItem(Variable);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
-        JMenu submenu = new JMenu("File");
+		JMenuItem i = new JMenuItem(Variable);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		JMenu submenu = new JMenu("File");
 
-        i = new JMenuItem(TextFile);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        submenu.add(i);
+		i = new JMenuItem(TextFile);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
 
-        i = new JMenuItem(CSVFile);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        submenu.add(i);
+		i = new JMenuItem(CSVFile);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
 
-        menu.add(submenu);
+		menu.add(submenu);
 
-        submenu = new JMenu("Triggers");
+		submenu = new JMenu("Triggers");
 
-        i = new JMenuItem(IFTrigger);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        submenu.add(i);
+		i = new JMenuItem(IFTrigger);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
 
-        i = new JMenuItem(For);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        submenu.add(i);
+		i = new JMenuItem(For);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
 
-        i = new JMenuItem(Timer);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        submenu.add(i);
+		i = new JMenuItem(Timer);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		submenu.add(i);
 
-        menu.add(submenu);
+		menu.add(submenu);
 
-        i = new JMenuItem(Pull);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Pull);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Operator);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Operator);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Function);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Function);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Random);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Random);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(NodeBlock);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
-        //
-        i = new JMenuItem(ProceduralBlock);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(NodeBlock);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
+		//
+		i = new JMenuItem(ProceduralBlock);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Comment);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Comment);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        //
-        add(menu);
-    }
+		//
+		add(menu);
+	}
 
-    private void initGUI() {
-        JMenu menu = new JMenu("Basic GUI");
+	private void initGUI() {
+		JMenu menu = new JMenu("Basic GUI");
 
-        JMenuItem i = new JMenuItem(Label);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		JMenuItem i = new JMenuItem(Label);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Button);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Button);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(TextField);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(TextField);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(TextArea);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(TextArea);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Check);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Check);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Plot);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Plot);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        i = new JMenuItem(Container);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
+		i = new JMenuItem(Gauge);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-        add(menu);
-    }
+		i = new JMenuItem(Container);
+		i.setActionCommand(i.getText());
+		i.addActionListener(this);
+		menu.add(i);
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String cmd = e.getActionCommand();
-        if (cmd.equals(Button)) {
-            create(new OVButton(father_));
-        } else if (cmd.equals(Label)) {
-            create(new OVLabel(father_));
-        } else if (cmd.equals(TextField)) {
-            create(new OVTextField(father_));
-        } else if (cmd.equals(Variable)) {
-            create(new OVVariableNode(father_));
-        } else if (cmd.equals(Timer)) {
-            create(new OVTimerTriggerNode(father_));
-        } else if (cmd.equals(Pull)) {
-            create(new OVPullNode(father_));
-        } else if (cmd.equals(Container)) {
-            create(new OVComponentContainer(father_));
-        } else if (cmd.equals(Operator)) {
-            create(new OVOperatorNode(father_));
-        } else if (cmd.equals(TextArea)) {
-            create(new OVTextArea(father_));
-        } else if (cmd.equals(NodeBlock)) {
-            create(new OVNodeBlock(father_));
-        } else if (cmd.equals(IFTrigger)) {
-            create(new OVIFTriggerNode(father_));
-        } else if (cmd.equals(ProceduralBlock)) {
-            create(new OVProceduralBlock(father_));
-            // create(new OVScalarBlock(father_));
-        } else if (cmd.equals(Check)) {
-            create(new OVCheckBox(father_));
-        } else if (cmd.equals(Random)) {
-            create(new OVRandomNode(father_));
-        } else if (cmd.equals(Function)) {
-            create(new OVFunctionNode(father_));
-        } else if (cmd.equals(For)) {
-            create(new OVForTrigger(father_));
-        } else if (cmd.equals(Plot)) {
-            create(new OVPlotComponent(father_));
-        } else if (cmd.equals(Comment)) {
-            create(new OVComment(father_));
-        } else if (cmd.equals(TextFile)) {
-            create(new OVTextFile(father_));
-        } else if (cmd.equals(CSVFile)) {
-            create(new OVCSVFile(father_));
-        }
-    }
+		add(menu);
+	}
 
-    private void create(OVComponent c) {
-        Point p = father_.validate(point_);
-        c.moveTo(p.x, p.y);
-        father_.addComponent(c);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+		if (cmd.equals(Button)) {
+			create(new OVButton(father_));
+		} else if (cmd.equals(Label)) {
+			create(new OVLabel(father_));
+		} else if (cmd.equals(TextField)) {
+			create(new OVTextField(father_));
+		} else if (cmd.equals(Variable)) {
+			create(new OVVariableNode(father_));
+		} else if (cmd.equals(Timer)) {
+			create(new OVTimerTriggerNode(father_));
+		} else if (cmd.equals(Pull)) {
+			create(new OVPullNode(father_));
+		} else if (cmd.equals(Container)) {
+			create(new OVComponentContainer(father_));
+		} else if (cmd.equals(Operator)) {
+			create(new OVOperatorNode(father_));
+		} else if (cmd.equals(TextArea)) {
+			create(new OVTextArea(father_));
+		} else if (cmd.equals(NodeBlock)) {
+			create(new OVNodeBlock(father_));
+		} else if (cmd.equals(IFTrigger)) {
+			create(new OVIFTriggerNode(father_));
+		} else if (cmd.equals(ProceduralBlock)) {
+			create(new OVProceduralBlock(father_));
+			// create(new OVScalarBlock(father_));
+		} else if (cmd.equals(Check)) {
+			create(new OVCheckBox(father_));
+		} else if (cmd.equals(Random)) {
+			create(new OVRandomNode(father_));
+		} else if (cmd.equals(Function)) {
+			create(new OVFunctionNode(father_));
+		} else if (cmd.equals(For)) {
+			create(new OVForTrigger(father_));
+		} else if (cmd.equals(Plot)) {
+			create(new OVPlotComponent(father_));
+		} else if (cmd.equals(Comment)) {
+			create(new OVComment(father_));
+		} else if (cmd.equals(TextFile)) {
+			create(new OVTextFile(father_));
+		} else if (cmd.equals(CSVFile)) {
+			create(new OVCSVFile(father_));
+		} else if (cmd.equals(Gauge)) {
+			create(new OVGauge(father_));
+		}
+	}
 
-        this.setVisible(false);
-        father_ = null;
-    }
+	private void create(OVComponent c) {
+		Point p = father_.validate(point_);
+		c.moveTo(p.x, p.y);
+		father_.addComponent(c);
+
+		this.setVisible(false);
+		father_ = null;
+	}
 
 }

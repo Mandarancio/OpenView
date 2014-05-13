@@ -33,6 +33,8 @@ public class GaugeMonitor extends JComponent {
 
 	private static final long serialVersionUID = -364547702251119522L;
 	private double min_ = 0, max_ = 1, value_ = 0.5, reference_ = Double.NaN;
+	private boolean referenceEnabled_ = true;
+	private boolean editable_ = true;
 	private String unit_ = "";
 	private String title_ = "";
 	private double minWarning_ = Double.NaN;
@@ -71,8 +73,8 @@ public class GaugeMonitor extends JComponent {
 		@Override
 		public void mousePressed(java.awt.event.MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1 && refPolygon_ != null
-					&& !Double.isNaN(reference_)
-					&& refPolygon_.contains(getMousePosition())) {
+					&& !Double.isNaN(reference_) && referenceEnabled_
+					&& editable_ && refPolygon_.contains(getMousePosition())) {
 				dragRef = true;
 				gostValue = reference_;
 				gostPolygon_ = new Path2D.Double(refPolygon_);
@@ -380,7 +382,7 @@ public class GaugeMonitor extends JComponent {
 		double angle;
 		Polygon polygon;
 
-		if (!Double.isNaN(reference_)) {
+		if (!Double.isNaN(reference_) && referenceEnabled_) {
 			angle = Math.PI * ((reference_ - min_) / range) - Math.PI / 2;
 
 			AffineTransform at = new AffineTransform();
@@ -681,5 +683,22 @@ public class GaugeMonitor extends JComponent {
 				}
 			}
 		}, 0, 100);
+	}
+
+	public boolean isReferenceEnabled() {
+		return referenceEnabled_;
+	}
+
+	public void setReferenceEnabled(boolean referenceEnabled_) {
+		this.referenceEnabled_ = referenceEnabled_;
+	}
+
+	public void setEditable(boolean edit) {
+		editable_ = edit;
+	}
+
+	public boolean isEditable() {
+		return editable_;
+
 	}
 }
