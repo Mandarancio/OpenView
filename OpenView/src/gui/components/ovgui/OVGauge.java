@@ -75,6 +75,7 @@ public class OVGauge extends OVComponent implements ValueListener {
 		super(e, father);
 		gauge_ = new GaugeMonitor(0, -100.0, +100.0);
 		gauge_.addValueListener(this);
+		this.add(gauge_, BorderLayout.CENTER);
 
 		triggerSettings();
 		for (OutNode o : outputs_) {
@@ -103,22 +104,19 @@ public class OVGauge extends OVComponent implements ValueListener {
 					gauge_.setEditable(v.getBoolean());
 				} else if (s.getName().equals(_Unit)) {
 					gauge_.setUnit(v.getString());
+					repaint();
 				} else if (s.getName().equals(_LWarning)) {
 					gauge_.setMinWarning(v.getDouble());
 					gauge_.repaint();
-
 				} else if (s.getName().equals(_LAlert)) {
 					gauge_.setMinAlert(v.getDouble());
 					gauge_.repaint();
-
 				} else if (s.getName().equals(_RWarning)) {
 					gauge_.setMaxWarning(v.getDouble());
 					gauge_.repaint();
-
 				} else if (s.getName().equals(_RAlert)) {
 					gauge_.setMaxAlert(v.getDouble());
 					gauge_.repaint();
-
 				} else {
 					super.valueUpdated(s, v);
 				}
