@@ -136,8 +136,13 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 					long current = System.currentTimeMillis();
 					long dt = current - _last;
 					_last = current;
-					if (dt < 10 && v.getData().equals(values_.get((InNode)s).getData()))
-						return;
+					if (values_.get((InNode) s) != null
+							&& values_.get((InNode) s).getData() != null) {
+						if (dt < 10
+								&& v.getData().equals(
+										values_.get((InNode) s).getData()))
+							return;
+					}
 				}
 				values_.put((InNode) s, v);
 

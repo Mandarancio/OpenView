@@ -134,8 +134,13 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 					long current = System.currentTimeMillis();
 					long dt = current - _last;
 					_last = current;
-					if (dt < 10 && values_.get((InNode)s).getData().equals(v.getData()))
-						return;
+					if (values_.get((InNode) s) != null
+							&& values_.get((InNode) s).getData() != null) {
+						if (dt < 10
+								&& values_.get((InNode) s).getData()
+										.equals(v.getData()))
+							return;
+					}
 				}
 				values_.put((InNode) s, v);
 
