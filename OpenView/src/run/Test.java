@@ -21,6 +21,7 @@ public class Test {
 					.nextElement();
 			// get only serial ports
 			if (curPort.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+				
 				portList.add(curPort);
 			}
 		}
@@ -33,6 +34,8 @@ public class Test {
 				deconnect(serial, input, output);
 			}
 		}
+		
+	
 		System.exit(0);
 	}
 

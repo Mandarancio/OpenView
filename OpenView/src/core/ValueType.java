@@ -1,18 +1,19 @@
 package core;
 
+import gnu.io.CommPortIdentifier;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.math.plot.plots.Plot;
+import java.util.Enumeration;
 
 import core.Message.MessageType;
 import core.support.EnumManager;
 import core.support.Utils;
 
 public enum ValueType {
-	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE, PLOT;
+	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE, PORT;
 
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
@@ -64,19 +65,19 @@ public enum ValueType {
 			return ENUM;
 		else if (obj instanceof File)
 			return FILE;
-		else if (obj instanceof Plot)
-			return PLOT;
+		else if (obj instanceof CommPortIdentifier)
+			return PORT;
 		return NONE;
 	}
 
 	public Color getColor() {
 		if (this == ARRAY)
-			return new Color(255, 200, 200);
+			return new Color(255, 107, 107);
 		else if (this == DOUBLE || this == FLOAT)
-			return new Color(200, 255, 200);
+			return new Color(199, 244, 100);
 		else if (this == BYTE || this == INTEGER || this == SHORT
 				|| this == LONG)
-			return new Color(200, 200, 255);
+			return new Color(136, 196, 37);
 		else if (this == BOOLEAN)
 			return new Color(255, 255, 200);
 		else if (this == STRING)
@@ -86,8 +87,10 @@ public enum ValueType {
 		else if (this == COLOR)
 			return new Color(240, 200, 210);
 		else if (this == FILE)
-			return new Color(255,255,255);
-		return new Color(200, 200, 200);
+			return new Color(196, 77, 88);
+		else if (this == PORT)
+			return new Color(78, 205, 196);
+		return new Color(255, 196, 140);
 	}
 
 	public boolean isArray() {
@@ -129,11 +132,24 @@ public enum ValueType {
 			}
 			return val;
 		} else if (this == FILE) {
-			//FILE file:PATH
-			if (val.startsWith("file:")){
-				String path=val.substring(5);
+			// FILE file:PATH
+			if (val.startsWith("file:")) {
+				String path = val.substring(5);
 				return new File(path);
 			}
+			return null;
+		} else if (this == PORT) {
+			if (val.startsWith("port:")) {
+				String name = val.substring(5);
+				Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
+				while (ports.hasMoreElements()) {
+					CommPortIdentifier curPort = (CommPortIdentifier) ports
+							.nextElement();
+					if (curPort.getName().equals(name))
+						return curPort;
+				}
+			}
+			return null;
 		}
 		return val;
 	}

@@ -1,5 +1,7 @@
 package core;
 
+import gnu.io.CommPortIdentifier;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -234,6 +236,11 @@ public class Value {
 			String str = "file:";
 			str += ((File) data_).getAbsolutePath();
 			return str;
+		} else if (getType() == ValueType.PORT) {
+			String str = "port:";
+			CommPortIdentifier port = (CommPortIdentifier) data_;
+			str += port.getName();
+			return str;
 		}
 		return data_.toString();
 	}
@@ -314,6 +321,12 @@ public class Value {
 		throw new Exception("Data is not a File but a " + getType());
 	}
 
+	public CommPortIdentifier getPort() throws Exception {
+		if (getType() == ValueType.PORT)
+			return (CommPortIdentifier) data_;
+		throw new Exception("Data is not a Serial Port but a " + getType());
+	}
+
 	public final static Value parseValue(String s) {
 		Value value_ = null;
 		if (s.length() == 0 || s.equals("void")) {
@@ -324,6 +337,8 @@ public class Value {
 			value_ = new Value(false);
 		} else if (s.startsWith("file:")) {
 			value_ = new Value(ValueType.FILE.parse(s));
+		} else if (s.startsWith("port:")) {
+			value_ = new Value(ValueType.PORT.parse(s));
 		} else if (s.startsWith("[") && s.endsWith("]")) {
 			value_ = new Value(ValueType.ARRAY.parse(s));
 		} else if (s.startsWith("'") && s.endsWith("'")) {
@@ -365,5 +380,4 @@ public class Value {
 		}
 		return value_;
 	}
-
 }
