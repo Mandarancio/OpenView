@@ -425,7 +425,7 @@ public class Parser {
         return fb.parse(lines);
     }
 
-    private static String getArg(String substring) {
+    public static String getArg(String substring) {
         int c = 1;
         char array[] = substring.toCharArray();
         for (int i = 0; i < array.length; i++) {
@@ -441,7 +441,7 @@ public class Parser {
         return substring;
     }
 
-    private static String[] getArgs(String arg) {
+    public static String[] getArgs(String arg) {
         ArrayList<String> args = new ArrayList<>();
         char array[] = arg.toCharArray();
         int begin = 0;
