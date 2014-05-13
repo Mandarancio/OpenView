@@ -9,7 +9,7 @@ public class LeftShiftOperator extends AbstractOperator {
 	 * Default constructor.
 	 */
 	public LeftShiftOperator() {
-		super("<<", "Binary left shift.", 2);
+		super("<<", "Binary left shift.", -1);
 	}
 
 	@Override
@@ -24,16 +24,17 @@ public class LeftShiftOperator extends AbstractOperator {
 		Value r = operands[1];
 
 		// if types match
-		if (l.getType() == r.getType()) {
-			if (l.getType() == ValueType.INTEGER)
-				return new Value(new Integer(l.getInt() << r.getInt()));
+		if (l.getType().isNumeric() && r.getType().isNumeric()) {
+				
 
 			if (l.getType() == ValueType.LONG)
 				return new Value(new Long(l.getLong() << r.getLong()));
+                        return new Value(new Integer(l.getInt() << r.getInt()));
 
 		}
 
-		throw new EvalException(this.name() + " Operands error! Type mismatch!");
+		throw new EvalException(this.name() + " Operands error! Type mismatch!"+ l.getType()+r.getType()
+                );
 	}
 
 	/*
