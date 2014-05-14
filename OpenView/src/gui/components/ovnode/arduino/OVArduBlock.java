@@ -24,7 +24,11 @@ import org.w3c.dom.Element;
  */
 public class OVArduBlock extends OVNodeBlock implements ArduInterface {
 
-    private SerialPort port_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6283342456463848354L;
+	private SerialPort port_;
     private OutputStream output_;
     private boolean connected_ = false;
 

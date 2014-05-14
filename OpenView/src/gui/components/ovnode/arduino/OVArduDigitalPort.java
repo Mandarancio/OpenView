@@ -18,7 +18,11 @@ import org.w3c.dom.Element;
  */
 public class OVArduDigitalPort extends OVNodeComponent {
 
-    private static final String _Value = "Value", _Port = "Port";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3588374123544061487L;
+	private static final String _Value = "Value", _Port = "Port";
     private ArduInterface arduino_;
 
     public OVArduDigitalPort(OVContainer father) {
