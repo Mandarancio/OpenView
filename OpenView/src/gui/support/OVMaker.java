@@ -9,6 +9,7 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
+import gui.components.ovgui.plot.OVPlot;
 import gui.components.ovnode.OVCSVFile;
 import gui.components.ovnode.OVComment;
 import gui.components.ovnode.OVForTrigger;
@@ -39,7 +40,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 
     public enum OVMakerMode {
 
-        GUI, NODE, PROCEDURAL, NODEONLY, ARDUINO
+        GUI, NODE, PROCEDURAL, NODEONLY, ARDUINO, PLOT
     }
 
     /**
@@ -53,11 +54,11 @@ public class OVMaker extends JPopupMenu implements ActionListener {
             Random = "Random", For = "For trigger", CSVFile = "CSV File";
     private static final String Label = "Label", Button = "Button",
             TextArea = "Text Area", TextField = "Text Field",
-            Container = "Container", Gauge = "Gauge", Arduino = "Arduino";
+            Container = "Container", Gauge = "Gauge", Arduino = "Arduino", PlotL="Plot";
     private static final String GPIOport = "GPIO";
     private static final String ProceduralBlock = "Procedural block";
     private static final String Check = "Check box";
-    private static final String Plot = "Plot";
+    private static final String Plot = "Plot component";
     private OVContainer father_;
     private Point point_;
 
@@ -78,6 +79,14 @@ public class OVMaker extends JPopupMenu implements ActionListener {
             initNode();
         } else if (mode == OVMakerMode.ARDUINO) {
             initArduino();
+        } else if (mode == OVMakerMode.PLOT){
+        	JMenu menu = new JMenu("Basic GUI");
+
+            JMenuItem i = new JMenuItem(PlotL);
+            i.setActionCommand(i.getText());
+            i.addActionListener(this);
+            menu.add(i);
+            add(menu);
         }
     }
 
@@ -271,6 +280,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
             create(new OVArduBlock(father_));
         } else if (cmd.equals(GPIOport)) {
             create(new OVArduDigitalPort(father_));
+        } else if (cmd.equals(PlotL)){
+        	create(new OVPlot(father_));
         }
     }
 

@@ -10,6 +10,7 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
+import gui.components.ovgui.plot.OVPlot;
 import gui.components.ovnode.OVCSVFile;
 import gui.components.ovnode.OVComment;
 import gui.components.ovnode.OVForTrigger;
@@ -82,6 +83,8 @@ public class XMLParser {
             c = new OVArduBlock(e, father);
         } else if (name.equals(OVArduDigitalPort.class.getSimpleName())){
             c=new OVArduDigitalPort(e, father);
+        } else if (name.equals(OVPlot.class.getSimpleName())){
+        	c=new OVPlot(e, father);
         }
         return c;
     }

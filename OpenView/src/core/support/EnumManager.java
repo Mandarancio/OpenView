@@ -2,6 +2,7 @@ package core.support;
 
 import gui.components.ovgui.OVTextArea.TextAreaTrigger;
 import gui.components.ovgui.OVTextField.TextFieldTrigger;
+import gui.components.ovgui.plot.OVPlot.PlotType;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.enums.TriggerMode;
 
@@ -29,6 +30,9 @@ public class EnumManager {
         }
         if (className.equals("TimerMode")) {
             return OVTimerTriggerNode.TimerMode.valueOf(value);
+        }
+        if (className.equals("PlotType")){
+        	return PlotType.valueOf(value);
         }
         return null;
     }
