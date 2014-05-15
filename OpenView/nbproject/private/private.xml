@@ -3,60 +3,64 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyInNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Exp.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/run/Main.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/ReturnBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FunctionBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/InterpreterException.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/support/OrientationEnum.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/NotEqualOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/ValueType.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/ObjectManager.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponentContainer.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Abs.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Interpreter.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/OVLabel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLBuilder.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/PrintBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Asin.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/WHILEBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVVariableNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVContainer.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/Line.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVTimerTriggerNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/OutNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/LineException.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVScalaBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/MultiplicationOperator.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/PolyOutNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/NodeGroup.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVOperatorNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/MainPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/test.ov</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/NotOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Block.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Acos.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/OVArduBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan2.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Log.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/AssignBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Cos.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Tan.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/OperatorBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/LessThanOrEqualOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/TestClass.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/Operator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FORBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/RightPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/SettingPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/Message.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/LeftShiftOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Pow.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/LessThanOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/IFBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/AbstractFunction.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Parser.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/RightShiftOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/AbstractBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/FunctionManager.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/CodeBlock.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/nodes/InNode.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVFunctionNode.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Export.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Max.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/SubtractionOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/run/Test.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Sqrt.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/AdditionOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/OVArduDigitalPort.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/AndOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/OVMaker.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/Setting.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/ArduInterface.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/GreaterThanOrEqualOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FunctionDefinition.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Rand.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/support/EnumManager.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/GreaterThanOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/OperatorManager.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Min.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Sin.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLParser.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/EqualOperator.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/core/Complex.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/GreaterThanOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeComponent.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/NodeSettingPanel.java</file>
-            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/OVPlotComponent.java</file>
         </group>
     </open-files>
 </project-private>

@@ -37,6 +37,8 @@ import core.Setting;
 import core.Value;
 import core.ValueType;
 import core.support.MutableBoolean;
+import gui.support.JColorButton;
+import javax.swing.JColorChooser;
 
 public class NodeSettingPanel extends JPanel implements SettingManager {
 
@@ -291,6 +293,44 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else if (s.getType() == ValueType.COLOR) {
+                final JColorButton b = new JColorButton();
+                try {
+                    b.setColor(s.getValue().getColor());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                b.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent arg0) {
+                        Color newColor = JColorChooser.showDialog(
+                                NodeSettingPanel.this, "Choose Color",
+                                b.getColor());
+                        if (newColor != null
+                                && !newColor.equals(b.getColor())) {
+                            b.setColor(newColor);
+                            s.setValue(newColor);
+                        }
+                    }
+                });
+
+                SettingListener list = new SettingListener() {
+
+                    @Override
+                    public void valueUpdated(Setting setting, Value v) {
+                        try {
+                            if (v.getColor().equals(b.getColor())) {
+                                b.setColor(v.getColor());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                s.addListener(list);
+                listeners_.put(s, list);
+                c = b;
             } else if (s.getType() == ValueType.ENUM) {
                 final JComboBox<String> box = new JComboBox<>();
 
@@ -336,32 +376,31 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
                 s.addListener(listener);
                 listeners_.put(s, listener);
                 c = box;
-            }else if (s.getType()==ValueType.FILE){
-            	JButton b=new JButton("Open");
-            	b.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// Create a file chooser
-						final JFileChooser fc = new JFileChooser();
+            } else if (s.getType() == ValueType.FILE) {
+                JButton b = new JButton("Open");
+                b.addActionListener(new ActionListener() {
 
-						// In response to a button click:
-						int returnVal = fc.showOpenDialog(null);
-						
+                    @Override
+                    public void actionPerformed(ActionEvent arg0) {
+                        // Create a file chooser
+                        final JFileChooser fc = new JFileChooser();
 
-						if (returnVal == JFileChooser.APPROVE_OPTION) {
-							try {
-								File f = fc.getSelectedFile();
-								s.setValue(f);
-							} catch (Exception e) {
-								JOptionPane.showMessageDialog(null,
-										e.getMessage());
-								e.printStackTrace();
-							}
-						}
-					}
-				});
-            	c=b;
+                        // In response to a button click:
+                        int returnVal = fc.showOpenDialog(null);
+
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            try {
+                                File f = fc.getSelectedFile();
+                                s.setValue(f);
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null,
+                                        e.getMessage());
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                c = b;
             }
         }
 
