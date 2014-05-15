@@ -1,14 +1,20 @@
 package gui.components.ovgui;
 
 import gui.components.OVComponent;
+import gui.components.OVComponentContainer;
 import gui.components.nodes.InNode;
+import gui.components.nodes.Line;
+import gui.components.ovnode.OVNodeBlock;
+import gui.components.ovnode.OVNodeComponent;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
+import gui.support.OVMaker;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import org.math.plot.Plot2DPanel;
@@ -20,7 +26,7 @@ import core.SlotListener;
 import core.Value;
 import core.ValueType;
 
-public class OVPlotComponent extends OVComponent implements SlotListener,
+public class OVPlotComponent extends OVComponentContainer implements SlotListener,
 		NodeListener {
 
 	/**
@@ -34,6 +40,7 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
 
 	public OVPlotComponent(OVContainer father) {
 		super(father);
+		this.setLayout(new BorderLayout());
 		getSetting(ComponentSettings.SizeW).setValue(300);
 		getSetting(ComponentSettings.SizeH).setValue(300);
 		getSetting(ComponentSettings.Name).setValue("Plot");
@@ -51,6 +58,8 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
 
 	public OVPlotComponent(Element e, OVContainer father) {
 		super(e, father);
+		this.setLayout(new BorderLayout());
+
 		initPlot();
 
 		for (InNode i : inputs_) {
@@ -161,13 +170,44 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
 
 	@Override
 	public void setMode(EditorMode mode) {
+		
 		if (mode != getMode()) {
-			if (getMode().isExec()) {
-				plot_.removeAllPlots();
+			if (mode==EditorMode.GUI || mode.isExec()){
+				hideAll();
+				this.setLayout(new BorderLayout());
+				plot_.setBounds(5, 5, getWidth()-20, getHeight()-20);
+				this.add(plot_, BorderLayout.CENTER);
+				if (getMode().isExec()) {
+					plot_.removeAllPlots();
+				}
+			}else {
+				this.remove(plot_);
+				this.setLayout(null);
+				showAll();
 			}
 			super.setMode(mode);
 		}
 	}
+
+	private void showAll() {
+		for (Line l:  lines_){
+			this.add(l);
+		}
+		for (OVComponent c: components_){
+			this.add(c);
+		}
+	}
+
+	private void hideAll() {
+		for (Line l:  lines_){
+			this.remove(l);
+		}
+		for (OVComponent c: components_){
+			this.remove(c);
+		}
+	}
+	
+	
 
 	private void updateDynNodes() {
 		ArrayList<InNode> free = new ArrayList<>();
@@ -200,4 +240,19 @@ public class OVPlotComponent extends OVComponent implements SlotListener,
 	public void deconneced(OVNode n) {
 		updateDynNodes();
 	}
+	
+
+    @Override
+    public void showMenu(Point point) {
+    	if (getMode()==EditorMode.NODE)
+    		super.showMenu(point, OVMaker.OVMakerMode.NODEONLY); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean compatible(OVComponent c) {
+        if (c instanceof OVNodeBlock || c instanceof OVNodeComponent) {
+            return true;
+        }
+        return false;
+    }
 }
