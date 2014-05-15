@@ -9,7 +9,6 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
-import gui.components.ovnode.arduino.OVArduDigitalPort;
 import gui.components.ovnode.OVCSVFile;
 import gui.components.ovnode.OVComment;
 import gui.components.ovnode.OVForTrigger;
@@ -23,6 +22,7 @@ import gui.components.ovnode.OVTextFile;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovnode.arduino.OVArduBlock;
+import gui.components.ovnode.arduino.OVArduDigitalPort;
 import gui.components.ovprocedural.OVProceduralBlock;
 import gui.interfaces.OVContainer;
 
