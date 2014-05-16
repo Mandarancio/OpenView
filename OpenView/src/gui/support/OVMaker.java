@@ -7,6 +7,8 @@ import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVGauge;
 import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
+import gui.components.ovgui.OVProgressBar;
+import gui.components.ovgui.OVSpinner;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
 import gui.components.ovgui.plot.OVPlot;
@@ -59,6 +61,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
     private static final String ProceduralBlock = "Procedural block";
     private static final String Check = "Check box";
     private static final String Plot = "Plot component";
+	private static final String Progress = "Progress bar";
+	private static final String Spinner = "Spinner";
     private OVContainer father_;
     private Point point_;
 
@@ -214,6 +218,21 @@ public class OVMaker extends JPopupMenu implements ActionListener {
         i.addActionListener(this);
         menu.add(i);
 
+        i = new JMenuItem(Spinner);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+
+        i = new JMenuItem(Progress);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+
+        i = new JMenuItem(Container);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+        
         i = new JMenuItem(Plot);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
@@ -223,12 +242,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
-
-        i = new JMenuItem(Container);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
-
+        
         add(menu);
     }
 
@@ -284,6 +298,10 @@ public class OVMaker extends JPopupMenu implements ActionListener {
             create(new OVArduDigitalPort(father_));
         } else if (cmd.equals(PlotL)){
         	create(new OVPlot(father_));
+        } else if (cmd.equals(Progress)){
+        	create(new OVProgressBar(father_));
+        } else if (cmd.equals(Spinner)){
+        	create(new OVSpinner(father_));
         }
     }
 
