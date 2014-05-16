@@ -29,7 +29,8 @@ public class OVSwitcher extends OVComponent implements ActionListener {
 
 	public OVSwitcher(OVContainer father) {
 		super(father);
-
+		getSetting(ComponentSettings.SizeW).setValue(60);
+		getSetting(ComponentSettings.SizeH).setValue(45);
 		initSwitch();
 
 		Setting s = new Setting(_Value, new Boolean(false));
