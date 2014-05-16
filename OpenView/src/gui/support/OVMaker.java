@@ -80,18 +80,20 @@ public class OVMaker extends JPopupMenu implements ActionListener {
         } else if (mode == OVMakerMode.ARDUINO) {
             initArduino();
         } else if (mode == OVMakerMode.PLOT){
-        	JMenu menu = new JMenu("Basic GUI");
-
-            JMenuItem i = new JMenuItem(PlotL);
-            i.setActionCommand(i.getText());
-            i.addActionListener(this);
-            menu.add(i);
-            add(menu);
+        	initPlot();
         }
     }
+    private void initPlot(){
+    	JMenu menu = new JMenu("Plots");
 
+        JMenuItem i = new JMenuItem(PlotL);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+        add(menu);
+    }
     private void initArduino() {
-        JMenu menu = new JMenu("Basic GUI");
+        JMenu menu = new JMenu("Ports");
 
         JMenuItem i = new JMenuItem(GPIOport);
         i.setActionCommand(i.getText());

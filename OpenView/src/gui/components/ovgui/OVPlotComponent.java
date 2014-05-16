@@ -3,8 +3,7 @@ package gui.components.ovgui;
 import gui.components.OVComponent;
 import gui.components.OVComponentContainer;
 import gui.components.nodes.Line;
-import gui.components.ovnode.OVNodeBlock;
-import gui.components.ovnode.OVNodeComponent;
+import gui.components.ovgui.plot.OVPlot;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
@@ -103,7 +102,7 @@ public class OVPlotComponent extends OVComponentContainer {
 
 	@Override
 	public boolean compatible(OVComponent c) {
-		if (c instanceof OVNodeBlock || c instanceof OVNodeComponent) {
+		if ( c instanceof OVPlot && getMode()==EditorMode.NODE) {
 			return true;
 		}
 		return false;
