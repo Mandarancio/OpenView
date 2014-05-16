@@ -10,6 +10,7 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVProgressBar;
 import gui.components.ovgui.OVSpinner;
+import gui.components.ovgui.OVSwitcher;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
 import gui.components.ovgui.plot.OVPlot;
@@ -91,6 +92,8 @@ public class XMLParser {
 			c = new OVProgressBar(e, father);
 		} else if (name.equals(OVSpinner.class.getSimpleName())) {
 			c = new OVSpinner(e, father);
+		} else if (name.equals(OVSwitcher.class.getSimpleName())){
+			c = new OVSwitcher(e, father);
 		}
 		return c;
 	}

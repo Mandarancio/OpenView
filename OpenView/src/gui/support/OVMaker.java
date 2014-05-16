@@ -9,6 +9,7 @@ import gui.components.ovgui.OVLabel;
 import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVProgressBar;
 import gui.components.ovgui.OVSpinner;
+import gui.components.ovgui.OVSwitcher;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
 import gui.components.ovgui.plot.OVPlot;
@@ -63,6 +64,7 @@ public class OVMaker extends JPopupMenu implements ActionListener {
     private static final String Plot = "Plot component";
 	private static final String Progress = "Progress bar";
 	private static final String Spinner = "Spinner";
+	private static final String Switch="Switch";
     private OVContainer father_;
     private Point point_;
 
@@ -222,6 +224,11 @@ public class OVMaker extends JPopupMenu implements ActionListener {
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
+        
+        i = new JMenuItem(Switch);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
 
         i = new JMenuItem(Progress);
         i.setActionCommand(i.getText());
@@ -302,6 +309,8 @@ public class OVMaker extends JPopupMenu implements ActionListener {
         	create(new OVProgressBar(father_));
         } else if (cmd.equals(Spinner)){
         	create(new OVSpinner(father_));
+        } else if (cmd.equals(Switch)){
+        	create(new OVSwitcher(father_));
         }
     }
 
