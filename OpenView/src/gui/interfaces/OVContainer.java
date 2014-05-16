@@ -14,27 +14,51 @@ import gui.ObjectManager;
 
 public interface OVContainer {
 	public void addComponent(OVComponent c);
+
 	public boolean compatible(OVComponent c);
+
 	public void removeComponent(OVComponent c);
+
 	public void select(OVComponent c);
+
 	public void deselect(OVComponent c);
+
 	public void deselectAll();
+
 	public Point validate(Point p);
+
 	public Dimension validate(Dimension d);
-	public OVToolTip showToolTip(String tooltip, Point p, OrientationEnum orientation);
+
+	public OVToolTip showToolTip(String tooltip, Point p,
+			OrientationEnum orientation);
+
 	public void hideToolTip(OVToolTip tooltip);
-	public Point getAbsoluteLocation(OVComponent c,Point location);
+
+	public Point getAbsoluteLocation(OVComponent c, Point location);
+
 	public Line createLine(OVNode n, OVComponent ovComponent);
+
 	public void confirmLine(Line l);
+
 	public void removeLine(Line line);
+
 	public void showMenu(Point point);
-	public void showMenu(Point p,OVMakerMode mode);
+
+	public void showMenu(Point p, OVMakerMode mode);
+
 	public OVContainer parent();
+
 	public OVContainer superParent();
+
 	public boolean contains(OVComponent c);
+
 	public void removeSelected();
-	public void clickEvent(Point p,Object source);
+
+	public void clickEvent(Point p, Object source);
+
 	public OVNode getNode(String parent, String uuid);
+
 	public EditorMode getMode();
-        public ObjectManager getObjectManager();
+
+	public ObjectManager getObjectManager();
 }
