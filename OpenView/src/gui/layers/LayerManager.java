@@ -74,12 +74,14 @@ public class LayerManager extends JTree {
 	}
 
 	public void removeSelected() {
-		Object o = getSelectionPath().getLastPathComponent();
-		if (o != null && o instanceof DefaultMutableTreeNode) {
-			DefaultMutableTreeNode n = (DefaultMutableTreeNode) o;
-			if (n.getUserObject() != null
-					&& n.getUserObject() instanceof NodeLayer) {
-				removeLayer((NodeLayer) n.getUserObject());
+		if (getSelectionPath() != null) {
+			Object o = getSelectionPath().getLastPathComponent();
+			if (o != null && o instanceof DefaultMutableTreeNode) {
+				DefaultMutableTreeNode n = (DefaultMutableTreeNode) o;
+				if (n.getUserObject() != null
+						&& n.getUserObject() instanceof NodeLayer) {
+					removeLayer((NodeLayer) n.getUserObject());
+				}
 			}
 		}
 	}

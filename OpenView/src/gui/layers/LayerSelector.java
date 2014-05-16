@@ -43,6 +43,7 @@ public class LayerSelector extends JComponent {
 
 	public LayerSelector() {
 		cellSize_ = 20;
+		this.setPreferredSize(new Dimension(250, 46));
 		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 47));
 		this.addMouseListener(mouseAdapter_);
 		setForeground(Color.gray);
