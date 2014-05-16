@@ -34,6 +34,20 @@ public class LayerTreeModel extends DefaultTreeModel {
 		}
 	}
 
+	public DefaultMutableTreeNode find(String name) {
+		for (int i = 0; i < root_.getChildCount(); i++) {
+			TreeNode t = root_.getChildAt(i);
+			if (t instanceof DefaultMutableTreeNode) {
+				NodeLayer l=(NodeLayer)((DefaultMutableTreeNode)t).getUserObject();
+				if (l.getName().equals(name))
+					return (DefaultMutableTreeNode) t;
+
+			}
+
+		}
+		return null;
+	}
+	
 	public DefaultMutableTreeNode find(NodeLayer layer) {
 		for (int i = 0; i < root_.getChildCount(); i++) {
 			TreeNode t = root_.getChildAt(i);

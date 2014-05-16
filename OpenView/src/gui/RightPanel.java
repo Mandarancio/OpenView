@@ -3,6 +3,7 @@ package gui;
 import gui.components.OVComponent;
 import gui.enums.EditorMode;
 import gui.interfaces.SettingManager;
+import gui.layers.LayerManager;
 import gui.layers.LayerPanel;
 
 import java.util.ArrayList;
@@ -144,6 +145,10 @@ public class RightPanel extends JSplitPane implements SettingManager {
 
 	private void setManager(ObjectManager manager_) {
 		this.manager_ = manager_;
+	}
+	
+	public LayerManager getLayerManager(){
+		return layerManager_.getManager();
 	}
 
 }

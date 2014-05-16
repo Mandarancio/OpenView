@@ -11,6 +11,8 @@ import gui.interfaces.DragComponent;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
 import gui.interfaces.SettingListener;
+import gui.layers.AssociatedNodeLayer;
+import gui.layers.NodeLayer;
 import gui.support.OVToolTip;
 
 import java.awt.BorderLayout;
@@ -66,6 +68,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	private OVToolTip toolTip_;
 
 	private UUID uuid_;
+	private ArrayList<AssociatedNodeLayer> layers_ = new ArrayList<>();
+	private AssociatedNodeLayer currentLayer_;
 
 	public OVComponent(OVContainer father) {
 		father_ = (father);
@@ -99,10 +103,22 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 		loadSettings(e);
 		loadNodes(e);
+		loadLayers(e);
 
 		mouseAdapter_ = new DragMouseAdapter(this);
 		this.addMouseListener(mouseAdapter_);
 		this.addMouseMotionListener(mouseAdapter_);
+	}
+
+	private void loadLayers(Element el) {
+		NodeList nl = el.getElementsByTagName(AssociatedNodeLayer.class
+				.getSimpleName());
+		for (int i = 0; i < nl.getLength(); i++) {
+			Element e = (Element) nl.item(i);
+			if (e.getParentNode().equals(el)) {
+				layers_.add(new AssociatedNodeLayer(e));
+			}
+		}
 	}
 
 	protected void initBasicSettings() {
@@ -741,6 +757,10 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			node.appendChild(out.getXML(doc));
 		}
 
+		for (AssociatedNodeLayer l : layers_) {
+			node.appendChild(l.getXML(doc));
+		}
+
 		return node;
 	}
 
@@ -896,4 +916,49 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	public void resetUUID() {
 		uuid_ = UUID.randomUUID();
 	}
+
+	public void setNodeLayer(NodeLayer n) {
+		if (n == null) {
+			currentLayer_ = null;
+			setVisible(true);
+		} else {
+
+			for (AssociatedNodeLayer l : layers_) {
+				if (l.getUUID().equals(n.getUUID())) {
+					currentLayer_ = l;
+					setVisible(l.isVisible());
+					return;
+				}
+			}
+			setVisible(true);
+			currentLayer_ = new AssociatedNodeLayer(n);
+			layers_.add(currentLayer_);
+		}
+	}
+
+	public void removeNodeLayer(NodeLayer n) {
+		if (n != null) {
+			this.setVisible(true);
+			ArrayList<AssociatedNodeLayer> copy = new ArrayList<>(layers_);
+			for (AssociatedNodeLayer l : copy) {
+				if (l.getUUID().equals(n.getUUID())) {
+					layers_.remove(l);
+					return;
+				}
+			}
+		}
+	}
+
+	public ArrayList<AssociatedNodeLayer> getNodeLayers() {
+		return layers_;
+	}
+
+	public void checkLayer() {
+		if (mode_ == EditorMode.NODE || mode_ == EditorMode.DEBUG) {
+			if (currentLayer_ != null) {
+				setVisible(currentLayer_.isVisible());
+			}
+		}
+	}
+
 }

@@ -12,8 +12,9 @@ public class AssociatedNodeLayer extends NodeLayer {
 		visible_=Boolean.parseBoolean(e.getAttribute("visible"));
 	}
 
-	public AssociatedNodeLayer(String name) {
-		super(name);
+	public AssociatedNodeLayer(NodeLayer n) {
+		super(n.getName());
+		setUUID(n.getUUID());
 	}
 
 	public boolean isVisible() {

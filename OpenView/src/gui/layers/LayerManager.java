@@ -1,5 +1,7 @@
 package gui.layers;
 
+import gui.EditorPanel;
+
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -15,6 +17,7 @@ public class LayerManager extends JTree {
 	private static final long serialVersionUID = 542029444966566694L;
 	private LayerTreeModel model_;
 	private boolean __locked = false;
+	private EditorPanel conainer_;
 
 	public LayerManager() {
 		super(new LayerTreeModel());
@@ -28,32 +31,63 @@ public class LayerManager extends JTree {
 					if (node == null) {
 						return;
 					} else {
-						if (node.getUserObject() instanceof NodeLayer) {
-							//select
+						if (node.getUserObject() == null) {
+							conainer_.setNodeLayer(null);
+						} else if (node.getUserObject() instanceof NodeLayer) {
+							conainer_.setNodeLayer((NodeLayer) node
+									.getUserObject());
 						}
 					}
 				} else
 					__locked = false;
 			}
-		}); 
+		});
 	}
 
 	public void addLayer(NodeLayer l) {
-		model_.addLayer(l);
-		select(l);
+		DefaultMutableTreeNode n = model_.find(l.getName());
+		if (n != null) {
+			select(n);
+		} else {
+			model_.addLayer(l);
+			select(l);
+		}
 	}
-	
-	public void removeLayer(NodeLayer l){
+
+	public void removeLayer(NodeLayer l) {
 		model_.removeLayer(l);
 	}
 
 	public void select(NodeLayer c) {
 		DefaultMutableTreeNode n = model_.find(c);
+		select(n);
+	}
+
+	private void select(DefaultMutableTreeNode n) {
 		if (n != null) {
 			__locked = true;
 			TreeNode[] nodes = model_.getPathToRoot(n);
 			this.setExpandsSelectedPaths(true);
 			setSelectionPath(new TreePath(nodes));
+			if (n.getUserObject() != null)
+				conainer_.setSelectedLayer((NodeLayer) n.getUserObject());
+			else
+				conainer_.setSelectedLayer(null);
 		}
+	}
+
+	public void removeSelected() {
+		Object o = getSelectionPath().getLastPathComponent();
+		if (o != null && o instanceof DefaultMutableTreeNode) {
+			DefaultMutableTreeNode n = (DefaultMutableTreeNode) o;
+			if (n.getUserObject() != null
+					&& n.getUserObject() instanceof NodeLayer) {
+				removeLayer((NodeLayer) n.getUserObject());
+			}
+		}
+	}
+
+	public void setMainContainer(EditorPanel container) {
+		conainer_ = container;
 	}
 }

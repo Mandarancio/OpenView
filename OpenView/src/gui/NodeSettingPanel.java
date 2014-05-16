@@ -4,6 +4,7 @@ import gui.components.OVComponent;
 import gui.enums.EditorMode;
 import gui.interfaces.SettingListener;
 import gui.interfaces.SettingManager;
+import gui.layers.LayerSelector;
 import gui.settings.CategoryPanel;
 
 import java.awt.Color;
@@ -38,6 +39,7 @@ import core.Value;
 import core.ValueType;
 import core.support.MutableBoolean;
 import gui.support.JColorButton;
+
 import javax.swing.JColorChooser;
 
 public class NodeSettingPanel extends JPanel implements SettingManager {
@@ -48,10 +50,12 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
     private static final long serialVersionUID = -5297687376220230306L;
     private HashMap<Setting, SettingListener> listeners_ = new HashMap<>();
     private EditorMode mode_;
+    private LayerSelector layerSelector_=new LayerSelector();
 
     public NodeSettingPanel() {
         this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        
     }
 
     @Override
@@ -60,7 +64,10 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
             return;
         }
         initComponents(c);
+        this.add(layerSelector_);
         revalidate();
+
+        layerSelector_.select(c);
     }
 
     @Override
@@ -69,6 +76,7 @@ public class NodeSettingPanel extends JPanel implements SettingManager {
         for (Setting s : listeners_.keySet()) {
             s.removeListener(listeners_.get(s));
         }
+        layerSelector_.deselect();
         listeners_.clear();
         repaint();
     }

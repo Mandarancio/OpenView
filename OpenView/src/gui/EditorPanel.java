@@ -9,6 +9,7 @@ import gui.enums.DragAction;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
+import gui.layers.NodeLayer;
 import gui.support.OVMaker;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
@@ -60,10 +61,13 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	private EditorMode mode_ = EditorMode.GUI;
 	private ArrayList<Element> clipboard_;
 	private boolean __lock = false;
+	private NodeLayer currentLayer_;
+	private ArrayList<NodeLayer> nodeLayers_ = new ArrayList<>();
 
 	public EditorPanel(RightPanel panel) {
 		super(null);
 		this.objectManager_ = panel.getManager();
+		panel.getLayerManager().setMainContainer(this);
 
 		this.setLayout(null);
 		this.setBackground(new Color(69, 70, 64));
@@ -98,7 +102,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	@Override
 	public void addComponent(OVComponent c) {
 		boolean addFlag = false;
-
+		initLayers(c);
 		for (OVComponent ovc : components_) {
 			if (!ovc.equals(c) && ovc.isContainer()) {
 				if (((OVContainer) ovc).contains(c)
@@ -295,6 +299,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	@Override
 	public Line createLine(OVNode n, OVComponent ovComponent) {
 		Line l = new Line(n, ovComponent, this);
+		initLayers(l);
 		lines_.add(l);
 		this.add(l, linesLayer, 0);
 		this.moveToBack(l);
@@ -509,12 +514,28 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		for (Line l : lines_) {
 			e.appendChild(l.getXML(doc));
 		}
+		for (NodeLayer l : nodeLayers_) {
+			e.appendChild(l.getXML(doc));
+		}
 		return e;
 	}
 
 	public void loadXML(Element el) {
 		clearAll();
-		NodeList nl = el.getChildNodes();
+		NodeList nl = el.getElementsByTagName(NodeLayer.class.getSimpleName());
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node n = nl.item(i);
+			if (n != null && n instanceof Element) {
+				Element e = (Element) n;
+				if (e.getParentNode().equals(el)) {
+					NodeLayer l = new NodeLayer(e);
+					rightPanel_.getLayerManager().addLayer(l);
+					nodeLayers_.add(l);
+				}
+			}
+		}
+
+		nl = el.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
 			if (n != null && n instanceof Element) {
@@ -536,6 +557,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 					Line l = XMLParser.parseLine(e, this);
 					if (l != null) {
 						lines_.add(l);
+						initLayers(l);
 						this.add(l, linesLayer);
 						this.moveToBack(l);
 						l.setSelected(false);
@@ -547,6 +569,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				}
 			}
 		}
+
 	}
 
 	public void clearAll() {
@@ -609,5 +632,49 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		} else {
 			__lock = false;
 		}
+	}
+
+	public void setSelectedLayer(NodeLayer n) {
+		if (n != null && !nodeLayers_.contains(n))
+			nodeLayers_.add(n);
+		if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE) {
+			currentLayer_ = n;
+			for (OVComponent c : components_) {
+				c.setNodeLayer(n);
+			}
+			for (Line l : lines_) {
+				l.setNodeLayer(n);
+			}
+		}
+	}
+
+	public void removeLayer(NodeLayer n) {
+		if (n != null)
+			nodeLayers_.remove(n);
+		if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE) {
+			currentLayer_ = null;
+			for (OVComponent c : components_) {
+				c.removeNodeLayer(n);
+			}
+			for (Line l : lines_) {
+				l.removeNodeLayer(n);
+			}
+		}
+	}
+
+	private void initLayers(OVComponent c) {
+		for (NodeLayer l : nodeLayers_) {
+			if (!l.equals(currentLayer_))
+				c.setNodeLayer(l);
+		}
+		c.setNodeLayer(currentLayer_);
+	}
+
+	private void initLayers(Line c) {
+		for (NodeLayer l : nodeLayers_) {
+			if (!l.equals(currentLayer_))
+				c.setNodeLayer(l);
+		}
+		c.setNodeLayer(currentLayer_);
 	}
 }

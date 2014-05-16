@@ -42,4 +42,9 @@ public class NodeLayer {
 		return e;
 	}
 
+	
+	@Override
+	public String toString() {
+		return "Layer: "+name_;
+	}
 }
