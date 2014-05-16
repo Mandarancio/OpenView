@@ -918,7 +918,6 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	}
 
 	public void setNodeLayer(NodeLayer n) {
-		System.err.println(n);
 		if (n == null) {
 			currentLayer_ = null;
 			setVisible(true);
@@ -927,13 +926,15 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			for (AssociatedNodeLayer l : layers_) {
 				if (l.getUUID().equals(n.getUUID())) {
 					currentLayer_ = l;
-					setVisible(l.isVisible());
+					if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE)
+						setVisible(l.isVisible());
 					return;
 				}
 			}
 			setVisible(true);
 			currentLayer_ = new AssociatedNodeLayer(n);
-			layers_.add(currentLayer_);
+			if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE)
+				layers_.add(currentLayer_);
 		}
 	}
 

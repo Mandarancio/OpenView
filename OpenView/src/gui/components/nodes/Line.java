@@ -4,8 +4,6 @@ import gui.components.OVComponent;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
-import gui.layers.AssociatedNodeLayer;
-import gui.layers.NodeLayer;
 import gui.support.OVToolTip;
 
 import java.awt.BasicStroke;
@@ -20,7 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import java.awt.geom.Path2D.Double;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -60,7 +57,6 @@ public class Line extends JComponent implements ComponentListener {
 	private Timer __timer;
 	private OVToolTip __tooltip;
 	private UUID uuid_;
-	private ArrayList<AssociatedNodeLayer> layers_ = new ArrayList<>();
 
 	public Line(OVNode n, OVComponent c, OVContainer father) {
 		father_ = father;
@@ -408,34 +404,6 @@ public class Line extends JComponent implements ComponentListener {
 
 	public UUID getUUID() {
 		return uuid_;
-	}
-
-	public void setNodeLayer(NodeLayer n) {
-		if (n == null) {
-			setVisible(true);
-		} else {
-			for (AssociatedNodeLayer l : layers_) {
-				if (l.getUUID().equals(n.getUUID())) {
-					setVisible(l.isVisible());
-					return;
-				}
-			}
-			setVisible(true);
-			layers_.add(new AssociatedNodeLayer(n));
-		}
-	}
-
-	public void removeNodeLayer(NodeLayer n) {
-		if (n != null) {
-			this.setVisible(true);
-			ArrayList<AssociatedNodeLayer> copy = new ArrayList<>(layers_);
-			for (AssociatedNodeLayer l : copy) {
-				if (l.getUUID().equals(n.getUUID())) {
-					layers_.remove(l);
-					return;
-				}
-			}
-		}
 	}
 
 }

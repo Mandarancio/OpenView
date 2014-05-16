@@ -299,7 +299,6 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	@Override
 	public Line createLine(OVNode n, OVComponent ovComponent) {
 		Line l = new Line(n, ovComponent, this);
-		initLayers(l);
 		lines_.add(l);
 		this.add(l, linesLayer, 0);
 		this.moveToBack(l);
@@ -557,7 +556,6 @@ public class EditorPanel extends OVComponent implements OVContainer,
 					Line l = XMLParser.parseLine(e, this);
 					if (l != null) {
 						lines_.add(l);
-						initLayers(l);
 						this.add(l, linesLayer);
 						this.moveToBack(l);
 						l.setSelected(false);
@@ -643,9 +641,6 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			for (OVComponent c : components_) {
 				c.setNodeLayer(n);
 			}
-			for (Line l : lines_) {
-				l.setNodeLayer(n);
-			}
 			rightPanel_.repaint();
 		}
 	}
@@ -658,26 +653,15 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			for (OVComponent c : components_) {
 				c.removeNodeLayer(n);
 			}
-			for (Line l : lines_) {
-				l.removeNodeLayer(n);
-			}
 		}
 	}
 
 	private void initLayers(OVComponent c) {
 		for (NodeLayer l : nodeLayers_) {
-			System.err.println(l);
 			if (!l.equals(currentLayer_))
 				c.setNodeLayer(l);
 		}
 		c.setNodeLayer(currentLayer_);
 	}
 
-	private void initLayers(Line c) {
-		for (NodeLayer l : nodeLayers_) {
-			if (!l.equals(currentLayer_))
-				c.setNodeLayer(l);
-		}
-		c.setNodeLayer(currentLayer_);
-	}
 }
