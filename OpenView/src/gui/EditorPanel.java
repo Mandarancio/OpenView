@@ -635,8 +635,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	public void setSelectedLayer(NodeLayer n) {
-		if (n != null && !nodeLayers_.contains(n))
+		if (n != null && !nodeLayers_.contains(n)) {
 			nodeLayers_.add(n);
+		}
 		if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE) {
 			currentLayer_ = n;
 			for (OVComponent c : components_) {
@@ -645,6 +646,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			for (Line l : lines_) {
 				l.setNodeLayer(n);
 			}
+			rightPanel_.repaint();
 		}
 	}
 
@@ -664,6 +666,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	private void initLayers(OVComponent c) {
 		for (NodeLayer l : nodeLayers_) {
+			System.err.println(l);
 			if (!l.equals(currentLayer_))
 				c.setNodeLayer(l);
 		}

@@ -17,7 +17,7 @@ public class LayerManager extends JTree {
 	private static final long serialVersionUID = 542029444966566694L;
 	private LayerTreeModel model_;
 	private boolean __locked = false;
-	private EditorPanel conainer_;
+	private EditorPanel container_;
 
 	public LayerManager() {
 		super(new LayerTreeModel());
@@ -31,10 +31,10 @@ public class LayerManager extends JTree {
 					if (node == null) {
 						return;
 					} else {
-						if (node.getUserObject() == null) {
-							conainer_.setNodeLayer(null);
+						if (node.getUserObject() instanceof String) {
+							container_.setSelectedLayer(null);
 						} else if (node.getUserObject() instanceof NodeLayer) {
-							conainer_.setNodeLayer((NodeLayer) node
+							container_.setSelectedLayer((NodeLayer) node
 									.getUserObject());
 						}
 					}
@@ -49,6 +49,7 @@ public class LayerManager extends JTree {
 		if (n != null) {
 			select(n);
 		} else {
+			container_.setSelectedLayer(l);
 			model_.addLayer(l);
 			select(l);
 		}
@@ -69,10 +70,6 @@ public class LayerManager extends JTree {
 			TreeNode[] nodes = model_.getPathToRoot(n);
 			this.setExpandsSelectedPaths(true);
 			setSelectionPath(new TreePath(nodes));
-			if (n.getUserObject() != null)
-				conainer_.setSelectedLayer((NodeLayer) n.getUserObject());
-			else
-				conainer_.setSelectedLayer(null);
 		}
 	}
 
@@ -88,6 +85,6 @@ public class LayerManager extends JTree {
 	}
 
 	public void setMainContainer(EditorPanel container) {
-		conainer_ = container;
+		container_ = container;
 	}
 }

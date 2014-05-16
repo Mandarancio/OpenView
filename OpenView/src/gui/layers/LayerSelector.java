@@ -2,8 +2,11 @@ package gui.layers;
 
 import gui.components.OVComponent;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -26,8 +29,9 @@ public class LayerSelector extends JComponent {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (selectedComponent_ != null) {
-				int ind = (int) Math.round(e.getX() / cellSize_)
-						+ (int) Math.round(e.getY() / cellSize_);
+				int xind = (e.getX() - 2) / (cellSize_ + 2);
+				int yind = (e.getY() - 2) / (cellSize_ + 2);
+				int ind = xind + (yind * ((getWidth() - 4) / (cellSize_ + 2)));
 				if (ind < layers_.size()) {
 					layers_.get(ind).setVisible(!layers_.get(ind).isVisible());
 					LayerSelector.this.repaint();
@@ -41,6 +45,7 @@ public class LayerSelector extends JComponent {
 		cellSize_ = 20;
 		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 47));
 		this.addMouseListener(mouseAdapter_);
+		setForeground(Color.gray);
 	}
 
 	public void select(OVComponent c) {
@@ -56,17 +61,25 @@ public class LayerSelector extends JComponent {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(getForeground());
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 4, 4);
 		if (cellSize_ > 0 && selectedComponent_ != null) {
 			int x = 2;
 			int y = 2;
 			int h = cellSize_;
 			for (AssociatedNodeLayer l : layers_) {
-				if (l.isVisible()) {
-					g.fillRect(x, y, h, h);
+				if (l.equals(selectedComponent_.getActiveLayer())) {
+					g.setColor(Color.DARK_GRAY);
 				} else {
-					g.drawRect(x, y, h, h);
+					g.setColor(Color.gray);
+				}
+				if (l.isVisible()) {
+					g.fillRoundRect(x, y, h, h, 4, 4);
+				} else {
+					g.drawRoundRect(x, y, h, h, 4, 4);
 				}
 				x += h + 2;
 				if (x + h > getWidth()) {
