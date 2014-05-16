@@ -35,7 +35,7 @@ public class OVSpinner extends OVComponent implements ChangeListener {
 		super(father);
 		getSetting(ComponentSettings.SizeW).setValue(120);
 		getSetting(ComponentSettings.SizeH).setValue(45);
-		
+
 		model_ = new SpinnerNumberModel(0.0, 0.0, 100.0, 0.01);
 		spinner_ = new JSpinner(model_);
 		model_.addChangeListener(this);
@@ -82,18 +82,24 @@ public class OVSpinner extends OVComponent implements ChangeListener {
 	public void valueUpdated(Setting s, Value v) {
 		try {
 			if (s.getName().equals(_Min)) {
-				model_.setMinimum(new Double(v.getDouble()));
+				if (model_ != null)
+					model_.setMinimum(new Double(v.getDouble()));
 			} else if (s.getName().equals(_Max)) {
-				model_.setMaximum(new Double(v.getDouble()));
+				if (model_ != null)
+					model_.setMaximum(new Double(v.getDouble()));
 			} else if (s.getName().equals(_Value)) {
-				if (((Double) model_.getValue()).doubleValue() != v.getDouble()) {
-					model_.setValue(new Double(v.getDouble()));
-					if (getMode().isExec()) { 
-						output_.trigger(v);
+				if (model_ != null) {
+					if (((Double) model_.getValue()).doubleValue() != v
+							.getDouble()) {
+						model_.setValue(new Double(v.getDouble()));
+						if (getMode().isExec()) {
+							output_.trigger(v);
+						}
 					}
 				}
 			} else if (s.getName().equals(_Step)) {
-				model_.setStepSize(new Double(v.getDouble()));
+				if (model_ != null)
+					model_.setStepSize(new Double(v.getDouble()));
 			} else
 				super.valueUpdated(s, v);
 		} catch (Exception e) {
@@ -105,7 +111,7 @@ public class OVSpinner extends OVComponent implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		if (!getSetting(_Value).getValue().getData().equals(model_.getValue())) {
 			getSetting(_Value).setValue(model_.getValue());
-			if (getMode().isExec()) { 
+			if (getMode().isExec()) {
 				output_.trigger(new Value(model_.getValue()));
 			}
 		}

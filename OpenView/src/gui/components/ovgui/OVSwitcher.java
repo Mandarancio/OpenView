@@ -40,16 +40,15 @@ public class OVSwitcher extends OVComponent implements ActionListener {
 		s = new Setting(_Reference, new Boolean(false));
 		addSetting(ComponentSettings.SpecificCategory, s);
 
-		
-		output_=addOutput(_Value, ValueType.BOOLEAN);
+		output_ = addOutput(_Value, ValueType.BOOLEAN);
 	}
-	
-	public OVSwitcher(Element e, OVContainer father){
-		super(e,father);
+
+	public OVSwitcher(Element e, OVContainer father) {
+		super(e, father);
 		initSwitch();
-		for (OutNode n: outputs_){
-			if (n.getLabel().equals(_Value)){
-				output_=n;
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(_Value)) {
+				output_ = n;
 			}
 		}
 		triggerSettings();
@@ -67,31 +66,40 @@ public class OVSwitcher extends OVComponent implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
-		if (getSetting(_Value).getValue().getBoolean()!=switch_.isSelected()) {
-			getSetting(_Value).setValue(new Boolean(switch_.isSelected()));
-			if (getMode().isExec()) {
-				output_.trigger(new Value(switch_.isSelected()));
-			}
-		}} catch (Exception e){e.printStackTrace();}
-	}
-	
-	@Override
-	public void valueUpdated(Setting s, Value v) {
-		try{
-		if (s.getName().equals(_RefVisibible)){
-			switch_.setReferenceVisible(v.getBoolean());
-		}
-		else if (s.getName().equals(_Reference)){
-			switch_.setReference(v.getBoolean());
-		}
-		else if (s.getName().equals(_Value)){
-			if (switch_.isSelected()!=v.getBoolean()) {
-				switch_.setSelected(v.getBoolean());
-				if (getMode().isExec()) { 
-					output_.trigger(v);
+			if (getSetting(_Value).getValue().getBoolean() != switch_
+					.isSelected()) {
+				getSetting(_Value).setValue(new Boolean(switch_.isSelected()));
+				if (getMode().isExec()) {
+					output_.trigger(new Value(switch_.isSelected()));
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		super.valueUpdated(s, v);
-	}catch(Exception e){e.printStackTrace();}}
+	}
+
+	@Override
+	public void valueUpdated(Setting s, Value v) {
+		try {
+			if (s.getName().equals(_RefVisibible)) {
+				if (switch_ != null)
+					switch_.setReferenceVisible(v.getBoolean());
+			} else if (s.getName().equals(_Reference)) {
+				if (switch_ != null)
+					switch_.setReference(v.getBoolean());
+			} else if (s.getName().equals(_Value)) {
+				if (switch_ != null) {
+					if (switch_.isSelected() != v.getBoolean()) {
+						switch_.setSelected(v.getBoolean());
+						if (getMode().isExec()) {
+							output_.trigger(v);
+						}
+					}
+				}
+			}
+			super.valueUpdated(s, v);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
