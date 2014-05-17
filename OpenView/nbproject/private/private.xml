@@ -11,7 +11,10 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/ValueType.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Abs.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponentContainer.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Interpreter.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/PrintBlock.java</file>
@@ -24,6 +27,7 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/OVArduBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan2.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Log.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/plot/OVPlot.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/AssignBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Cos.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Tan.java</file>
@@ -32,6 +36,7 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/Operator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FORBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/LeftShiftOperator.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/SettingPanel.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Pow.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/LessThanOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/IFBlock.java</file>
@@ -61,6 +66,8 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/XMLParser.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/GreaterThanOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeComponent.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/NodeSettingPanel.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/OVPlotComponent.java</file>
         </group>
     </open-files>
 </project-private>

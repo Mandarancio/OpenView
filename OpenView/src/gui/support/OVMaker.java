@@ -1,45 +1,15 @@
 package gui.support;
 
-import gui.components.OVComponent;
-import gui.components.OVComponentContainer;
-import gui.components.ovgui.OVButton;
-import gui.components.ovgui.OVCheckBox;
-import gui.components.ovgui.OVGauge;
-import gui.components.ovgui.OVLabel;
-import gui.components.ovgui.OVPlotComponent;
-import gui.components.ovgui.OVProgressBar;
-import gui.components.ovgui.OVSpinner;
-import gui.components.ovgui.OVSwitcher;
-import gui.components.ovgui.OVTextArea;
-import gui.components.ovgui.OVTextField;
-import gui.components.ovgui.plot.OVPlot;
-import gui.components.ovnode.OVCSVFile;
-import gui.components.ovnode.OVComment;
-import gui.components.ovnode.OVForTrigger;
-import gui.components.ovnode.OVFunctionNode;
-import gui.components.ovnode.OVIFTriggerNode;
-import gui.components.ovnode.OVNodeBlock;
-import gui.components.ovnode.OVOperatorNode;
-import gui.components.ovnode.OVPullNode;
-import gui.components.ovnode.OVRandomNode;
-import gui.components.ovnode.OVTextFile;
-import gui.components.ovnode.OVTimerTriggerNode;
-import gui.components.ovnode.OVVariableNode;
-import gui.components.ovnode.arduino.OVArduBlock;
-import gui.components.ovnode.arduino.OVArduDigitalPort;
-import gui.components.ovprocedural.OVProceduralBlock;
+import core.maker.OVBaseMaker;
+import core.support.ClassKey;
 import gui.interfaces.OVContainer;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
-public class OVMaker extends JPopupMenu implements ActionListener {
+public class OVMaker extends OVBaseMaker {
 
     public enum OVMakerMode {
 
@@ -50,79 +20,66 @@ public class OVMaker extends JPopupMenu implements ActionListener {
      *
      */
     private static final long serialVersionUID = -6272300889162031511L;
-    private static final String Timer = "Timer", Pull = "Pull",
-            Variable = "Variable", Operator = "Operator",
-            Function = "Function", NodeBlock = "Block", Comment = "Comment",
-            TextFile = "Text File", IFTrigger = "IF trigger",
-            Random = "Random", For = "For trigger", CSVFile = "CSV File";
-    private static final String Label = "Label", Button = "Button",
-            TextArea = "Text Area", TextField = "Text Field",
-            Container = "Container", Gauge = "Gauge", Arduino = "Arduino", PlotL="Plot";
-    private static final String GPIOport = "GPIO";
-    private static final String ProceduralBlock = "Procedural block";
-    private static final String Check = "Check box";
-    private static final String Plot = "Plot component";
-	private static final String Progress = "Progress bar";
-	private static final String Spinner = "Spinner";
-	private static final String Switch="Switch";
-    private OVContainer father_;
-    private Point point_;
 
     public OVMaker(Point p, OVMakerMode mode, OVContainer father) {
-        father_ = father;
-        point_ = p;
-        this.initMenu(mode);
-        this.show((JComponent) father, p.x, p.y);
+        super(p, father);
+        initMenu(initMenu(mode));
+        shuowPopup();
     }
 
-    private void initMenu(OVMakerMode mode) {
+    private JMenu[] initMenu(OVMakerMode mode) {
         if (mode == OVMakerMode.GUI) {
-            initGUI();
+            return new JMenu[]{initGUI()};
         } else if (mode == OVMakerMode.NODE) {
-            initGUI();
-            initNode();
+            JMenu[] arr = new JMenu[2];
+            arr[0] = initGUI();
+            arr[1] = initNode();
+            return arr;
         } else if (mode == OVMakerMode.NODEONLY) {
-            initNode();
+            return new JMenu[]{initNode()};
         } else if (mode == OVMakerMode.ARDUINO) {
-            initArduino();
-        } else if (mode == OVMakerMode.PLOT){
-        	initPlot();
+            return new JMenu[]{ initArduino()};
+        } else if (mode == OVMakerMode.PLOT) {
+            return new JMenu[]{initPlot()};
         }
+        return null;
     }
-    private void initPlot(){
-    	JMenu menu = new JMenu("Plots");
 
-        JMenuItem i = new JMenuItem(PlotL);
+    private JMenu initPlot() {
+        JMenu menu = new JMenu("Plots");
+
+        JMenuItem i = new JMenuItem(ClassKey.PlotL);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
-        add(menu);
+        return (menu);
     }
-    private void initArduino() {
+
+    private JMenu initArduino() {
         JMenu menu = new JMenu("Ports");
 
-        JMenuItem i = new JMenuItem(GPIOport);
+        JMenuItem i = new JMenuItem(ClassKey.GPIOport);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
-        add(menu);
+        return (menu);
     }
 
-    private void initNode() {
+    private JMenu initNode() {
         JMenu menu = new JMenu("Basic Node");
 
-        JMenuItem i = new JMenuItem(Variable);
+        JMenuItem i = new JMenuItem(ClassKey.Variable);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
         JMenu submenu = new JMenu("File");
 
-        i = new JMenuItem(TextFile);
+        i = new JMenuItem(ClassKey.TextFile);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         submenu.add(i);
 
-        i = new JMenuItem(CSVFile);
+        i = new JMenuItem(ClassKey.CSVFile);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         submenu.add(i);
@@ -131,196 +88,125 @@ public class OVMaker extends JPopupMenu implements ActionListener {
 
         submenu = new JMenu("Triggers");
 
-        i = new JMenuItem(IFTrigger);
+        i = new JMenuItem(ClassKey.IFTrigger);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         submenu.add(i);
 
-        i = new JMenuItem(For);
+        i = new JMenuItem(ClassKey.For);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         submenu.add(i);
 
-        i = new JMenuItem(Timer);
+        i = new JMenuItem(ClassKey.Timer);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         submenu.add(i);
 
         menu.add(submenu);
 
-        i = new JMenuItem(Pull);
+        i = new JMenuItem(ClassKey.Pull);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Operator);
+        i = new JMenuItem(ClassKey.Operator);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Function);
+        i = new JMenuItem(ClassKey.Function);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Random);
+        i = new JMenuItem(ClassKey.Random);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(NodeBlock);
+        i = new JMenuItem(ClassKey.NodeBlock);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
         //
-        i = new JMenuItem(ProceduralBlock);
+        i = new JMenuItem(ClassKey.ProceduralBlock);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Comment);
+        i = new JMenuItem(ClassKey.Comment);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Arduino);
+        i = new JMenuItem(ClassKey.Arduino);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
         //
-        add(menu);
+        return (menu);
     }
 
-    private void initGUI() {
+    private JMenu initGUI() {
         JMenu menu = new JMenu("Basic GUI");
 
-        JMenuItem i = new JMenuItem(Label);
+        JMenuItem i = new JMenuItem(ClassKey.Label);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Button);
+        i = new JMenuItem(ClassKey.Button);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(TextField);
+        i = new JMenuItem(ClassKey.TextField);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(TextArea);
+        i = new JMenuItem(ClassKey.TextArea);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Check);
+        i = new JMenuItem(ClassKey.Check);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Spinner);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
-        
-        i = new JMenuItem(Switch);
+        i = new JMenuItem(ClassKey.Spinner);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Progress);
+        i = new JMenuItem(ClassKey.Switch);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Container);
-        i.setActionCommand(i.getText());
-        i.addActionListener(this);
-        menu.add(i);
-        
-        i = new JMenuItem(Plot);
+        i = new JMenuItem(ClassKey.Progress);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
 
-        i = new JMenuItem(Gauge);
+        i = new JMenuItem(ClassKey.Container);
         i.setActionCommand(i.getText());
         i.addActionListener(this);
         menu.add(i);
-        
-        add(menu);
+
+        i = new JMenuItem(ClassKey.Plot);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+
+        i = new JMenuItem(ClassKey.Gauge);
+        i.setActionCommand(i.getText());
+        i.addActionListener(this);
+        menu.add(i);
+
+        return menu;
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String cmd = e.getActionCommand();
-        if (cmd.equals(Button)) {
-            create(new OVButton(father_));
-        } else if (cmd.equals(Label)) {
-            create(new OVLabel(father_));
-        } else if (cmd.equals(TextField)) {
-            create(new OVTextField(father_));
-        } else if (cmd.equals(Variable)) {
-            create(new OVVariableNode(father_));
-        } else if (cmd.equals(Timer)) {
-            create(new OVTimerTriggerNode(father_));
-        } else if (cmd.equals(Pull)) {
-            create(new OVPullNode(father_));
-        } else if (cmd.equals(Container)) {
-            create(new OVComponentContainer(father_));
-        } else if (cmd.equals(Operator)) {
-            create(new OVOperatorNode(father_));
-        } else if (cmd.equals(TextArea)) {
-            create(new OVTextArea(father_));
-        } else if (cmd.equals(NodeBlock)) {
-            create(new OVNodeBlock(father_));
-        } else if (cmd.equals(IFTrigger)) {
-            create(new OVIFTriggerNode(father_));
-        } else if (cmd.equals(ProceduralBlock)) {
-            create(new OVProceduralBlock(father_));
-            // create(new OVScalarBlock(father_));
-        } else if (cmd.equals(Check)) {
-            create(new OVCheckBox(father_));
-        } else if (cmd.equals(Random)) {
-            create(new OVRandomNode(father_));
-        } else if (cmd.equals(Function)) {
-            create(new OVFunctionNode(father_));
-        } else if (cmd.equals(For)) {
-            create(new OVForTrigger(father_));
-        } else if (cmd.equals(Plot)) {
-            create(new OVPlotComponent(father_));
-        } else if (cmd.equals(Comment)) {
-            create(new OVComment(father_));
-        } else if (cmd.equals(TextFile)) {
-            create(new OVTextFile(father_));
-        } else if (cmd.equals(CSVFile)) {
-            create(new OVCSVFile(father_));
-        } else if (cmd.equals(Gauge)) {
-            create(new OVGauge(father_));
-        } else if (cmd.equals(Arduino)) {
-            create(new OVArduBlock(father_));
-        } else if (cmd.equals(GPIOport)) {
-            create(new OVArduDigitalPort(father_));
-        } else if (cmd.equals(PlotL)){
-        	create(new OVPlot(father_));
-        } else if (cmd.equals(Progress)){
-        	create(new OVProgressBar(father_));
-        } else if (cmd.equals(Spinner)){
-        	create(new OVSpinner(father_));
-        } else if (cmd.equals(Switch)){
-        	create(new OVSwitcher(father_));
-        }
-    }
-
-    private void create(OVComponent c) {
-        Point p = father_.validate(point_);
-        c.moveTo(p.x, p.y);
-        father_.addComponent(c);
-
-        this.setVisible(false);
-        father_ = null;
-    }
-
 }
