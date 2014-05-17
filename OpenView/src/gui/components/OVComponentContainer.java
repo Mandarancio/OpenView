@@ -381,6 +381,11 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
                 mode);
     }
 
+    /**
+     *
+     * @param p
+     * @param m
+     */
     @Override
     public void showCustomMenu(Point p, JMenu m) {
         superParent().showCustomMenu(superParent().getAbsoluteLocation(this, p),
