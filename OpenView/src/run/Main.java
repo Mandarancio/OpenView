@@ -68,9 +68,6 @@ public class Main {
         m.addClass(ClassKey.ProceduralBlock, OVProceduralBlock.class);
 
         m.addClass(ClassKey.NodeBlock, OVNodeBlock.class);
-
-        m.addClass(ClassKey.Arduino, OVArduBlock.class);
-        m.addClass(ClassKey.GPIOport, OVArduDigitalPort.class);
     }
 
     public static void main(String[] args) {

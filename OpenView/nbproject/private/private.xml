@@ -8,9 +8,11 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/ReturnBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FunctionBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/InterpreterException.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/maker/OVBaseMaker.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/OVNodeBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/ValueType.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/core/Value.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/OVButton.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/OVComponent.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/EditorPanel.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Abs.java</file>
@@ -18,19 +20,25 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovprocedural/OVProceduralBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Interpreter.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/PrintBlock.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/module/MenuAddons.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Asin.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/WHILEBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/test.ov</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/NotOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/Block.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/support/ClassKey.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Acos.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/OVArduBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan2.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/interfaces/OVContainer.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Log.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovgui/plot/OVPlot.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/AssignBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Cos.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/maker/OVClassManager.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/run/ModuleTest.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Tan.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/MainPanel.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/OperatorBlock.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/test/TestClass.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/Operator.java</file>
@@ -50,12 +58,14 @@
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Max.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/SubtractionOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/run/Test.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/JColorButton.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Sqrt.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/AdditionOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/OVArduDigitalPort.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/AndOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/support/OVMaker.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/gui/components/ovnode/arduino/ArduInterface.java</file>
+            <file>file:/home/martino/git/OpenView/OpenView/src/core/maker/OVClassFactory.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/functions/math/Atan.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/evaluator/operators/GreaterThanOrEqualOperator.java</file>
             <file>file:/home/martino/git/OpenView/OpenView/src/ovscript/FunctionDefinition.java</file>

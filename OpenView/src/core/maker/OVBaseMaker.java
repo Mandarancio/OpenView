@@ -7,11 +7,13 @@ package core.maker;
 
 import gui.components.OVComponent;
 import gui.interfaces.OVContainer;
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 /**
@@ -19,16 +21,19 @@ import javax.swing.JPopupMenu;
  * @author martino
  */
 public class OVBaseMaker extends JPopupMenu implements ActionListener {
-
+    
     private OVContainer father_;
     private final Point point_;
-
+    
     public OVBaseMaker(Point p, OVContainer father, JMenu... menus) {
         father_ = father;
         point_ = p;
-        this.initMenu(menus);
+        for (JMenu m : menus) {
+            initListeners(m);
+        }
+        initMenu(menus);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         String key = ae.getActionCommand();
@@ -36,26 +41,37 @@ public class OVBaseMaker extends JPopupMenu implements ActionListener {
             create(OVClassFactory.getInstance(key, father_));
         }
     }
-
-    protected void shuowPopup() {
+    
+    protected void showPopup() {
         this.show((JComponent) father_, point_.x, point_.y);
     }
-
+    
     protected void initMenu(JMenu... menus) {
         for (JMenu m : menus) {
             this.add(m);
         }
     }
-
+    
     protected void create(OVComponent c) {
         if (c != null) {
             Point p = father_.validate(point_);
             c.moveTo(p.x, p.y);
             father_.addComponent(c);
-
+            
             this.setVisible(false);
             father_ = null;
         }
     }
-
+    
+    private void initListeners(JMenu menu) {
+        Component[] cmps = menu.getMenuComponents();
+        for (Component c : cmps) {
+            if (c instanceof JMenu) {
+                initListeners((JMenu) c);
+            } else if (c instanceof JMenuItem) {
+                ((JMenuItem) c).addActionListener(this);
+            }
+        }
+    }
+    
 }

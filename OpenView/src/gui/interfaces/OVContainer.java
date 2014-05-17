@@ -11,54 +11,58 @@ import java.awt.Point;
 
 import core.support.OrientationEnum;
 import gui.ObjectManager;
+import javax.swing.JMenu;
 
 public interface OVContainer {
-	public void addComponent(OVComponent c);
 
-	public boolean compatible(OVComponent c);
+    public void addComponent(OVComponent c);
 
-	public void removeComponent(OVComponent c);
+    public boolean compatible(OVComponent c);
 
-	public void select(OVComponent c);
+    public void removeComponent(OVComponent c);
 
-	public void deselect(OVComponent c);
+    public void select(OVComponent c);
 
-	public void deselectAll();
+    public void deselect(OVComponent c);
 
-	public Point validate(Point p);
+    public void deselectAll();
 
-	public Dimension validate(Dimension d);
+    public Point validate(Point p);
 
-	public OVToolTip showToolTip(String tooltip, Point p,
-			OrientationEnum orientation);
+    public Dimension validate(Dimension d);
 
-	public void hideToolTip(OVToolTip tooltip);
+    public OVToolTip showToolTip(String tooltip, Point p,
+            OrientationEnum orientation);
 
-	public Point getAbsoluteLocation(OVComponent c, Point location);
+    public void hideToolTip(OVToolTip tooltip);
 
-	public Line createLine(OVNode n, OVComponent ovComponent);
+    public Point getAbsoluteLocation(OVComponent c, Point location);
 
-	public void confirmLine(Line l);
+    public Line createLine(OVNode n, OVComponent ovComponent);
 
-	public void removeLine(Line line);
+    public void confirmLine(Line l);
 
-	public void showMenu(Point point);
+    public void removeLine(Line line);
 
-	public void showMenu(Point p, OVMakerMode mode);
+    public void showMenu(Point point);
 
-	public OVContainer parent();
+    public void showMenu(Point p, OVMakerMode mode);
 
-	public OVContainer superParent();
+    public void showCustomMenu(Point p, JMenu m);
 
-	public boolean contains(OVComponent c);
+    public OVContainer parent();
 
-	public void removeSelected();
+    public OVContainer superParent();
 
-	public void clickEvent(Point p, Object source);
+    public boolean contains(OVComponent c);
 
-	public OVNode getNode(String parent, String uuid);
+    public void removeSelected();
 
-	public EditorMode getMode();
+    public void clickEvent(Point p, Object source);
 
-	public ObjectManager getObjectManager();
+    public OVNode getNode(String parent, String uuid);
+
+    public EditorMode getMode();
+
+    public ObjectManager getObjectManager();
 }

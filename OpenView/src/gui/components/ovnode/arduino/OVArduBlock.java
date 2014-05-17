@@ -105,6 +105,6 @@ public class OVArduBlock extends OVNodeBlock implements ArduInterface {
 
     @Override
     public void showMenu(Point point) {
-        super.showMenu(point, OVMaker.OVMakerMode.ARDUINO);
+//        super.showMenu(point, OVMaker.OVMakerMode.ARDUINO);
     }
 }
