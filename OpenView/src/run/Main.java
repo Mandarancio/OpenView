@@ -29,6 +29,7 @@ import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovnode.arduino.OVArduBlock;
 import gui.components.ovnode.arduino.OVArduDigitalPort;
+import gui.components.ovprocedural.OVProceduralBlock;
 import gui.interfaces.OVContainer;
 
 import javax.swing.UIManager;
@@ -64,6 +65,7 @@ public class Main {
         m.addClass(ClassKey.Pull, OVPullNode.class);
         m.addClass(ClassKey.TextFile, OVTextFile.class);
         m.addClass(ClassKey.CSVFile, OVCSVFile.class);
+        m.addClass(ClassKey.ProceduralBlock, OVProceduralBlock.class);
 
         m.addClass(ClassKey.NodeBlock, OVNodeBlock.class);
 
