@@ -15,41 +15,23 @@ import core.module.BaseModule;
 
 public class ModuleUtil {
 	private static URLClassLoader urlCl;
-
-	public static void main(String[] args) {
-		String path = System.getProperty("user.home") + "/.openview";
-		System.out.println("Dir: " + path);
-		File dir = new File(path);
-		ArrayList<File> modules = new ArrayList<>();
-		if (dir.exists()) {
-			File[] list = dir.listFiles();
-			for (File f : list) {
-				if (f.isFile()) {
-					if (f.getName().startsWith("OV_")
-							&& f.getName().endsWith(".jar")) {
-						System.out.println("Modue : " + f.getName());
-						modules.add(f);
-						loadModule(f);
-					}
-				}
-			}
-		}
-		System.exit(0);
-	}
+	private static final String user_path = "/.openview/modules/";
+	private static final String module_file = "/module.jar";
+	private static final String jars_dir = "/jars/";
 
 	public static ArrayList<File> getModuleList() {
 		ArrayList<File> modules = new ArrayList<>();
-		String path = System.getProperty("user.home") + "/.openview";
+		String path = System.getProperty("user.home") + user_path;
 		File dir = new File(path);
 		if (dir.exists()) {
 			File[] list = dir.listFiles();
 			for (File f : list) {
-				if (f.isFile()) {
-					if (f.getName().startsWith("OV")
-							&& f.getName().endsWith(".jar")) {
+				if (f.isDirectory()) {
+					File module = new File(f.getAbsolutePath() + module_file);
+					if (module.exists() && module.isFile()) {
+						modules.add(module);
 						if (Constants.Debug)
 							System.out.println("Modue : " + f.getName());
-						modules.add(f);
 					}
 				}
 			}
@@ -59,7 +41,10 @@ public class ModuleUtil {
 
 	public static BaseModule loadModule(File f) {
 		try {
-			URL[] urls = { f.toURI().toURL() };
+			ArrayList<URL> jars = new ArrayList<>();
+			jars.addAll(lookForJars(f));
+			jars.add(f.toURI().toURL());
+			URL[] urls = jars.toArray(new URL[jars.size()]);
 			urlCl = new URLClassLoader(urls, ModuleUtil.class.getClassLoader());
 			Class<?> base = urlCl.loadClass("module.Base");
 			Object o = base.newInstance();
@@ -67,16 +52,33 @@ public class ModuleUtil {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static ArrayList<URL> lookForJars(File f) {
+		String dir = f.getParent();
+		File jarsDir = new File(dir + jars_dir);
+		if (jarsDir.exists() && jarsDir.isDirectory()) {
+			ArrayList<URL> list = new ArrayList<>();
+			File[] files = jarsDir.listFiles();
+			for (File file : files) {
+				if (file.getName().endsWith(".jar")) {
+					try {
+						list.add(file.toURI().toURL());
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return list;
+		}
+		return new ArrayList<>();
 	}
 
 	public static void importModule(BaseModule module) {
