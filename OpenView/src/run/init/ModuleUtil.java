@@ -46,7 +46,7 @@ public class ModuleUtil {
 		try {
 			loader_.add(f.toURI().toURL());
 			Class<?> base = loader_.loadClass(f.getParentFile().getName()
-					+ ".module.Base");
+					.toLowerCase() + ".module.Base");
 			BaseModule o = (BaseModule) base.newInstance();
 			modules_.add(o);
 			o.setPath(f.getParent());
