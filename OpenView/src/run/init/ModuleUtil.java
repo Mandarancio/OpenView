@@ -1,20 +1,21 @@
 package run.init;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 import javax.swing.JMenu;
 
 import run.constants.Constants;
+import xeus.jcl.JarClassLoader;
 import core.maker.OVClassFactory;
 import core.maker.OVMenuManager;
 import core.module.BaseModule;
 
 public class ModuleUtil {
-	private static URLClassLoader urlCl;
+	private static JarClassLoader loader_ = new JarClassLoader();
 	private static final String user_path = "/.openview/modules/";
 	private static final String module_file = "/module.jar";
 	private static final String jars_dir = "/jars/";
@@ -44,9 +45,10 @@ public class ModuleUtil {
 			ArrayList<URL> jars = new ArrayList<>();
 			jars.addAll(lookForJars(f));
 			jars.add(f.toURI().toURL());
-			URL[] urls = jars.toArray(new URL[jars.size()]);
-			urlCl = new URLClassLoader(urls, ModuleUtil.class.getClassLoader());
-			Class<?> base = urlCl.loadClass("module.Base");
+			for (URL u : jars) {
+				loader_.add(u);
+			}
+			Class<?> base = loader_.loadClass(f.getParentFile().getName()+".module.Base");
 			Object o = base.newInstance();
 			return (BaseModule) o;
 		} catch (MalformedURLException e) {
@@ -56,6 +58,8 @@ public class ModuleUtil {
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
