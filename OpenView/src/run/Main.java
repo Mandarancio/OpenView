@@ -15,6 +15,8 @@ import run.init.Splash;
 public class Main {
 
 	public static void main(String[] args) {
+		Splash.show();
+		Splash.setStatus("Load look and feel...");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
@@ -26,10 +28,10 @@ public class Main {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		Splash.show();
 		Init.init();
-		Splash.hide();
 		Window w = new Window();
+		Splash.hide();
+
 		w.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

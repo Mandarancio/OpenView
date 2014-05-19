@@ -46,7 +46,7 @@ public class Init {
 		Init.initMenus();
 		Splash.setStatus("Init settings...");
 		SettingsUtils.load();
-		Splash.setStatus("Init modules...");
+		Splash.setStatus("Init modules...");	
 		Init.initModules();
 	}
 
@@ -221,6 +221,5 @@ public class Init {
 				setting.addModule(m.getModuleName(), true);
 			}
 		}
-
 	}
 }
