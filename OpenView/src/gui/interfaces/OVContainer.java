@@ -9,9 +9,10 @@ import gui.support.OVToolTip;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import core.support.OrientationEnum;
-import gui.ObjectManager;
 import javax.swing.JMenu;
+
+import run.window.ObjectManager;
+import core.support.OrientationEnum;
 
 public interface OVContainer {
 

@@ -1,4 +1,4 @@
-package gui;
+package run.window;
 
 import gui.components.OVComponent;
 import gui.enums.EditorMode;

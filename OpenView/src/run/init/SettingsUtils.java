@@ -1,7 +1,5 @@
 package run.init;
 
-import gui.support.XMLBuilder;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -9,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import run.window.support.XMLBuilder;
 
 public class SettingsUtils {
 	private static Settings settings_ = new Settings();

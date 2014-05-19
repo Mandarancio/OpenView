@@ -1,11 +1,10 @@
-package gui;
+package run.window;
 
 import gui.components.OVComponent;
 import gui.enums.EditorMode;
 import gui.interfaces.SettingListener;
 import gui.interfaces.SettingManager;
 import gui.settings.CategoryPanel;
-import gui.support.JColorButton;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +30,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import run.window.support.JColorButton;
 import core.Setting;
 import core.Value;
 import core.ValueType;

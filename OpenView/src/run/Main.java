@@ -1,7 +1,5 @@
 package run;
 
-import gui.Window;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -11,6 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import run.init.Init;
 import run.init.SettingsUtils;
 import run.init.Splash;
+import run.window.Window;
 
 public class Main {
 

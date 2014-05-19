@@ -15,6 +15,7 @@ import gui.interfaces.OVNode;
 import gui.layers.NodeLayer;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
+import gui.support.XMLParser;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -23,18 +24,17 @@ import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
-
-import core.ValueType;
-import core.support.OrientationEnum;
-import gui.ObjectManager;
-import gui.support.XMLParser;
 import javax.swing.JMenu;
+import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import run.window.ObjectManager;
+import core.ValueType;
+import core.support.OrientationEnum;
 
 public class OVComponentContainer extends OVComponent implements OVContainer,
         NodeListener {

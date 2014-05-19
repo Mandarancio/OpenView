@@ -1,4 +1,4 @@
-package gui;
+package run.window;
 
 import gui.components.OVComponent;
 import gui.enums.EditorMode;
@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -34,13 +35,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import run.window.support.JColorButton;
 import core.Setting;
 import core.Value;
 import core.ValueType;
 import core.support.MutableBoolean;
-import gui.support.JColorButton;
-
-import javax.swing.JColorChooser;
 
 public class NodeSettingPanel extends JPanel implements SettingManager {
 

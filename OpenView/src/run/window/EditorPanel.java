@@ -1,4 +1,4 @@
-package gui;
+package run.window;
 
 import gui.adapters.ContainerMouseAdapter;
 import gui.components.OVComponent;
@@ -11,10 +11,9 @@ import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
 import gui.layers.NodeLayer;
 import gui.support.OVMaker;
+import gui.support.XMLParser;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
-import gui.support.XMLBuilder;
-import gui.support.XMLParser;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -26,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -34,9 +34,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import run.window.support.XMLBuilder;
 import core.Value;
 import core.support.OrientationEnum;
-import javax.swing.JMenu;
 
 public class EditorPanel extends OVComponent implements OVContainer,
 		KeyListener {

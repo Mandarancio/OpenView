@@ -1,8 +1,7 @@
-package gui;
+package run.window;
 
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
-import gui.support.XMLBuilder;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,6 +20,8 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 
 import org.w3c.dom.Document;
+
+import run.window.support.XMLBuilder;
 
 public class MainPanel extends JPanel {
 

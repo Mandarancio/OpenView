@@ -1,4 +1,4 @@
-package gui.support;
+package run.window.support;
 
 import java.awt.Color;
 import java.awt.Graphics;
