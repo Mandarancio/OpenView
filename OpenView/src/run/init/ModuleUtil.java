@@ -33,6 +33,8 @@ public class ModuleUtil {
 						modules.add(module);
 						if (Constants.Debug)
 							System.out.println("Module found : " + f.getName());
+						Splash.setStatus("Module found : " + f.getName());
+
 					}
 				}
 			}
@@ -85,6 +87,8 @@ public class ModuleUtil {
 		if (Constants.Debug)
 			System.out.println("Import module: " + module.getModuleName() + " "
 					+ module.getVersion());
+		Splash.setStatus("Import module: " + module.getModuleName() + " "
+				+ module.getVersion());
 		loadExtJars(module.getPath());
 		for (JMenu m : module.getGuiMenus()) {
 			OVMenuManager.addGUIMenu(m);

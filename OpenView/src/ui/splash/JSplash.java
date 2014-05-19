@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 public final class JSplash extends JWindow {
@@ -18,6 +19,7 @@ public final class JSplash extends JWindow {
 	 */
 	private static final long serialVersionUID = 239211542403955456L;
 	private JLabel lblVersion = new JLabel("Version: beta");
+	private JLabel lblStatus = new JLabel();
 
 	public JSplash() {
 		init();
@@ -40,6 +42,12 @@ public final class JSplash extends JWindow {
 				loweredbevel));
 
 		pnlImage.add(this.lblVersion);
+		pnlImage.add(this.lblStatus);
+
+		this.lblStatus.setForeground(Color.darkGray);
+		this.lblStatus.setFont(new Font("Dialog", Font.PLAIN, 12));
+		this.lblStatus.setBounds(5, 250, 490, 20);
+		this.lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 
 		this.lblVersion.setForeground(Color.darkGray);
 		this.lblVersion.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -55,5 +63,9 @@ public final class JSplash extends JWindow {
 		int nY = (int) (scr.getHeight() - getHeight()) / 2;
 
 		setLocation(nX, nY);
+	}
+
+	public void setStatus(String status) {
+		lblStatus.setText(status);
 	}
 }
