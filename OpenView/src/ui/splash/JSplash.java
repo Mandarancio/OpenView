@@ -41,7 +41,7 @@ public final class JSplash extends JWindow {
 
 		pnlImage.add(this.lblVersion);
 
-		this.lblVersion.setForeground(Color.black);
+		this.lblVersion.setForeground(Color.darkGray);
 		this.lblVersion.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.lblVersion.setBounds(5, 275, 120, 20);
 
