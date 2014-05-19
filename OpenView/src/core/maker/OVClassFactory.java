@@ -21,7 +21,7 @@ public class OVClassFactory {
         return manager_;
     }
 
-    static public void addClass(String key, Class<OVComponent> c) {
+    static public void addClass(String key, Class<?> c) {
         manager_.addClass(key, c);
     }
 

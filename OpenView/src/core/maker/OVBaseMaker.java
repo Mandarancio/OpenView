@@ -22,7 +22,11 @@ import javax.swing.JPopupMenu;
  */
 public class OVBaseMaker extends JPopupMenu implements ActionListener {
     
-    private OVContainer father_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -799968719414943845L;
+	private OVContainer father_;
     private final Point point_;
     
     public OVBaseMaker(Point p, OVContainer father, JMenu... menus) {
@@ -53,7 +57,7 @@ public class OVBaseMaker extends JPopupMenu implements ActionListener {
     }
     
     protected void create(OVComponent c) {
-        if (c != null) {
+        if (c != null && father_!=null) {
             Point p = father_.validate(point_);
             c.moveTo(p.x, p.y);
             father_.addComponent(c);

@@ -43,7 +43,7 @@ public class OVClassManager {
         Class<?> c = classes_.get(key);
         if (c != null) {
             try {
-                Constructor con=getGUIConstructor(c);
+                Constructor<?> con=getGUIConstructor(c);
                 if (con!=null){
                     return (OVComponent)con.newInstance(father);
                 }
@@ -64,7 +64,7 @@ public class OVClassManager {
         for (Class<?> c : classes_.values()) {
             if (c.getSimpleName().equals(name)) {
                 try {
-                    Constructor con = getXMLConstructor(c);
+                    Constructor<?> con = getXMLConstructor(c);
                     if (con != null) {
                         return (OVComponent) con.newInstance(e, father);
                     }
@@ -87,8 +87,8 @@ public class OVClassManager {
         System.out.println(classes_.keySet());
     }
 
-    private Constructor getXMLConstructor(Class c) {
-        for (Constructor con : c.getConstructors()) {
+    private Constructor<?> getXMLConstructor(Class<?> c) {
+        for (Constructor<?> con : c.getConstructors()) {
             if (con.getGenericParameterTypes().length == 2) {
                 if (con.getGenericParameterTypes()[0] == Element.class && con.getGenericParameterTypes()[1] == OVContainer.class) {
                     return con;
@@ -98,8 +98,8 @@ public class OVClassManager {
         return null;
     }
 
-    private Constructor getGUIConstructor(Class c) {
-        for (Constructor con : c.getConstructors()) {
+    private Constructor<?> getGUIConstructor(Class<?> c) {
+        for (Constructor<?> con : c.getConstructors()) {
             if (con.getGenericParameterTypes().length == 1) {
                 if (con.getGenericParameterTypes()[0] == OVContainer.class) {
                     return con;

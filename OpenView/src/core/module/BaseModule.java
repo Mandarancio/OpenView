@@ -1,6 +1,11 @@
 package core.module;
 
-public class BaseModule {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JMenu;
+
+public abstract class BaseModule {
 	private String name_;
 	private String version_;
 
@@ -16,5 +21,9 @@ public class BaseModule {
 	public String getVersion() {
 		return version_;
 	}
+
+	public abstract ArrayList<JMenu> getNodeMenus();
+	public abstract ArrayList<JMenu> getGuiMenus();
+	public abstract HashMap<String, Class<?>> getComponents();
 	
 }

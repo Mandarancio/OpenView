@@ -1,6 +1,5 @@
 package gui.components.ovgui;
 
-import core.support.ClassKey;
 import gui.components.OVComponent;
 import gui.components.OVComponentContainer;
 import gui.components.nodes.Line;
@@ -8,15 +7,17 @@ import gui.components.ovgui.plot.OVPlot;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
-import gui.support.OVMaker;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import org.math.plot.Plot2DPanel;
 import org.w3c.dom.Element;
+
+import core.support.ClassKey;
 
 public class OVPlotComponent extends OVComponentContainer {
 
