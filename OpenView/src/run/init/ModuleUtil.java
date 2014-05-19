@@ -3,7 +3,6 @@ package run.init;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JMenu;
@@ -16,6 +15,7 @@ import core.module.BaseModule;
 
 public class ModuleUtil {
 	private static JarClassLoader loader_ = new JarClassLoader();
+	private static ArrayList<BaseModule> modules_ = new ArrayList<>();
 	private static final String user_path = "/.openview/modules/";
 	private static final String module_file = "/module.jar";
 	private static final String jars_dir = "/jars/";
@@ -32,7 +32,7 @@ public class ModuleUtil {
 					if (module.exists() && module.isFile()) {
 						modules.add(module);
 						if (Constants.Debug)
-							System.out.println("Modue : " + f.getName());
+							System.out.println("Module found : " + f.getName());
 					}
 				}
 			}
@@ -42,15 +42,13 @@ public class ModuleUtil {
 
 	public static BaseModule loadModule(File f) {
 		try {
-			ArrayList<URL> jars = new ArrayList<>();
-			jars.addAll(lookForJars(f));
-			jars.add(f.toURI().toURL());
-			for (URL u : jars) {
-				loader_.add(u);
-			}
-			Class<?> base = loader_.loadClass(f.getParentFile().getName()+".module.Base");
-			Object o = base.newInstance();
-			return (BaseModule) o;
+			loader_.add(f.toURI().toURL());
+			Class<?> base = loader_.loadClass(f.getParentFile().getName()
+					+ ".module.Base");
+			BaseModule o = (BaseModule) base.newInstance();
+			modules_.add(o);
+			o.setPath(f.getParent());
+			return o;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -65,30 +63,29 @@ public class ModuleUtil {
 		return null;
 	}
 
-	private static ArrayList<URL> lookForJars(File f) {
-		String dir = f.getParent();
+	private static void loadExtJars(String dir) {
 		File jarsDir = new File(dir + jars_dir);
 		if (jarsDir.exists() && jarsDir.isDirectory()) {
-			ArrayList<URL> list = new ArrayList<>();
 			File[] files = jarsDir.listFiles();
 			for (File file : files) {
 				if (file.getName().endsWith(".jar")) {
 					try {
-						list.add(file.toURI().toURL());
+						loader_.add(file.toURI().toURL());
 					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
-			return list;
 		}
-		return new ArrayList<>();
 	}
 
 	public static void importModule(BaseModule module) {
 		if (Constants.Debug)
-			System.out.println("Import moduele: " + module.getModuleName()
-					+ " " + module.getVersion());
+			System.out.println("Import module: " + module.getModuleName() + " "
+					+ module.getVersion());
+		loadExtJars(module.getPath());
 		for (JMenu m : module.getGuiMenus()) {
 			OVMenuManager.addGUIMenu(m);
 		}
@@ -99,5 +96,9 @@ public class ModuleUtil {
 		for (String k : module.getComponents().keySet()) {
 			OVClassFactory.addClass(k, module.getComponents().get(k));
 		}
+	}
+
+	public static ArrayList<BaseModule> getModules() {
+		return modules_;
 	}
 }

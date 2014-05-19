@@ -8,6 +8,7 @@ import javax.swing.JMenu;
 public abstract class BaseModule {
 	private String name_;
 	private String version_;
+	private String path_ = "";
 
 	public BaseModule(String name, String version) {
 		name_ = name;
@@ -23,7 +24,17 @@ public abstract class BaseModule {
 	}
 
 	public abstract ArrayList<JMenu> getNodeMenus();
+
 	public abstract ArrayList<JMenu> getGuiMenus();
+
 	public abstract HashMap<String, Class<?>> getComponents();
-	
+
+	public String getPath() {
+		return path_;
+	}
+
+	public void setPath(String path_) {
+		this.path_ = path_;
+	}
+
 }
