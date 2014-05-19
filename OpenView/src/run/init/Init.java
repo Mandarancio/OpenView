@@ -34,9 +34,18 @@ import javax.swing.JMenuItem;
 import core.maker.OVClassFactory;
 import core.maker.OVClassManager;
 import core.maker.OVMenuManager;
+import core.module.BaseModule;
 import core.support.ClassKey;
 
 public class Init {
+
+	public static void init() {
+		Init.initClasses();
+		Init.initMenus();
+		SettingsUtils.load();
+		Init.initModules();
+	}
+
 	public static void initClasses() {
 		OVClassManager m = OVClassFactory.getManager();
 		m.addClass(ClassKey.Button, OVButton.class);
@@ -194,11 +203,20 @@ public class Init {
 
 		return menu;
 	}
-	
-	public static void initModules(){
-		for (File f: ModuleUtil.getModuleList()){
-			ModuleUtil.importModule(ModuleUtil.loadModule(f));
+
+	public static void initModules() {
+		Settings setting = SettingsUtils.getSettings();
+		for (File f : ModuleUtil.getModuleList()) {
+			BaseModule m = ModuleUtil.loadModule(f);
+			if (setting.hasModule(m.getModuleName())) {
+				if (setting.isEnable(m.getModuleName())) {
+					ModuleUtil.importModule(m);
+				}
+			} else {
+				ModuleUtil.importModule(m);
+				setting.addModule(m.getModuleName(), true);
+			}
 		}
-		
+
 	}
 }
