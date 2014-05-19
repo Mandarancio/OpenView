@@ -10,6 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import run.init.Init;
 import run.init.SettingsUtils;
+import ui.splash.JSplash;
 
 public class Main {
 
@@ -25,7 +26,10 @@ public class Main {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		JSplash splash = new JSplash();
+		splash.setVisible(true);
 		Init.init();
+		splash.setVisible(false);
 		Window w = new Window();
 		w.addWindowListener(new WindowAdapter() {
 			@Override
