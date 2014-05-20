@@ -40,14 +40,18 @@ import core.support.ClassKey;
 public class Init {
 
 	public static void init() {
+		Splash.setStatus("Check user folder...");
+		FilesUtil.checkUserFolder();
 		Splash.setStatus("Init classes...");
 		Init.initClasses();
 		Splash.setStatus("Init menus...");
 		Init.initMenus();
 		Splash.setStatus("Init settings...");
 		SettingsUtils.load();
-		Splash.setStatus("Init modules...");	
+		Splash.setStatus("Init modules...");
 		Init.initModules();
+		Splash.setStatus("Cleanup settings...");
+		SettingsUtils.cleanup();
 	}
 
 	public static void initClasses() {

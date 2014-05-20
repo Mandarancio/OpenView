@@ -16,20 +16,19 @@ import core.module.BaseModule;
 public class ModuleUtil {
 	private static JarClassLoader loader_ = new JarClassLoader();
 	private static ArrayList<BaseModule> modules_ = new ArrayList<>();
-	private static final String user_path = "/.openview/modules/";
-	private static final String module_file = "/module.jar";
-	private static final String jars_dir = "/jars/";
 
 	public static ArrayList<File> getModuleList() {
 		ArrayList<File> modules = new ArrayList<>();
-		String path = System.getProperty("user.home") + user_path;
+		String path = FilesUtil.modulesFolderPath();
 		File dir = new File(path);
 		if (dir.exists()) {
 			File[] list = dir.listFiles();
 			for (File f : list) {
 				if (f.isDirectory()) {
-					File module = new File(f.getAbsolutePath() + module_file);
+					File module = new File(f.getAbsolutePath() + File.separator
+							+ FilesUtil.moduleJarPath);
 					if (module.exists() && module.isFile()) {
+
 						modules.add(module);
 						if (Constants.Debug)
 							System.out.println("Module found : " + f.getName());
@@ -46,7 +45,8 @@ public class ModuleUtil {
 		try {
 			loader_.add(f.toURI().toURL());
 			Class<?> base = loader_.loadClass(f.getParentFile().getName()
-					.toLowerCase() + ".module.Base");
+					.toLowerCase()
+					+ ".module.Base");
 			BaseModule o = (BaseModule) base.newInstance();
 			modules_.add(o);
 			o.setPath(f.getParent());
@@ -66,7 +66,8 @@ public class ModuleUtil {
 	}
 
 	private static void loadExtJars(String dir) {
-		File jarsDir = new File(dir + jars_dir);
+		File jarsDir = new File(dir + File.separator
+				+ FilesUtil.extraJarsFolder);
 		if (jarsDir.exists() && jarsDir.isDirectory()) {
 			File[] files = jarsDir.listFiles();
 			for (File file : files) {
@@ -104,5 +105,21 @@ public class ModuleUtil {
 
 	public static ArrayList<BaseModule> getModules() {
 		return modules_;
+	}
+
+	public static String version(String module) {
+		for (BaseModule m : modules_) {
+			if (m.getModuleName().equals(module))
+				return m.getVersion();
+		}
+		return "";
+	}
+
+	public static boolean exist(String module) {
+		for (BaseModule m : modules_) {
+			if (m.getModuleName().equals(module))
+				return true;
+		}
+		return false;
 	}
 }

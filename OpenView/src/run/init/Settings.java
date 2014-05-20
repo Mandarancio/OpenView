@@ -58,4 +58,8 @@ public class Settings {
 		}
 		return true;
 	}
+
+	public void removeModule(String m) {
+		modules_.remove(m);
+	}
 }

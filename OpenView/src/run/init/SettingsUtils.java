@@ -2,6 +2,7 @@ package run.init;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -12,14 +13,13 @@ import run.window.support.XMLBuilder;
 
 public class SettingsUtils {
 	private static Settings settings_ = new Settings();
-	private static final String user_path = "/.openview/settings.xml";
 
 	public static Settings getSettings() {
 		return settings_;
 	}
 
 	public static void load() {
-		String path = System.getProperty("user.home") + user_path;
+		String path = FilesUtil.settingsFilePath();
 
 		File f = new File(path);
 		if (f.exists()) {
@@ -39,9 +39,19 @@ public class SettingsUtils {
 		}
 	}
 
+	public static void cleanup() {
+		ArrayList<String> mods = new ArrayList<>(settings_.getModules()
+				.keySet());
+		for (String m : mods) {
+			if (!ModuleUtil.exist(m)) {
+				settings_.removeModule(m);
+			}
+		}
+	}
+
 	public static void save() {
 		try {
-			String path = System.getProperty("user.home") + user_path;
+			String path = FilesUtil.settingsFilePath();
 			File f = new File(path);
 			Document doc = XMLBuilder.makeDoc();
 			doc.appendChild(settings_.save(doc));
