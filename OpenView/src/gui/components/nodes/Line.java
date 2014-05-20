@@ -261,7 +261,7 @@ public class Line extends JComponent implements ComponentListener {
 	public void updateP2(Point p) {
 		p2 = father_.getAbsoluteLocation(ca, p);
 		updateBounds();
-		repaint();
+		// repaint();
 	}
 
 	@Override
