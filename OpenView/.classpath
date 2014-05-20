@@ -6,15 +6,7 @@
 	<classpathentry kind="lib" path="resources/jar/RSyntaxTextArea.jar"/>
 	<classpathentry kind="lib" path="resources/jar/akka-actors.jar"/>
 	<classpathentry kind="lib" path="resources/jar/jline.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-actors-migration.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-actors.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-compiler.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-library.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-reflect.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scala-swing.jar"/>
-	<classpathentry kind="lib" path="resources/jar/scalap.jar"/>
 	<classpathentry kind="lib" path="resources/jar/typesafe-config.jar"/>
-	<classpathentry kind="lib" path="resources/jar/RXTXcomm.jar"/>
 	<classpathentry kind="lib" path="resources/jar/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="resources/jar/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="resources/jar/log4j-1.2.14.jar"/>

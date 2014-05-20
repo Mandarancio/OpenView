@@ -1,12 +1,9 @@
 package core;
 
-import gnu.io.CommPortIdentifier;
-
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 
 import core.Message.MessageType;
 import core.support.EnumManager;
@@ -65,8 +62,6 @@ public enum ValueType {
 			return ENUM;
 		else if (obj instanceof File)
 			return FILE;
-		else if (obj instanceof CommPortIdentifier)
-			return PORT;
 		return NONE;
 	}
 
@@ -136,18 +131,6 @@ public enum ValueType {
 			if (val.startsWith("file:")) {
 				String path = val.substring(5);
 				return new File(path);
-			}
-			return null;
-		} else if (this == PORT) {
-			if (val.startsWith("port:")) {
-				String name = val.substring(5);
-				Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
-				while (ports.hasMoreElements()) {
-					CommPortIdentifier curPort = (CommPortIdentifier) ports
-							.nextElement();
-					if (curPort.getName().equals(name))
-						return curPort;
-				}
 			}
 			return null;
 		}
