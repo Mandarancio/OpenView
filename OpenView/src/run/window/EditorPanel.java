@@ -11,18 +11,21 @@ import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
 import gui.layers.NodeLayer;
 import gui.support.OVMaker;
-import gui.support.XMLParser;
 import gui.support.OVMaker.OVMakerMode;
 import gui.support.OVToolTip;
+import gui.support.XMLParser;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JMenu;
@@ -46,10 +49,16 @@ public class EditorPanel extends OVComponent implements OVContainer,
      */
 	private static final long serialVersionUID = 1075006905710700282L;
 	private static final int GridStep = 15;
+	private static final int TileSize = 80*15;
 	public static final Integer commentsLayer = new Integer(1);
 	public static final Integer linesLayer = new Integer(2);
 	public static final Integer componentsLayer = new Integer(3);
 	public static final Integer toolTipLayer = new Integer(4);
+
+	/**
+	 * Background gird texture
+	 */
+	private BufferedImage bgTile_;
 
 	private ArrayList<OVComponent> components_ = new ArrayList<>();
 	private ArrayList<Line> lines_ = new ArrayList<>();
@@ -86,6 +95,33 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				.setMax(new Value(Integer.MAX_VALUE));
 		getSetting(ComponentSettings.SizeW)
 				.setMax(new Value(Integer.MAX_VALUE));
+
+		initBG();
+	}
+
+	private void initBG() {
+		// Fixed size of the texture
+		int w = TileSize, h = TileSize;
+		// Create a new buffered image and get the graphics2d object
+		bgTile_ = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D) bgTile_.getGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// Fill the background
+		g.setColor(getBackground());
+		g.fillRoundRect(0, 0, w, h, 0, 0);
+
+		// Set the grid color
+		g.setColor(getBackground().brighter());
+
+		// Draw the grid
+		for (int i = 0; i < w / GridStep + 1; i++) {
+			g.drawLine(i * GridStep, 0, i * GridStep, h);
+		}
+		for (int i = 0; i < h / GridStep + 1; i++) {
+			g.drawLine(0, i * GridStep, w, i * GridStep);
+		}
 	}
 
 	private void setKeyListener(OVComponent c) {
@@ -189,11 +225,22 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(getBackground().brighter());
 		if (isGridVisible() && mode_ != EditorMode.RUN) {
-			for (int x = GridStep; x < getWidth(); x += GridStep) {
-				g.drawLine(x, 0, x, getHeight());
-			}
-			for (int y = GridStep; y < getHeight(); y += GridStep) {
-				g.drawLine(0, y, getWidth(), y);
+			if (bgTile_ != null) {
+				int nw = getWidth() / TileSize;
+				int nh = getHeight() / TileSize;
+				// Repeat the background texture
+				for (int i = 0; i <= nw; i++) {
+					for (int j = 0; j <= nh; j++) {
+						g.drawImage(bgTile_, i * TileSize, j * TileSize, this);
+					}
+				}
+			} else {
+				for (int x = GridStep; x < getWidth(); x += GridStep) {
+					g.drawLine(x, 0, x, getHeight());
+				}
+				for (int y = GridStep; y < getHeight(); y += GridStep) {
+					g.drawLine(0, y, getWidth(), y);
+				}
 			}
 		}
 	}

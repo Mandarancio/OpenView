@@ -89,7 +89,7 @@ public class OVLabel extends OVComponent {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String name = getFont().getFontName();
+				String name = getFont().getFamily();
 				int size = getFont().getSize();
 				Font f;
 				if (style == FontStyle.PLAIN) {

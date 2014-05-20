@@ -1,5 +1,6 @@
 package gui.components.ovgui;
 
+import gui.adapters.TransferMouseAdapter;
 import gui.components.OVComponent;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
@@ -69,6 +70,7 @@ public class OVGauge extends OVComponent implements ValueListener {
 		addSetting(_Limits, s);
 
 		output_ = addOutput(_Reference, ValueType.DOUBLE);
+		initListeners();
 	}
 
 	public OVGauge(Element e, OVContainer father) {
@@ -83,6 +85,13 @@ public class OVGauge extends OVComponent implements ValueListener {
 				output_ = o;
 			}
 		}
+		initListeners();
+	}
+
+	private void initListeners() {
+		TransferMouseAdapter tma = new TransferMouseAdapter(mouseAdapter_);
+		gauge_.addMouseListener(tma);
+		gauge_.addMouseMotionListener(tma);
 	}
 
 	@Override

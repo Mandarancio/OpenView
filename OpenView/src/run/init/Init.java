@@ -154,11 +154,10 @@ public class Init {
 		i.setActionCommand(i.getText());
 		menu.add(i);
 
-		i = new JMenuItem(ClassKey.Arduino);
-		i.setActionCommand(i.getText());
-		menu.add(i);
+		// i = new JMenuItem(ClassKey.Arduino);
+		// i.setActionCommand(i.getText());
+		// menu.add(i);
 
-		//
 		return (menu);
 	}
 

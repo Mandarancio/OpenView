@@ -1,5 +1,6 @@
 package gui.components.ovgui;
 
+import gui.adapters.TransferMouseAdapter;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
@@ -70,6 +71,10 @@ public class OVCheckBox extends OVComponent {
 					select();
 			}
 		});
+
+		TransferMouseAdapter tma = new TransferMouseAdapter(mouseAdapter_);
+		checkBox_.addMouseListener(tma);
+		checkBox_.addMouseMotionListener(tma);
 	}
 
 	@Override

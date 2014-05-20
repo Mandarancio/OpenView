@@ -1,5 +1,6 @@
 package gui.components.ovgui;
 
+import gui.adapters.TransferMouseAdapter;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
@@ -45,6 +46,7 @@ public class OVProgressBar extends OVComponent {
 		progressBar_.setMinimum(0);
 		progressBar_.setMaximum(100);
 		progressBar_.setValue(0);
+		initListeners();
 	}
 
 	public OVProgressBar(Element e, OVContainer father) {
@@ -62,6 +64,13 @@ public class OVProgressBar extends OVComponent {
 			progressBar_.setMaximum(100);
 			progressBar_.setValue(0);
 		}
+		initListeners();
+	}
+
+	private void initListeners() {
+		TransferMouseAdapter tma = new TransferMouseAdapter(mouseAdapter_);
+		progressBar_.addMouseListener(tma);
+		progressBar_.addMouseMotionListener(tma);
 	}
 
 	@Override

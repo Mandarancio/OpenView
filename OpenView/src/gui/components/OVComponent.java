@@ -52,7 +52,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	private static final long serialVersionUID = -1690496040368405673L;
 	private OVContainer father_;
 	private boolean selected_ = false;
-	private DragMouseAdapter mouseAdapter_;
+	protected DragMouseAdapter mouseAdapter_;
 	protected HashMap<String, ArrayList<Setting>> settings_ = new HashMap<>();
 	private HashMap<String, ArrayList<Setting>> nodeSettings_ = new HashMap<>();
 
