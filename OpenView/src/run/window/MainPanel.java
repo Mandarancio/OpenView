@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
 
 import org.w3c.dom.Document;
 
 import run.window.support.XMLBuilder;
+import ui.icons.IconsLibrary;
 
 public class MainPanel extends JPanel {
 
@@ -36,7 +36,7 @@ public class MainPanel extends JPanel {
 
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		toolBar.setPreferredSize(new Dimension(30, 30));
+		toolBar.setPreferredSize(new Dimension(30, 28));
 		toolBar.add(new JLabel("Mode    "));
 		final JComboBox<EditorMode> modeBox = new JComboBox<EditorMode>();
 		modeBox.addItem(EditorMode.GUI);
@@ -44,8 +44,12 @@ public class MainPanel extends JPanel {
 		toolBar.add(modeBox);
 		toolBar.addSeparator();
 
-		final JToggleButton debugButton = new JToggleButton("  Debug  ");
-		final JToggleButton runButton = (new JToggleButton("  Run  "));
+		final JToggleButton debugButton = new JToggleButton(
+				IconsLibrary.getIcon(IconsLibrary.RunDebug, 22));
+		debugButton.setToolTipText("Debug");
+		final JToggleButton runButton = new JToggleButton(IconsLibrary.getIcon(
+				IconsLibrary.Run, 22));
+		runButton.setToolTipText("Run");
 		runButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -54,8 +58,17 @@ public class MainPanel extends JPanel {
 						.getSelectedItem() : EditorMode.RUN));
 				rightPanel_.setVisible(editor_.getMode() == EditorMode.RUN ? false
 						: true);
+
 				modeBox.setEnabled(editor_.getMode() != EditorMode.RUN);
+
 				debugButton.setEnabled(modeBox.isEnabled());
+				if (modeBox.isEnabled()) {
+					runButton.setIcon(IconsLibrary
+							.getIcon(IconsLibrary.Run, 22));
+				} else {
+					runButton.setIcon(IconsLibrary.getIcon(IconsLibrary.Stop,
+							22));
+				}
 				revalidate();
 
 			}
@@ -65,8 +78,9 @@ public class MainPanel extends JPanel {
 		toolBar.add(debugButton);
 
 		toolBar.addSeparator(new Dimension(30, 10));
-		JButton saveButton = new JButton(UIManager.getIcon("Tree.saveIcon"));
-		saveButton.setText("Save");
+		JButton saveButton = new JButton(IconsLibrary.getIcon(
+				IconsLibrary.FileSave, 22));
+		saveButton.setToolTipText("Save");
 
 		saveButton.addActionListener(new ActionListener() {
 
@@ -96,8 +110,9 @@ public class MainPanel extends JPanel {
 
 		toolBar.add(saveButton);
 
-		JButton openButton = new JButton(UIManager.getIcon("Tree.openIcon"));
-		openButton.setText("Open");
+		JButton openButton = new JButton(IconsLibrary.getIcon(
+				IconsLibrary.FileOpen, 22));
+		openButton.setToolTipText("Open");
 		openButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -132,7 +147,13 @@ public class MainPanel extends JPanel {
 				modeBox.setEnabled(editor_.getMode() != EditorMode.DEBUG);
 				runButton.setEnabled(modeBox.isEnabled());
 				revalidate();
-
+				if (modeBox.isEnabled()) {
+					debugButton.setIcon(IconsLibrary.getIcon(
+							IconsLibrary.RunDebug, 22));
+				} else {
+					debugButton.setIcon(IconsLibrary.getIcon(IconsLibrary.Stop,
+							22));
+				}
 			}
 		});
 
