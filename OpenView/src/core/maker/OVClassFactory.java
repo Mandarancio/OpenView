@@ -10,39 +10,40 @@ import gui.interfaces.OVContainer;
 import org.w3c.dom.Element;
 
 /**
- *
+ * 
  * @author martino
  */
 public class OVClassFactory {
 
-    private static OVClassManager manager_ = new OVClassManager();
+	private static OVClassManager manager_ = new OVClassManager();
 
-    static public OVClassManager getManager() {
-        return manager_;
-    }
+	static public OVClassManager getManager() {
+		return manager_;
+	}
 
-    static public void addClass(String key, Class<?> c) {
-        manager_.addClass(key, c);
-    }
+	static public void addClass(String key, Class<? extends OVComponent> c) {
+		manager_.addClass(key, c);
+	}
 
-    static public OVComponent getInstance(String key, OVContainer father) {
-        return manager_.newInstance(key, father);
-    }
+	static public OVComponent getInstance(String key, OVContainer father) {
+		return manager_.newInstance(key, father);
+	}
 
-    static public OVComponent getInstance(String name, Element e, OVContainer father) {
-        return manager_.newInstance(name, e, father);
-    }
+	static public OVComponent getInstance(String name, Element e,
+			OVContainer father) {
+		return manager_.newInstance(name, e, father);
+	}
 
-    static public boolean hasClass(String key) {
-        return manager_.hasClass(key);
-    }
+	static public boolean hasClass(String key) {
+		return manager_.hasClass(key);
+	}
 
-    static public boolean hasClassByClassName(String name) {
-        return manager_.hasClassByClassName(name);
-    }
+	static public boolean hasClassByClassName(String name) {
+		return manager_.hasClassByClassName(name);
+	}
 
-    static public void print() {
-        manager_.print();
-    }
+	static public void print() {
+		manager_.print();
+	}
 
 }

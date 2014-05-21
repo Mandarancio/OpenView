@@ -33,7 +33,6 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
      */
 	private static final long serialVersionUID = -3557751658634230282L;
 	private static final String Trigger = "Trigger", Function = "Function";
-	private static final FunctionManager functionManager = new FunctionManager();
 	private static final String Output = "Output";
 	private Function function_;
 	private ArrayList<InNode> opInputs_ = new ArrayList<>();
@@ -45,15 +44,15 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 
 	public OVFunctionNode(OVContainer father) {
 		super(father);
-		function_ = functionManager.getFunctions().get(0);
+		function_ = FunctionManager.getFunctions().get(0);
 		getSetting(ComponentSettings.Name).setValue("Function");
 		output_ = addOutput(Output, ValueType.VOID);
 		checkInputs();
 
 		Setting s = new Setting(Trigger, triggerMode_);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
-		Value v = new Value(functionManager.getFunctions().get(0).name());
-		for (Function o : functionManager.getFunctions()) {
+		Value v = new Value(FunctionManager.getFunctions().get(0).name());
+		for (Function o : FunctionManager.getFunctions()) {
 			v.getDescriptor().addPossibility(new Value(o.name()));
 		}
 		s = new Setting(Function, v);
@@ -86,7 +85,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 		}
 
 		Setting s = getNodeSetting(Function);
-		function_ = functionManager.get(s.getValue().getString());
+		function_ = FunctionManager.get(s.getValue().getString()).clone();
 		try {
 			triggerMode_ = (TriggerMode) getNodeSetting(Trigger).getValue()
 					.getEnum();
@@ -227,7 +226,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 				e1.printStackTrace();
 			}
 		} else if (s.getName().equals(Function)) {
-			function_ = functionManager.get(v.getString()).clone();
+			function_ = FunctionManager.get(v.getString()).clone();
 			checkInputs();
 			repaint();
 		} else {

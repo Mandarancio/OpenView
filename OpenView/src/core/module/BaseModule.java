@@ -1,5 +1,7 @@
 package core.module;
 
+import gui.components.OVComponent;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +29,7 @@ public abstract class BaseModule {
 
 	public abstract ArrayList<JMenu> getGuiMenus();
 
-	public abstract HashMap<String, Class<?>> getComponents();
+	public abstract HashMap<String, Class<? extends OVComponent>> getComponents();
 
 	public String getPath() {
 		return path_;

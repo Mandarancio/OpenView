@@ -2,38 +2,38 @@ package core.support;
 
 import gui.components.ovgui.OVTextArea.TextAreaTrigger;
 import gui.components.ovgui.OVTextField.TextFieldTrigger;
-import gui.components.ovgui.plot.OVPlot.PlotType;
-import gui.components.ovnode.OVTimerTriggerNode;
+import gui.components.ovnode.OVTimerTriggerNode.TimerMode;
 import gui.components.ovnode.enums.TriggerMode;
 
+import java.util.ArrayList;
+
 public class EnumManager {
+	private static ArrayList<Class<? extends Enum<?>>> enums_ = new ArrayList<>();
 
-    public static Enum<?> parseEnum(String s) {
+	public static void init() {
+		enums_.add(FontStyle.class);
+		enums_.add(OrientationEnum.class);
+		enums_.add(TextAreaTrigger.class);
+		enums_.add(TextFieldTrigger.class);
+		enums_.add(TriggerMode.class);
+		enums_.add(TimerMode.class);
+	}
 
-        String className = s.split(":")[0];
-        String value = s.split(":")[1];
+	public static void addEnum(Class<? extends Enum<?>> enumClass) {
+		enums_.add(enumClass);
+	}
 
-        if (className.equals("OrientationEnum")) {
-            return OrientationEnum.valueOf(value);
-        }
-        if (className.equals("FontStyle")) {
-            return FontStyle.valueOf(value);
-        }
-        if (className.equals("TextAreaTrigger")) {
-            return TextAreaTrigger.valueOf(value);
-        }
-        if (className.equals("TextFieldTrigger")) {
-            return TextFieldTrigger.valueOf(value);
-        }
-        if (className.equals("TriggerMode")) {
-            return TriggerMode.valueOf(value);
-        }
-        if (className.equals("TimerMode")) {
-            return OVTimerTriggerNode.TimerMode.valueOf(value);
-        }
-        if (className.equals("PlotType")){
-        	return PlotType.valueOf(value);
-        }
-        return null;
-    }
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Enum<?> parseEnum(String s) {
+
+		String className = s.split(":")[0];
+		String value = s.split(":")[1];
+		for (Class<? extends Enum<?>> c : enums_) {
+			if (c.getSimpleName().equals(className)) {
+				Class<Enum> enumClass = (Class<Enum>) c;
+				return Enum.valueOf(enumClass, value);
+			}
+		}
+		return null;
+	}
 }

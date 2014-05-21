@@ -1,16 +1,15 @@
 package run.init;
 
+import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
 import gui.components.ovgui.OVGauge;
 import gui.components.ovgui.OVLabel;
-import gui.components.ovgui.OVPlotComponent;
 import gui.components.ovgui.OVProgressBar;
 import gui.components.ovgui.OVSpinner;
 import gui.components.ovgui.OVSwitcher;
 import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
-import gui.components.ovgui.plot.OVPlot;
 import gui.components.ovnode.OVCSVFile;
 import gui.components.ovnode.OVComment;
 import gui.components.ovnode.OVForTrigger;
@@ -24,7 +23,6 @@ import gui.components.ovnode.OVTextFile;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovprocedural.OVProceduralBlock;
-import gui.interfaces.OVContainer;
 
 import java.io.File;
 
@@ -36,10 +34,12 @@ import core.maker.OVClassManager;
 import core.maker.OVMenuManager;
 import core.module.BaseModule;
 import core.support.ClassKey;
+import core.support.EnumManager;
 
 public class Init {
 
 	public static void init() {
+		EnumManager.init();
 		Splash.setStatus("Check user folder...");
 		FilesUtil.checkUserFolder();
 		Splash.setStatus("Init classes...");
@@ -66,10 +66,7 @@ public class Init {
 		m.addClass(ClassKey.Switch, OVSwitcher.class);
 		m.addClass(ClassKey.Spinner, OVSpinner.class);
 
-		m.addClass(ClassKey.Plot, OVPlotComponent.class);
-		m.addClass(ClassKey.PlotL, OVPlot.class);
-
-		m.addClass(ClassKey.Container, OVContainer.class);
+		m.addClass(ClassKey.Container, OVComponentContainer.class);
 
 		m.addClass(ClassKey.Variable, OVVariableNode.class);
 		m.addClass(ClassKey.Operator, OVOperatorNode.class);

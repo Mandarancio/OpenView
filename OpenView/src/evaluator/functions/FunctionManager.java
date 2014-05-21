@@ -36,10 +36,11 @@ import evaluator.functions.math.Tan;
  */
 public class FunctionManager {
 
-	private ArrayList<Function> functions_ = new ArrayList<>();
-	private HashMap<String, Function> functionsMap_;
+	private static ArrayList<Function> functions_;
+	private static HashMap<String, Function> functionsMap_;
 
-	public FunctionManager() {
+	private static void initFunctions() {
+		functions_ = new ArrayList<>();
 		// Math
 		functions_.add(new Abs());
 		functions_.add(new Acos());
@@ -66,18 +67,18 @@ public class FunctionManager {
 		// functions_.add(new ToRadians());
 
 		functions_.add(new ToString());
-		
+
 		functions_.add(new ArrayGet());
 		functions_.add(new ArrayAdd());
 		functions_.add(new ArrayRemove());
-                functions_.add(new ArrayLength());
+		functions_.add(new ArrayLength());
 	}
 
-	public HashMap<String, Function> getFunctionMap() {
+	public static HashMap<String, Function> getFunctionMap() {
 		if (functionsMap_ == null) {
 			functionsMap_ = new HashMap<>();
 
-			for (Function o : functions_) {
+			for (Function o : getFunctions()) {
 				functionsMap_.put(o.name(), o);
 			}
 
@@ -85,11 +86,14 @@ public class FunctionManager {
 		return functionsMap_;
 	}
 
-	public Function get(String key) {
+	public static Function get(String key) {
 		return getFunctionMap().get(key);
 	}
 
-	public ArrayList<Function> getFunctions() {
+	public static ArrayList<Function> getFunctions() {
+		if (functions_ == null) {
+			initFunctions();
+		}
 		return functions_;
 	}
 }
