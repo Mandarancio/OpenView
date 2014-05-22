@@ -33,9 +33,9 @@ public class OVCheckBox extends OVComponent {
 	public OVCheckBox(OVContainer father) {
 		super(father);
 		String txt = "Check me";
-		Setting s = new Setting(Text, txt);
+		Setting s = new Setting(Text, txt,this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(Selected, new Boolean(false));
+		s = new Setting(Selected, new Boolean(false),this);
 		s.setAutoTriggered(true);
 		addSetting(ComponentSettings.SpecificCategory, s);
 		initCheckBox();

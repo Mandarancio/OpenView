@@ -30,9 +30,9 @@ public class OVRandomNode extends OVNodeComponent implements SlotListener {
 
 		trigger_.addListener(this);
 
-		Setting s = new Setting(Min, -1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		Setting s = new Setting(Min, -1.0, -Double.MAX_VALUE, Double.MAX_VALUE,this);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(Max, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(Max, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE,this);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 
 		getSetting(ComponentSettings.Name).setValue("Rand");

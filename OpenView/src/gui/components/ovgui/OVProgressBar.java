@@ -35,11 +35,12 @@ public class OVProgressBar extends OVComponent {
 		progressBar_ = new JProgressBar();
 		this.add(progressBar_, BorderLayout.CENTER);
 
-		Setting s = new Setting(_Min, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Setting s = new Setting(_Min, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
+				this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Value, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		s = new Setting(_Value, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Max, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		s = new Setting(_Max, 100, Integer.MIN_VALUE, Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
 		progressBar_.setUI(new ModernProgressBarUI());

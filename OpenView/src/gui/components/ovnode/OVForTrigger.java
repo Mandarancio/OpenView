@@ -33,23 +33,24 @@ public class OVForTrigger extends OVNodeComponent implements SlotListener {
 	public OVForTrigger(OVContainer father) {
 		super(father);
 
-		Setting s = new Setting(Start, 0.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		Setting s = new Setting(Start, 0.0, -Double.MAX_VALUE,
+				Double.MAX_VALUE, this);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(Stop, 10.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(Stop, 10.0, -Double.MAX_VALUE, Double.MAX_VALUE, this);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(Step, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(Step, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE, this);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(Delay, 0, 0, 10000);
+		s = new Setting(Delay, 0, 0, 10000, this);
 		s.setGuiMode(false);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(EndTrigger, false);
+		s = new Setting(EndTrigger, false, this);
 		s.setGuiMode(false);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 

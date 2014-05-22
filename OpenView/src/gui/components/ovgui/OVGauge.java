@@ -45,28 +45,33 @@ public class OVGauge extends OVComponent implements ValueListener {
 		this.add(gauge_, BorderLayout.CENTER);
 
 		Setting s = new Setting(_Value, 0.0, -Double.MAX_VALUE,
-				Double.MAX_VALUE);
+				Double.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Min, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_Min, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Max, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_Max, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Unit, "");
+		s = new Setting(_Unit, "", this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Reference, 0.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_Reference, 0.0, -Double.MAX_VALUE, Double.MAX_VALUE,
+				this);
 		s.setOutput(false);
 		addSetting(_Reference, s);
-		s = new Setting(_ReferenceEnabled, true);
+		s = new Setting(_ReferenceEnabled, true, this);
 		addSetting(_Reference, s);
-		s = new Setting(_Editable, true);
+		s = new Setting(_Editable, true, this);
 		addSetting(_Reference, s);
-		s = new Setting(_LWarning, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_LWarning, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE,
+				this);
 		addSetting(_Limits, s);
-		s = new Setting(_LAlert, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_LAlert, -100.0, -Double.MAX_VALUE, Double.MAX_VALUE,
+				this);
 		addSetting(_Limits, s);
-		s = new Setting(_RWarning, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_RWarning, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE,
+				this);
 		addSetting(_Limits, s);
-		s = new Setting(_RAlert, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE);
+		s = new Setting(_RAlert, 100.0, -Double.MAX_VALUE, Double.MAX_VALUE,
+				this);
 		addSetting(_Limits, s);
 
 		output_ = addOutput(_Reference, ValueType.DOUBLE);

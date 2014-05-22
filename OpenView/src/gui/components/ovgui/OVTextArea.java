@@ -52,11 +52,11 @@ public class OVTextArea extends OVComponent implements SlotListener {
 
 		textOut_ = addOutput(Text, ValueType.STRING);
 
-		Setting s = new Setting(Text, "");
+		Setting s = new Setting(Text, "", this);
 		s.setGuiMode(false);
 		addSetting(ComponentSettings.SpecificCategory, s);
 		s.setOutput(false);
-		s = new Setting(Trigger, triggerMode_);
+		s = new Setting(Trigger, triggerMode_, this);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 	}
 

@@ -33,12 +33,12 @@ public class OVSwitcher extends OVComponent implements ActionListener {
 		getSetting(ComponentSettings.SizeH).setValue(45);
 		initSwitch();
 
-		Setting s = new Setting(_Value, new Boolean(false));
+		Setting s = new Setting(_Value, new Boolean(false), this);
 		s.setOutput(false);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_RefVisibible, new Boolean(false));
+		s = new Setting(_RefVisibible, new Boolean(false), this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Reference, new Boolean(false));
+		s = new Setting(_Reference, new Boolean(false), this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
 		output_ = addOutput(_Value, ValueType.BOOLEAN);

@@ -123,29 +123,30 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	protected void initBasicSettings() {
 		Setting s = new Setting(ComponentSettings.Name, getClass()
-				.getSimpleName().replace("OV", ""));
+				.getSimpleName().replace("OV", ""), this);
 		addBothSetting(ComponentSettings.GenericCategory, s);
 		s.setNodeMode(false);
 		s.setGuiMode(true);
 
-		s = new Setting(ComponentSettings.Family, getClass().getSimpleName());
+		s = new Setting(ComponentSettings.Family, getClass().getSimpleName(),
+				this);
 		s.setConstant(true);
 		addBothSetting(ComponentSettings.GenericCategory, s);
 		s.setNodeMode(false);
 		s.setGuiMode(true);
 
-		s = new Setting(ComponentSettings.Enable, new Boolean(true));
+		s = new Setting(ComponentSettings.Enable, new Boolean(true), this);
 		addBothSetting(ComponentSettings.GenericCategory, s);
 		s.setNodeMode(true);
 		s.setGuiMode(true);
 
-		s = new Setting(ComponentSettings.PosX, 0, 0, 1920);
+		s = new Setting(ComponentSettings.PosX, 0, 0, 1920, this);
 		addSetting(ComponentSettings.GeometryCategory, s);
-		s = new Setting(ComponentSettings.PosY, 0, 0, 1200);
+		s = new Setting(ComponentSettings.PosY, 0, 0, 1200, this);
 		addSetting(ComponentSettings.GeometryCategory, s);
-		s = new Setting(ComponentSettings.SizeW, 50, 30, 1920);
+		s = new Setting(ComponentSettings.SizeW, 50, 30, 1920, this);
 		addSetting(ComponentSettings.GeometryCategory, s);
-		s = new Setting(ComponentSettings.SizeH, 50, 30, 1200);
+		s = new Setting(ComponentSettings.SizeH, 50, 30, 1200, this);
 		addSetting(ComponentSettings.GeometryCategory, s);
 
 	}

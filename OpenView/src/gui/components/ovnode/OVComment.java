@@ -28,7 +28,7 @@ public class OVComment extends OVNodeComponent {
 
     public OVComment(OVContainer father) {
         super(father);
-        Setting s = new Setting(Text, new Value("double click to edit"));
+        Setting s = new Setting(Text, new Value("double click to edit"),this);
         s.setNodeMode(false);
         addSetting(ComponentSettings.SpecificCategory, s);
         this.setBackground(new Color(255, 238, 170, 200));

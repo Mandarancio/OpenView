@@ -39,19 +39,19 @@ public class OVLabel extends OVComponent {
 	@Override
 	protected void initBasicSettings() {
 		super.initBasicSettings();
-		Setting s = new Setting(Text, new Value("Label"));
+		Setting s = new Setting(Text, new Value("Label"), this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(FSize, 14, 6, 80);
+		s = new Setting(FSize, 14, 6, 80, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(FStyle, FontStyle.PLAIN);
+		s = new Setting(FStyle, FontStyle.PLAIN, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(Alignment, OrientationEnum.CENTER);
+		s = new Setting(Alignment, OrientationEnum.CENTER, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
-		s = new Setting(Foreground, Color.lightGray);
+		s = new Setting(Foreground, Color.lightGray, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
 		getSetting(ComponentSettings.SizeW).setMin(new Value(45));

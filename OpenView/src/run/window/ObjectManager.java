@@ -65,11 +65,17 @@ public class ObjectManager extends JTree implements SettingListener {
 	}
 
 	private boolean isAvaiable(String name) {
+		return isAvaiable(name, null);
+	}
+
+	private boolean isAvaiable(String name, OVComponent cmp) {
 		for (OVComponent c : components_) {
-			Setting s = c.getSetting(ComponentSettings.Name);
-			String n = s.getValue().getString();
-			if (n.equals(name))
-				return false;
+			if (!c.equals(cmp)) {
+				Setting s = c.getSetting(ComponentSettings.Name);
+				String n = s.getValue().getString();
+				if (n.equals(name))
+					return false;
+			}
 
 		}
 		return true;
@@ -97,14 +103,16 @@ public class ObjectManager extends JTree implements SettingListener {
 	@Override
 	public void valueUpdated(Setting setting, Value v) {
 		String name = v.getString();
-		int ind = getPrefix(name);
-		if (ind != 0)
-			name = removePrefix(name);
-		else
-			ind = 1;
+		if (!isAvaiable(name, setting.getParent())) {
+			int ind = getPrefix(name);
+			if (ind != 0)
+				name = removePrefix(name);
+			else
+				ind = 1;
 
-		name = checkName(setting, name, ind);
-		v.setData(name);
+			name = checkName(setting, name, ind);
+			v.setData(name);
+		}
 	}
 
 	private int getPrefix(String name) {
@@ -166,7 +174,5 @@ public class ObjectManager extends JTree implements SettingListener {
 	public void deselect() {
 		setSelectionPath(new TreePath(model_.getRoot()));
 	}
-
-
 
 }

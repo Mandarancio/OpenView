@@ -53,7 +53,7 @@ public class OVCSVFile extends OVNodeComponent implements SlotListener {
 
 	public OVCSVFile(OVContainer father) {
 		super(father);
-		Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE));
+		Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE), this);
 		this.addBothSetting(ComponentSettings.SpecificCategory, s);
 
 		InNode input = addInput(Input, ValueType.ARRAY);

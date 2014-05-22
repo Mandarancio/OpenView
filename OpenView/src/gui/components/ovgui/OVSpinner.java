@@ -41,14 +41,15 @@ public class OVSpinner extends OVComponent implements ChangeListener {
 		model_.addChangeListener(this);
 
 		this.add(spinner_, BorderLayout.CENTER);
-		Setting s = new Setting(_Min, 0.0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Setting s = new Setting(_Min, 0.0, Integer.MIN_VALUE,
+				Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Value, 0.0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		s = new Setting(_Value, 0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 		s.setOutput(false);
-		s = new Setting(_Max, 100.0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		s = new Setting(_Max, 100.0, Integer.MIN_VALUE, Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
-		s = new Setting(_Step, 0.01, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		s = new Setting(_Step, 0.01, Integer.MIN_VALUE, Integer.MAX_VALUE, this);
 		addSetting(ComponentSettings.SpecificCategory, s);
 
 		output_ = addOutput(_Value, ValueType.DOUBLE);

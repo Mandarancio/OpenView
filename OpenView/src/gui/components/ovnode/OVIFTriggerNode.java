@@ -31,7 +31,7 @@ public class OVIFTriggerNode extends OVNodeComponent implements SlotListener {
 		elseTrigger_ = addOutput(Else, ValueType.VOID);
 		InNode in = addInput(Input, ValueType.BOOLEAN);
 		in.addListener(this);
-		Setting s = new Setting(Trigger, new Boolean(false));
+		Setting s = new Setting(Trigger, new Boolean(false), this);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 		getSetting(ComponentSettings.Name).setValue("IF");
 
