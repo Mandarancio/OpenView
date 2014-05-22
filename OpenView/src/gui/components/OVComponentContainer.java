@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import run.window.ObjectManager;
+import run.window.ObjectTree;
 import core.ValueType;
 import core.support.OrientationEnum;
 
@@ -687,7 +687,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public ObjectManager getObjectManager() {
+	public ObjectTree getObjectManager() {
 		return superParent().getObjectManager();
 	}
 

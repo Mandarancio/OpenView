@@ -208,11 +208,9 @@ public class Parser {
 				if (checkClsoing(line.substring(i)) && opSel == null) {
 					past = line.substring(0, i - 1);
 					if (past.equals("import")) {
-						String type = getArg(line.substring(i));
-						if (type.length() == 0) {
-							type = "VOID";
-						}
-						return new ReturnStruct(new Import(type), 1,
+						String arg = getArg(line.substring(i));
+
+						return new ReturnStruct(new Import(getArgs(arg)), 1,
 								currentLine, i);
 
 					} else if (past.equals("export")) {

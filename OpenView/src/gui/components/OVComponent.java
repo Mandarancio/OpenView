@@ -920,6 +920,22 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		return null;
 	}
 
+	public InNode getInNode(String label) {
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(label))
+				return n;
+		}
+		return null;
+	}
+
+	public OutNode getOutNode(String label) {
+		for (OutNode n : outputs_) {
+			if (n.getLabel().equals(label))
+				return n;
+		}
+		return null;
+	}
+
 	public void resetUUID() {
 		uuid_ = UUID.randomUUID();
 	}

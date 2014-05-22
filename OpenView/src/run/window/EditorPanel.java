@@ -67,7 +67,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	private boolean gridVisible_ = false;
 	private boolean gridEnable_ = false;
 
-	private ObjectManager objectManager_;
+	private ObjectTree objectManager_;
 	private EditorMode mode_ = EditorMode.GUI;
 	private ArrayList<Element> clipboard_;
 	private boolean __lock = false;
@@ -655,7 +655,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public ObjectManager getObjectManager() {
+	public ObjectTree getObjectManager() {
 		return objectManager_;
 	}
 

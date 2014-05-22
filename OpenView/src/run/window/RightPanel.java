@@ -16,7 +16,7 @@ public class RightPanel extends JSplitPane implements SettingManager {
 
 	private ArrayList<SettingManager> managers_ = new ArrayList<>();
 	private EditorMode mode_ = EditorMode.GUI;
-	private ObjectManager manager_;
+	private ObjectTree manager_;
 	private LayerPanel layerManager_;
 	private JTabbedPane topTabPane_;
 	private JTabbedPane bottomTabPane_;
@@ -29,7 +29,7 @@ public class RightPanel extends JSplitPane implements SettingManager {
 	public RightPanel() {
 		super(JSplitPane.VERTICAL_SPLIT);
 		setDividerLocation(400);
-		setManager(new ObjectManager());
+		setManager(new ObjectTree());
 		SettingPanel p = new SettingPanel();
 		topTabPane_ = new JTabbedPane();
 
@@ -139,11 +139,11 @@ public class RightPanel extends JSplitPane implements SettingManager {
 		mode_ = mode;
 	}
 
-	public ObjectManager getManager() {
+	public ObjectTree getManager() {
 		return manager_;
 	}
 
-	private void setManager(ObjectManager manager_) {
+	private void setManager(ObjectTree manager_) {
 		this.manager_ = manager_;
 	}
 	

@@ -11,7 +11,7 @@ import java.awt.Point;
 
 import javax.swing.JMenu;
 
-import run.window.ObjectManager;
+import run.window.ObjectTree;
 import core.support.OrientationEnum;
 
 public interface OVContainer {
@@ -65,5 +65,5 @@ public interface OVContainer {
 
     public EditorMode getMode();
 
-    public ObjectManager getObjectManager();
+    public ObjectTree getObjectManager();
 }

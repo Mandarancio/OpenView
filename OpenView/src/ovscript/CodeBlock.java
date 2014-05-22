@@ -3,7 +3,6 @@ package ovscript;
 import java.util.HashMap;
 
 import core.Emitter;
-import core.Slot;
 import core.Value;
 
 
@@ -20,6 +19,5 @@ public interface CodeBlock {
 	public void endRun();
 	public void addFunctionDefinition(FunctionDefinition f);
 	public FunctionDefinition getFunctionDefinition(String past, int nargs);
-	public Slot getSlot(int line);
 	public Emitter getEmitter(int line);
 }
