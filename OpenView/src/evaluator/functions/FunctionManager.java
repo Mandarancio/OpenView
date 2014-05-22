@@ -39,7 +39,7 @@ public class FunctionManager {
 	private static ArrayList<Function> functions_;
 	private static HashMap<String, Function> functionsMap_;
 
-	private static void initFunctions() {
+	public static void initFunctions() {
 		functions_ = new ArrayList<>();
 		// Math
 		functions_.add(new Abs());
@@ -88,6 +88,24 @@ public class FunctionManager {
 
 	public static Function get(String key) {
 		return getFunctionMap().get(key);
+	}
+
+	public static void addFunction(Function f) {
+		if (functionsMap_ != null) {
+			functionsMap_.clear();
+			functionsMap_ = null;
+		}
+		functions_.add(f);
+	}
+
+	public static void addFunctions(ArrayList<Function> fs) {
+		if (functionsMap_ != null) {
+			functionsMap_.clear();
+			functionsMap_ = null;
+		}
+		for (Function f : fs) {
+			functions_.add(f);
+		}
 	}
 
 	public static ArrayList<Function> getFunctions() {

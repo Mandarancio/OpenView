@@ -33,7 +33,6 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
      */
 	private static final long serialVersionUID = -3557751658634230282L;
 	private static final String Trigger = "Trigger", Operator = "Operator";
-	private static final OperatorManager operatorManager = new OperatorManager();
 	private static final String Output = "Output";
 	private Operator operator_;
 	private ArrayList<InNode> opInputs_ = new ArrayList<>();
@@ -45,7 +44,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 
 	public OVOperatorNode(OVContainer father) {
 		super(father);
-		operator_ = operatorManager.getOperators().get(0);
+		operator_ = OperatorManager.getOperators().get(0);
 		getSetting(ComponentSettings.Name).setValue("Operator");
 		output_ = addOutput(Output, ValueType.VOID);
 		checkInputs();
@@ -53,8 +52,8 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 		Setting s = new Setting(Trigger, triggerMode_);
 		s.setGuiMode(false);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
-		Value v = new Value(operatorManager.getOperators().get(0).name());
-		for (Operator o : operatorManager.getOperators()) {
+		Value v = new Value(OperatorManager.getOperators().get(0).name());
+		for (Operator o : OperatorManager.getOperators()) {
 			v.getDescriptor().addPossibility(new Value(o.name()));
 		}
 		s = new Setting(Operator, v);
@@ -89,7 +88,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 		}
 
 		Setting s = getNodeSetting(Operator);
-		operator_ = operatorManager.get(s.getValue().getString());
+		operator_ = OperatorManager.get(s.getValue().getString());
 		try {
 			triggerMode_ = (TriggerMode) getNodeSetting(Trigger).getValue()
 					.getEnum();
@@ -231,7 +230,7 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 				e1.printStackTrace();
 			}
 		} else if (s.getName().equals(Operator)) {
-			operator_ = operatorManager.get(v.getString()).clone();
+			operator_ = OperatorManager.get(v.getString()).clone();
 			checkInputs();
 			repaint();
 		} else {

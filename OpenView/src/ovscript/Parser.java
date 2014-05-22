@@ -10,8 +10,6 @@ import evaluator.operators.OperatorManager;
 
 public class Parser {
 
-	private static final OperatorManager operators_ = new OperatorManager();
-
 	public static ReturnStruct parseLine(CodeBlock block, String l,
 			String nextLines[], int currentLine) throws InterpreterException {
 		if (l.length() == 0) {
@@ -152,8 +150,8 @@ public class Parser {
 					v = new Var(past);
 					block.putVar(past, v);
 				}
-				OperatorBlock op = new OperatorBlock(operators_
-						.get(c_past + "").clone());
+				OperatorBlock op = new OperatorBlock(OperatorManager.get(
+						c_past + "").clone());
 				op.setLeft(v);
 				op.setRight(parseLine(block, line.substring(i + 1), nextLines,
 						currentLine).block);
@@ -165,20 +163,20 @@ public class Parser {
 					v = new Var(past);
 					block.putVar(past, v);
 				}
-				OperatorBlock op = new OperatorBlock(
-						operators_.get(c_past + ""));
+				OperatorBlock op = new OperatorBlock(OperatorManager.get(c_past
+						+ ""));
 				op.setLeft(v);
 				op.setRight(new Const(1));
 				return new ReturnStruct(new AssignBlock(v, op), 1);
-			} else if (operators_.get("" + c_past + c) != null) {
-				Operator o = operators_.get("" + c_past + c);
+			} else if (OperatorManager.get("" + c_past + c) != null) {
+				Operator o = OperatorManager.get("" + c_past + c);
 				if (opSel == null || opSel.priority() >= o.priority()) {
 					opSel = o;
 					opSelInd = i - 1;
 				}
 
-			} else if (operators_.get("" + c_past) != null) {
-				Operator o = operators_.get("" + c_past);
+			} else if (OperatorManager.get("" + c_past) != null) {
+				Operator o = OperatorManager.get("" + c_past);
 				if (opSel == null || opSel.priority() >= o.priority()) {
 					opSel = o;
 					opSelInd = i - 1;

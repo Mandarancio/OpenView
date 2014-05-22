@@ -12,6 +12,9 @@ import xeus.jcl.JarClassLoader;
 import core.maker.OVClassFactory;
 import core.maker.OVMenuManager;
 import core.module.BaseModule;
+import core.support.EnumManager;
+import evaluator.functions.FunctionManager;
+import evaluator.operators.OperatorManager;
 
 public class ModuleUtil {
 	private static JarClassLoader loader_ = new JarClassLoader();
@@ -101,6 +104,12 @@ public class ModuleUtil {
 		for (String k : module.getComponents().keySet()) {
 			OVClassFactory.addClass(k, module.getComponents().get(k));
 		}
+
+		for (Class<? extends Enum<?>> c : module.getEnums()) {
+			EnumManager.addEnum(c);
+		}
+		FunctionManager.addFunctions(module.getFunctions());
+		OperatorManager.addOperatros(module.getOperators());
 	}
 
 	public static ArrayList<BaseModule> getModules() {

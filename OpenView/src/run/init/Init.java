@@ -1,5 +1,7 @@
 package run.init;
 
+import evaluator.functions.FunctionManager;
+import evaluator.operators.OperatorManager;
 import gui.components.OVComponentContainer;
 import gui.components.ovgui.OVButton;
 import gui.components.ovgui.OVCheckBox;
@@ -39,9 +41,14 @@ import core.support.EnumManager;
 public class Init {
 
 	public static void init() {
-		EnumManager.init();
 		Splash.setStatus("Check user folder...");
 		FilesUtil.checkUserFolder();
+		Splash.setStatus("Init enums...");
+		EnumManager.init();
+		Splash.setStatus("Init operators...");
+		OperatorManager.intiOperators();
+		Splash.setStatus("Init functions...");
+		FunctionManager.initFunctions();
 		Splash.setStatus("Init classes...");
 		Init.initClasses();
 		Splash.setStatus("Init menus...");

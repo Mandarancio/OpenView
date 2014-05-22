@@ -1,5 +1,7 @@
 package core.module;
 
+import evaluator.functions.Function;
+import evaluator.operators.Operator;
 import gui.components.OVComponent;
 
 import java.util.ArrayList;
@@ -25,11 +27,29 @@ public abstract class BaseModule {
 		return version_;
 	}
 
-	public abstract ArrayList<JMenu> getNodeMenus();
+	public ArrayList<JMenu> getNodeMenus() {
+		return new ArrayList<>();
+	}
 
-	public abstract ArrayList<JMenu> getGuiMenus();
+	public ArrayList<JMenu> getGuiMenus() {
+		return new ArrayList<>();
+	}
 
-	public abstract HashMap<String, Class<? extends OVComponent>> getComponents();
+	public HashMap<String, Class<? extends OVComponent>> getComponents() {
+		return new HashMap<>();
+	}
+
+	public ArrayList<Class<? extends Enum<?>>> getEnums() {
+		return new ArrayList<>();
+	}
+
+	public ArrayList<Function> getFunctions() {
+		return new ArrayList<>();
+	}
+
+	public ArrayList<Operator> getOperators() {
+		return new ArrayList<>();
+	}
 
 	public String getPath() {
 		return path_;
