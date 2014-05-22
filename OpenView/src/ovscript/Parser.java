@@ -225,6 +225,17 @@ public class Parser {
 						}
 						return new ReturnStruct(new Export(body, type), 1,
 								currentLine, i);
+					} else if (past.equals("set")) {
+						String arg = getArg(line.substring(i));
+						String args[] = getArgs(arg);
+						if (args.length == 2) {
+							return new ReturnStruct(new Set(args[0],
+									parseLine(block, args[1], nextLines,
+											currentLine).block), 1);
+						}
+						throw new InterpreterException(
+								"number of argument for set is wrong",
+								currentLine);
 					} else if (past.equals("print")) {
 						Block b = parseLine(block, line.substring(i - 1),
 								nextLines, currentLine).block;
