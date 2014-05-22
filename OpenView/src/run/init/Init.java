@@ -204,10 +204,6 @@ public class Init {
 		i.setActionCommand(i.getText());
 		menu.add(i);
 
-		i = new JMenuItem(ClassKey.Plot);
-		i.setActionCommand(i.getText());
-		menu.add(i);
-
 		i = new JMenuItem(ClassKey.Gauge);
 		i.setActionCommand(i.getText());
 		menu.add(i);
