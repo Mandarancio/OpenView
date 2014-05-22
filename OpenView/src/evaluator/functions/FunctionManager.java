@@ -29,6 +29,7 @@ import evaluator.functions.math.Round;
 import evaluator.functions.math.Sin;
 import evaluator.functions.math.Sqrt;
 import evaluator.functions.math.Tan;
+import evaluator.functions.utils.TypeOf;
 
 /**
  * 
@@ -72,6 +73,8 @@ public class FunctionManager {
 		functions_.add(new ArrayAdd());
 		functions_.add(new ArrayRemove());
 		functions_.add(new ArrayLength());
+                
+                functions_.add(new TypeOf());
 	}
 
 	public static HashMap<String, Function> getFunctionMap() {
