@@ -282,8 +282,8 @@ public class Line extends JComponent implements ComponentListener {
 
 	@Override
 	public void componentShown(ComponentEvent arg0) {
-		this.setVisible(true);
-
+		if (ca.isVisible() && cb.isVisible())
+			this.setVisible(true);
 	}
 
 	public void click(Point point, Object source) {
