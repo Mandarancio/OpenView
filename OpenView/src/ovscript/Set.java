@@ -36,7 +36,7 @@ public class Set extends AbstractBlock {
         }
 
         throw new InterpreterException(
-                "no object or node found for set function!", getLine());
+                "no object or node found for set function: "+ objectName_+":"+nodeName_, getLine());
     }
 
 }

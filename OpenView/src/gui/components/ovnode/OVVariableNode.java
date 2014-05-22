@@ -96,7 +96,6 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 		if (s.getLabel().equals(Trigger)) {
 			output_.trigger(value_);
 		} else if (s.getLabel().equals(Value) && v != null) {
-
 			__lock = true;
 			getNodeSetting(Value).setValue(v.getString());
 			value_ = v;
