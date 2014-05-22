@@ -632,6 +632,10 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 					n.over = false;
 				} else if (!n.over && n.contains(p)) {
 					n.over = true;
+					if (toolTip_ != null) {
+						father_.hideToolTip(toolTip_);
+					}
+
 					toolTip_ = father_.showToolTip(n.getLabel(),
 							father_.getAbsoluteLocation(this, n.getLocation()),
 							OrientationEnum.RIGHT);
@@ -643,6 +647,9 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 					n.over = false;
 				} else if (!n.over && n.contains(p)) {
 					n.over = true;
+					if (toolTip_ != null) {
+						father_.hideToolTip(toolTip_);
+					}
 					toolTip_ = father_.showToolTip(n.getLabel(),
 							father_.getAbsoluteLocation(this, n.getLocation()),
 							OrientationEnum.LEFT);
@@ -920,7 +927,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
 	}
-	
+
 	public void setNodeLayer(NodeLayer n) {
 		if (n == null) {
 			currentLayer_ = null;
@@ -929,7 +936,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 			for (AssociatedNodeLayer l : layers_) {
 				if (l.getUUID().equals(n.getUUID())) {
 					currentLayer_ = l;
-					if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE){
+					if (mode_ == EditorMode.DEBUG || mode_ == EditorMode.NODE) {
 						setVisible(l.isVisible());
 					}
 					return;
