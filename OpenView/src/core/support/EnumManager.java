@@ -26,13 +26,13 @@ public class EnumManager {
         enums_.add(enumClass);
     }
 
-    public static Enum<?> parseEnum(String s) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Enum<?> parseEnum(String s) {
 
         String className = s.split(":")[0];
         String value = s.split(":")[1];
         for (Class<? extends Enum> c : enums_) {
             if (c.getSimpleName().equals(className)) {
-
                 return Enum.valueOf(c, value);
             }
         }

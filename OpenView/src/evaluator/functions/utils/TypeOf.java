@@ -10,7 +10,6 @@ import core.Value;
 import core.ValueType;
 import evaluator.functions.AbstractFunction;
 import evaluator.functions.Function;
-import sun.org.mozilla.javascript.EvaluatorException;
 
 /**
  *
@@ -32,7 +31,7 @@ public class TypeOf extends AbstractFunction{
         if (arguments.length==1){
             return new Value(arguments[0].getType());
         }
-        throw new EvaluatorException("Number of arguments was wrong!");
+        throw new Exception("Number of arguments was wrong!");
     }
 
     @Override
