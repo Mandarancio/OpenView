@@ -36,4 +36,5 @@ public interface ClassKey {
 	public static final String Progress = "Progress bar";
 	public static final String Spinner = "Spinner";
 	public static final String Switch = "Switch";
+	public static final String FileDialog = "File Dialog";
 }

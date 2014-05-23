@@ -14,6 +14,7 @@ import gui.components.ovgui.OVTextArea;
 import gui.components.ovgui.OVTextField;
 import gui.components.ovnode.OVCSVFile;
 import gui.components.ovnode.OVComment;
+import gui.components.ovnode.OVFileDialog;
 import gui.components.ovnode.OVForTrigger;
 import gui.components.ovnode.OVFunctionNode;
 import gui.components.ovnode.OVIFTriggerNode;
@@ -86,6 +87,7 @@ public class Init {
 		m.addClass(ClassKey.Pull, OVPullNode.class);
 		m.addClass(ClassKey.TextFile, OVTextFile.class);
 		m.addClass(ClassKey.CSVFile, OVCSVFile.class);
+		m.addClass(ClassKey.FileDialog, OVFileDialog.class);
 		m.addClass(ClassKey.ProceduralBlock, OVProceduralBlock.class);
 
 		m.addClass(ClassKey.NodeBlock, OVNodeBlock.class);
@@ -109,6 +111,10 @@ public class Init {
 		submenu.add(i);
 
 		i = new JMenuItem(ClassKey.CSVFile);
+		i.setActionCommand(i.getText());
+		submenu.add(i);
+
+		i = new JMenuItem(ClassKey.FileDialog);
 		i.setActionCommand(i.getText());
 		submenu.add(i);
 
