@@ -47,7 +47,7 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 
 	public OVTextFile(OVContainer father) {
 		super(father);
-		Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE),this);
+		Setting s = new Setting(File, new ValueDescriptor(ValueType.FILE), this);
 		this.addBothSetting(ComponentSettings.SpecificCategory, s);
 
 		InNode input = addInput(Input, ValueType.STRING);
@@ -127,6 +127,10 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 
 	@Override
 	public void valueRecived(SlotInterface s, Value v) {
+		if (!status_) {
+			System.err.println(s.getLabel());
+			openFile();
+		}
 		if (status_) {
 			if (s.getLabel().equals(Trigger)) {
 				try {

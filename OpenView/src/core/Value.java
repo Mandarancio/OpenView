@@ -1,6 +1,5 @@
 package core;
 
-
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -180,7 +179,8 @@ public class Value {
 	public boolean setData(Object data) {
 		if (descriptor_.getType().isCompatible(ValueType.getType(data))) {
 			this.data_ = data;
-
+			if (getType() == ValueType.VOID)
+				descriptor_.setType(ValueType.getType(data));
 			return true;
 		}
 		return false;
@@ -235,7 +235,7 @@ public class Value {
 			String str = "file:";
 			str += ((File) data_).getAbsolutePath();
 			return str;
-		} 
+		}
 		return data_.toString();
 	}
 
@@ -314,8 +314,6 @@ public class Value {
 			return (File) data_;
 		throw new Exception("Data is not a File but a " + getType());
 	}
-
-
 
 	public final static Value parseValue(String s) {
 		Value value_ = null;

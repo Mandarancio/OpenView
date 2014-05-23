@@ -778,7 +778,9 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 		for (OutNode n : outputs_) {
 			n.delete();
 		}
-
+		if (toolTip_ != null) {
+			getFather().hideToolTip(toolTip_);
+		}
 	}
 
 	@Override

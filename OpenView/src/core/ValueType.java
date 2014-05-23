@@ -18,7 +18,7 @@ public enum ValueType {
 	}
 
 	public boolean isCompatible(ValueType type) {
-		if (this == type || this == NONE)
+		if (this == type || this == NONE || this == VOID)
 			return true;
 		if (this.isNumeric() && type.isNumeric())
 			return true;
@@ -72,7 +72,7 @@ public enum ValueType {
 			return new Color(199, 244, 100);
 		else if (this == BYTE || this == INTEGER || this == SHORT
 				|| this == LONG)
-			return new Color(136,196, 37);
+			return new Color(136, 196, 37);
 		else if (this == BOOLEAN)
 			return new Color(255, 255, 200);
 		else if (this == STRING)
