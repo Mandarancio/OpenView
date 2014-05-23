@@ -62,6 +62,7 @@ public class OVTextArea extends OVComponent implements SlotListener {
 
 	public OVTextArea(Element e, OVContainer father) {
 		super(e, father);
+		System.out.println("init text area from xml");
 		initTextArea();
 		for (OutNode n : outputs_) {
 			if (n.getLabel().equals(Text)) {
@@ -138,7 +139,8 @@ public class OVTextArea extends OVComponent implements SlotListener {
 		if (setting.equals(Text)) {
 			if (!loopFlag_) {
 				loopFlag_ = true;
-				textArea_.setText(v.getString());
+				if (textArea_ != null && v != null)
+					textArea_.setText(v.getString());
 			} else
 				loopFlag_ = false;
 		} else if (setting.equals(Trigger)) {

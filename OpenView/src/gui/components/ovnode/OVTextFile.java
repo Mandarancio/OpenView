@@ -43,7 +43,7 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 	private BufferedWriter writer_;
 	private BufferedReader reader_;
 	private OutNode output_;
-	private TextFileMode mode_ = TextFileMode.LINE;
+	private TextFileMode mode_ = TextFileMode.ALL;
 
 	public OVTextFile(OVContainer father) {
 		super(father);
@@ -146,6 +146,23 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 						if (line != null) {
 							output_.trigger(new Value(line, ValueType.STRING));
 						}
+					} else {
+						if (reader_ == null) {
+							if (writer_ != null) {
+								writer_.close();
+								writer_ = null;
+							}
+							reader_ = new BufferedReader(new FileReader(file_));
+						}
+						String line = reader_.readLine();
+						String text = "";
+						while (line != null) {
+							text += line + "\n";
+							line = reader_.readLine();
+						}
+						reader_.close();
+						reader_ = null;
+						output_.trigger(new Value(text, ValueType.STRING));
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

@@ -72,18 +72,8 @@ public class OVClassManager {
 					if (con != null) {
 						return (OVComponent) con.newInstance(e, father);
 					}
-				} catch (InstantiationException ex) {
-					Logger.getLogger(OVClassManager.class.getName()).log(
-							Level.SEVERE, null, ex);
-				} catch (IllegalAccessException ex) {
-					Logger.getLogger(OVClassManager.class.getName()).log(
-							Level.SEVERE, null, ex);
-				} catch (IllegalArgumentException ex) {
-					Logger.getLogger(OVClassManager.class.getName()).log(
-							Level.SEVERE, null, ex);
-				} catch (InvocationTargetException ex) {
-					Logger.getLogger(OVClassManager.class.getName()).log(
-							Level.SEVERE, null, ex);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
 		}

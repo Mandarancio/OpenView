@@ -1,5 +1,11 @@
 package gui.components.ovnode;
 
+import gui.components.nodes.InNode;
+import gui.components.nodes.OutNode;
+import gui.constants.ComponentSettings;
+import gui.enums.EditorMode;
+import gui.interfaces.OVContainer;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,11 +16,6 @@ import core.SlotInterface;
 import core.SlotListener;
 import core.Value;
 import core.ValueType;
-import gui.components.nodes.InNode;
-import gui.components.nodes.OutNode;
-import gui.constants.ComponentSettings;
-import gui.enums.EditorMode;
-import gui.interfaces.OVContainer;
 
 public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener {
 
@@ -75,6 +76,11 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 				trigger_ = n;
 			}
 		}
+		try {
+			timerMode_ = (TimerMode) getNodeSetting(Mode).getValue().getEnum();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private void triggerOutput() {
@@ -83,6 +89,10 @@ public class OVTimerTriggerNode extends OVNodeComponent implements SlotListener 
 	}
 
 	private void startTimer() {
+		if (timerMode_ == TimerMode.SINGLE) {
+			stopTimer();
+		}
+		
 		if (timer_ == null) {
 			try {
 				timer_ = new Timer();

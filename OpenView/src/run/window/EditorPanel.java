@@ -49,7 +49,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
      */
 	private static final long serialVersionUID = 1075006905710700282L;
 	private static final int GridStep = 15;
-	private static final int TileSize = 80*15;
+	private static final int TileSize = 80 * 15;
 	public static final Integer commentsLayer = new Integer(1);
 	public static final Integer linesLayer = new Integer(2);
 	public static final Integer componentsLayer = new Integer(3);
@@ -540,9 +540,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		for (Line l : lines_) {
 			if (!l.equals(source) && l.getBounds().contains(p)) {
 				l.click(new Point(p.x - l.getX(), p.y - l.getY()), source);
-
 			}
 		}
+
 	}
 
 	private void clearToolTip() {
@@ -722,4 +722,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		c.setNodeLayer(currentLayer_);
 	}
 
+	@Override
+	public void leftClick(Point point) {
+		this.select(this);
+	}
 }

@@ -9,6 +9,8 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import org.w3c.dom.Element;
+
 import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
@@ -39,6 +41,20 @@ public class OVFileDialog extends OVNodeComponent implements SlotListener {
 		Setting s = new Setting(_mode, FileDialogMode.OPEN, this);
 		addBothSetting(ComponentSettings.SpecificCategory, s);
 		getSetting(ComponentSettings.Name).setValue("F.Dialog");
+	}
+
+	public OVFileDialog(Element e, OVContainer father) {
+		super(e, father);
+		for (InNode i : inputs_) {
+			if (i.getLabel().equals(_trigger)) {
+				i.addListener(this);
+			}
+		}
+		for (OutNode o : outputs_) {
+			if (o.getLabel().equals(_output)) {
+				output_ = o;
+			}
+		}
 	}
 
 	@Override
