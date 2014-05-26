@@ -95,9 +95,11 @@ public class ModuleUtil {
 
 	public static void importModule(BaseModule module) {
 		if (Constants.Debug)
-			System.out.println("Import module: " + module.getModuleName()
-					+ "\nVersion: " + module.getVersion() + "\nAuthor: "
-					+ module.getAuthor());
+			System.out
+					.println("Import module: " + module.getModuleName()
+							+ "\nVersion: " + module.getVersion()
+							+ "\nAuthor: " + module.getAuthor() + "\nMail: "
+							+ module.getMailAddress());
 		Splash.setStatus("Import module: " + module.getModuleName() + " "
 				+ module.getVersion());
 		loadExtJars(module.getPath());

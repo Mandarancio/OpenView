@@ -36,9 +36,14 @@ public abstract class BaseModule {
 	 */
 	private String path_ = "";
 	/***
-	 * author of the module (best as: Name Surname <mail@mail.com>)
+	 * author of the module
 	 */
 	private String author_ = "";
+
+	/***
+	 * author mail
+	 */
+	private String mailAddress_ = "";
 
 	/***
 	 * Define the basic module information in the class constructor
@@ -48,11 +53,14 @@ public abstract class BaseModule {
 	 * @param version
 	 *            of the module
 	 * @param author
-	 *            of the module (best as: Name Surname <mail@mail.com>)
+	 *            of the module
+	 * @param mail
+	 *            mail address of the author of the module
 	 */
-	public BaseModule(String name, String version, String author) {
+	public BaseModule(String name, String version, String author, String mail) {
 		name_ = name;
 		version_ = version;
+		setMailAddress(mail);
 		setAuthor(author);
 	}
 
@@ -166,10 +174,30 @@ public abstract class BaseModule {
 	 * set the author of the module
 	 * 
 	 * @param author
-	 *            possibly: Name Surname <mail@mail.com>
+	 * 
 	 */
 	protected void setAuthor(String author) {
 		this.author_ = author;
+	}
+
+	/***
+	 * get the mail adress of the authod
+	 * 
+	 * @return mail adress
+	 */
+	public String getMailAddress() {
+		return mailAddress_;
+	}
+
+	/***
+	 * Set the mail adress of the author
+	 * 
+	 * @param mailAdress
+	 *            mail adress
+	 * 
+	 */
+	protected void setMailAddress(String mailAdress) {
+		this.mailAddress_ = mailAdress;
 	}
 
 }
