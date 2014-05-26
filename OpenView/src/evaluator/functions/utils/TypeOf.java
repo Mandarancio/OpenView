@@ -12,36 +12,36 @@ import evaluator.functions.AbstractFunction;
 import evaluator.functions.Function;
 
 /**
- *
+ * 
  * @author martino
  */
-public class TypeOf extends AbstractFunction{
+public class TypeOf extends AbstractFunction {
 
-    public TypeOf() {
-        super("typeOf", "typeOf", "Retrive the type of a value", 1);
-    }
+	public TypeOf() {
+		super("typeOf", "typeOf", "Retrive the type of a value", 1);
+	}
 
-    @Override
-    public Function clone() {
-        return new TypeOf();
-    }
+	@Override
+	public Function clone() {
+		return new TypeOf();
+	}
 
-    @Override
-    public Value evaluate(Value... arguments) throws Exception {
-        if (arguments.length==1){
-            return new Value(arguments[0].getType());
-        }
-        throw new Exception("Number of arguments was wrong!");
-    }
+	@Override
+	public Value evaluate(Value... arguments) throws Exception {
+		if (arguments.length == 1) {
+			return new Value(arguments[0].getType());
+		}
+		throw new Exception("Number of arguments was wrong!");
+	}
 
-    @Override
-    public ValueType returnedType(ValueType... types) throws Exception {
-        return ValueType.ENUM;
-    }   
+	@Override
+	public ValueType returnedType(ValueType... types) throws Exception {
+		return ValueType.ENUM;
+	}
 
-    @Override
-    public boolean isTypeSupported(ValueType... types) {
-        return true;
-    }
-    
+	@Override
+	public boolean isTypeSupported(ValueType... types) {
+		return true;
+	}
+
 }

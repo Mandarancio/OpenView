@@ -715,7 +715,6 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	private void initLayers(OVComponent c) {
 		for (NodeLayer l : nodeLayers_) {
 			if (!l.equals(currentLayer_)) {
-				System.err.println(l.getName());
 				c.setNodeLayer(l);
 			}
 		}

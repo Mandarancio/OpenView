@@ -128,7 +128,6 @@ public class OVTextFile extends OVNodeComponent implements SlotListener {
 	@Override
 	public void valueRecived(SlotInterface s, Value v) {
 		if (!status_) {
-			System.err.println(s.getLabel());
 			openFile();
 		}
 		if (status_) {

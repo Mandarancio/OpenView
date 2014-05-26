@@ -121,7 +121,6 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 				}
 				i++;
 			}
-			System.err.println("Done");
 			try {
 				output_.trigger(operator_.evaluate(vals));
 			} catch (Exception e) {

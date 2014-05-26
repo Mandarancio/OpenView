@@ -27,8 +27,6 @@ public class FORBlock extends AbstractBlock implements CodeBlock {
 			initalization_ = Parser.parseLine(this, i, new String[0],
 					currentLine).block;
 		}
-		System.err.println("PRINT");
-		DebugManager.debug("PRINT", this, 0);
 		condition_ = Parser.parseLine(this, c, new String[0], currentLine).block;
 		if (o.length() > 0) {
 			operation_ = Parser.parseLine(this, o, new String[0], currentLine).block;

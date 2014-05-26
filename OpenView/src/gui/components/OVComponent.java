@@ -987,7 +987,6 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	public void checkLayer() {
 		if (mode_ == EditorMode.NODE || mode_ == EditorMode.DEBUG) {
 			if (currentLayer_ != null) {
-				System.err.println("visible");
 				setVisible(currentLayer_.isVisible());
 			}
 		}

@@ -102,7 +102,6 @@ public class Slot implements SlotInterface {
     @Override
     public Value pullValue() {
         if (!isFree()) {
-            System.err.println("not free");
             return connections_.get(0).readValue();
         }
         return null;
