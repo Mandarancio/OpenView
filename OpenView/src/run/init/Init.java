@@ -39,6 +39,12 @@ import core.module.BaseModule;
 import core.support.ClassKey;
 import core.support.EnumManager;
 
+/***
+ * Init utilities
+ * 
+ * @author martino
+ * 
+ */
 public class Init {
 
 	public static void init() {

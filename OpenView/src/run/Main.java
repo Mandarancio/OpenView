@@ -11,8 +11,20 @@ import run.init.SettingsUtils;
 import run.init.Splash;
 import run.window.Window;
 
+/***
+ * Where OpenView is launched
+ * 
+ * @author martino
+ * 
+ */
 public class Main {
 
+	/***
+	 * Start OpenView
+	 * 
+	 * @param args
+	 *            to be defined
+	 */
 	public static void main(String[] args) {
 		Splash.show();
 		Splash.setStatus("Load look and feel...");

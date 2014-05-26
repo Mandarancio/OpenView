@@ -16,6 +16,12 @@ import core.support.EnumManager;
 import evaluator.functions.FunctionManager;
 import evaluator.operators.OperatorManager;
 
+/***
+ * Utility to discover and load extra-modules
+ * 
+ * @author martino
+ * 
+ */
 public class ModuleUtil {
 	private static JarClassLoader loader_ = new JarClassLoader();
 	private static ArrayList<BaseModule> modules_ = new ArrayList<>();
@@ -89,8 +95,9 @@ public class ModuleUtil {
 
 	public static void importModule(BaseModule module) {
 		if (Constants.Debug)
-			System.out.println("Import module: " + module.getModuleName() + "\nVersion: "
-					+ module.getVersion()+"\nAuthor: "+module.getAuthor());
+			System.out.println("Import module: " + module.getModuleName()
+					+ "\nVersion: " + module.getVersion() + "\nAuthor: "
+					+ module.getAuthor());
 		Splash.setStatus("Import module: " + module.getModuleName() + " "
 				+ module.getVersion());
 		loadExtJars(module.getPath());

@@ -11,6 +11,12 @@ import org.xml.sax.SAXException;
 
 import run.window.support.XMLBuilder;
 
+/***
+ * Utils to manage the user settings and {@link Settings} class
+ * 
+ * @author martino
+ * 
+ */
 public class SettingsUtils {
 	private static Settings settings_ = new Settings();
 
