@@ -302,9 +302,6 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			this.mode_ = mode;
 			deselectAll();
 			rightPanel_.setMode(mode);
-			for (OVComponent component : components_) {
-				component.setMode(mode);
-			}
 			if (mode_ == EditorMode.NODE || mode_ == EditorMode.DEBUG) {
 				for (Line l : lines_) {
 					l.setVisible(true);
@@ -314,6 +311,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 					l.setVisible(false);
 				}
 			}
+			for (OVComponent component : components_) {
+				component.setMode(mode);
+			}
+
 			clearToolTip();
 			repaint();
 			requestFocus();

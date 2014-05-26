@@ -6,6 +6,7 @@
 package core.support;
 
 /**
+ * The key string of the basic components
  * 
  * @author martino
  */

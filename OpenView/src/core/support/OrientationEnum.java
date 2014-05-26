@@ -1,5 +1,11 @@
 package core.support;
 
-public enum	OrientationEnum{
-	CENTER,LEFT,RIGHT
+/***
+ * text orientation enum
+ * 
+ * @author martino
+ * 
+ */
+public enum OrientationEnum {
+	CENTER, LEFT, RIGHT
 }
