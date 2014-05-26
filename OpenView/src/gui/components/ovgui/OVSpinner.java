@@ -9,13 +9,13 @@ import javax.swing.event.ChangeListener;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.Value;
 import core.ValueType;
 import gui.components.OVComponent;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 public class OVSpinner extends OVComponent implements ChangeListener {
 

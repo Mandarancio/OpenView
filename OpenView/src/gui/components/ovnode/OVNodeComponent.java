@@ -4,13 +4,12 @@ import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import org.w3c.dom.Element;
-
-import core.Setting;
 
 public class OVNodeComponent extends OVComponent {
 

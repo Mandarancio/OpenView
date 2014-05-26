@@ -1,4 +1,4 @@
-package core;
+package gui.support;
 
 import gui.components.OVComponent;
 import gui.components.nodes.InNode;
@@ -13,6 +13,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import core.SlotInterface;
+import core.SlotListener;
+import core.Value;
+import core.ValueDescriptor;
+import core.ValueType;
 
 public class Setting implements SlotListener {
 

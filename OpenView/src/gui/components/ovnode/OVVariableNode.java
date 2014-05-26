@@ -6,6 +6,7 @@ import gui.constants.ComponentSettings;
 import gui.interfaces.NodeListener;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
+import gui.support.Setting;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -17,7 +18,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;

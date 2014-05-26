@@ -1,5 +1,11 @@
 package core;
 
+/***
+ * simple rappresentation of a complex number
+ * 
+ * @author martino
+ * 
+ */
 public class Complex {
 	private final double re; // the real part
 	private final double im; // the imaginary part

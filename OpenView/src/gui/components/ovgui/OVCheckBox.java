@@ -4,6 +4,7 @@ import gui.adapters.TransferMouseAdapter;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,6 @@ import javax.swing.JCheckBox;
 import org.w3c.dom.Element;
 
 import ui.ModernCheckBoxUI;
-import core.Setting;
 import core.Value;
 
 public class OVCheckBox extends OVComponent {

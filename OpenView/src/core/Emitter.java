@@ -2,20 +2,53 @@ package core;
 
 import java.util.ArrayList;
 
+/***
+ * Basic interface of {@link EmitterInterface}. Implements all the basic
+ * functionality
+ * 
+ * @author martino
+ * 
+ */
 public class Emitter implements EmitterInterface {
-
+	/***
+	 * Value type of the emitter
+	 */
 	private ValueType type_ = ValueType.NONE;
+	/***
+	 * Label of the emitter
+	 */
 	private String label_ = "";
+	/***
+	 * Output value buffered
+	 */
 	private Value value_ = null;
+	/***
+	 * List of the slot connected
+	 */
 	protected ArrayList<SlotInterface> connections_ = new ArrayList<>();
+	/***
+	 * Description of the emitter
+	 */
 	private String description_ = "";
+	/***
+	 * polyvalent flag of the emitter
+	 */
 	private boolean polyvalent_ = false;
 
+	/***
+	 * Constructor of the emitter with the ValueType and the label
+	 * 
+	 * @param label
+	 *            label of the emitter
+	 * @param type
+	 *            value type of the emitter
+	 */
 	public Emitter(String label, ValueType type) {
 		type_ = type;
 		label_ = label;
 	}
 
+	
 	@Override
 	public boolean connect(SlotInterface s) {
 		if (s.isCompatible(this)) {

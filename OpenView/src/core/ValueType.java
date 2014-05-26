@@ -9,14 +9,33 @@ import core.Message.MessageType;
 import core.support.EnumManager;
 import core.support.Utils;
 
+/***
+ * Value Type describe the type of all the major object used in the project
+ * 
+ * @author martino
+ * 
+ */
 public enum ValueType {
 	NONE, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, STRING, ARRAY, VOID, MESSAGE, COLOR, ENUM, COMPLEX, FILE, PORT;
 
+	/***
+	 * Is the type a numeric value
+	 * 
+	 * @return true if is numeric
+	 */
 	public boolean isNumeric() {
 		return (this == BYTE || this == SHORT || this == INTEGER
 				|| this == LONG || this == FLOAT || this == DOUBLE);
 	}
 
+	/***
+	 * Check the comaptibility between this and another {@link ValueType}. To be
+	 * compatible the two types should be equals or NONE/VOID or numerics
+	 * 
+	 * @param type
+	 *            type to compare
+	 * @return if are compatible
+	 */
 	public boolean isCompatible(ValueType type) {
 		if (this == type || this == NONE || this == VOID)
 			return true;
@@ -25,6 +44,13 @@ public enum ValueType {
 		return false;
 	}
 
+	/***
+	 * Compute the value type of a generic Object. None if unknown.
+	 * 
+	 * @param obj
+	 *            Object to check
+	 * @return value type computed ( ValueType.NONE if unknown)
+	 */
 	static public ValueType getType(Object obj) {
 		if (obj == null)
 			return VOID;
@@ -65,6 +91,11 @@ public enum ValueType {
 		return NONE;
 	}
 
+	/***
+	 * Get the color representing the {@link ValueType}
+	 * 
+	 * @return the choosen color
+	 */
 	public Color getColor() {
 		if (this == ARRAY)
 			return new Color(255, 107, 107);
@@ -88,10 +119,22 @@ public enum ValueType {
 		return new Color(255, 196, 140);
 	}
 
+	/***
+	 * Check if is array
+	 * 
+	 * @return if is an array
+	 */
 	public boolean isArray() {
 		return this == ARRAY;
 	}
 
+	/***
+	 * Parse a string to the right object
+	 * 
+	 * @param val
+	 *            value to parse
+	 * @return parsed object
+	 */
 	public Object parse(String val) {
 		if (this == DOUBLE) {
 			return Double.valueOf(val);
@@ -137,6 +180,13 @@ public enum ValueType {
 		return val;
 	}
 
+	/***
+	 * Method to parse an array
+	 * 
+	 * @param val
+	 *            value to parse
+	 * @return {@link ArrayList} of {@link Value}
+	 */
 	final private static Object parseArrary(String val) {
 		String array = val.substring(1, val.length() - 1);
 		if (array.length() == 0) {
@@ -180,6 +230,13 @@ public enum ValueType {
 		return vals;
 	}
 
+	/***
+	 * Method to split a string representing an array
+	 * 
+	 * @param string
+	 *            value to split
+	 * @return elements of the array
+	 */
 	final private static String[] splitArray(String string) {
 		ArrayList<String> values = new ArrayList<>();
 		char array[] = string.toCharArray();
@@ -216,6 +273,11 @@ public enum ValueType {
 		return values.toArray(new String[values.size()]);
 	}
 
+	/***
+	 * check if is None type
+	 * 
+	 * @return if is none
+	 */
 	public boolean isNone() {
 		return this == VOID || this == NONE;
 	}

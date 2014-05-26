@@ -2,7 +2,6 @@ package gui.components.ovnode;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;
@@ -11,6 +10,7 @@ import gui.components.nodes.InNode;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 public class OVIFTriggerNode extends OVNodeComponent implements SlotListener {
 

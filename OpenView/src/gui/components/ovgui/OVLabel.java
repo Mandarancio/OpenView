@@ -3,6 +3,7 @@ package gui.components.ovgui;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +11,6 @@ import java.awt.Graphics2D;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.Value;
 import core.support.FontStyle;
 import core.support.OrientationEnum;

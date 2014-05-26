@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import core.Setting;
 import core.support.OrientationEnum;
 import core.support.Utils;
 import gui.components.OVComponent;
@@ -17,6 +16,8 @@ import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
 import gui.interfaces.OVNode;
 import gui.support.OVMaker;
+import gui.support.Setting;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

@@ -1,6 +1,6 @@
 package gui.interfaces;
 
-import core.Setting;
+import gui.support.Setting;
 import core.Value;
 
 public interface SettingListener {

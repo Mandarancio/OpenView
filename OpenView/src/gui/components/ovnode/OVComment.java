@@ -2,6 +2,7 @@ package gui.components.ovnode;
 
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,7 +15,6 @@ import javax.swing.JTextArea;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.Value;
 import core.support.OrientationEnum;
 

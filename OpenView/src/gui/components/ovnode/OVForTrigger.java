@@ -7,7 +7,7 @@ import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
-import core.Setting;
+import gui.support.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;

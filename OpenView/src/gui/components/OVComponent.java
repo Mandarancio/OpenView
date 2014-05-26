@@ -14,6 +14,7 @@ import gui.interfaces.SettingListener;
 import gui.layers.AssociatedNodeLayer;
 import gui.layers.NodeLayer;
 import gui.support.OVToolTip;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +39,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import core.Setting;
 import core.Value;
 import core.ValueType;
 import core.support.OrientationEnum;

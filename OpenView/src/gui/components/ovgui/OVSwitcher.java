@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.Value;
 import core.ValueType;
 import ui.components.BooleanSwitch;
@@ -14,6 +13,7 @@ import gui.components.OVComponent;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 public class OVSwitcher extends OVComponent implements ActionListener {
 

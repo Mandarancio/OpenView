@@ -6,6 +6,7 @@ import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +19,6 @@ import javax.swing.event.DocumentListener;
 import org.w3c.dom.Element;
 
 import ui.ModernTextFieldUI;
-import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;

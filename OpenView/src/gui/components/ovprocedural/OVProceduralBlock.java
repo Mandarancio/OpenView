@@ -6,6 +6,7 @@ import gui.components.ovnode.OVNodeComponent;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,7 +32,6 @@ import ovscript.Block;
 import ovscript.Interpreter;
 import ovscript.Parser;
 import ovsynthax.OVScriptTokenMaker;
-import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;

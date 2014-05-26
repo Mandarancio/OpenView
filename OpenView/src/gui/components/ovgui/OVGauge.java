@@ -5,6 +5,7 @@ import gui.components.OVComponent;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 
@@ -13,7 +14,6 @@ import org.w3c.dom.Element;
 import ui.components.gauge.GaugeMonitor;
 import ui.components.listeners.ValueEvent;
 import ui.components.listeners.ValueListener;
-import core.Setting;
 import core.Value;
 import core.ValueType;
 

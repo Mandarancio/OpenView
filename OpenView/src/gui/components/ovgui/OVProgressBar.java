@@ -4,6 +4,7 @@ import gui.adapters.TransferMouseAdapter;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.awt.BorderLayout;
 
@@ -12,7 +13,6 @@ import javax.swing.JProgressBar;
 import org.w3c.dom.Element;
 
 import ui.ModernProgressBarUI;
-import core.Setting;
 import core.Value;
 
 public class OVProgressBar extends OVComponent {

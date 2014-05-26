@@ -5,6 +5,7 @@ import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
+import gui.support.Setting;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +17,6 @@ import javax.swing.JOptionPane;
 
 import org.w3c.dom.Element;
 
-import core.Setting;
 import core.SlotInterface;
 import core.SlotListener;
 import core.Value;

@@ -3,6 +3,7 @@ package run.window;
 import gui.components.OVComponent;
 import gui.constants.ComponentSettings;
 import gui.interfaces.SettingListener;
+import gui.support.Setting;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import run.window.support.OVTreeModel;
-import core.Setting;
 import core.Value;
 
 public class ObjectTree extends JTree implements SettingListener {
