@@ -9,12 +9,33 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
+/***
+ * Drag and Drop (and more) mouse adapter. It works together with the
+ * {@link DragComponent} interface.
+ * 
+ * @author martino
+ * 
+ */
 public class DragMouseAdapter extends MouseAdapter {
-
+	/***
+	 * Target component
+	 */
 	private DragComponent component_;
+	/***
+	 * Current drag action
+	 */
 	private DragAction dragAction_ = DragAction.NOTHING;
+	/***
+	 * Start drag point
+	 */
 	private Point dragPoint_;
 
+	/***
+	 * Initialize the adapter
+	 * 
+	 * @param comp
+	 *            target {@link DragComponent}
+	 */
 	public DragMouseAdapter(DragComponent comp) {
 		component_ = comp;
 	}

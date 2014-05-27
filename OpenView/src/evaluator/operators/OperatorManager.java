@@ -3,10 +3,25 @@ package evaluator.operators;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/***
+ * Static class used to manage all the list of operators
+ * 
+ * @author martino
+ * 
+ */
 public class OperatorManager {
+	/***
+	 * List of operators
+	 */
 	private static ArrayList<Operator> operators_;
+	/***
+	 * Symbol/{@link Operator} map
+	 */
 	private static HashMap<String, Operator> operatorsMap_;
 
+	/***
+	 * Init standard operators
+	 */
 	public static void intiOperators() {
 		operators_ = new ArrayList<>();
 		operators_.add(new AdditionOperator());
@@ -33,6 +48,11 @@ public class OperatorManager {
 
 	}
 
+	/***
+	 * Retrive the Symbol/Operator map
+	 * 
+	 * @return Symbol/Operator map
+	 */
 	public static HashMap<String, Operator> getOperatorMap() {
 		if (operatorsMap_ == null) {
 			operatorsMap_ = new HashMap<>();
@@ -45,6 +65,12 @@ public class OperatorManager {
 		return operatorsMap_;
 	}
 
+	/***
+	 * Add extra operator to the list (invalidate the current map)
+	 * 
+	 * @param o
+	 *            {@link Operator} to add
+	 */
 	public static void addOperator(Operator o) {
 		if (o != null) {
 			if (operatorsMap_ != null) {
@@ -55,6 +81,12 @@ public class OperatorManager {
 		}
 	}
 
+	/***
+	 * Add a list of extra operators to the list (invalidate the current map)
+	 * 
+	 * @param os
+	 *            list of extra {@link Operator}
+	 */
 	public static void addOperatros(ArrayList<Operator> os) {
 		if (os.size() > 0) {
 			if (operatorsMap_ != null) {
@@ -67,10 +99,22 @@ public class OperatorManager {
 		}
 	}
 
+	/***
+	 * Get an operator
+	 * 
+	 * @param key
+	 *            {@link Operator} symbol
+	 * @return {@link Operator}
+	 */
 	public static Operator get(String key) {
 		return getOperatorMap().get(key);
 	}
 
+	/**
+	 * Get the complete list of operators
+	 * 
+	 * @return list of operators
+	 */
 	public static ArrayList<Operator> getOperators() {
 		if (operators_ == null) {
 			intiOperators();

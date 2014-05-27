@@ -7,18 +7,33 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-public class ContainerMouseAdapter extends MouseAdapter{
+/***
+ * Simple container mouse adapter. It work together with the {@link OVContainer} interface
+ * 
+ * @author martino
+ * 
+ */
+public class ContainerMouseAdapter extends MouseAdapter {
+	/***
+	 * assigned container
+	 */
 	private OVContainer container_;
-	
-	public ContainerMouseAdapter(OVContainer cont){
-		container_=cont;
+
+	/***
+	 * initialize the mouse adapter
+	 * 
+	 * @param cont
+	 *            target {@link OVContainer}
+	 */
+	public ContainerMouseAdapter(OVContainer cont) {
+		container_ = cont;
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		((JComponent)e.getSource()).requestFocus();
+		((JComponent) e.getSource()).requestFocus();
 		container_.deselectAll();
-		if (e.getButton()==MouseEvent.BUTTON3)
+		if (e.getButton() == MouseEvent.BUTTON3)
 			container_.showMenu(e.getPoint());
 	}
 }

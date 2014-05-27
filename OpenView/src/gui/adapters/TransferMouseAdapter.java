@@ -4,9 +4,26 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/***
+ * Mouse adapter used to pass the mouse events to the container object mouse
+ * adapter
+ * 
+ * @author martino
+ * 
+ */
 public class TransferMouseAdapter extends MouseAdapter {
+
+	/***
+	 * this is the target adapter
+	 */
 	private MouseAdapter target_;
 
+	/***
+	 * initilaize the transfer adapter
+	 * 
+	 * @param adapter
+	 *            target mouse adapter
+	 */
 	public TransferMouseAdapter(MouseAdapter adapter) {
 		target_ = adapter;
 	}
@@ -31,6 +48,14 @@ public class TransferMouseAdapter extends MouseAdapter {
 		target_.mouseDragged(convert(e));
 	}
 
+	/***
+	 * convert a mouse event for the target mouse event (changing the local
+	 * coordinate)
+	 * 
+	 * @param e
+	 *            original mouse event
+	 * @return converted mouse event
+	 */
 	private MouseEvent convert(MouseEvent e) {
 		return new MouseEvent((Component) e.getSource(), e.getID(),
 				e.getWhen(), e.getModifiers(), e.getX() + 5, e.getY() + 5,
