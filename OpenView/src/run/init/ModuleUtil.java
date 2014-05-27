@@ -23,9 +23,20 @@ import evaluator.operators.OperatorManager;
  * 
  */
 public class ModuleUtil {
+	/***
+	 * Jar class loader permit to load multiple jars
+	 */
 	private static JarClassLoader loader_ = new JarClassLoader();
+	/***
+	 * List of the loaded module descriptors
+	 */
 	private static ArrayList<BaseModule> modules_ = new ArrayList<>();
 
+	/**
+	 * Look in the user module directory for the list of modules
+	 * 
+	 * @return list of modules
+	 */
 	public static ArrayList<File> getModuleList() {
 		ArrayList<File> modules = new ArrayList<>();
 		String path = FilesUtil.modulesFolderPath();
@@ -50,6 +61,13 @@ public class ModuleUtil {
 		return modules;
 	}
 
+	/***
+	 * Load the module descriptor
+	 * 
+	 * @param f
+	 *            module file to load
+	 * @return module descriptor
+	 */
 	public static BaseModule loadModule(File f) {
 		try {
 			loader_.add(f.toURI().toURL());
@@ -74,6 +92,12 @@ public class ModuleUtil {
 		return null;
 	}
 
+	/***
+	 * Load any needed extra jars of a module
+	 * 
+	 * @param dir
+	 *            directory of the module
+	 */
 	private static void loadExtJars(String dir) {
 		File jarsDir = new File(dir + File.separator
 				+ FilesUtil.extraJarsFolder);
@@ -93,6 +117,12 @@ public class ModuleUtil {
 		}
 	}
 
+	/***
+	 * Import a module and his extra-jars
+	 * 
+	 * @param module
+	 *            module descriptor to load
+	 */
 	public static void importModule(BaseModule module) {
 		if (Constants.Debug)
 			System.out
@@ -121,10 +151,22 @@ public class ModuleUtil {
 		OperatorManager.addOperatros(module.getOperators());
 	}
 
+	/***
+	 * Get the list of loaded descriptors
+	 * 
+	 * @return list of module descriptors
+	 */
 	public static ArrayList<BaseModule> getModules() {
 		return modules_;
 	}
 
+	/***
+	 * get the version of a module
+	 * 
+	 * @param module
+	 *            name of the module
+	 * @return the version (if any)
+	 */
 	public static String version(String module) {
 		for (BaseModule m : modules_) {
 			if (m.getModuleName().equals(module))
@@ -133,6 +175,13 @@ public class ModuleUtil {
 		return "";
 	}
 
+	/***
+	 * Look if a module exist in the list of loaded module descriptors
+	 * 
+	 * @param module
+	 *            name of the module
+	 * @return
+	 */
 	public static boolean exist(String module) {
 		for (BaseModule m : modules_) {
 			if (m.getModuleName().equals(module))

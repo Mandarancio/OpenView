@@ -47,6 +47,9 @@ import core.support.EnumManager;
  */
 public class Init {
 
+	/***
+	 * Initialization of all sub-modules
+	 */
 	public static void init() {
 		Splash.setStatus("Check user folder...");
 		FilesUtil.checkUserFolder();
@@ -68,7 +71,10 @@ public class Init {
 		SettingsUtils.cleanup();
 	}
 
-	public static void initClasses() {
+	/***
+	 * Initialization of basic and known OVComponent classes
+	 */
+	private static void initClasses() {
 		OVClassManager m = OVClassFactory.getManager();
 		m.addClass(ClassKey.Button, OVButton.class);
 		m.addClass(ClassKey.Check, OVCheckBox.class);
@@ -99,11 +105,19 @@ public class Init {
 		m.addClass(ClassKey.NodeBlock, OVNodeBlock.class);
 	}
 
-	public static void initMenus() {
+	/***
+	 * Initialize basics menus
+	 */
+	private static void initMenus() {
 		OVMenuManager.addGUIMenu(initGUI());
 		OVMenuManager.addNodeMenu(initNode());
 	}
 
+	/***
+	 * Initialize Node Menu
+	 * 
+	 * @return node menu
+	 */
 	private static JMenu initNode() {
 		JMenu menu = new JMenu("Basic Node");
 
@@ -177,6 +191,11 @@ public class Init {
 		return (menu);
 	}
 
+	/***
+	 * Initialize Gui Menu
+	 * 
+	 * @return GUI menu
+	 */
 	private static JMenu initGUI() {
 		JMenu menu = new JMenu("Basic GUI");
 
@@ -223,7 +242,10 @@ public class Init {
 		return menu;
 	}
 
-	public static void initModules() {
+	/**
+	 * Initialize extra modules
+	 */
+	private static void initModules() {
 		Settings setting = SettingsUtils.getSettings();
 		for (File f : ModuleUtil.getModuleList()) {
 			BaseModule m = ModuleUtil.loadModule(f);

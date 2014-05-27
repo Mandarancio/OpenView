@@ -14,19 +14,44 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class Settings {
+	/***
+	 * Map of the active/de-active modules
+	 */
 	private HashMap<String, Boolean> modules_ = new HashMap<>();
 
+	/***
+	 * Hidden Constructor
+	 */
 	Settings() {
 	}
 
+	/***
+	 * Get the active/de-active module map
+	 * 
+	 * @return the map
+	 */
 	public HashMap<String, Boolean> getModules() {
 		return modules_;
 	}
 
+	/***
+	 * Set the status of a specified module
+	 * 
+	 * @param module
+	 *            Name of the module
+	 * @param active
+	 *            Status of the module
+	 */
 	public void addModule(String module, boolean active) {
 		this.modules_.put(module, new Boolean(active));
 	}
 
+	/***
+	 * Load the settings from an XML element
+	 * 
+	 * @param e
+	 *            XML element
+	 */
 	public void load(Element e) {
 		NodeList list = e.getElementsByTagName("module");
 		for (int i = 0; i < list.getLength(); i++) {
@@ -43,6 +68,13 @@ public class Settings {
 		}
 	}
 
+	/***
+	 * Save settings in a XML element
+	 * 
+	 * @param doc
+	 *            XML document that will host the element
+	 * @return XML element
+	 */
 	public Element save(Document doc) {
 		Element e = doc.createElement(Settings.class.getSimpleName());
 		for (String s : modules_.keySet()) {
@@ -54,10 +86,24 @@ public class Settings {
 		return e;
 	}
 
+	/***
+	 * Check if a module is defined in the modules map
+	 * 
+	 * @param moduleName
+	 *            name of the module
+	 * @return
+	 */
 	public boolean hasModule(String moduleName) {
 		return modules_.containsKey(moduleName);
 	}
 
+	/***
+	 * Check the status of a module
+	 * 
+	 * @param module
+	 *            name of the module
+	 * @return the status of the module (if not defined return true)
+	 */
 	public boolean isEnable(String module) {
 		if (hasModule(module)) {
 			return modules_.get(module).booleanValue();
@@ -65,6 +111,12 @@ public class Settings {
 		return true;
 	}
 
+	/***
+	 * remove a module from the map
+	 * 
+	 * @param m
+	 *            name of the module
+	 */
 	public void removeModule(String m) {
 		modules_.remove(m);
 	}

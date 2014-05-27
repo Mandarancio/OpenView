@@ -25,7 +25,7 @@ public class InNode extends Slot implements OVNode {
     private Point location_;
     public boolean over = false;
     private boolean polymorf_;
-    private ArrayList<Line> lines_ = new ArrayList<>();
+    private ArrayList<OVLine> lines_ = new ArrayList<>();
     private ArrayList<NodeListener> nListeners_ = new ArrayList<>();
     private boolean hidden_;
     private OVComponent parent_;
@@ -84,13 +84,13 @@ public class InNode extends Slot implements OVNode {
                 .getParent().equals(parent_));
     }
 
-    public void addLine(Line line) {
+    public void addLine(OVLine line) {
         lines_.add(line);
 
     }
 
-    public Line getLine(OVNode n) {
-        for (Line l : lines_) {
+    public OVLine getLine(OVNode n) {
+        for (OVLine l : lines_) {
             if (l.a.equals(n) || l.b.equals(n)) {
                 return l;
             }
@@ -99,7 +99,7 @@ public class InNode extends Slot implements OVNode {
     }
 
     public void delete() {
-        for (Line l : lines_) {
+        for (OVLine l : lines_) {
             l.delete();
         }
         lines_.clear();
@@ -109,7 +109,7 @@ public class InNode extends Slot implements OVNode {
 
     @Override
     public boolean deconnect(EmitterInterface e) {
-        Line l = getLine((OVNode) e);
+        OVLine l = getLine((OVNode) e);
         if (l != null) {
             lines_.remove(l);
         }

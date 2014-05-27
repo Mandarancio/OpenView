@@ -12,24 +12,52 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+/***
+ * Right panel manager It meange all the settings, the objects manager and the
+ * layer manager
+ * 
+ * @author martino
+ * 
+ */
 public class RightPanel extends JSplitPane implements SettingManager {
 
+	/***
+	 * List of the setting managers
+	 */
 	private ArrayList<SettingManager> managers_ = new ArrayList<>();
+	/***
+	 * Mode of the editor
+	 */
 	private EditorMode mode_ = EditorMode.GUI;
-	private ObjectTree manager_;
+	/***
+	 * Object tree
+	 */
+	private ObjectTree objectTree_;
+	/***
+	 * Layer manager
+	 */
 	private LayerPanel layerManager_;
+	/***
+	 * Top tab panel
+	 */
 	private JTabbedPane topTabPane_;
+	/***
+	 * Bottom tab panel
+	 */
 	private JTabbedPane bottomTabPane_;
 
 	/**
-     *
-     */
+	 * UID
+	 */
 	private static final long serialVersionUID = 6562729020471545125L;
 
+	/***
+	 * Initialize the right panel
+	 */
 	public RightPanel() {
 		super(JSplitPane.VERTICAL_SPLIT);
 		setDividerLocation(400);
-		setManager(new ObjectTree());
+		setObjectTree(new ObjectTree());
 		SettingPanel p = new SettingPanel();
 		topTabPane_ = new JTabbedPane();
 
@@ -40,7 +68,7 @@ public class RightPanel extends JSplitPane implements SettingManager {
 
 		layerManager_ = new LayerPanel();
 		bottomTabPane_ = new JTabbedPane();
-		bottomTabPane_.addTab("Objects", new JScrollPane(manager_,
+		bottomTabPane_.addTab("Objects", new JScrollPane(objectTree_,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
 
@@ -54,7 +82,7 @@ public class RightPanel extends JSplitPane implements SettingManager {
 		for (SettingManager m : managers_) {
 			m.select(c);
 		}
-		manager_.select(c);
+		objectTree_.select(c);
 	}
 
 	@Override
@@ -62,7 +90,7 @@ public class RightPanel extends JSplitPane implements SettingManager {
 		for (SettingManager m : managers_) {
 			m.deselect();
 		}
-		manager_.deselect();
+		objectTree_.deselect();
 	}
 
 	@Override
@@ -139,15 +167,31 @@ public class RightPanel extends JSplitPane implements SettingManager {
 		mode_ = mode;
 	}
 
-	public ObjectTree getManager() {
-		return manager_;
+	/***
+	 * direct access to the object tree
+	 * 
+	 * @return object tree
+	 */
+	public ObjectTree getObjectTree() {
+		return objectTree_;
 	}
 
-	private void setManager(ObjectTree manager_) {
-		this.manager_ = manager_;
+	/***
+	 * set the object tree
+	 * 
+	 * @param tree
+	 *            object tree
+	 */
+	private void setObjectTree(ObjectTree tree) {
+		this.objectTree_ = tree;
 	}
-	
-	public LayerManager getLayerManager(){
+
+	/**
+	 * direct access to the layer manager
+	 * 
+	 * @return the layer manager
+	 */
+	public LayerManager getLayerManager() {
 		return layerManager_.getManager();
 	}
 

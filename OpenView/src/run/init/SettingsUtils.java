@@ -18,12 +18,23 @@ import run.window.support.XMLBuilder;
  * 
  */
 public class SettingsUtils {
+	/**
+	 * static settings object
+	 */
 	private static Settings settings_ = new Settings();
 
+	/***
+	 * Direct access to the settings object
+	 * 
+	 * @return the settings object
+	 */
 	public static Settings getSettings() {
 		return settings_;
 	}
 
+	/***
+	 * Load the user settings
+	 */
 	public static void load() {
 		String path = FilesUtil.settingsFilePath();
 
@@ -45,6 +56,9 @@ public class SettingsUtils {
 		}
 	}
 
+	/***
+	 * cleanup the non-existing modules from the settings
+	 */
 	public static void cleanup() {
 		ArrayList<String> mods = new ArrayList<>(settings_.getModules()
 				.keySet());
@@ -55,6 +69,9 @@ public class SettingsUtils {
 		}
 	}
 
+	/***
+	 * save user settings
+	 */
 	public static void save() {
 		try {
 			String path = FilesUtil.settingsFilePath();

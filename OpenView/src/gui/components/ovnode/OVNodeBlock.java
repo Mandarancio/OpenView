@@ -10,7 +10,7 @@ import core.support.OrientationEnum;
 import core.support.Utils;
 import gui.components.OVComponent;
 import gui.components.OVComponentContainer;
-import gui.components.nodes.Line;
+import gui.components.nodes.OVLine;
 import gui.constants.ComponentSettings;
 import gui.enums.EditorMode;
 import gui.interfaces.OVContainer;
@@ -116,7 +116,7 @@ public class OVNodeBlock extends OVComponentContainer {
 			c.setVisible(true);
 		}
 
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			l.setVisible(true);
 		}
 		__minY = 20;
@@ -137,7 +137,7 @@ public class OVNodeBlock extends OVComponentContainer {
 			c.setVisible(false);
 		}
 
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			l.setVisible(false);
 		}
 		__minY = 0;
@@ -153,7 +153,7 @@ public class OVNodeBlock extends OVComponentContainer {
 	}
 
 	@Override
-	public Line createLine(OVNode n, OVComponent ovComponent) {
+	public OVLine createLine(OVNode n, OVComponent ovComponent) {
 		if (expand_) {
 			return super.createLine(n, ovComponent);
 		}

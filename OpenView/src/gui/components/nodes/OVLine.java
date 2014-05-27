@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 
 import core.support.OrientationEnum;
 
-public class Line extends JComponent implements ComponentListener {
+public class OVLine extends JComponent implements ComponentListener {
 
 	/**
      *
@@ -40,7 +40,7 @@ public class Line extends JComponent implements ComponentListener {
 	private MouseAdapter mouseListener_ = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				click(e.getPoint(), Line.this);
+				click(e.getPoint(), OVLine.this);
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				father_.showMenu(new Point(getX() + e.getX(), getY() + e.getY()));
 			}
@@ -58,7 +58,7 @@ public class Line extends JComponent implements ComponentListener {
 	private OVToolTip __tooltip;
 	private UUID uuid_;
 
-	public Line(OVNode n, OVComponent c, OVContainer father) {
+	public OVLine(OVNode n, OVComponent c, OVContainer father) {
 		father_ = father;
 		a = n;
 		ca = c;
@@ -73,7 +73,7 @@ public class Line extends JComponent implements ComponentListener {
 		uuid_ = UUID.randomUUID();
 	}
 
-	public Line(Element e, OVContainer father) throws LineException {
+	public OVLine(Element e, OVContainer father) throws LineException {
 		father_ = father;
 		uuid_ = UUID.fromString(e.getAttribute("uuid"));
 		this.addMouseListener(mouseListener_);
@@ -395,7 +395,7 @@ public class Line extends JComponent implements ComponentListener {
 	}
 
 	public Element getXML(Document doc) {
-		Element e = doc.createElement(Line.class.getSimpleName());
+		Element e = doc.createElement(OVLine.class.getSimpleName());
 		e.setAttribute("uuid", uuid_.toString());
 		e.appendChild(a.getXML(doc));
 		e.appendChild(b.getXML(doc));

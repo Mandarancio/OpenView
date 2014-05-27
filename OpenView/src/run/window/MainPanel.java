@@ -23,15 +23,30 @@ import org.w3c.dom.Document;
 import run.window.support.XMLBuilder;
 import ui.icons.IconsLibrary;
 
+/***
+ * Main panel of OpenView, it contains everything
+ * 
+ * @author martino
+ * 
+ */
 public class MainPanel extends JPanel {
 
 	/**
-	 * 
+	 * UID
 	 */
 	private static final long serialVersionUID = -8438576029794021570L;
+	/***
+	 * Right setting panel
+	 */
 	private RightPanel rightPanel_;
+	/***
+	 * Editor panel
+	 */
 	private EditorPanel editor_;
 
+	/***
+	 * Initialize all the objects and GUI components
+	 */
 	public MainPanel() {
 
 		JToolBar toolBar = new JToolBar();
@@ -179,6 +194,11 @@ public class MainPanel extends JPanel {
 		this.add(rightPanel_, BorderLayout.LINE_END);
 	}
 
+	/***
+	 * Direct access to the Editor panel
+	 * 
+	 * @return Editor panel
+	 */
 	public OVContainer getEditor() {
 		return editor_;
 	}

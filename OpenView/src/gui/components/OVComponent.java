@@ -2,7 +2,7 @@ package gui.components;
 
 import gui.adapters.DragMouseAdapter;
 import gui.components.nodes.InNode;
-import gui.components.nodes.Line;
+import gui.components.nodes.OVLine;
 import gui.components.nodes.OutNode;
 import gui.constants.ComponentSettings;
 import gui.enums.DragAction;
@@ -56,7 +56,7 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 	protected HashMap<String, ArrayList<Setting>> settings_ = new HashMap<>();
 	private HashMap<String, ArrayList<Setting>> nodeSettings_ = new HashMap<>();
 
-	protected Line __line = null;
+	protected OVLine __line = null;
 
 	protected ArrayList<OutNode> outputs_ = new ArrayList<>();
 	protected ArrayList<InNode> inputs_ = new ArrayList<>();

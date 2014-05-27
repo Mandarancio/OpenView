@@ -29,7 +29,7 @@ public class OutNode extends Emitter implements OVNode {
     private boolean hidden_;
     private OVComponent parent_;
     private ArrayList<NodeListener> nListeners_ = new ArrayList<>();
-    private ArrayList<Line> lines_ = new ArrayList<>();
+    private ArrayList<OVLine> lines_ = new ArrayList<>();
     private UUID uuid_;
 
     public OutNode(Point p, String label, ValueType type, OVComponent parent) {
@@ -94,7 +94,7 @@ public class OutNode extends Emitter implements OVNode {
     }
 
     public void delete() {
-        for (Line l : lines_) {
+        for (OVLine l : lines_) {
             l.delete();
         }
         lines_.clear();
@@ -166,7 +166,7 @@ public class OutNode extends Emitter implements OVNode {
 
     @Override
     public boolean deconnect(SlotInterface s) {
-        Line l = getLine((OVNode) s);
+        OVLine l = getLine((OVNode) s);
         if (l != null) {
             lines_.remove(l);
         }
@@ -186,13 +186,13 @@ public class OutNode extends Emitter implements OVNode {
     }
 
     @Override
-    public void addLine(Line l) {
+    public void addLine(OVLine l) {
         lines_.add(l);
     }
 
     @Override
-    public Line getLine(OVNode n) {
-        for (Line l : lines_) {
+    public OVLine getLine(OVNode n) {
+        for (OVLine l : lines_) {
             if (l.a.equals(n) || l.b.equals(n)) {
                 return l;
             }
@@ -210,7 +210,7 @@ public class OutNode extends Emitter implements OVNode {
         super.trigger(v);
 
         if (parent_ != null && parent_.getMode() == EditorMode.DEBUG) {
-            for (Line l : lines_) {
+            for (OVLine l : lines_) {
                 if (v.getType() == ValueType.VOID
                         || v.getType() == ValueType.NONE) {
                     l.debugDisplay("");

@@ -2,7 +2,7 @@ package gui.support;
 
 import core.maker.OVClassFactory;
 import gui.components.OVComponent;
-import gui.components.nodes.Line;
+import gui.components.nodes.OVLine;
 import gui.components.ovnode.OVNodeComponent;
 import gui.components.ovprocedural.OVProceduralBlock;
 import gui.enums.EditorMode;
@@ -31,9 +31,9 @@ public class XMLParser {
 		}
 	}
 
-	public static Line parseLine(Element e, OVContainer parent) {
+	public static OVLine parseLine(Element e, OVContainer parent) {
 		try {
-			return new Line(e, parent);
+			return new OVLine(e, parent);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;

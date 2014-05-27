@@ -2,7 +2,7 @@ package run.window;
 
 import gui.adapters.ContainerMouseAdapter;
 import gui.components.OVComponent;
-import gui.components.nodes.Line;
+import gui.components.nodes.OVLine;
 import gui.components.ovnode.OVComment;
 import gui.constants.ComponentSettings;
 import gui.enums.DragAction;
@@ -41,18 +41,42 @@ import run.window.support.XMLBuilder;
 import core.Value;
 import core.support.OrientationEnum;
 
+/***
+ * Editor panel, is here all the graphics magic happen
+ * 
+ * @author martino
+ * 
+ */
 public class EditorPanel extends OVComponent implements OVContainer,
 		KeyListener {
 
 	/**
-     *
-     */
+	 * UID
+	 */
 	private static final long serialVersionUID = 1075006905710700282L;
+	/***
+	 * Grid size in pixel
+	 */
 	private static final int GridStep = 15;
+	/***
+	 * Background tile size
+	 */
 	private static final int TileSize = 80 * 15;
+	/***
+	 * Index of the comments layer
+	 */
 	public static final Integer commentsLayer = new Integer(1);
+	/***
+	 * Index of the lines layer
+	 */
 	public static final Integer linesLayer = new Integer(2);
+	/***
+	 * Index of the ov components layer
+	 */
 	public static final Integer componentsLayer = new Integer(3);
+	/***
+	 * Index of the tool-tips layer
+	 */
 	public static final Integer toolTipLayer = new Integer(4);
 
 	/**
@@ -60,23 +84,67 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	 */
 	private BufferedImage bgTile_;
 
+	/***
+	 * List of components
+	 */
 	private ArrayList<OVComponent> components_ = new ArrayList<>();
-	private ArrayList<Line> lines_ = new ArrayList<>();
+	/***
+	 * List of lines
+	 */
+	private ArrayList<OVLine> lines_ = new ArrayList<>();
+
+	/***
+	 * Right setting panels
+	 */
 	private RightPanel rightPanel_;
+	/***
+	 * Mouse adapter
+	 */
 	private ContainerMouseAdapter mouseAdapter_;
+
+	/***
+	 * Grid visible flag
+	 */
 	private boolean gridVisible_ = false;
+	/***
+	 * Grid enabled flag
+	 */
 	private boolean gridEnable_ = false;
 
-	private ObjectTree objectManager_;
+	/***
+	 * Object tree reference
+	 */
+	private ObjectTree objectTree_;
+	/***
+	 * Editor mode
+	 */
 	private EditorMode mode_ = EditorMode.GUI;
+	/***
+	 * Clip-board of element to copy
+	 */
 	private ArrayList<Element> clipboard_;
-	private boolean __lock = false;
+	/***
+	 * current Node layer
+	 */
 	private NodeLayer currentLayer_;
+	/***
+	 * List of node layers
+	 */
 	private ArrayList<NodeLayer> nodeLayers_ = new ArrayList<>();
 
+	/***
+	 * Lock flag
+	 */
+	private boolean __lock = false;
+
+	/***
+	 * initialize the editor panel
+	 * 
+	 * @param panel
+	 */
 	public EditorPanel(RightPanel panel) {
 		super(null);
-		this.objectManager_ = panel.getManager();
+		this.objectTree_ = panel.getObjectTree();
 		panel.getLayerManager().setMainContainer(this);
 
 		this.setLayout(null);
@@ -99,6 +167,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		initBG();
 	}
 
+	/***
+	 * Initialize the background tiles
+	 */
 	private void initBG() {
 		// Fixed size of the texture
 		int w = TileSize, h = TileSize;
@@ -124,6 +195,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * Set key listener to component
+	 * 
+	 * @param c
+	 * 
+	 */
 	private void setKeyListener(OVComponent c) {
 		KeyListener[] list = c.getKeyListeners();
 		if (list != null && list.length > 0) {
@@ -152,7 +229,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			}
 		}
 		if (this.compatible(c) || addFlag) {
-			objectManager_.addComponent(c);
+			objectTree_.addComponent(c);
 			setKeyListener(c);
 			if (!addFlag) {
 				components_.add(c);
@@ -169,7 +246,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	@Override
 	public void removeComponent(OVComponent c) {
-		objectManager_.removeComponent(c);
+		objectTree_.removeComponent(c);
 		if (components_.contains(c)) {
 			rightPanel_.deselect();
 			c.delete();
@@ -207,7 +284,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				((OVContainer) c).deselectAll();
 			}
 		}
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			if (l.isSelected()) {
 				l.setSelected(false);
 				l.repaint();
@@ -245,20 +322,42 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * Check if grid is visible
+	 * 
+	 * @return
+	 */
 	public boolean isGridVisible() {
 		return gridVisible_;
 	}
 
-	public void setGridVisible(boolean gridVisible_) {
-		this.gridVisible_ = gridVisible_;
+	/***
+	 * Set grid visible flag
+	 * 
+	 * @param gridVisible
+	 *            flag
+	 */
+	public void setGridVisible(boolean gridVisible) {
+		this.gridVisible_ = gridVisible;
 	}
 
+	/***
+	 * check if grid is enabled
+	 * 
+	 * @return
+	 */
 	public boolean isGridEnabled() {
 		return gridEnable_;
 	}
 
-	public void setGridEnabled(boolean gridEnable_) {
-		this.gridEnable_ = gridEnable_;
+	/***
+	 * set grid enabled flag
+	 * 
+	 * @param gridEnable
+	 *            flag
+	 */
+	public void setGridEnabled(boolean gridEnable) {
+		this.gridEnable_ = gridEnable;
 	}
 
 	@Override
@@ -293,21 +392,27 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		return d;
 	}
 
+	/***
+	 * get the editor mode
+	 */
 	public EditorMode getMode() {
 		return mode_;
 	}
 
+	/**
+	 * set current editor mode
+	 */
 	public void setMode(EditorMode mode) {
 		if (this.mode_ != mode) {
 			this.mode_ = mode;
 			deselectAll();
 			rightPanel_.setMode(mode);
 			if (mode_ == EditorMode.NODE || mode_ == EditorMode.DEBUG) {
-				for (Line l : lines_) {
+				for (OVLine l : lines_) {
 					l.setVisible(true);
 				}
 			} else {
-				for (Line l : lines_) {
+				for (OVLine l : lines_) {
 					l.setVisible(false);
 				}
 			}
@@ -315,7 +420,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				component.setMode(mode);
 			}
 
-			clearToolTip();
+			clearToolTips();
 			repaint();
 			requestFocus();
 			rightPanel_.repaint();
@@ -347,8 +452,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public Line createLine(OVNode n, OVComponent ovComponent) {
-		Line l = new Line(n, ovComponent, this);
+	public OVLine createLine(OVNode n, OVComponent ovComponent) {
+		OVLine l = new OVLine(n, ovComponent, this);
 		lines_.add(l);
 		this.add(l, linesLayer, 0);
 		this.moveToBack(l);
@@ -361,7 +466,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public void confirmLine(Line l) {
+	public void confirmLine(OVLine l) {
 		for (OVComponent c : components_) {
 			c.showNodes();
 		}
@@ -394,7 +499,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public void removeLine(Line line) {
+	public void removeLine(OVLine line) {
 		lines_.remove(line);
 		this.remove(line);
 		this.repaint(line.getBounds());
@@ -429,6 +534,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * paste clip-board (if any)
+	 */
 	private void paste() {
 		Point p = MouseInfo.getPointerInfo().getLocation();
 		SwingUtilities.convertPointFromScreen(p, this);
@@ -445,6 +553,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * Copy selected elements in the clip-board
+	 */
 	private void copy() {
 		ArrayList<Element> clipboard = new ArrayList<>();
 		Document doc;
@@ -463,6 +574,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * Remove all selected elements
+	 */
 	public void removeSelected() {
 
 		ArrayList<OVComponent> list = new ArrayList<>();
@@ -478,8 +592,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			repaint(c.getBounds());
 			c.getFather().removeComponent(c);
 		}
-		ArrayList<Line> ll = new ArrayList<>(lines_);
-		for (Line l : ll) {
+		ArrayList<OVLine> ll = new ArrayList<>(lines_);
+		for (OVLine l : ll) {
 			if (l.isSelected()) {
 				l.getFather().removeLine(l);
 				l.deconnect();
@@ -538,7 +652,7 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	@Override
 	public void clickEvent(Point p, Object source) {
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			if (!l.equals(source) && l.getBounds().contains(p)) {
 				l.click(new Point(p.x - l.getX(), p.y - l.getY()), source);
 			}
@@ -546,7 +660,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	}
 
-	private void clearToolTip() {
+	/***
+	 * Remove all tool-tips
+	 */
+	private void clearToolTips() {
 		Component[] cc = getComponents();
 		for (Component c : cc) {
 			if (c instanceof OVToolTip) {
@@ -561,12 +678,13 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		return true;
 	}
 
+	@Override
 	public Element getXML(Document doc) {
 		Element e = doc.createElement(EditorPanel.class.getSimpleName());
 		for (OVComponent c : components_) {
 			e.appendChild(c.getXML(doc));
 		}
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			e.appendChild(l.getXML(doc));
 		}
 		for (NodeLayer l : nodeLayers_) {
@@ -575,6 +693,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		return e;
 	}
 
+	/***
+	 * Load XML element
+	 * 
+	 * @param el
+	 *            XML element to load
+	 */
 	public void loadXML(Element el) {
 		clearAll();
 		NodeList nl = el.getElementsByTagName(NodeLayer.class.getSimpleName());
@@ -596,20 +720,20 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			if (n != null && n instanceof Element) {
 				Element e = (Element) n;
 				if (e.getParentNode().equals(el)) {
-					if (!e.getTagName().equals(Line.class.getSimpleName())) {
+					if (!e.getTagName().equals(OVLine.class.getSimpleName())) {
 						XMLParser.loadComponent(e, this);
 					}
 				}
 			}
 		}
 
-		nl = el.getElementsByTagName(Line.class.getSimpleName());
+		nl = el.getElementsByTagName(OVLine.class.getSimpleName());
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
 			if (n != null && n instanceof Element) {
 				Element e = (Element) n;
 				if (e.getParentNode().equals(el)) {
-					Line l = XMLParser.parseLine(e, this);
+					OVLine l = XMLParser.parseLine(e, this);
 					if (l != null) {
 						lines_.add(l);
 						this.add(l, linesLayer);
@@ -626,9 +750,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	}
 
+	/***
+	 * remove all components and lines
+	 */
 	public void clearAll() {
-		ArrayList<Line> ls = new ArrayList<>(lines_);
-		for (Line l : ls) {
+		ArrayList<OVLine> ls = new ArrayList<>(lines_);
+		for (OVLine l : ls) {
 			l.delete();
 			remove(l);
 		}
@@ -656,8 +783,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public ObjectTree getObjectManager() {
-		return objectManager_;
+	public ObjectTree getObjectTree() {
+		return objectTree_;
 	}
 
 	@Override
@@ -688,6 +815,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * set current node layer
+	 * 
+	 * @param n
+	 *            node layer
+	 */
 	public void setSelectedLayer(NodeLayer n) {
 		if (n != null && !nodeLayers_.contains(n)) {
 			nodeLayers_.add(n);
@@ -701,6 +834,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * remove a node layer
+	 * 
+	 * @param n
+	 *            node layer
+	 */
 	public void removeLayer(NodeLayer n) {
 		if (n != null) {
 			nodeLayers_.remove(n);
@@ -713,6 +852,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		}
 	}
 
+	/***
+	 * Copy layers to a component
+	 * 
+	 * @param c
+	 *            component
+	 */
 	private void initLayers(OVComponent c) {
 		for (NodeLayer l : nodeLayers_) {
 			if (!l.equals(currentLayer_)) {

@@ -1,7 +1,7 @@
 package gui.components;
 
 import gui.components.nodes.InNode;
-import gui.components.nodes.Line;
+import gui.components.nodes.OVLine;
 import gui.components.nodes.NodeGroup;
 import gui.components.nodes.OutNode;
 import gui.components.nodes.PolyInNode;
@@ -49,7 +49,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	protected static final Integer componentsLayer = new Integer(3);
 
 	protected ArrayList<OVComponent> components_ = new ArrayList<>();
-	protected ArrayList<Line> lines_ = new ArrayList<>();
+	protected ArrayList<OVLine> lines_ = new ArrayList<>();
 
 	protected ArrayList<NodeGroup> innerNodes_ = new ArrayList<>();
 	protected ArrayList<NodeGroup> outterNodes_ = new ArrayList<>();
@@ -120,20 +120,20 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 			if (n != null && n instanceof Element) {
 				Element e = (Element) n;
 				if (e.getParentNode().equals(el)) {
-					if (!e.getTagName().equals(Line.class.getSimpleName())) {
+					if (!e.getTagName().equals(OVLine.class.getSimpleName())) {
 						XMLParser.loadComponent(e, this);
 					}
 				}
 			}
 		}
 
-		nl = el.getElementsByTagName(Line.class.getSimpleName());
+		nl = el.getElementsByTagName(OVLine.class.getSimpleName());
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
 			if (n != null && n instanceof Element) {
 				Element e = (Element) n;
 				if (e.getParentNode().equals(el)) {
-					Line l = XMLParser.parseLine(e, this);
+					OVLine l = XMLParser.parseLine(e, this);
 					if (l != null) {
 						lines_.add(l);
 						this.add(l, linesLayer, 0);
@@ -193,7 +193,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		}
 		components_.add(c);
 		c.addKeyListener((KeyListener) superParent());
-		getObjectManager().add(c);
+		getObjectTree().add(c);
 		if (c instanceof OVComment) {
 			this.add(c, commentsLayer);
 		} else {
@@ -236,7 +236,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 				}
 			}
 		}
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			if (l.isSelected()) {
 				l.setSelected(false);
 				l.repaint();
@@ -272,9 +272,9 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public Line createLine(OVNode n, OVComponent ovComponent) {
+	public OVLine createLine(OVNode n, OVComponent ovComponent) {
 
-		Line l = new Line(n, ovComponent, this);
+		OVLine l = new OVLine(n, ovComponent, this);
 		lines_.add(l);
 		this.add(l, linesLayer, 0);
 		this.moveToBack(l);
@@ -304,7 +304,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public void confirmLine(Line l) {
+	public void confirmLine(OVLine l) {
 		for (OVComponent c : components_) {
 			c.showNodes();
 		}
@@ -370,7 +370,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public void removeLine(Line line) {
+	public void removeLine(OVLine line) {
 		if (lines_.contains(line)) {
 			lines_.remove(line);
 			this.repaint(line.getBounds());
@@ -445,11 +445,11 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 				component.setMode(mode);
 			}
 			if (mode == EditorMode.NODE || mode == EditorMode.DEBUG) {
-				for (Line l : lines_) {
+				for (OVLine l : lines_) {
 					l.setVisible(true);
 				}
 			} else {
-				for (Line l : lines_) {
+				for (OVLine l : lines_) {
 					l.setVisible(false);
 				}
 			}
@@ -525,8 +525,8 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 			superParent().removeComponent(c);
 			c.getFather().removeComponent(c);
 		}
-		ArrayList<Line> ll = new ArrayList<>(lines_);
-		for (Line l : ll) {
+		ArrayList<OVLine> ll = new ArrayList<>(lines_);
+		for (OVLine l : ll) {
 			if (l.isSelected()) {
 				l.deconnect();
 
@@ -609,7 +609,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 
 	@Override
 	public void clickEvent(Point p, Object source) {
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			if (!l.equals(source) && l.contains(p)) {
 				l.click(new Point(p.x - l.getX(), p.y - l.getY()), source);
 			}
@@ -657,7 +657,7 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		for (OVComponent c : components_) {
 			e.appendChild(c.getXML(doc));
 		}
-		for (Line l : lines_) {
+		for (OVLine l : lines_) {
 			e.appendChild(l.getXML(doc));
 		}
 
@@ -687,8 +687,8 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 	}
 
 	@Override
-	public ObjectTree getObjectManager() {
-		return superParent().getObjectManager();
+	public ObjectTree getObjectTree() {
+		return superParent().getObjectTree();
 	}
 
 	@Override
