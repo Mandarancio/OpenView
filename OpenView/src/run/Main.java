@@ -1,13 +1,9 @@
 package run;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import run.init.Init;
-import run.init.SettingsUtils;
 import run.init.Splash;
 import run.window.Window;
 
@@ -26,7 +22,9 @@ public class Main {
 	 *            to be defined
 	 */
 	public static void main(String[] args) {
+		// Show splash screen
 		Splash.show();
+		// Set systen look and feel
 		Splash.setStatus("Load look and feel...");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -39,15 +37,12 @@ public class Main {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		// Initialize all the sub modules
 		Init.init();
-		Window w = new Window();
+		// Show up the main window
+		new Window();
+		// Hide the splash screen
 		Splash.hide();
 
-		w.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				SettingsUtils.save();
-			}
-		});
 	}
 }

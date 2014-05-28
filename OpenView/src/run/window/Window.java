@@ -1,9 +1,12 @@
 package run.window;
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import run.init.SettingsUtils;
 import ui.icons.IconsLibrary;
 
 /***
@@ -39,5 +42,11 @@ public class Window extends JFrame {
 
 		this.setSize(800, 600);
 
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				SettingsUtils.save();
+			}
+		});
 	}
 }
