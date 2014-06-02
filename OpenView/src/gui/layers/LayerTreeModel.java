@@ -62,4 +62,8 @@ public class LayerTreeModel extends DefaultTreeModel {
 		return null;
 	}
 
+	public DefaultMutableTreeNode root() {
+		return root_;
+	}
+
 }

@@ -89,4 +89,12 @@ public class LayerManager extends JTree {
 	public void setMainContainer(EditorPanel container) {
 		container_ = container;
 	}
+
+	public void setCurrentLayer(NodeLayer l) {
+		if (l == null) {
+			select(model_.root());
+		} else {
+			select(model_.find(l));
+		}
+	}
 }

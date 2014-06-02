@@ -404,6 +404,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	 */
 	public void setMode(EditorMode mode) {
 		if (this.mode_ != mode) {
+			if (currentLayer_ != null) {
+				setSelectedLayer(null);
+				rightPanel_.getLayerManager().setCurrentLayer(null);
+			}
 			this.mode_ = mode;
 			deselectAll();
 			rightPanel_.setMode(mode);

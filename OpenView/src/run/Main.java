@@ -43,6 +43,5 @@ public class Main {
 		new Window();
 		// Hide the splash screen
 		Splash.hide();
-
 	}
 }
