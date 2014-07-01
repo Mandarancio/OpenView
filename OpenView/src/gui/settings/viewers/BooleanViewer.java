@@ -13,7 +13,8 @@ public class BooleanViewer extends Viewer implements ActionListener {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4855440423122474094L;
+	private static final long serialVersionUID = 8699306925255380261L;
+
 	private JCheckBox checkBox_;
 
 	public BooleanViewer(Setting s) throws Exception {
