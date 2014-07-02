@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JColorChooser;
 
-import run.window.support.JColorButton;
+import ui.components.JColorButton;
 import core.Value;
 import core.ValueType;
 import core.support.Rule;
