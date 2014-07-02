@@ -31,6 +31,8 @@ public class Setting implements SlotListener {
 	private boolean input_ = true, output_ = true;
 	private EditorMode mode_ = EditorMode.GUI;
 
+	private Object userData_ = null;
+
 	private ArrayList<SettingListener> listeners_ = new ArrayList<>();
 	private InNode inNode_ = null;
 	private OutNode outNode_ = null;
@@ -396,6 +398,14 @@ public class Setting implements SlotListener {
 
 	public OVComponent getParent() {
 		return parent_;
+	}
+
+	public Object getUserData() {
+		return userData_;
+	}
+
+	public void setUserData(Object userData_) {
+		this.userData_ = userData_;
 	}
 
 }
