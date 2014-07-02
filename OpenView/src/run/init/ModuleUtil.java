@@ -13,8 +13,10 @@ import core.maker.OVClassFactory;
 import core.maker.OVMenuManager;
 import core.module.BaseModule;
 import core.support.EnumManager;
+import core.support.Rule;
 import evaluator.functions.FunctionManager;
 import evaluator.operators.OperatorManager;
+import gui.settings.viewers.ViewerManager;
 
 /***
  * Utility to discover and load extra-modules
@@ -147,6 +149,11 @@ public class ModuleUtil {
 		for (Class<? extends Enum<?>> c : module.getEnums()) {
 			EnumManager.addEnum(c);
 		}
+
+		for (Rule r : module.getViewer().keySet()) {
+			ViewerManager.addViewer(r, module.getViewer().get(r));
+		}
+
 		FunctionManager.addFunctions(module.getFunctions());
 		OperatorManager.addOperatros(module.getOperators());
 	}

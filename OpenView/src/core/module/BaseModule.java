@@ -5,6 +5,7 @@ import evaluator.functions.FunctionManager;
 import evaluator.operators.Operator;
 import evaluator.operators.OperatorManager;
 import gui.components.OVComponent;
+import gui.settings.viewers.Viewer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import javax.swing.JMenu;
 import core.maker.OVClassManager;
 import core.maker.OVMenuManager;
 import core.support.EnumManager;
+import core.support.Rule;
 
 /***
  * This is the class to define the extra module api. Each module should
@@ -100,6 +102,10 @@ public abstract class BaseModule {
 	 */
 	public ArrayList<JMenu> getGuiMenus() {
 		return new ArrayList<>();
+	}
+
+	public HashMap<Rule, Class<? extends Viewer>> getViewer() {
+		return new HashMap<>();
 	}
 
 	/***
