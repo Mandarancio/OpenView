@@ -28,6 +28,14 @@ public enum ValueType {
 				|| this == LONG || this == FLOAT || this == DOUBLE);
 	}
 
+	public boolean isDecimal() {
+		return this == FLOAT || this == DOUBLE;
+	}
+
+	public boolean isInteger() {
+		return (this == BYTE || this == SHORT || this == INTEGER || this == LONG);
+	}
+
 	/***
 	 * Check the comaptibility between this and another {@link ValueType}. To be
 	 * compatible the two types should be equals or NONE/VOID or numerics

@@ -7,43 +7,37 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import core.Value;
+import core.support.Rule;
 
-
-public class StringViewer  extends Viewer implements DocumentListener{
-
-	
+public class StringViewer extends Viewer implements DocumentListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 737239822622988210L;
 	private JTextField textField_;
-	private boolean flag_=false;
+	private boolean flag_ = false;
+
 	public StringViewer(Setting s) {
 		super(s);
 
-		textField_=new JTextField(s.getValue().toString());
+		textField_ = new JTextField(s.getValue().getString());
 		textField_.setHorizontalAlignment(JTextField.RIGHT);
-		
-		s.addListener(this);
 		textField_.getDocument().addDocumentListener(this);
-		
-		this.addMainComponent(textField_);
-		
 
-	
+		this.addMainComponent(textField_);
 	}
-	
+
 	@Override
 	public void valueUpdated(Setting setting, Value v) {
-		 if (!flag_) {
-             if (!v.getString().equals(textField_.getText())) {
-                 flag_ = true;
-                 textField_.setText(v.getString());
-             }
-         } else {
-             flag_ = false;
-         }
+		if (!flag_) {
+			if (!v.getString().equals(textField_.getText())) {
+				flag_ = true;
+				textField_.setText(v.getString());
+			}
+		} else {
+			flag_ = false;
+		}
 	}
 
 	@Override
@@ -60,16 +54,37 @@ public class StringViewer  extends Viewer implements DocumentListener{
 	public void removeUpdate(DocumentEvent e) {
 		trigger();
 	}
-	
-	private void trigger(){
+
+	private void trigger() {
 		if (!flag_) {
-            if (!setting_.getValue().getString()
-            .equals(textField_.getText())) {
-                flag_ = true;
-                setting_.setValue(textField_.getText());
-            }
-        } else {
-            flag_ = false;
-        }
+			if (!setting_.getValue().getString().equals(textField_.getText())) {
+				flag_ = true;
+				setting_.setValue(textField_.getText());
+			}
+		} else {
+			flag_ = false;
+		}
+	}
+
+	public static String name() {
+		return "StringViewer";
+	}
+
+	@Override
+	public Viewer copy(Setting s) {
+		return new StringViewer(s);
+	}
+
+	public static Rule rule() {
+		return new Rule() {
+
+			@Override
+			public boolean check(Object... args) {
+				if (args.length == 1 && args[0] instanceof Setting) {
+					return true;
+				}
+				return false;
+			}
+		};
 	}
 }
