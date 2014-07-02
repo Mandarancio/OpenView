@@ -2,6 +2,7 @@ package gui.settings.viewers;
 
 import gui.support.Setting;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -13,8 +14,10 @@ public class ViewerManager {
 
 	public static void initialize() {
 		viewers_.put(StringViewer.rule(), StringViewer.class);
-		viewers_.put(NumericViewer.rule(), ComboViewer.class);
+		viewers_.put(BooleanViewer.rule(), BooleanViewer.class);
+		viewers_.put(NumericViewer.rule(), NumericViewer.class);
 		viewers_.put(ColorViewer.rule(), ColorViewer.class);
+		viewers_.put(FileViewer.rule(), FileViewer.class);
 		viewers_.put(ComboViewer.rule(), ComboViewer.class);
 		viewers_.put(ConstViewer.rule(), ConstViewer.class);
 	}
@@ -40,6 +43,10 @@ public class ViewerManager {
 			IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, SecurityException {
 		Class<? extends Viewer> c = getViewer(s);
-		return (Viewer) c.getConstructors()[0].newInstance(s);
+		Constructor<?> cs[] = c.getConstructors();
+		if (cs.length != 0)
+			return (Viewer) c.getConstructors()[0].newInstance(s);
+		else
+			return null;
 	}
 }

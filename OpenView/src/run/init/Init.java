@@ -26,6 +26,7 @@ import gui.components.ovnode.OVTextFile;
 import gui.components.ovnode.OVTimerTriggerNode;
 import gui.components.ovnode.OVVariableNode;
 import gui.components.ovprocedural.OVProceduralBlock;
+import gui.settings.viewers.ViewerManager;
 
 import java.io.File;
 
@@ -55,6 +56,8 @@ public class Init {
 		FilesUtil.checkUserFolder();
 		Splash.setStatus("Init enums...");
 		EnumManager.init();
+		Splash.setStatus("Init viewers...");
+		ViewerManager.initialize();
 		Splash.setStatus("Init operators...");
 		OperatorManager.intiOperators();
 		Splash.setStatus("Init functions...");

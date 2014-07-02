@@ -7,6 +7,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import core.Value;
+import core.ValueType;
 import core.support.Rule;
 
 public class StringViewer extends Viewer implements DocumentListener {
@@ -81,7 +82,8 @@ public class StringViewer extends Viewer implements DocumentListener {
 			@Override
 			public boolean check(Object... args) {
 				if (args.length == 1 && args[0] instanceof Setting) {
-					return true;
+					Setting s = (Setting) args[0];
+					return s.getType() == ValueType.STRING;
 				}
 				return false;
 			}
