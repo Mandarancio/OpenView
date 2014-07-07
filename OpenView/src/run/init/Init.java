@@ -29,6 +29,7 @@ import gui.components.ovprocedural.OVProceduralBlock;
 import gui.settings.viewers.ViewerManager;
 
 import java.io.File;
+import java.util.ServiceLoader;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -249,9 +250,14 @@ public class Init {
 	 * Initialize extra modules
 	 */
 	private static void initModules() {
-		Settings setting = SettingsUtils.getSettings();
 		for (File f : ModuleUtil.getModuleList()) {
-			BaseModule m = ModuleUtil.loadModule(f);
+			ModuleUtil.loadModule(f);
+			ModuleUtil.loadExtJars(f.getParentFile().getAbsolutePath());
+		}
+		Settings setting = SettingsUtils.getSettings();
+		ServiceLoader<BaseModule> modules = ServiceLoader
+				.load(BaseModule.class);
+		for (BaseModule m : modules) {
 			if (setting.hasModule(m.getModuleName())) {
 				if (setting.isEnable(m.getModuleName())) {
 					ModuleUtil.importModule(m);

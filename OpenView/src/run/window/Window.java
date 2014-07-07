@@ -31,7 +31,7 @@ public class Window extends JFrame {
 	public Window() {
 
 		this.setTitle("Open View");
-		this.setMinimumSize(new Dimension(600, 400));
+		this.setMinimumSize(new Dimension(600, 500));
 		this.setIconImage(IconsLibrary.getIcon(IconsLibrary.AppIcon).getImage());
 		panel_ = new MainPanel();
 		this.setContentPane(panel_);
@@ -40,7 +40,7 @@ public class Window extends JFrame {
 
 		this.setVisible(true);
 
-		this.setSize(800, 600);
+		this.setSize(900, 700);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override

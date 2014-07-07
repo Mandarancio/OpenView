@@ -36,8 +36,8 @@ public class Main {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		}
-		// Initialize all the sub modules
+		}																																																																																																																																		
+		// Initialize all the sub modules							
 		Init.init();
 		// Show up the main window
 		new Window();

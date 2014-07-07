@@ -1,8 +1,11 @@
 package run.init;
 
+import evaluator.functions.FunctionManager;
+import evaluator.operators.OperatorManager;
+import gui.settings.viewers.ViewerManager;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import javax.swing.JMenu;
@@ -14,9 +17,6 @@ import core.maker.OVMenuManager;
 import core.module.BaseModule;
 import core.support.EnumManager;
 import core.support.Rule;
-import evaluator.functions.FunctionManager;
-import evaluator.operators.OperatorManager;
-import gui.settings.viewers.ViewerManager;
 
 /***
  * Utility to discover and load extra-modules
@@ -29,6 +29,7 @@ public class ModuleUtil {
 	 * Jar class loader permit to load multiple jars
 	 */
 	private static JarClassLoader loader_ = new JarClassLoader();
+
 	/***
 	 * List of the loaded module descriptors
 	 */
@@ -70,28 +71,20 @@ public class ModuleUtil {
 	 *            module file to load
 	 * @return module descriptor
 	 */
-	public static BaseModule loadModule(File f) {
+	public static void loadModule(File f) {
 		try {
 			loader_.add(f.toURI().toURL());
-			Class<?> base = loader_.loadClass(f.getParentFile().getName()
-					.toLowerCase()
-					+ ".module.Base");
-			BaseModule o = (BaseModule) base.newInstance();
-			modules_.add(o);
-			o.setPath(f.getParent());
-			return o;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+
+			// Class<?> base = loader_.loadClass(f.getParentFile().getName()
+			// .toLowerCase()
+			// + ".module.Base");
+			// BaseModule o = (BaseModule) base.newInstance();
+			// modules_.add(o);
+			// o.setPath(f.getParent());
+			// return o;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	/***
@@ -100,21 +93,14 @@ public class ModuleUtil {
 	 * @param dir
 	 *            directory of the module
 	 */
-	private static void loadExtJars(String dir) {
+	public static void loadExtJars(String dir) {
 		File jarsDir = new File(dir + File.separator
 				+ FilesUtil.extraJarsFolder);
 		if (jarsDir.exists() && jarsDir.isDirectory()) {
-			File[] files = jarsDir.listFiles();
-			for (File file : files) {
-				if (file.getName().endsWith(".jar")) {
-					try {
-						loader_.add(file.toURI().toURL());
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+			try {
+				loader_.add(dir);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -134,7 +120,6 @@ public class ModuleUtil {
 							+ module.getMailAddress());
 		Splash.setStatus("Import module: " + module.getModuleName() + " "
 				+ module.getVersion());
-		loadExtJars(module.getPath());
 		for (JMenu m : module.getGuiMenus()) {
 			OVMenuManager.addGUIMenu(m);
 		}
