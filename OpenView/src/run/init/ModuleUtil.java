@@ -5,6 +5,7 @@ import evaluator.operators.OperatorManager;
 import gui.settings.viewers.ViewerManager;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -47,12 +48,17 @@ public class ModuleUtil {
 					File module = new File(f.getAbsolutePath() + File.separator
 							+ FilesUtil.moduleJarPath);
 					if (module.exists() && module.isFile()) {
+						if (!SettingsUtils.getSettings().hasModule(f.getName())
+								|| SettingsUtils.getSettings().isEnable(
+										f.getName())) {
 
-						modules.add(module);
-						if (Constants.Debug)
-							System.out.println("Module found : " + f.getName());
-						Splash.setStatus("Module found : " + f.getName());
-
+							System.out.println(f.getName());
+							modules.add(module);
+							if (Constants.Debug)
+								System.out.println("Module found : "
+										+ f.getName());
+							Splash.setStatus("Module found : " + f.getName());
+						}
 					}
 				}
 			}
@@ -69,10 +75,12 @@ public class ModuleUtil {
 	 */
 	public static void loadModule(File f) {
 		try {
-			String name=new File(f.getParent()).getName().toLowerCase();
+			String name = new File(f.getParent()).getName().toLowerCase();
 			System.out.println(name);
-			ClassLoader loader=URLClassLoader.newInstance(new URL[]{f.toURI().toURL()});
-			BaseModule o=(BaseModule) loader.loadClass(name+".module.Base").newInstance();
+			ClassLoader loader = URLClassLoader.newInstance(new URL[] { f
+					.toURI().toURL() });
+			BaseModule o = (BaseModule) loader.loadClass(name + ".module.Base")
+					.newInstance();
 			System.out.println(o);
 			// Class<?> base = loader_.loadClass(f.getParentFile().getName()
 			// .toLowerCase()
@@ -98,9 +106,9 @@ public class ModuleUtil {
 				+ FilesUtil.extraJarsFolder);
 		if (jarsDir.exists() && jarsDir.isDirectory()) {
 			try {
-				for (File f: jarsDir.listFiles()){
-					if (f.getName().endsWith(".jar")){
-						URLClassLoader.newInstance(new URL[]{f.toURI().toURL()});
+				for (File f : jarsDir.listFiles()) {
+					if (f.getName().endsWith(".jar")) {
+						addURL(f.toURI().toURL());
 
 					}
 				}
@@ -108,6 +116,18 @@ public class ModuleUtil {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void addURL(URL url) throws Exception {
+		URLClassLoader classLoader = (URLClassLoader) ClassLoader
+				.getSystemClassLoader();
+		Class<?> clazz = URLClassLoader.class;
+
+		// Use reflection
+		Method method = clazz.getDeclaredMethod("addURL",
+				new Class[] { URL.class });
+		method.setAccessible(true);
+		method.invoke(classLoader, new Object[] { url });
 	}
 
 	/***
