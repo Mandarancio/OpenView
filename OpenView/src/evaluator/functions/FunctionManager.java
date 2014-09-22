@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import evaluator.functions.array.ArrayAdd;
+import evaluator.functions.array.ArrayFind;
 import evaluator.functions.array.ArrayGet;
 import evaluator.functions.array.ArrayLength;
 import evaluator.functions.array.ArrayRemove;
@@ -82,7 +83,8 @@ public class FunctionManager {
 		functions_.add(new ArrayAdd());
 		functions_.add(new ArrayRemove());
 		functions_.add(new ArrayLength());
-
+		functions_.add(new ArrayFind());
+		
 		functions_.add(new TypeOf());
 	}
 
