@@ -51,8 +51,6 @@ public class ModuleUtil {
 						if (!SettingsUtils.getSettings().hasModule(f.getName())
 								|| SettingsUtils.getSettings().isEnable(
 										f.getName())) {
-
-							System.out.println(f.getName());
 							modules.add(module);
 							if (Constants.Debug)
 								System.out.println("Module found : "
@@ -76,19 +74,11 @@ public class ModuleUtil {
 	public static void loadModule(File f) {
 		try {
 			String name = new File(f.getParent()).getName().toLowerCase();
-			System.out.println(name);
+			addURL(f.toURI().toURL());
 			ClassLoader loader = URLClassLoader.newInstance(new URL[] { f
 					.toURI().toURL() });
 			BaseModule o = (BaseModule) loader.loadClass(name + ".module.Base")
 					.newInstance();
-			System.out.println(o);
-			// Class<?> base = loader_.loadClass(f.getParentFile().getName()
-			// .toLowerCase()
-			// + ".module.Base");
-			// BaseModule o = (BaseModule) base.newInstance();
-			// modules_.add(o);
-			// o.setPath(f.getParent());
-			// return o;
 			modules_.add(o);
 		} catch (Exception e) {
 			e.printStackTrace();

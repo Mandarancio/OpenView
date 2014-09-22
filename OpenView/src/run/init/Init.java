@@ -71,8 +71,8 @@ public class Init {
 		SettingsUtils.load();
 		Splash.setStatus("Init modules...");
 		Init.initModules();
-		Splash.setStatus("Cleanup settings...");
-		SettingsUtils.cleanup();
+		// Splash.setStatus("Cleanup settings...");
+		// SettingsUtils.cleanup();
 	}
 
 	/***
