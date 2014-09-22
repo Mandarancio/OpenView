@@ -5,13 +5,13 @@ import evaluator.operators.OperatorManager;
 import gui.settings.viewers.ViewerManager;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 import javax.swing.JMenu;
 
 import run.constants.Constants;
-import xeus.jcl.JarClassLoader;
 import core.maker.OVClassFactory;
 import core.maker.OVMenuManager;
 import core.module.BaseModule;
@@ -25,10 +25,6 @@ import core.support.Rule;
  * 
  */
 public class ModuleUtil {
-	/***
-	 * Jar class loader permit to load multiple jars
-	 */
-	private static JarClassLoader loader_ = new JarClassLoader();
 
 	/***
 	 * List of the loaded module descriptors
@@ -73,8 +69,11 @@ public class ModuleUtil {
 	 */
 	public static void loadModule(File f) {
 		try {
-			loader_.add(f.toURI().toURL());
-
+			String name=new File(f.getParent()).getName().toLowerCase();
+			System.out.println(name);
+			ClassLoader loader=URLClassLoader.newInstance(new URL[]{f.toURI().toURL()});
+			BaseModule o=(BaseModule) loader.loadClass(name+".module.Base").newInstance();
+			System.out.println(o);
 			// Class<?> base = loader_.loadClass(f.getParentFile().getName()
 			// .toLowerCase()
 			// + ".module.Base");
@@ -82,7 +81,8 @@ public class ModuleUtil {
 			// modules_.add(o);
 			// o.setPath(f.getParent());
 			// return o;
-		} catch (IOException e) {
+			modules_.add(o);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -98,8 +98,13 @@ public class ModuleUtil {
 				+ FilesUtil.extraJarsFolder);
 		if (jarsDir.exists() && jarsDir.isDirectory()) {
 			try {
-				loader_.add(dir);
-			} catch (IOException e) {
+				for (File f: jarsDir.listFiles()){
+					if (f.getName().endsWith(".jar")){
+						URLClassLoader.newInstance(new URL[]{f.toURI().toURL()});
+
+					}
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -29,7 +29,7 @@ import gui.components.ovprocedural.OVProceduralBlock;
 import gui.settings.viewers.ViewerManager;
 
 import java.io.File;
-import java.util.ServiceLoader;
+import java.util.ArrayList;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -254,10 +254,12 @@ public class Init {
 			ModuleUtil.loadModule(f);
 			ModuleUtil.loadExtJars(f.getParentFile().getAbsolutePath());
 		}
+		
 		Settings setting = SettingsUtils.getSettings();
-		ServiceLoader<BaseModule> modules = ServiceLoader
-				.load(BaseModule.class);
+		ArrayList<BaseModule> modules = ModuleUtil.getModules();
+		
 		for (BaseModule m : modules) {
+			System.out.println(m.getModuleName());
 			if (setting.hasModule(m.getModuleName())) {
 				if (setting.isEnable(m.getModuleName())) {
 					ModuleUtil.importModule(m);

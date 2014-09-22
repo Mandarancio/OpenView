@@ -1,10 +1,13 @@
 package run;
 
+import java.security.Policy;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import run.init.Init;
 import run.init.Splash;
+import run.init.policy.PluginPolicy;
 import run.window.Window;
 
 /***
@@ -21,6 +24,10 @@ public class Main {
 	 *            to be defined
 	 */
 	public static void main(String[] args) {
+		
+		Policy.setPolicy(new PluginPolicy());
+		System.setSecurityManager(new SecurityManager());
+		
 		String prop = System.getProperty("java.ext.dirs");
 		System.out.println(prop);
 		prop += ":" + "/home/martino/.openview/modules/OVPlot" + ":"
