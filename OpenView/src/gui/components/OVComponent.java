@@ -924,7 +924,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	public InNode getInNode(String label) {
 		for (InNode n : inputs_) {
-			if (n.getLabel().equals(label))
+			String nname=n.getLabel().replace(' ','_');
+			if (nname.equals(label))
 				return n;
 		}
 		return null;
@@ -932,7 +933,8 @@ public class OVComponent extends JLayeredPane implements DragComponent,
 
 	public OutNode getOutNode(String label) {
 		for (OutNode n : outputs_) {
-			if (n.getLabel().equals(label))
+			String nname=n.getLabel().replace(' ','_');
+			if (nname.equals(label))
 				return n;
 		}
 		return null;
