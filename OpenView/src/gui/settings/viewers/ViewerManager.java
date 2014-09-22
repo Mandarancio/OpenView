@@ -28,9 +28,12 @@ public class ViewerManager {
 
 	public static Class<? extends Viewer> getViewer(Setting s) {
 		Class<? extends Viewer> selected = null;
+		int val=-1;
 		for (Rule rule : viewers_.keySet()) {
-			if (rule.check(s)) {
+			if (rule.check(s) && rule.orderValue()>val) {
+				val=rule.orderValue();
 				selected = viewers_.get(rule);
+				
 			}
 		}
 		if (selected != null) {

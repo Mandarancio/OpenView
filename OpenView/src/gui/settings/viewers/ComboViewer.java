@@ -88,10 +88,18 @@ public class ComboViewer extends Viewer implements ActionListener {
 			public boolean check(Object... args) {
 				if (args.length == 1 && args[0] instanceof Setting) {
 					Setting s = (Setting) args[0];
+//					System.out.println("Combo check:\t"+s.getName());
+//					System.out.println("Enum:\t\t"+(s.getType() == ValueType.ENUM));
+//					System.out.println("Multiple:\t"+(s.getValue().getDescriptor().hasPossbilities() ));
+
 					return s.getType() == ValueType.ENUM
 							|| s.getValue().getDescriptor().hasPossbilities();
 				}
 				return false;
+			}
+			@Override
+			public int orderValue() {
+				return 5;
 			}
 		};
 	}

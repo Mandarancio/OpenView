@@ -54,8 +54,9 @@ public class OVOperatorNode extends OVNodeComponent implements NodeListener,
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 		Value v = new Value(OperatorManager.getOperators().get(0).name());
 		for (Operator o : OperatorManager.getOperators()) {
-			v.getDescriptor().addPossibility(new Value(o.name()));
+			v.getDescriptor().addPossibility(new Value(o.name(),ValueType.STRING));
 		}
+		System.out.println(v.getDescriptor().hasPossbilities());
 		s = new Setting(Operator, v, this);
 		s.setGuiMode(false);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);

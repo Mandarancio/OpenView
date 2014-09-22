@@ -89,6 +89,12 @@ public class NumericViewer extends Viewer implements ChangeListener {
 				}
 				return false;
 			}
+			@Override
+			public int orderValue() {
+				return 1;
+			}
 		};
+
 	}
+
 }

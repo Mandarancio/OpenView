@@ -71,6 +71,12 @@ public class ColorViewer extends Viewer implements ActionListener {
 				}
 				return false;
 			}
+			
+			@Override
+			public int orderValue() {
+				return 3;
+			}
 		};
 	}
+	
 }

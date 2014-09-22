@@ -70,6 +70,11 @@ public class BooleanViewer extends Viewer implements ActionListener {
 				}
 				return false;
 			}
+			@Override
+			public int orderValue() {
+				return 2;
+			}
 		};
 	}
+
 }

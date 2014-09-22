@@ -53,7 +53,7 @@ public class OVFunctionNode extends OVNodeComponent implements NodeListener,
 		addNodeSetting(ComponentSettings.SpecificCategory, s);
 		Value v = new Value(FunctionManager.getFunctions().get(0).name());
 		for (Function o : FunctionManager.getFunctions()) {
-			v.getDescriptor().addPossibility(new Value(o.name()));
+			v.getDescriptor().addPossibility(new Value(o.name(),ValueType.STRING));
 		}
 		s = new Setting(Function, v,this);
 		addNodeSetting(ComponentSettings.SpecificCategory, s);

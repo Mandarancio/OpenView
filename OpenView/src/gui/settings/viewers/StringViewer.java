@@ -87,6 +87,11 @@ public class StringViewer extends Viewer implements DocumentListener {
 				}
 				return false;
 			}
+			@Override
+			public int orderValue() {
+				return 0;
+			}
 		};
 	}
+
 }

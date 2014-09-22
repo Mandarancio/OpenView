@@ -14,7 +14,6 @@ import run.window.Window;
  * 
  */
 public class Main {
-
 	/***
 	 * Start OpenView
 	 * 
@@ -22,6 +21,13 @@ public class Main {
 	 *            to be defined
 	 */
 	public static void main(String[] args) {
+		String prop = System.getProperty("java.ext.dirs");
+		System.out.println(prop);
+		prop += ":" + "/home/martino/.openview/modules/OVPlot" + ":"
+				+ "/home/martino/.openview/modules/OVPlot/jars";
+		System.setProperty("java.ext.dirs", prop);
+		System.out.println(System.getProperty("java.ext.dirs"));
+
 		// Show splash screen
 		Splash.show();
 		// Set systen look and feel
@@ -36,8 +42,8 @@ public class Main {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		}																																																																																																																																		
-		// Initialize all the sub modules							
+		}
+		// Initialize all the sub modules
 		Init.init();
 		// Show up the main window
 		new Window();

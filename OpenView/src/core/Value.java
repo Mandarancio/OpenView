@@ -550,7 +550,9 @@ public class Value {
 			String str = s.substring(1, s.length() - 1);
 			return new Value(str);
 		} else if (s.startsWith("\"") && s.endsWith("\"")) {
-			String str = s.substring(1, s.length() - 1);
+			String str=s;
+			if (s.length()>2)
+				 str= s.substring(1, s.length() - 1);
 			return new Value(str);
 		} else if (s.contains(".")) {
 			try {

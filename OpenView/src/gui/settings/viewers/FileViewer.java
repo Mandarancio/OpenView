@@ -62,6 +62,11 @@ public class FileViewer extends Viewer implements ActionListener {
 				}
 				return false;
 			}
+			@Override
+			public int orderValue() {
+				return 4;
+			}
 		};
 	}
+	
 }

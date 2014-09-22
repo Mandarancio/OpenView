@@ -40,6 +40,10 @@ public class ConstViewer extends Viewer {
 				}
 				return false;
 			}
+			@Override
+			public int orderValue() {
+				return 6;
+			}
 		};
 	}
 }
