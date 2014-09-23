@@ -53,6 +53,7 @@ public class ObjectTree extends JTree implements SettingListener {
 		ObjectManager.addComponent(c);
 		String name = c.getSetting(ComponentSettings.Name).getValue()
 				.getString();
+		name=name.replace(' ', '_');
 		if (!isAvaiable(name)) {
 			name = removePrefix(name);
 			name = checkName(c.getSetting(ComponentSettings.Name), name, 1);
