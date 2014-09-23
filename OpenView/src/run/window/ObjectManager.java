@@ -38,4 +38,8 @@ public class ObjectManager {
 		}
 		return null;
 	}
+
+	public static ArrayList<OVComponent> getComponents() {
+		return components_;
+	}
 }

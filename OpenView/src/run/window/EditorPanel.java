@@ -767,6 +767,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			}
 		}
 
+		if (objectTree_ != null) {
+			objectTree_.refresh();
+		}
+
 	}
 
 	/***

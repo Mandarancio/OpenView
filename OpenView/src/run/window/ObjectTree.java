@@ -28,7 +28,12 @@ public class ObjectTree extends JTree implements SettingListener {
 	private boolean __locked = false;
 
 	public ObjectTree() {
-		super(new OVTreeModel());
+		super(new DefaultMutableTreeNode());
+		model_ = null;
+	}
+
+	private void init(OVComponent c) {
+		this.setModel(new OVTreeModel(c));
 		model_ = (OVTreeModel) this.getModel();
 		this.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -50,10 +55,19 @@ public class ObjectTree extends JTree implements SettingListener {
 	}
 
 	public void addComponent(OVComponent c) {
-//		ObjectManager.addComponent(c);
+		// ObjectManager.addComponent(c);
+		if (c.getFather() instanceof OVComponent
+				&& !hasComponent((OVComponent) c.getFather())) {
+			addComponent((OVComponent) c.getFather());
+		}
+		if (model_ == null) {
+			init(c);
+			components_.add(c);
+			return;
+		}
 		String name = c.getSetting(ComponentSettings.Name).getValue()
 				.getString();
-		name=name.replace(' ', '_');
+		name = name.replace(' ', '_');
 		if (!isAvaiable(name)) {
 			name = removePrefix(name);
 			name = checkName(c.getSetting(ComponentSettings.Name), name, 1);
@@ -99,7 +113,7 @@ public class ObjectTree extends JTree implements SettingListener {
 	public void removeComponent(OVComponent c) {
 		model_.remove(c);
 		components_.remove(c);
-//		ObjectManager.removeComponent(c);
+		// ObjectManager.removeComponent(c);
 	}
 
 	@Override
@@ -163,6 +177,8 @@ public class ObjectTree extends JTree implements SettingListener {
 	}
 
 	public void select(OVComponent c) {
+		if (model_ == null)
+			return;
 		DefaultMutableTreeNode n = model_.find(c);
 		if (n != null) {
 			__locked = true;
@@ -174,7 +190,21 @@ public class ObjectTree extends JTree implements SettingListener {
 	}
 
 	public void deselect() {
-		setSelectionPath(new TreePath(model_.getRoot()));
+		if (model_ != null)
+			setSelectionPath(new TreePath(model_.getRoot()));
+	}
+
+	public boolean hasComponent(OVComponent c) {
+		return components_.contains(c);
+	}
+
+	public void refresh() {
+		// todo
+		for (OVComponent c : ObjectManager.getComponents()) {
+			if (!hasComponent(c)) {
+				addComponent(c);
+			}
+		}
 	}
 
 }

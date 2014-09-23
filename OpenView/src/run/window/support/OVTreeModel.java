@@ -14,8 +14,8 @@ public class OVTreeModel extends DefaultTreeModel {
 	private static final long serialVersionUID = -7309060538044852654L;
 	private DefaultMutableTreeNode root_;
 
-	public OVTreeModel() {
-		super(new DefaultMutableTreeNode("Root"));
+	public OVTreeModel(OVComponent c) {
+		super(new DefaultMutableTreeNode(c));
 		root_ = (DefaultMutableTreeNode) getRoot();
 	}
 

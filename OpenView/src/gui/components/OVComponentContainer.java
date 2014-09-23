@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import run.window.ObjectManager;
 import run.window.ObjectTree;
 import core.ValueType;
 import core.support.OrientationEnum;
@@ -193,7 +194,9 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		}
 		components_.add(c);
 		c.addKeyListener((KeyListener) superParent());
-		getObjectTree().add(c);
+		if (getObjectTree() != null && getObjectTree().hasComponent(this))
+			getObjectTree().addComponent(c);
+		ObjectManager.addComponent(c);
 		if (c instanceof OVComment) {
 			this.add(c, commentsLayer);
 		} else {
@@ -208,7 +211,9 @@ public class OVComponentContainer extends OVComponent implements OVContainer,
 		deselect(c);
 		components_.remove(c);
 		c.delete();
-
+		if (getObjectTree() != null)
+			getObjectTree().removeComponent(c);
+		ObjectManager.removeComponent(c);
 		this.remove(c);
 		this.requestFocus();
 	}
