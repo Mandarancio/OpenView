@@ -45,6 +45,7 @@ public class OVNodeBlock extends OVComponentContainer {
 
 	public OVNodeBlock(Element e, OVContainer father) {
 		super(e, father);
+		
 
 		__minY = 20;
 

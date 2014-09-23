@@ -14,9 +14,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JOptionPane;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import core.SlotInterface;
 import core.SlotListener;
@@ -71,10 +69,13 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 				break;
 			}
 		}
-		NodeList nl = e.getElementsByTagName(core.Value.class.getSimpleName());
-		if (nl.getLength() != 0) {
-			value_ = new Value((Element) nl.item(0));
-		}
+		// NodeList nl =
+		// e.getElementsByTagName(core.Value.class.getSimpleName());
+		// if (nl.getLength() != 0) {
+		// value_ = new Value((Element) nl.item(0));
+		//
+		// }
+		setValue(getNodeSetting(Value).getValue().getString());
 	}
 
 	@Override
@@ -156,12 +157,12 @@ public class OVVariableNode extends OVNodeComponent implements SlotListener,
 			repaint();
 		}
 	}
-
-	@Override
-	public Element getXML(Document doc) {
-		Element e = super.getXML(doc);
-		e.appendChild(value_.getXML(doc));
-		return e;
-	}
+	//
+	// @Override
+	// public Element getXML(Document doc) {
+	// Element e = super.getXML(doc);
+	// e.appendChild(value_.getXML(doc));
+	// return e;
+	// }
 
 }

@@ -1,7 +1,6 @@
 package run.window;
 
 import gui.enums.EditorMode;
-import gui.interfaces.OVContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -48,7 +47,44 @@ public class MainPanel extends JPanel {
 	 * Initialize all the objects and GUI components
 	 */
 	public MainPanel() {
+		this.setLayout(new BorderLayout());
 
+		initTools();
+		editor_ = new EditorPanel(rightPanel_);
+		editor_.setGridVisible(true);
+		editor_.setGridEnabled(true);
+
+		this.add(editor_, BorderLayout.CENTER);
+	}
+
+	public MainPanel(boolean runMode) {
+		this.setLayout(new BorderLayout());
+
+		if (!runMode) {
+			initTools();
+			editor_ = new EditorPanel(rightPanel_);
+			editor_.setGridVisible(true);
+			editor_.setGridEnabled(true);
+
+			this.add(editor_, BorderLayout.CENTER);
+		} else {
+			editor_ = new EditorPanel(null);
+			editor_.setGridVisible(false);
+			editor_.setGridEnabled(false);
+			this.add(editor_, BorderLayout.CENTER);
+		}
+	}
+
+	/***
+	 * Direct access to the Editor panel
+	 * 
+	 * @return Editor panel
+	 */
+	public EditorPanel getEditor() {
+		return editor_;
+	}
+
+	private void initTools() {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		toolBar.setPreferredSize(new Dimension(30, 28));
@@ -179,28 +215,13 @@ public class MainPanel extends JPanel {
 				editor_.setMode((EditorMode) modeBox.getSelectedItem());
 			}
 		});
-
-		this.setLayout(new BorderLayout());
-		rightPanel_ = new RightPanel();
-		editor_ = new EditorPanel(rightPanel_);
-		editor_.setGridVisible(true);
-		editor_.setGridEnabled(true);
-
-		rightPanel_.setSize(new Dimension(300, 100));
-
-		rightPanel_.setPreferredSize(new Dimension(300, 100));
 		this.add(toolBar, BorderLayout.NORTH);
-		this.add(editor_, BorderLayout.CENTER);
-		this.add(rightPanel_, BorderLayout.LINE_END);
-	}
 
-	/***
-	 * Direct access to the Editor panel
-	 * 
-	 * @return Editor panel
-	 */
-	public OVContainer getEditor() {
-		return editor_;
+		rightPanel_ = new RightPanel();
+		rightPanel_.setSize(new Dimension(300, 100));
+		rightPanel_.setPreferredSize(new Dimension(300, 100));
+		this.add(rightPanel_, BorderLayout.LINE_END);
+
 	}
 
 }

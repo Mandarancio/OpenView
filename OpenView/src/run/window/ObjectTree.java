@@ -50,7 +50,7 @@ public class ObjectTree extends JTree implements SettingListener {
 	}
 
 	public void addComponent(OVComponent c) {
-		ObjectManager.addComponent(c);
+//		ObjectManager.addComponent(c);
 		String name = c.getSetting(ComponentSettings.Name).getValue()
 				.getString();
 		name=name.replace(' ', '_');
@@ -99,7 +99,7 @@ public class ObjectTree extends JTree implements SettingListener {
 	public void removeComponent(OVComponent c) {
 		model_.remove(c);
 		components_.remove(c);
-		ObjectManager.removeComponent(c);
+//		ObjectManager.removeComponent(c);
 	}
 
 	@Override

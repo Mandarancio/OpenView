@@ -125,6 +125,8 @@ public class Slot implements SlotInterface {
 		if (this.connections_.contains(e)) {
 			if (!this.isCompatible(e)) {
 				this.deconnect(e);
+			}else if (this.getType()==ValueType.VOID||getType()==ValueType.NONE){
+				this.setType(e.getType());
 			}
 		}
 	}

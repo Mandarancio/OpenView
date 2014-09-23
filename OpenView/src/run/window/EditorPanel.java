@@ -144,9 +144,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 	 */
 	public EditorPanel(RightPanel panel) {
 		super(null);
-		this.objectTree_ = panel.getObjectTree();
-		panel.getLayerManager().setMainContainer(this);
-
+		if (panel != null) {
+			this.objectTree_ = panel.getObjectTree();
+			panel.getLayerManager().setMainContainer(this);
+		}
 		this.setLayout(null);
 		this.setBackground(new Color(69, 70, 64));
 		this.setForeground(new Color(200, 200, 200));
@@ -229,7 +230,9 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			}
 		}
 		if (this.compatible(c) || addFlag) {
-			objectTree_.addComponent(c);
+			ObjectManager.addComponent(c);
+			if (objectTree_ != null)
+				objectTree_.addComponent(c);
 			setKeyListener(c);
 			if (!addFlag) {
 				components_.add(c);
@@ -246,9 +249,12 @@ public class EditorPanel extends OVComponent implements OVContainer,
 
 	@Override
 	public void removeComponent(OVComponent c) {
-		objectTree_.removeComponent(c);
+		ObjectManager.removeComponent(c);
+		if (objectTree_ != null)
+			objectTree_.removeComponent(c);
 		if (components_.contains(c)) {
-			rightPanel_.deselect();
+			if (rightPanel_ != null)
+				rightPanel_.deselect();
 			c.delete();
 			components_.remove(c);
 			this.remove(c);
@@ -262,15 +268,18 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		if (c.getParent().equals(this)) {
 			this.moveToFront(c);
 		}
-		rightPanel_.deselect();
-		rightPanel_.select(c);
-		rightPanel_.repaint();
+		if (rightPanel_ != null) {
+			rightPanel_.deselect();
+			rightPanel_.select(c);
+			rightPanel_.repaint();
+		}
 	}
 
 	@Override
 	public void deselect(OVComponent c) {
 		c.setSelected(false);
-		rightPanel_.deselect();
+		if (rightPanel_ != null)
+			rightPanel_.deselect();
 	}
 
 	@Override
@@ -290,8 +299,10 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				l.repaint();
 			}
 		}
-		rightPanel_.deselect();
-		rightPanel_.select(this);
+		if (rightPanel_ != null) {
+			rightPanel_.deselect();
+			rightPanel_.select(this);
+		}
 	}
 
 	@Override
@@ -406,11 +417,13 @@ public class EditorPanel extends OVComponent implements OVContainer,
 		if (this.mode_ != mode) {
 			if (currentLayer_ != null) {
 				setSelectedLayer(null);
-				rightPanel_.getLayerManager().setCurrentLayer(null);
+				if (rightPanel_ != null)
+					rightPanel_.getLayerManager().setCurrentLayer(null);
 			}
 			this.mode_ = mode;
 			deselectAll();
-			rightPanel_.setMode(mode);
+			if (rightPanel_ != null)
+				rightPanel_.setMode(mode);
 			if (mode_ == EditorMode.NODE || mode_ == EditorMode.DEBUG) {
 				for (OVLine l : lines_) {
 					l.setVisible(true);
@@ -427,7 +440,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			clearToolTips();
 			repaint();
 			requestFocus();
-			rightPanel_.repaint();
+			if (rightPanel_ != null)
+				rightPanel_.repaint();
 
 		}
 	}
@@ -712,7 +726,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 				Element e = (Element) n;
 				if (e.getParentNode().equals(el)) {
 					NodeLayer l = new NodeLayer(e);
-					rightPanel_.getLayerManager().addLayer(l);
+					if (rightPanel_ != null)
+						rightPanel_.getLayerManager().addLayer(l);
 					nodeLayers_.add(l);
 				}
 			}
@@ -834,7 +849,8 @@ public class EditorPanel extends OVComponent implements OVContainer,
 			for (OVComponent c : components_) {
 				c.setNodeLayer(n);
 			}
-			rightPanel_.repaint();
+			if (rightPanel_ != null)
+				rightPanel_.repaint();
 		}
 	}
 

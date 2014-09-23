@@ -88,6 +88,12 @@ public class OVProceduralBlock extends OVNodeComponent implements SlotListener,
 		super(e, father);
 		initTextArea();
 
+		for (InNode n : inputs_) {
+			if (n.getLabel().equals(Trigger)) {
+				n.addListener(this);
+			}
+		}
+
 		expand_ = Boolean.parseBoolean(e.getAttribute("expand"));
 		oldSize_ = Utils.parseDimension(e.getAttribute("size"));
 
